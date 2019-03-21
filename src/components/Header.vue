@@ -21,10 +21,10 @@ export default {
     handleMenuClick(e) {
       switch (e.key) {
         case "1":
-          // todo
+          this.$router.push("/");
           break;
         case "2":
-          // todo
+          this.$router.push("/sprint");
           break;
         default:
           break;
@@ -33,3 +33,13 @@ export default {
   }
 };
 </script>
+
+<style>
+.logo {
+  width: 120px;
+  height: 31px;
+  background: rgba(255, 255, 255, 0.2);
+  margin: 16px 24px 16px 0;
+  float: left;
+}
+</style>

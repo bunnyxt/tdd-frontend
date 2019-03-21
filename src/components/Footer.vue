@@ -1,8 +1,9 @@
 <template>
-  <a-layout-footer style="text-align: center">
+  <a-layout-footer style="text-align: center; height: 120px">
     TianDian Daily by
     <a href="http://www.bunnyxt.com" target="_blank">bunnyxt</a>
-    <br>based on Ant Design ©2018 Created by Ant UED
+    <br>2017~2019 © All Rights Reserved
+    <br>苏ICP备17067742号-1
   </a-layout-footer>
 </template>
 
