@@ -1,6 +1,10 @@
 <template>
   <a-layout-header>
-    <div class="logo"/>
+    <div style="float:left; margin: 0px 20px">
+      <a @click="handleLogoClick">
+        <img src="logo_32S.png">
+      </a>
+    </div>
     <a-menu
       theme="dark"
       mode="horizontal"
@@ -18,6 +22,9 @@
 export default {
   name: "Header",
   methods: {
+    handleLogoClick() {
+      this.$router.push("/");
+    },
     handleMenuClick(e) {
       switch (e.key) {
         case "1":
@@ -35,11 +42,4 @@ export default {
 </script>
 
 <style>
-.logo {
-  width: 120px;
-  height: 31px;
-  background: rgba(255, 255, 255, 0.2);
-  margin: 16px 24px 16px 0;
-  float: left;
-}
 </style>
