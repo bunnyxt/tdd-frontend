@@ -2,9 +2,6 @@
   <a-layout class="layout" style="min-height:100%">
     <Header/>
     <a-layout-content style="padding: 0 50px">
-      <a-breadcrumb style="margin: 16px 0">
-        <a-breadcrumb-item>首页</a-breadcrumb-item>
-      </a-breadcrumb>
       <router-view></router-view>
     </a-layout-content>
     <div class="fake-footer"></div>
@@ -32,5 +29,8 @@ export default {
 <style>
 .fake-footer{
   height: 120px
+}
+.section-seperator {
+  height: 24px;
 }
 </style>

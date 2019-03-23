@@ -52,9 +52,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.section-seperator {
-  height: 24px;
-}
-</style>
