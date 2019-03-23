@@ -6,6 +6,9 @@ import "ant-design-vue/dist/antd.css"
 import { Layout } from 'ant-design-vue'
 import { Menu } from 'ant-design-vue'
 import { Breadcrumb } from 'ant-design-vue'
+import { Card } from 'ant-design-vue'
+import { List } from 'ant-design-vue'
+import { Icon } from 'ant-design-vue'
 
 import router from "./router"
 
@@ -15,6 +18,9 @@ Vue.config.productionTip = false
 Vue.use(Layout)
 Vue.use(Menu)
 Vue.use(Breadcrumb)
+Vue.use(Card)
+Vue.use(List)
+Vue.use(Icon)
 
 new Vue({
   router,
