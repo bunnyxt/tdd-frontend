@@ -1,20 +1,34 @@
 <template>
   <a-card
     hoverable 
-    style="margin: 0px 12px 12px 0px"
+    style="margin: 0px 0px 12px 0px"
+    class="sprint-video-card"
   >
     <img 
+      :id="'video-pic-'+video.id"
       :alt="video.title" 
       :src="video.pic" 
+      :height="imgHeight"
       slot="cover"
+      @load="initImg"
     >
-    <a-card-meta 
-      :title="video.title" 
-      :description="'UP主：' + video.mid + '播放数：' + video.latestVideoRecord.view"
-    />
+    <a-card-meta>
+      <template slot="title">
+        <a-tooltip placement="topLeft" >
+          <template slot="title">
+            <span>{{ video.title }}</span>
+          </template>
+          {{ video.title }}
+        </a-tooltip>
+      </template>
+      <template slot="description">
+        UP主：{{ video.mid }}<br/>
+        播放数：{{ video.latestVideoRecord.view }}
+      </template>
+    </a-card-meta>
     <template class="ant-card-actions" slot="actions">
-      <a-icon type="play-circle" @click="handlePlayCircleClick"/>
-      <a-icon type="line-chart" @click="handleLineChartClick"/>
+      <a-icon type="play-circle" title="立刻助攻" @click="handlePlayCircleClick"/>
+      <a-icon type="line-chart" title="查看详情" @click="handleLineChartClick"/>
     </template>
   </a-card>
 </template>
@@ -23,21 +37,27 @@
 export default {
   name: "SprintVideoBrief",
   props: {
-    video: Object
+    video: Object,
+    imgHeight: String
   },
   data: function() {
       return {
-        upName : ''
+        upName: ''
       }
   },
   methods: {
-      handlePlayCircleClick: function() {
-        window.open('https://www.bilibili.com/video/av' + this.video.aid);
-      },
-      handleLineChartClick: function() {
-        // TODO link to chart page
-        console.log("2")
-      }
+    initImg: function() {
+      var img = document.getElementById("video-pic-" + this.video.id)
+      var width = img.clientWidth
+      img.setAttribute('height', width / 1.6 + "px")
+    },
+    handlePlayCircleClick: function() {
+    window.open('https://www.bilibili.com/video/av' + this.video.aid);
+    },
+    handleLineChartClick: function() {
+    // TODO link to chart page
+    console.log("2")
+    }
   },
   created: function() {
     // TODO create up info record table
@@ -51,8 +71,5 @@ export default {
 </script>
 
 <style>
-.ant-card-meta-title {
-  word-wrap: break-word;
-}
 </style>
 
