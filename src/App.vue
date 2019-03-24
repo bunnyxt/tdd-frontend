@@ -1,7 +1,7 @@
 <template>
   <a-layout class="layout" style="min-height:100%">
-    <Header/>
-    <a-layout-content style="padding: 0 50px">
+    <Header :headerPadding="headerPadding"/>
+    <a-layout-content :style="{padding: layoutPadding}">
       <router-view></router-view>
     </a-layout-content>
     <div class="fake-footer"></div>
@@ -22,6 +22,31 @@ export default {
     Home,
     SprintHome,
     Footer
+  },
+  data: function() {
+    return {
+      headerPadding: '0 30px',
+      layoutPadding: '0 50px'
+    }
+  },
+  mounted: function(){
+    if (document.body.clientWidth <= 768){
+      this.headerPadding = '0'
+      this.layoutPadding = '0 20px'
+    } else {
+      this.headerPadding = '0 30px'
+      this.layoutPadding = '0 50px'
+    }
+    var that = this;
+    window.addEventListener('resize',() => {
+      if (document.body.clientWidth <= 768){
+        that.headerPadding = '0'
+        that.layoutPadding = '0 20px'
+      } else {
+        that.headerPadding = '0 30px'
+        that.layoutPadding = '0 50px'
+      }
+    },false);
   }
 };
 </script>

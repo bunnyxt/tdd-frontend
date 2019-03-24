@@ -14,13 +14,14 @@
     <div class="section-block" :style="sectionBlockStyle">
       <h1>助攻列表</h1>
       <a-list
-        :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 4, xl: 4, xxl: 6 }"
+        :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
         :dataSource="sprintVideoList"
       >
-        <a-list-item slot="renderItem" slot-scope="item">
+        <a-list-item class="sprint-video-item" slot="renderItem" slot-scope="item">
           <SprintVideoBrief 
             :key="item.id"
             :video="item"
+            :imgHeight="sprintVideoImgHeight"
           ></SprintVideoBrief>
         </a-list-item>
       </a-list>
@@ -42,7 +43,8 @@ export default {
         background: "#fff",
         padding: "24px"
       },
-      sprintVideoList: []
+      sprintVideoList: [],
+      sprintVideoImgHeight: '200px'
     };
   },
   created: function() {
@@ -54,6 +56,10 @@ export default {
           (o1, o2) => o2.latestVideoRecord.view - o1.latestVideoRecord.view
         )
       );
+  },
+  mounted: function(){
+    var that = this;
+    window.addEventListener('resize',() => that.sprintVideoImgHeight = `${document.getElementsByClassName("sprint-video-card").item(0).clientWidth / 1.6}px`,false);
   }
 };
 </script>

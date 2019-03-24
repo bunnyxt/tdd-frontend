@@ -1,5 +1,5 @@
 <template>
-  <a-layout-header>
+  <a-layout-header :style="{padding: headerPadding}">
     <div style="float:left; margin: 0px 20px">
       <a @click="handleLogoClick">
         <img src="logo_32S.png">
@@ -8,7 +8,6 @@
     <a-menu
       theme="dark"
       mode="horizontal"
-      :defaultSelectedKeys="['1']"
       :style="{ lineHeight: '64px' }"
       @click="handleMenuClick"
     >
@@ -21,6 +20,9 @@
 <script>
 export default {
   name: "Header",
+  props: {
+    headerPadding: String
+  },
   methods: {
     handleLogoClick() {
       this.$router.push("/");
