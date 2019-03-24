@@ -9,6 +9,7 @@ import { Breadcrumb } from 'ant-design-vue'
 import { Card } from 'ant-design-vue'
 import { List } from 'ant-design-vue'
 import { Icon } from 'ant-design-vue'
+import { Tooltip } from 'ant-design-vue'
 
 import router from "./router"
 
@@ -21,6 +22,7 @@ Vue.use(Breadcrumb)
 Vue.use(Card)
 Vue.use(List)
 Vue.use(Icon)
+Vue.use(Tooltip)
 
 new Vue({
   router,
