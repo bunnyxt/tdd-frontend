@@ -13,6 +13,7 @@
 import Header from "./components/Header.vue";
 import Home from "./components/Home.vue";
 import SprintHome from "./components/SprintHome.vue";
+import SprintVideoDetail from "./components/SprintVideoDetail.vue";
 import Footer from "./components/Footer.vue";
 
 export default {
@@ -21,6 +22,7 @@ export default {
     Header,
     Home,
     SprintHome,
+    SprintVideoDetail,
     Footer
   },
   data: function() {

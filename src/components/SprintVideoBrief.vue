@@ -52,11 +52,10 @@ export default {
       img.setAttribute('height', width / 1.6 + "px")
     },
     handlePlayCircleClick: function() {
-    window.open('https://www.bilibili.com/video/av' + this.video.aid);
+      window.open('https://www.bilibili.com/video/av' + this.video.aid);
     },
     handleLineChartClick: function() {
-    // TODO link to chart page
-    console.log("2")
+      this.$router.push("/sprint/av" + this.video.aid);
     }
   },
   created: function() {
