@@ -10,6 +10,10 @@ import { Card } from 'ant-design-vue'
 import { List } from 'ant-design-vue'
 import { Icon } from 'ant-design-vue'
 import { Tooltip } from 'ant-design-vue'
+import { Button } from 'ant-design-vue'
+
+// apex chart
+import VueApexCharts from 'vue-apexcharts'
 
 import router from "./router"
 
@@ -23,6 +27,11 @@ Vue.use(Card)
 Vue.use(List)
 Vue.use(Icon)
 Vue.use(Tooltip)
+Vue.use(Button)
+
+// apex chart
+Vue.use(VueApexCharts)
+Vue.component('apexchart', VueApexCharts)
 
 new Vue({
   router,
