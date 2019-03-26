@@ -4,6 +4,7 @@ import Router from "vue-router";
 const Home = () => import("./components/Home");
 const SprintHome = () => import("./components/SprintHome");
 const SprintVideoDetail = () =>import("./components/SprintVideoDetail");
+const NotFound = () => import("./components/NotFound");
 
 Vue.use(Router);
 
@@ -23,6 +24,9 @@ export default new Router({
         }, {
             path: "/sprint/av:aid",
             component: SprintVideoDetail
+        }, {
+            path: "*",
+            component: NotFound
         }
     ]
 });
