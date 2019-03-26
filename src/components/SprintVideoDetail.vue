@@ -5,12 +5,20 @@
       <a-breadcrumb-item>传说助攻</a-breadcrumb-item>
       <a-breadcrumb-item>{{ video.title }}</a-breadcrumb-item>
     </a-breadcrumb>
-    <div class="section-block" :style="sectionBlockStyle">
-      <img :src="video.pic" width="200px"/>
+    <div v-if="video.aid != '-1'">
+      <div class="section-block" :style="sectionBlockStyle">
+        <img :src="video.pic" width="200px"/>
+      </div>
+      <div class="section-seperator"></div>
+      <div class="section-block" :style="sectionBlockStyle">
+        <SprintVideoMainChart :aid="video.aid"/>
+      </div>
     </div>
-    <div class="section-seperator"></div>
-    <div class="section-block" :style="sectionBlockStyle">
-      <SprintVideoMainChart :aid="video.aid"/>
+    <div v-else>
+      <div class="section-block" :style="sectionBlockStyle">
+        <p>没有找到<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的冲刺记录</p>
+        <a href="/sprint">返回传说冲刺</a>
+      </div>
     </div>
   </div>
 </template>
@@ -30,7 +38,7 @@ export default {
         padding: "24px"
       },
       video: {
-        title: "",
+        title: "av"+this.$route.params.aid,
         aid: "-1",
         pic: ""
       }
@@ -39,7 +47,11 @@ export default {
   created: function() {
     fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php?aid=" + this.$route.params.aid)
       .then(response => response.json())
-      .then(json => this.video = json.data[0])
+      .then(json => {
+        if (json.data.length > 0){
+          this.video = json.data[0]
+        }
+      })
   }
 }
 </script>

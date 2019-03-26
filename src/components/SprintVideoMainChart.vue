@@ -138,7 +138,21 @@ export default {
           break;
       }
     }
-  }
+  },
+  created: function () {
+    fetch("http://api.bunnyxt.com/tdd/get_sprint_video_record.php?aid=" + this.aid)
+      .then(response => response.json())
+      .then(json => json.data)
+      .then(data => {
+        var arr = new Array()
+        data.forEach(v => arr.push([parseInt(v.added) * 1000, parseInt(v.view)]))
+        this.series = [{
+          name: "播放",
+          data: arr
+        }]
+        this.latest_time = arr[arr.length-1][0]
+      })
+  },
 };
 
 var resetCssClasses = function (activeEl) {
