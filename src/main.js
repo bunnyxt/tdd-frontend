@@ -11,6 +11,8 @@ import { List } from 'ant-design-vue'
 import { Icon } from 'ant-design-vue'
 import { Tooltip } from 'ant-design-vue'
 import { Button } from 'ant-design-vue'
+import { Row } from 'ant-design-vue'
+import { Col } from 'ant-design-vue'
 
 // apex chart
 import VueApexCharts from 'vue-apexcharts'
@@ -28,6 +30,8 @@ Vue.use(List)
 Vue.use(Icon)
 Vue.use(Tooltip)
 Vue.use(Button)
+Vue.use(Row)
+Vue.use(Col)
 
 // apex chart
 Vue.use(VueApexCharts)

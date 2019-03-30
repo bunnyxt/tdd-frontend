@@ -52,6 +52,9 @@ export default {
               download: false,
             },
           },
+          zoom: {
+            type: "xy"
+          }
         },
         dataLabels: {
           enabled: false
@@ -64,6 +67,11 @@ export default {
           type: "datetime",
           //min: this.latest_time - 7 * 24 * 60 * 60 * 1000,
           tickAmount: 6
+        },
+        yaxis: {
+          labels: {
+            show: true
+          }
         },
         tooltip: {
           x: {
@@ -152,6 +160,45 @@ export default {
         }]
         this.latest_time = arr[arr.length-1][0]
       })
+      .then(() => {
+        if (document.body.clientWidth <= 576){
+          this.chartOptions = {...this.chartOptions, ...{
+            yaxis: {
+              labels: {
+                show : false
+              }
+            }
+          }}
+        } else {
+          this.chartOptions = {...this.chartOptions, ...{
+            yaxis: {
+              labels: {
+                show : true
+              }
+            }
+          }}
+        }
+      })
+      var that = this;
+      window.addEventListener('resize',() => {
+        if (document.body.clientWidth <= 576){
+          that.chartOptions = {...this.chartOptions, ...{
+            yaxis: {
+              labels: {
+                show : false
+              }
+            }
+          }}
+        } else {
+          that.chartOptions = {...this.chartOptions, ...{
+            yaxis: {
+              labels: {
+                show : true
+              }
+            }
+          }}
+        }
+      },false);
   },
 };
 
