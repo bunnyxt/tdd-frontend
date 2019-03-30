@@ -34,7 +34,7 @@
 export default {
   name: "SprintVideoMainChart",
   props: {
-    aid: String // TODO should be Number, need to fix backend
+    records: Array
   },
   data: function() {
     return {
@@ -91,19 +91,14 @@ export default {
     }
   },
   watch: {
-    aid: function (newAid, oldAid) {
-      fetch("http://api.bunnyxt.com/tdd/get_sprint_video_record.php?aid=" + this.aid)
-        .then(response => response.json())
-        .then(json => json.data)
-        .then(data => {
-          var arr = new Array()
-          data.forEach(v => arr.push([parseInt(v.added) * 1000, parseInt(v.view)]))
-          this.series = [{
-            name: "播放",
-            data: arr
-          }]
-          this.latest_time = arr[arr.length-1][0]
-        })
+    records: function (newRecords, oldRecords) {
+      var arr = new Array()
+      newRecords.forEach(v => arr.push([parseInt(v.added) * 1000, parseInt(v.view)]))
+      this.series = [{
+        name: "播放",
+        data: arr
+      }]
+      this.latest_time = arr[arr.length - 1][0]
     }
   },
   methods: {
@@ -147,58 +142,44 @@ export default {
       }
     }
   },
-  created: function () {
-    fetch("http://api.bunnyxt.com/tdd/get_sprint_video_record.php?aid=" + this.aid)
-      .then(response => response.json())
-      .then(json => json.data)
-      .then(data => {
-        var arr = new Array()
-        data.forEach(v => arr.push([parseInt(v.added) * 1000, parseInt(v.view)]))
-        this.series = [{
-          name: "播放",
-          data: arr
-        }]
-        this.latest_time = arr[arr.length-1][0]
-      })
-      .then(() => {
-        if (document.body.clientWidth <= 576){
-          this.chartOptions = {...this.chartOptions, ...{
-            yaxis: {
-              labels: {
-                show : false
-              }
-            }
-          }}
-        } else {
-          this.chartOptions = {...this.chartOptions, ...{
-            yaxis: {
-              labels: {
-                show : true
-              }
-            }
-          }}
+  mounted: function () {
+    if (document.body.clientWidth <= 576){
+      this.chartOptions = {...this.chartOptions, ...{
+        yaxis: {
+          labels: {
+            show : false
+          }
         }
-      })
-      var that = this;
-      window.addEventListener('resize',() => {
-        if (document.body.clientWidth <= 576){
-          that.chartOptions = {...this.chartOptions, ...{
-            yaxis: {
-              labels: {
-                show : false
-              }
-            }
-          }}
-        } else {
-          that.chartOptions = {...this.chartOptions, ...{
-            yaxis: {
-              labels: {
-                show : true
-              }
-            }
-          }}
+      }}
+    } else {
+      this.chartOptions = {...this.chartOptions, ...{
+        yaxis: {
+          labels: {
+            show : true
+          }
         }
-      },false);
+      }}
+    }
+    var that = this;
+    window.addEventListener('resize',() => {
+      if (document.body.clientWidth <= 576){
+        that.chartOptions = {...this.chartOptions, ...{
+          yaxis: {
+            labels: {
+              show : false
+            }
+          }
+        }}
+      } else {
+        that.chartOptions = {...this.chartOptions, ...{
+          yaxis: {
+            labels: {
+              show : true
+            }
+          }
+        }}
+      }
+    },false);
   },
 };
 

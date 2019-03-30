@@ -28,7 +28,7 @@
       </div>
       <div class="section-seperator"></div>
       <div class="section-block" :style="sectionBlockStyle">
-        <SprintVideoMainChart :aid="video.aid"/>
+        <SprintVideoMainChart :records="records"/>
       </div>
     </div>
     <div v-else>
