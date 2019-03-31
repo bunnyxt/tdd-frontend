@@ -20,7 +20,16 @@
       <p>天钿Daily（TianDian Daily）是一个VC相关数据交流与分享的网站。本站以推动VC相关数据交流为宗旨，基于B站API以及简单的网络爬虫，定期抓取并存储VC相关数据，选取感兴趣的纬度公开展示。</p>
       <p>本站<strong>不鼓励</strong>基于数据的，对任何实体，包括作品、P主、社团、歌姬等的任何<strong>片面评价</strong>。数据受到多方面因素的影响，实体的评价也应该综合全面。</p>
       <p>本站收集的所有数据均通过公开的正当的方式获取，并承诺不会收集任何敏感信息。由于存在不可避免的网络问题或程序问题，本站无法保证所有数据的绝对可靠。若您因为本站的信息直接或间接蒙受任何损失，本站将不负任何责任。</p>
-      <p>使用过程中如遇到的任何问题，欢迎通过邮件与我取得联系。<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a></p>
+      <p>数据交流与系统反馈
+        <ul>
+          <li>
+            QQ群：<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=2e43cb11988077acffc4fbad8584b6d0788eec9e697477baa939ddc2ab9b7e84">537793686</a>
+          </li>
+          <li>
+            个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
+          </li>
+        </ul>
+      </p>
     </div>
     <div class="section-seperator"></div>
     <div class="section-block" :style="sectionBlockStyle">

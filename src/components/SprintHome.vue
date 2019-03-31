@@ -7,8 +7,17 @@
     <div class="section-block" :style="sectionBlockStyle">
       <h1>关于传说助攻</h1>
       <p>VC传说冲刺曲目助攻计划，收录B站接近<a href="https://zh.moegirl.org/Vocaloid中文传说曲" target="_blank">中文VOCALOID传说曲</a>要求的曲目视频，目前以<strong>80万</strong>播放数作为收录标准。</p>
-      <p>移动端访问本站可能出现图表较小、查看不便等问题，可尝试将设备横过来，使用<strong>横屏浏览</strong>。</p>
-      <p>曲目信息每10分钟更新一次，存在一定的延迟。BUG反馈、意见建议等请联系<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a></p>
+      <p>曲目信息每10分钟更新一次，存在一定的延迟。移动端访问本站可能出现图表较小、查看不便等问题，可尝试将设备横过来，使用<strong>横屏浏览</strong>。</p>
+      <p>数据交流与系统反馈
+        <ul>
+          <li>
+            QQ群：<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=2e43cb11988077acffc4fbad8584b6d0788eec9e697477baa939ddc2ab9b7e84">537793686</a>
+          </li>
+          <li>
+            个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
+          </li>
+        </ul>
+      </p>
     </div>
     <div class="section-seperator"></div>
     <div class="section-block" :style="sectionBlockStyle">
