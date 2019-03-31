@@ -30,6 +30,10 @@
       <div class="section-block" :style="sectionBlockStyle">
         <SprintVideoMainChart :records="records"/>
       </div>
+      <div class="section-seperator"></div>
+      <div class="section-block" :style="sectionBlockStyle">
+        <SprintVideoHeatMapChart :records="records"/>
+      </div>
     </div>
     <div v-else>
       <div class="section-block" :style="sectionBlockStyle">
@@ -42,11 +46,13 @@
 
 <script>
 import SprintVideoMainChart from "./SprintVideoMainChart.vue";
+import SprintVideoHeatMapChart from "./SprintVideoHeatMapChart.vue";
 
 export default {
   name: "SprintVideoDetail", 
   components: {
-    SprintVideoMainChart
+    SprintVideoMainChart,
+    SprintVideoHeatMapChart
   },
   data: function() {
     return {
