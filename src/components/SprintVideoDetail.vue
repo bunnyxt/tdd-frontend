@@ -6,25 +6,17 @@
       <a-breadcrumb-item><a :href="'/sprint/av'+this.$route.params.aid">{{ video.title }}</a></a-breadcrumb-item>
     </a-breadcrumb>
     <div v-if="video.aid != '-1'">
-      <div class="section-block" :style="{background: '#fff'}">
-        <a-row>
-          <a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="8" :xxl="8" style="margin:24px">
-            <img :src="video.pic" style="max-height:200px"/>
-          </a-col>
-          <a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="8" :xxl="8" style="margin:24px">
-            <h3>{{ video.title }}</h3>
-            <p>UP：{{ video.mid }}</p>
-            <p>UP头像：{{ video.mid }}</p>
-            <p>投稿时间：{{ formatDate(video.created) }}</p>
-            <p>数据最后更新时间：{{ latestUpdateTimeString }}</p>
-          </a-col>
-          <a-col :xs="24" :sm="12" :md="12" :lg="12" :xl="8" :xxl="8" style="margin:24px">
-            <p>当前播放：{{ latestView }}</p>
-            <p>昨日增速：{{ daySpeed }}</p>
-            <p>已用时间：{{ passedTime }}日</p>
-            <p>还需时间：{{ needTime }}日</p>
-          </a-col>
-        </a-row>
+      <div class="section-block" :style="sectionBlockStyle">
+        <p><img :src="video.pic" width="200px"/></p>
+        <h3>{{ video.title }}</h3>
+        <p>UP：<a :href="'https://space.bilibili.com/' + member.mid" target="_blank">{{ member.name }}</a></p>
+        <p>UP头像：<img :src="member.face" width="24"/></p>
+        <p>投稿时间：{{ formatDate(video.created) }}</p>
+        <p>数据最后更新时间：{{ latestUpdateTimeString }}</p>
+        <p>当前播放：{{ latestView }}</p>
+        <p>昨日增速：{{ daySpeed }}</p>
+        <p>已用时间：{{ passedTime }}日</p>
+        <p>还需时间：{{ needTime }}日</p>
       </div>
       <div class="section-seperator"></div>
       <div class="section-block" :style="sectionBlockStyle">
@@ -63,6 +55,7 @@ export default {
       video: {
         title: "av"+this.$route.params.aid,
         aid: "-1",
+        mid: "-1",
         pic: "",
         created: "0"
       },
@@ -70,7 +63,12 @@ export default {
         id: "-1",
         added: "0",
         view: "0"
-      }]
+      }],
+      member: {
+        mid: 1,
+        name: "",
+        face: ""
+      }
     }
   },
   computed: {
@@ -111,6 +109,13 @@ export default {
     },
     needTime: function() {
       return parseInt((1000000 - parseInt(this.latestView)) / this.daySpeed)
+    }
+  },
+  watch: {
+    video: function (newVideo, oldVideo) {
+      fetch("http://api.bunnyxt.com/tdd/get_member.php?mid=" + newVideo.mid)
+        .then(response => response.json())
+        .then(json => this.member = json.data[0])
     }
   },
   methods: {

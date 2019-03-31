@@ -22,7 +22,7 @@
         </a-tooltip>
       </template>
       <template slot="description">
-        UP主：{{ video.mid }}<br/>
+        UP主：{{ member.name }}<br/>
         播放数：{{ video.latestVideoRecord.view }}
       </template>
     </a-card-meta>
@@ -42,7 +42,10 @@ export default {
   },
   data: function() {
       return {
-        upName: ''
+        member: {
+          mid: 1,
+          name: "",
+        }
       }
   },
   methods: {
@@ -59,12 +62,9 @@ export default {
     }
   },
   created: function() {
-    // TODO create up info record table
-    /*
-    fetch("https://api.bilibili.com/x/space/acc/info?mid=" + this.video.mid)
+    fetch("http://api.bunnyxt.com/tdd/get_member.php?mid=" + this.video.mid)
       .then(response => response.json())
-      .then(json => this.upName = json.data.name)
-    */
+      .then(json => this.member = json.data[0])
   }
 };
 </script>
