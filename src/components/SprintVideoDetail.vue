@@ -88,7 +88,7 @@ export default {
       var ts2 = parseInt(this.latestUpdateTime) - parseInt(this.latestUpdateTime) % (60 * 60 * 24)
       var ts1 = ts2 - (60 * 60 * 24)
       var v2 = 0
-      var v1 = 0
+      var v1 = parseInt(this.records[0].view)
       var flag = false
       for (var i = this.records.length - 1; i >= 0; i--){
         var added = parseInt(this.records[i].added)
