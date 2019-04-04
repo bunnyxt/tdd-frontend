@@ -39,6 +39,23 @@
         </a-list-item>
       </a-list>
     </div>
+    <div class="section-seperator"></div>
+    <div class="section-block" :style="sectionBlockStyle">
+      <h1>历史助攻*</h1>
+      <p>*展示已达成传说的，本系统曾经记录过的历史助攻曲目视频</p>
+      <a-list
+        :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
+        :dataSource="sprintVideoFinishedList"
+      >
+        <a-list-item class="sprint-video-item" slot="renderItem" slot-scope="item">
+          <SprintVideoBrief 
+            :key="item.id"
+            :video="item"
+            :imgHeight="sprintVideoImgHeight"
+          ></SprintVideoBrief>
+        </a-list-item>
+      </a-list>
+    </div>
   </div>
 </template>
 
@@ -57,6 +74,7 @@ export default {
         padding: "24px"
       },
       sprintVideoList: [],
+      sprintVideoFinishedList: [],
       sprintVideoImgHeight: '200px'
     };
   },
@@ -69,6 +87,9 @@ export default {
           (o1, o2) => o2.latestVideoRecord.view - o1.latestVideoRecord.view
         )
       );
+    fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php?status=finished")
+      .then(response => response.json())
+      .then(json => this.sprintVideoFinishedList = json.data);
   },
   mounted: function(){
     var that = this;
