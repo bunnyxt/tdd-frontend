@@ -25,6 +25,15 @@
     </div>
     <div class="section-seperator"></div>
     <div class="section-block" :style="sectionBlockStyle">
+      <h1>助攻日报</h1>
+      <p>
+        基于<a href="/sprint">传说助攻</a>的数据，以<strong>UTC+8 06:00至次日06:00</strong>为统计区间，每日刊发一期的助攻日报，记录当日各冲刺视频播放数及播放数变化情况。
+      </p>
+      <p>查看<a href="/sprint/daily">往期助攻日报</a></p>
+      <SprintDailyTable :sprintDailyList="sprintDailyList" :showPagi="false"/>
+    </div>
+    <div class="section-seperator"></div>
+    <div class="section-block" :style="sectionBlockStyle">
       <h1>助攻列表</h1>
       <a-list
         :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
@@ -61,11 +70,13 @@
 
 <script>
 import SprintVideoBrief from "./SprintVideoBrief.vue";
+import SprintDailyTable from "./SprintDailyTable.vue";
 
 export default {
   name: "SprintHome",
   components: {
-    SprintVideoBrief
+    SprintVideoBrief,
+    SprintDailyTable
   },
   data: function() {
     return {
@@ -75,7 +86,8 @@ export default {
       },
       sprintVideoList: [],
       sprintVideoFinishedList: [],
-      sprintVideoImgHeight: '200px'
+      sprintVideoImgHeight: '200px',
+      sprintDailyList: []
     };
   },
   created: function() {
@@ -90,6 +102,9 @@ export default {
     fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php?status=finished")
       .then(response => response.json())
       .then(json => this.sprintVideoFinishedList = json.data);
+    fetch("http://api.bunnyxt.com/tdd/get_sprint_daily.php?limit=3")
+      .then(response => response.json())
+      .then(json => this.sprintDailyList = json.data)
   },
   mounted: function(){
     var that = this;
