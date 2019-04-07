@@ -11,8 +11,8 @@
       {{ day }}天
     </template>
     <template slot="actionRender" slot-scope="aid">
-      <a-icon type="play-circle" title="立刻助攻" @click="handlePlayCircleClick(aid)" style="margin-right: 8px"/>
-      <a-icon type="line-chart" title="查看详情" @click="handleLineChartClick(aid)"/>
+      <a-button title="立刻助攻" @click="handlePlayCircleClick(aid)" style="margin-right: 8px"><a-icon type="play-circle"/></a-button>
+      <a-button title="查看详情" @click="handleLineChartClick(aid)"><a-icon type="line-chart"/></a-button>
     </template>
   </a-table>
 </template>
