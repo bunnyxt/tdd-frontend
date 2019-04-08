@@ -2,7 +2,7 @@
   <a-layout-header :style="{padding: headerPadding}">
     <div style="float:left; margin: 0px 20px">
       <a @click="handleLogoClick">
-        <img src="logo_32S.png">
+        <img src="/logo_32S.png">
       </a>
     </div>
     <a-menu
