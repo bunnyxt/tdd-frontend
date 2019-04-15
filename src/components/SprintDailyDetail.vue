@@ -12,11 +12,11 @@
         <div v-if="daily.correct == 1">
           <p>本期收录时间范围：<strong>UTC+8 {{ dateStart }} 06:00 ~ {{ dateEnd }} 06:00</strong>，共收录传说冲刺曲目<strong>{{ daily.vidnum }}</strong>首。</p>
           <p>本期传说冲刺曲目播放数总增长<strong>{{ daily.viewincr }}</strong>，与上一期相比<strong>{{ daily.viewincrincr > 0 ? "增长"+daily.viewincrincr:"减少"+(-daily.viewincrincr) }}</strong>。</p>
-          <p>传送门：<a-icon type="arrow-left" />助攻日报<a :href="'/sprint/daily/'+lastDate">#{{ lastDate }}</a> 助攻日报<a :href="'/sprint/daily/'+nextDate">#{{ nextDate }}</a><a-icon type="arrow-right" /></p>
         </div>
         <div v-else>
-          {{ daily.comment }}
+          <a-alert type="error" :message="daily.comment" banner style="margin-bottom: 12px"/>
         </div>
+        <p>传送门：<a-icon type="arrow-left" />助攻日报<a :href="'/sprint/daily/'+lastDate">#{{ lastDate }}</a> 助攻日报<a :href="'/sprint/daily/'+nextDate">#{{ nextDate }}</a><a-icon type="arrow-right" /></p>
       </div>
       <div class="section-seperator"></div>
 
@@ -36,8 +36,10 @@
         <div class="section-seperator"></div>
       </div>
 
-      <div class="section-block" :style="sectionBlockStyle">
-        <SprintDailyDetailTable :sprintDailyRecordList="sprintDailyRecordList"/>
+      <div v-if="daily.correct == 1">
+        <div class="section-block" :style="sectionBlockStyle">
+          <SprintDailyDetailTable :sprintDailyRecordList="sprintDailyRecordList"/>
+        </div>
       </div>
   </div>
   <div v-else>
