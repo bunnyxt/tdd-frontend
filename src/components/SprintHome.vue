@@ -15,7 +15,7 @@
       <p>数据交流与系统反馈
         <ul>
           <li>
-            QQ群：<a target="_blank" href="//shang.qq.com/wpa/qunwpa?idkey=2e43cb11988077acffc4fbad8584b6d0788eec9e697477baa939ddc2ab9b7e84">537793686</a>
+            QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>
           </li>
           <li>
             个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
