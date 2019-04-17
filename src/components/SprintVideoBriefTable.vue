@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     formatDate: function(ts) {
-      var date = new Date(parseInt(ts) * 1000)
+      var date = new Date(ts * 1000)
       return (
         date.getFullYear() + "-" + 
         (date.getMonth()+1) + "-" + 

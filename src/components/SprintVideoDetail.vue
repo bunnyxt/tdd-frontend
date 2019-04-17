@@ -82,17 +82,17 @@ export default {
       return this.records[this.records.length - 1].view
     },
     passedTime: function() {
-      return parseInt((parseInt(this.latestUpdateTime) - parseInt(this.video.created)) / (60 * 60 * 24))
+      return parseInt((this.latestUpdateTime - this.video.created) / (60 * 60 * 24))
     },
     daySpeed: function() {
-      var ts2 = parseInt(this.latestUpdateTime) - parseInt(this.latestUpdateTime) % (60 * 60 * 24)
+      var ts2 = this.latestUpdateTime - this.latestUpdateTime % (60 * 60 * 24)
       var ts1 = ts2 - (60 * 60 * 24)
       var v2 = 0
-      var v1 = parseInt(this.records[0].view)
+      var v1 = this.records[0].view
       var flag = false
       for (var i = this.records.length - 1; i >= 0; i--){
-        var added = parseInt(this.records[i].added)
-        var view = parseInt(this.records[i].view)
+        var added = this.records[i].added
+        var view = this.records[i].view
         if (flag == false) {
           if (added < ts2) {
             v2 = view
@@ -108,7 +108,7 @@ export default {
       return v2 - v1
     },
     needTime: function() {
-      return parseInt((1000000 - parseInt(this.latestView)) / this.daySpeed)
+      return parseInt((1000000 - this.latestView) / this.daySpeed)
     }
   },
   watch: {
@@ -120,7 +120,7 @@ export default {
   },
   methods: {
     formatDate: function(ts) {
-      var date = new Date(parseInt(ts) * 1000)
+      var date = new Date(ts * 1000)
       return (
         date.getFullYear() + "-" + 
         (date.getMonth()+1) + "-" + 

@@ -39,7 +39,7 @@ export default {
         }
       }
 
-      var nowTs = parseInt(records[records.length - 1].added)
+      var nowTs = records[records.length - 1].added
       var nowW = (new Date(nowTs * 1000).getDay() + 6) % 7
       var nowH = new Date(nowTs * 1000).getHours() / 2
 
@@ -47,13 +47,13 @@ export default {
       var p1 = p2 - 1
       var flag = false
       while (p1 >= 0) {
-        var ts2 = parseInt(records[p2].added)
-        var v2 = parseInt(records[p2].view)
+        var ts2 = records[p2].added
+        var v2 = records[p2].view
         var w2 = (new Date(ts2 * 1000).getDay() + 6) % 7
         var h2 = new Date(ts2 * 1000).getHours() / 2
 
-        var ts1 = parseInt(records[p1].added)
-        var v1 = parseInt(records[p1].view)
+        var ts1 = records[p1].added
+        var v1 = records[p1].view
         var w1 = (new Date(ts1 * 1000).getDay() + 6) % 7
         var h1 = new Date(ts1 * 1000).getHours() / 2
 

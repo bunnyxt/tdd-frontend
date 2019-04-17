@@ -93,7 +93,7 @@ export default {
   watch: {
     records: function (newRecords, oldRecords) {
       var arr = new Array()
-      newRecords.forEach(v => arr.push([parseInt(v.added) * 1000, parseInt(v.view)]))
+      newRecords.forEach(v => arr.push([v.added * 1000, v.view]))
       this.series = [{
         name: "播放",
         data: arr
