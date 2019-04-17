@@ -85,7 +85,12 @@ export default {
       return parseInt((this.latestUpdateTime - this.video.created) / (60 * 60 * 24))
     },
     daySpeed: function() {
-      var ts2 = this.latestUpdateTime - this.latestUpdateTime % (60 * 60 * 24)
+      var ts2 = this.latestUpdateTime - this.latestUpdateTime % (60 * 60 * 24) - (60 * 60 * 8) // UTC+8
+      if ((this.latestUpdateTime - (60 * 60 * 8) % (60 * 60 * 24)) > (60 * 60 * 6)) { // UTC+8
+        ts2 += (60 * 60 * 6)
+      } else {
+        ts2 -= (60 * 60 * 18)
+      }
       var ts1 = ts2 - (60 * 60 * 24)
       var v2 = 0
       var v1 = this.records[0].view
@@ -95,13 +100,15 @@ export default {
         var view = this.records[i].view
         if (flag == false) {
           if (added < ts2) {
-            v2 = view
             flag = true
+          } else {
+            v2 = view
           }
         } else {
           if (added < ts1) {
-            v1 = view
             break;
+          } else {
+            v1 = view
           }
         }
       }
