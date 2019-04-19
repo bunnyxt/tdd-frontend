@@ -12,19 +12,25 @@
         <p>UP：<a :href="'https://space.bilibili.com/' + member.mid" target="_blank">{{ member.name }}</a></p>
         <p>UP头像：<img :src="member.face" width="24"/></p>
         <p>投稿时间：{{ formatDate(video.created) }}</p>
-        <p>数据最后更新时间：{{ latestUpdateTimeString }}</p>
-        <p>当前播放：{{ latestView }}</p>
-        <p>昨日增速：{{ daySpeed }}</p>
-        <p>已用时间：{{ passedTime }}日</p>
-        <p>还需时间：{{ needTime }}日</p>
+        <a-spin :spinning="isLoading">
+          <p>数据最后更新时间：{{ latestUpdateTimeString }}</p>
+          <p>当前播放：{{ latestView }}</p>
+          <p>昨日增速：{{ daySpeed }}</p>
+          <p>已用时间：{{ passedTime }}日</p>
+          <p>还需时间：{{ needTime }}日</p>
+        </a-spin>
       </div>
       <div class="section-seperator"></div>
       <div class="section-block" :style="sectionBlockStyle">
-        <SprintVideoMainChart :records="records"/>
+        <a-spin :spinning="isLoading">
+          <SprintVideoMainChart :records="records"/>
+        </a-spin>
       </div>
       <div class="section-seperator"></div>
       <div class="section-block" :style="sectionBlockStyle">
-        <SprintVideoHeatMapChart :records="records"/>
+        <a-spin :spinning="isLoading">
+          <SprintVideoHeatMapChart :records="records"/>
+        </a-spin>
       </div>
     </div>
     <div v-else>
@@ -68,7 +74,8 @@ export default {
         mid: 1,
         name: "",
         face: ""
-      }
+      },
+      isLoading: false
     }
   },
   computed: {
@@ -139,6 +146,7 @@ export default {
     }
   },
   created: function() {
+    this.isLoading = true
     fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php?aid=" + this.$route.params.aid)
       .then(response => response.json())
       .then(json => {
@@ -149,6 +157,7 @@ export default {
     fetch("http://api.bunnyxt.com/tdd/get_sprint_video_record.php?aid=" + this.$route.params.aid)
       .then(response => response.json())
       .then(json => this.records = json.data)
+      .then(() => this.isLoading = false)
   }
 }
 </script>

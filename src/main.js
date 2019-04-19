@@ -15,6 +15,7 @@ import { Row } from 'ant-design-vue'
 import { Col } from 'ant-design-vue'
 import { Table } from 'ant-design-vue'
 import { Alert } from 'ant-design-vue'
+import { Spin } from 'ant-design-vue'
 
 // apex chart
 import VueApexCharts from 'vue-apexcharts'
@@ -36,6 +37,7 @@ Vue.use(Row)
 Vue.use(Col)
 Vue.use(Table)
 Vue.use(Alert)
+Vue.use(Spin)
 
 // apex chart
 Vue.use(VueApexCharts)
