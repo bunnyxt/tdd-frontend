@@ -24,7 +24,9 @@
     <div class="section-seperator"></div>
     <div class="section-block" :style="sectionBlockStyle">
       <h1>往期助攻日报</h1>
-      <SprintVideoTable :sprintDailyList="sprintDailyList" :showPagi="true"/>
+      <a-spin :spinning="isLoadingDaily">
+        <SprintVideoTable :sprintDailyList="sprintDailyList" :showPagi="true"/>
+      </a-spin>
     </div>
   </div>
 </template>
@@ -43,13 +45,16 @@ export default {
         background: "#fff",
         padding: "24px"
       },
-      sprintDailyList: []
+      sprintDailyList: [],
+      isLoadingDaily: false
     };
   },
   created: function() {
+    this.isLoadingDaily = true
     fetch("http://api.bunnyxt.com/tdd/get_sprint_daily.php")
       .then(response => response.json())
       .then(json => this.sprintDailyList = json.data)
+      .then(() => this.isLoadingDaily = false)
   },
 }
 </script>

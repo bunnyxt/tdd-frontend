@@ -6,49 +6,64 @@
       <a-breadcrumb-item><a href="/sprint/daily">助攻日报</a></a-breadcrumb-item>
       <a-breadcrumb-item><a :href="'/sprint/daily'+this.$route.params.date">{{ this.$route.params.date }}</a></a-breadcrumb-item>
     </a-breadcrumb>
-    <div v-if="daily.id != -1">
+    <div v-if="isLoadingDaily">
       <div class="section-block" :style="sectionBlockStyle">
-        <h1>助攻日报#{{ this.$route.params.date }}</h1>
+        <a-spin :spinning="isLoadingDaily">
+          正在查找助攻日报<a :href="'/sprint/daily/'+this.$route.params.date">#{{ this.$route.params.date }}</a>
+        </a-spin>
+      </div>
+    </div>
+    <div v-else>
+      <div v-if="daily.id != -1">
+        <div class="section-block" :style="sectionBlockStyle">
+          <h1>助攻日报#{{ this.$route.params.date }}</h1>
+          <div v-if="daily.correct == 1">
+            <p>本期收录时间范围：<strong>UTC+8 {{ dateStart }} 06:00 ~ {{ dateEnd }} 06:00</strong>，共收录传说冲刺曲目<strong>{{ daily.vidnum }}</strong>首。</p>
+            <p>本期传说冲刺曲目播放数总增长<strong>{{ daily.viewincr }}</strong>，与上一期相比<strong>{{ daily.viewincrincr > 0 ? "增长"+daily.viewincrincr:"减少"+(-daily.viewincrincr) }}</strong>。</p>
+          </div>
+          <div v-else>
+            <a-alert type="error" :message="daily.comment" banner style="margin-bottom: 12px"/>
+          </div>
+          <p>传送门：<a-icon type="arrow-left" />助攻日报<a :href="'/sprint/daily/'+lastDate">#{{ lastDate }}</a> 助攻日报<a :href="'/sprint/daily/'+nextDate">#{{ nextDate }}</a><a-icon type="arrow-right" /></p>
+        </div>
+        <div class="section-seperator"></div>
+
+        <div v-if="daily.newvids.length > 0">
+          <div class="section-block" :style="sectionBlockStyle">
+            <h2>本期有<strong>{{ daily.newvids.length }}</strong>首新曲</h2>
+            <a-spin :spinning="isLoadingNewVids">
+             <SprintVideoBriefTable :videos="newvidsList"/>
+            </a-spin>
+          </div>
+          <div class="section-seperator"></div>
+        </div>
+
+        <div v-if="daily.millvids.length > 0">
+          <div class="section-block" :style="sectionBlockStyle">
+            <h2>本期有<strong>{{ daily.millvids.length }}</strong>首曲目达成传说</h2>
+            <a-spin :spinning="isLoadingMillVids">
+              <SprintVideoBriefTable :videos="millvidsList"/>
+            </a-spin>
+          </div>
+          <div class="section-seperator"></div>
+        </div>
+
         <div v-if="daily.correct == 1">
-          <p>本期收录时间范围：<strong>UTC+8 {{ dateStart }} 06:00 ~ {{ dateEnd }} 06:00</strong>，共收录传说冲刺曲目<strong>{{ daily.vidnum }}</strong>首。</p>
-          <p>本期传说冲刺曲目播放数总增长<strong>{{ daily.viewincr }}</strong>，与上一期相比<strong>{{ daily.viewincrincr > 0 ? "增长"+daily.viewincrincr:"减少"+(-daily.viewincrincr) }}</strong>。</p>
+          <div class="section-block" :style="sectionBlockStyle">
+            <a-spin :spinning="isLoadingRecords">
+              <SprintDailyDetailTable :sprintDailyRecordList="sprintDailyRecordList"/>
+            </a-spin>
+          </div>
         </div>
-        <div v-else>
-          <a-alert type="error" :message="daily.comment" banner style="margin-bottom: 12px"/>
-        </div>
-        <p>传送门：<a-icon type="arrow-left" />助攻日报<a :href="'/sprint/daily/'+lastDate">#{{ lastDate }}</a> 助攻日报<a :href="'/sprint/daily/'+nextDate">#{{ nextDate }}</a><a-icon type="arrow-right" /></p>
       </div>
-      <div class="section-seperator"></div>
-
-      <div v-if="daily.newvids.length > 0">
+      <div v-else>
         <div class="section-block" :style="sectionBlockStyle">
-          <h2>本期有<strong>{{ daily.newvids.length }}</strong>首新曲</h2>
-          <SprintVideoBriefTable :videos="newvidsList"/>
-        </div>
-        <div class="section-seperator"></div>
-      </div>
-
-      <div v-if="daily.millvids.length > 0">
-        <div class="section-block" :style="sectionBlockStyle">
-          <h2>本期有<strong>{{ daily.millvids.length }}</strong>首曲目达成传说</h2>
-          <SprintVideoBriefTable :videos="millvidsList"/>
-        </div>
-        <div class="section-seperator"></div>
-      </div>
-
-      <div v-if="daily.correct == 1">
-        <div class="section-block" :style="sectionBlockStyle">
-          <SprintDailyDetailTable :sprintDailyRecordList="sprintDailyRecordList"/>
+          <p>没有找到助攻日报<a :href="'/sprint/daily/'+this.$route.params.date">#{{ this.$route.params.date }}</a></p>
+          <a href="/sprint/daily">返回往期助攻日报</a>
         </div>
       </div>
-  </div>
-  <div v-else>
-    <div class="section-block" :style="sectionBlockStyle">
-      <p>没有找到助攻日报<a :href="'/sprint/daily/'+this.$route.params.date">#{{ this.$route.params.date }}</a></p>
-      <a href="/sprint/daily">返回往期助攻日报</a>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -79,7 +94,11 @@ export default {
       },
       sprintDailyRecordList: [],
       newvidsList: [],
-      millvidsList: []
+      millvidsList: [],
+      isLoadingDaily: false,
+      isLoadingRecords: false,
+      isLoadingNewVids: false,
+      isLoadingMillVids: false
     };
   },
   computed: {
@@ -132,6 +151,8 @@ export default {
   },
   watch: {
     daily: function(oldDaily, newDaily) {
+      // TODO async error may occor here
+      this.isLoadingNewVids = true
       var nList = new Array()
       for (var i = 0; i < this.daily.newvids.length; i++) {
         fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php?aid="+this.daily.newvids[i])
@@ -139,7 +160,9 @@ export default {
           .then(json => nList.push(json.data[0]))
       }
       this.newvidsList = nList
+      this.isLoadingNewVids = false
 
+      this.isLoadingMillVids = true
       var mList = new Array()
       for (var i = 0; i < this.daily.millvids.length; i++) {
         fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php?aid="+this.daily.millvids[i])
@@ -147,9 +170,12 @@ export default {
           .then(json => mList.push(json.data[0]))
       }
       this.millvidsList = mList
+      this.isLoadingMillVids = false
     }
   },
   created: function() {
+    this.isLoadingDaily = true
+    this.isLoadingRecords = true
     fetch("http://api.bunnyxt.com/tdd/get_sprint_daily.php?date="+this.$route.params.date)
       .then(response => response.json())
       .then(json => {
@@ -157,6 +183,7 @@ export default {
           this.daily = json.data[0]
         }
       })
+      .then(() => this.isLoadingDaily = false)
     fetch("http://api.bunnyxt.com/tdd/get_sprint_daily_record.php?date="+this.$route.params.date)
       .then(response => response.json())
       .then(json => {
@@ -164,6 +191,7 @@ export default {
           this.sprintDailyRecordList = json.data
         }
       })
+      .then(() => this.isLoadingRecords = false)
   }
 }
 </script>

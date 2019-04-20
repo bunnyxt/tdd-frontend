@@ -27,43 +27,49 @@
     <div class="section-block" :style="sectionBlockStyle">
       <h1>助攻日报</h1>
       <p>
-        基于<a href="/sprint">传说助攻</a>的数据，以<strong>UTC+8 06:00至次日06:00</strong>为统计区间，每日刊发一期的助攻日报，记录当日各冲刺视频播放数及播放数变化情况。
+        基于传说助攻的数据，以<strong>UTC+8 06:00至次日06:00</strong>为统计区间，每日刊发一期的助攻日报，记录当日各冲刺视频播放数及播放数变化情况。
       </p>
       <p>查看<a href="/sprint/daily">往期助攻日报</a></p>
-      <SprintDailyTable :sprintDailyList="sprintDailyList" :showPagi="false"/>
+      <a-spin :spinning="isLoadingDaily">
+       <SprintDailyTable :sprintDailyList="sprintDailyList" :showPagi="false"/>
+      </a-spin>
     </div>
     <div class="section-seperator"></div>
     <div class="section-block" :style="sectionBlockStyle">
       <h1>助攻列表</h1>
-      <a-list
-        :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
-        :dataSource="sprintVideoList"
-      >
-        <a-list-item class="sprint-video-item" slot="renderItem" slot-scope="item">
-          <SprintVideoBrief 
-            :key="item.id"
-            :video="item"
-            :imgHeight="sprintVideoImgHeight"
-          ></SprintVideoBrief>
-        </a-list-item>
-      </a-list>
+      <a-spin :spinning="isLoadingVideo">
+        <a-list
+          :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
+          :dataSource="sprintVideoList"
+        >
+          <a-list-item class="sprint-video-item" slot="renderItem" slot-scope="item">
+            <SprintVideoBrief 
+              :key="item.id"
+              :video="item"
+              :imgHeight="sprintVideoImgHeight"
+            ></SprintVideoBrief>
+          </a-list-item>
+        </a-list>
+      </a-spin>
     </div>
     <div class="section-seperator"></div>
     <div class="section-block" :style="sectionBlockStyle">
       <h1>历史助攻*</h1>
       <p>*展示已达成传说的，本系统曾经记录过的历史助攻曲目视频</p>
-      <a-list
-        :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
-        :dataSource="sprintVideoFinishedList"
-      >
-        <a-list-item class="sprint-video-item" slot="renderItem" slot-scope="item">
-          <SprintVideoBrief 
-            :key="item.id"
-            :video="item"
-            :imgHeight="sprintVideoImgHeight"
-          ></SprintVideoBrief>
-        </a-list-item>
-      </a-list>
+      <a-spin :spinning="isLoadingFinishedVideo">
+        <a-list
+          :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
+          :dataSource="sprintFinishedVideoList"
+        >
+          <a-list-item class="sprint-video-item" slot="renderItem" slot-scope="item">
+            <SprintVideoBrief 
+              :key="item.id"
+              :video="item"
+              :imgHeight="sprintVideoImgHeight"
+            ></SprintVideoBrief>
+          </a-list-item>
+        </a-list>
+      </a-spin>
     </div>
   </div>
 </template>
@@ -85,12 +91,18 @@ export default {
         padding: "24px"
       },
       sprintVideoList: [],
-      sprintVideoFinishedList: [],
+      sprintFinishedVideoList: [],
       sprintVideoImgHeight: '200px',
-      sprintDailyList: []
+      sprintDailyList: [],
+      isLoadingVideo: false,
+      isLoadingFinishedVideo: false,
+      isLoadingDaily: false
     };
   },
   created: function() {
+    this.isLoadingVideo = true
+    this.isLoadingFinishedVideo = true
+    this.isLoadingDaily = true
     fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php")
       .then(response => response.json())
       .then(json => this.sprintVideoList = json.data)
@@ -98,13 +110,16 @@ export default {
         () => this.sprintVideoList.sort(
           (o1, o2) => o2.latestVideoRecord.view - o1.latestVideoRecord.view
         )
-      );
+      )
+      .then(() => this.isLoadingVideo = false)
     fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php?status=finished")
       .then(response => response.json())
-      .then(json => this.sprintVideoFinishedList = json.data);
+      .then(json => this.sprintFinishedVideoList = json.data)
+      .then(() => this.isLoadingFinishedVideo = false)
     fetch("http://api.bunnyxt.com/tdd/get_sprint_daily.php?limit=3")
       .then(response => response.json())
       .then(json => this.sprintDailyList = json.data)
+      .then(() => this.isLoadingDaily = false)
   },
   mounted: function(){
     var that = this;

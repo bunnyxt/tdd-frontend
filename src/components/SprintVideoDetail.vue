@@ -5,38 +5,47 @@
       <a-breadcrumb-item><a href="/sprint">传说助攻</a></a-breadcrumb-item>
       <a-breadcrumb-item><a :href="'/sprint/av'+this.$route.params.aid">{{ video.title }}</a></a-breadcrumb-item>
     </a-breadcrumb>
-    <div v-if="video.aid != '-1'">
+    <div v-if="isLoadingVideo">
       <div class="section-block" :style="sectionBlockStyle">
-        <p><img :src="video.pic" width="200px"/></p>
-        <h3>{{ video.title }}</h3>
-        <p>UP：<a :href="'https://space.bilibili.com/' + member.mid" target="_blank">{{ member.name }}</a></p>
-        <p>UP头像：<img :src="member.face" width="24"/></p>
-        <p>投稿时间：{{ formatDate(video.created) }}</p>
-        <a-spin :spinning="isLoading">
-          <p>数据最后更新时间：{{ latestUpdateTimeString }}</p>
-          <p>当前播放：{{ latestView }}</p>
-          <p>昨日增速：{{ daySpeed }}</p>
-          <p>已用时间：{{ passedTime }}日</p>
-          <p>还需时间：{{ needTime }}日</p>
-        </a-spin>
-      </div>
-      <div class="section-seperator"></div>
-      <div class="section-block" :style="sectionBlockStyle">
-        <a-spin :spinning="isLoading">
-          <SprintVideoMainChart :records="records"/>
-        </a-spin>
-      </div>
-      <div class="section-seperator"></div>
-      <div class="section-block" :style="sectionBlockStyle">
-        <a-spin :spinning="isLoading">
-          <SprintVideoHeatMapChart :records="records"/>
+        <a-spin :spinning="isLoadingRecords">
+          正在查找<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的冲刺记录
         </a-spin>
       </div>
     </div>
     <div v-else>
-      <div class="section-block" :style="sectionBlockStyle">
-        <p>没有找到<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的冲刺记录</p>
-        <a href="/sprint">返回传说助攻</a>
+      <div v-if="video.aid != '-1'">
+        <div class="section-block" :style="sectionBlockStyle">
+          <p><img :src="video.pic" width="200px"/></p>
+          <h3>{{ video.title }}</h3>
+          <p>UP：<a :href="'https://space.bilibili.com/' + member.mid" target="_blank">{{ member.name }}</a></p>
+          <p>UP头像：<img :src="member.face" width="24"/></p>
+          <p>投稿时间：{{ formatDate(video.created) }}</p>
+          <a-spin :spinning="isLoadingRecords">
+            <p>数据最后更新时间：{{ latestUpdateTimeString }}</p>
+            <p>当前播放：{{ latestView }}</p>
+            <p>昨日增速：{{ daySpeed }}</p>
+            <p>已用时间：{{ passedTime }}日</p>
+            <p>还需时间：{{ needTime }}日</p>
+          </a-spin>
+        </div>
+        <div class="section-seperator"></div>
+        <div class="section-block" :style="sectionBlockStyle">
+          <a-spin :spinning="isLoadingRecords">
+            <SprintVideoMainChart :records="records"/>
+          </a-spin>
+        </div>
+        <div class="section-seperator"></div>
+        <div class="section-block" :style="sectionBlockStyle">
+          <a-spin :spinning="isLoadingRecords">
+            <SprintVideoHeatMapChart :records="records"/>
+          </a-spin>
+        </div>
+      </div>
+      <div v-else>
+        <div class="section-block" :style="sectionBlockStyle">
+          <p>没有找到<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的冲刺记录</p>
+          <a href="/sprint">返回传说助攻</a>
+        </div>
       </div>
     </div>
   </div>
@@ -75,7 +84,8 @@ export default {
         name: "",
         face: ""
       },
-      isLoading: false
+      isLoadingVideo: false,
+      isLoadingRecords: false
     }
   },
   computed: {
@@ -146,18 +156,20 @@ export default {
     }
   },
   created: function() {
-    this.isLoading = true
+    this.isLoadingVideo = true
+    this.isLoadingRecords = true
     fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php?aid=" + this.$route.params.aid)
       .then(response => response.json())
       .then(json => {
         if (json.data.length > 0){
           this.video = json.data[0]
         }
+        this.isLoadingVideo = false
       })
     fetch("http://api.bunnyxt.com/tdd/get_sprint_video_record.php?aid=" + this.$route.params.aid)
       .then(response => response.json())
       .then(json => this.records = json.data)
-      .then(() => this.isLoading = false)
+      .then(() => this.isLoadingRecords = false)
   }
 }
 </script>
