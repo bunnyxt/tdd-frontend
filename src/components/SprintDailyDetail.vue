@@ -189,6 +189,9 @@ export default {
       .then(json => {
         if (json.data) {
           this.sprintDailyRecordList = json.data
+          this.sprintDailyRecordList.sort(
+            (o1, o2) => o2.view - o1.view
+          )
         }
       })
       .then(() => this.isLoadingRecords = false)
