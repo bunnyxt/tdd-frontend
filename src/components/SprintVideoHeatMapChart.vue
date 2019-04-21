@@ -42,10 +42,10 @@ export default {
       var nowTs = records[records.length - 1].added
       var nowW = (new Date(nowTs * 1000).getDay() + 6) % 7
       var nowH = new Date(nowTs * 1000).getHours() / 2
+      var limTs = nowTs - (nowTs % (60 * 60 * 2))  - (60 * 60 * 24 * 7) + (60 * 60 * 2)
 
       var p2 = records.length - 1
       var p1 = p2 - 1
-      var flag = false
       while (p1 >= 0) {
         var ts2 = records[p2].added
         var v2 = records[p2].view
@@ -57,11 +57,8 @@ export default {
         var w1 = (new Date(ts1 * 1000).getDay() + 6) % 7
         var h1 = new Date(ts1 * 1000).getHours() / 2
 
-        if (flag == true && h1 == nowH && w1 == nowW){
-          break
-        }
-        if (flag == false && h1 != nowH) {
-          flag = true
+        if (ts1 < limTs) {
+          break;
         }
 
         if ((w2 * 12 + h2) - (w1 * 12 + h1) == 0) {
