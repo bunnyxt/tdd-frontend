@@ -50,12 +50,12 @@ export default {
         var ts2 = records[p2].added
         var v2 = records[p2].view
         var w2 = (new Date(ts2 * 1000).getDay() + 6) % 7
-        var h2 = new Date(ts2 * 1000).getHours() / 2
+        var h2 = parseInt(new Date(ts2 * 1000).getHours() / 2)
 
         var ts1 = records[p1].added
         var v1 = records[p1].view
         var w1 = (new Date(ts1 * 1000).getDay() + 6) % 7
-        var h1 = new Date(ts1 * 1000).getHours() / 2
+        var h1 = parseInt(new Date(ts1 * 1000).getHours() / 2)
 
         if (ts1 < limTs) {
           break;
