@@ -66,7 +66,10 @@ export default {
         xaxis: {
           type: "datetime",
           //min: this.latest_time - 7 * 24 * 60 * 60 * 1000,
-          tickAmount: 6
+          tickAmount: 6,
+          labels: {
+            rotate: 0
+          }
         },
         yaxis: {
           labels: {
