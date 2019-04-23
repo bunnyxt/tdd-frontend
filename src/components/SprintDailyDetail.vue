@@ -118,7 +118,15 @@ export default {
     },
     dateEnd: function() {
       var date = this.$route.params.date
-      return date.substring(0, 4) +"-"+ date.substring(4, 6) +"-"+ date.substring(6, 8)
+      var d = new Date()
+      d.setFullYear(date.substring(0, 4))
+      d.setMonth(date.substring(4, 6) - 1)
+      d.setDate(date.substring(6, 8))
+      d.setHours(0)
+      d.setMinutes(0)
+      d.setSeconds(0)
+      d.setMilliseconds(0)
+      return d.getFullYear() +"-"+ (d.getMonth()+1) +"-"+ d.getDate()
     },
     lastDate: function() {
       var date = this.$route.params.date
