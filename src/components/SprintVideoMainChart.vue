@@ -1,6 +1,7 @@
 <template>
   <div id="chart">
-    <div class="toolbar" style="margin-left:20px">
+    <h3>播放数增长曲线</h3>
+    <div class="toolbar">
       <a-button
         @click="updateData('one_day')"
         id="one_day"
