@@ -38,16 +38,28 @@
     <div class="section-block" :style="sectionBlockStyle">
       <h1>助攻列表</h1>
       <a-spin :spinning="isLoadingVideo">
+        <a-collapse>
+          <a-collapse-panel header="条件筛选" style="margin-bottom: 12px">
+            歌姬：<a-checkbox-group :options="singerOptions" v-model="singerValues"/>
+          </a-collapse-panel>
+        </a-collapse>
         <a-list
           :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
-          :dataSource="sprintVideoList"
+          :dataSource="sprintVideoListFiltered"
         >
           <a-list-item class="sprint-video-item" slot="renderItem" slot-scope="item">
-            <SprintVideoBrief 
-              :key="item.id"
-              :video="item"
-              :imgHeight="sprintVideoImgHeight"
-            ></SprintVideoBrief>
+            <!-- <div v-if="containsSinger(item.singer)">
+              <SprintVideoBrief 
+                :key="item.id"
+                :video="item"
+                :imgHeight="sprintVideoImgHeight"
+              ></SprintVideoBrief>
+            </div> -->
+              <SprintVideoBrief 
+                :key="item.id"
+                :video="item"
+                :imgHeight="sprintVideoImgHeight"
+              ></SprintVideoBrief>
           </a-list-item>
         </a-list>
       </a-spin>
@@ -96,8 +108,33 @@ export default {
       sprintDailyList: [],
       isLoadingVideo: false,
       isLoadingFinishedVideo: false,
-      isLoadingDaily: false
+      isLoadingDaily: false,
+      singerOptions: [],
+      singerValues: []
     };
+  },
+  computed: {
+    sprintVideoListFiltered: function() {
+      var list = []
+      for (var i = 0; i < this.sprintVideoList.length; i++) {
+        if (this.containsSinger(this.sprintVideoList[i].singer)) {
+          list.push(this.sprintVideoList[i])
+        }
+      }
+      return list
+    }
+  },
+  methods: {
+    containsSinger: function (singers) {
+      var result = false
+      for (var i = 0; i < singers.length; i++) {
+        if (this.singerValues.indexOf(singers[i]) > -1) {
+          result = true
+          break
+        }
+      }
+      return result
+    }
   },
   created: function() {
     this.isLoadingVideo = true
@@ -110,6 +147,19 @@ export default {
         () => this.sprintVideoList.sort(
           (o1, o2) => o2.latestVideoRecord.view - o1.latestVideoRecord.view
         )
+      )
+      .then(
+        () => {
+          this.singerOptions = []
+          for (var i = 0; i < this.sprintVideoList.length; i++) {
+            for (var j = 0; j < this.sprintVideoList[i].singer.length; j++) {
+              if (this.singerOptions.indexOf(this.sprintVideoList[i].singer[j]) == -1) {
+                this.singerOptions.push(this.sprintVideoList[i].singer[j])
+              }
+            }
+          }
+          this.singerValues = this.singerOptions
+        }
       )
       .then(() => this.isLoadingVideo = false)
     fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php?status=finished")
