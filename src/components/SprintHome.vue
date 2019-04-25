@@ -40,7 +40,9 @@
       <a-spin :spinning="isLoadingVideo">
         <a-collapse>
           <a-collapse-panel header="条件筛选" style="margin-bottom: 12px">
-            歌姬：<a-checkbox-group :options="singerOptions" v-model="singerValues"/>
+            歌姬：<a-checkbox-group :options="singerOptions" v-model="singerValues"/><br>
+            分类：<a-checkbox-group :options="soloOptions" v-model="soloValues"/><br>
+            分类：<a-checkbox-group :options="originalOptions" v-model="originalValues"/>
           </a-collapse-panel>
         </a-collapse>
         <a-list
@@ -110,15 +112,23 @@ export default {
       isLoadingFinishedVideo: false,
       isLoadingDaily: false,
       singerOptions: [],
-      singerValues: []
+      singerValues: [],
+      soloOptions: ['独唱', '合唱'],
+      soloValues: ['独唱', '合唱'],
+      originalOptions: ['原创曲', '翻唱曲'],
+      originalValues: ['原创曲', '翻唱曲']
     };
   },
   computed: {
     sprintVideoListFiltered: function() {
       var list = []
       for (var i = 0; i < this.sprintVideoList.length; i++) {
-        if (this.containsSinger(this.sprintVideoList[i].singer)) {
-          list.push(this.sprintVideoList[i])
+        if (this.containsSinger(this.sprintVideoList[i].singer)) { // singer filter
+          if (this.satisfySolo(this.sprintVideoList[i].solo)) { // solo filter
+            if (this.satisfyOriginal(this.sprintVideoList[i].original)) { // original filter
+              list.push(this.sprintVideoList[i])
+            }
+          }
         }
       }
       return list
@@ -132,6 +142,22 @@ export default {
           result = true
           break
         }
+      }
+      return result
+    },
+    satisfySolo: function (solo) {
+      var result = false
+      var option = solo == 1 ? '独唱' : '合唱'
+      if (this.soloValues.indexOf(option) > -1) {
+        result = true
+      }
+      return result
+    },
+    satisfyOriginal: function (original) {
+      var result = false
+      var option = original == 1 ? '原创曲' : '翻唱曲'
+      if (this.originalValues.indexOf(option) > -1) {
+        result = true
       }
       return result
     }
