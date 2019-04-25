@@ -40,9 +40,21 @@
       <a-spin :spinning="isLoadingVideo">
         <a-collapse>
           <a-collapse-panel header="条件筛选" style="margin-bottom: 12px">
-            歌姬：<a-checkbox-group :options="singerOptions" v-model="singerValues"/><br>
-            分类：<a-checkbox-group :options="soloOptions" v-model="soloValues"/><br>
-            分类：<a-checkbox-group :options="originalOptions" v-model="originalValues"/>
+            <p>歌姬：<a-checkbox-group :options="singerOptions" v-model="singerValues"/></p>
+            <p>分类：<a-checkbox-group :options="soloOptions" v-model="soloValues"/></p>
+            <p>分类：<a-checkbox-group :options="originalOptions" v-model="originalValues"/></p>
+            <p>排序：
+              <a-radio-group name="sortByGroup" v-model="sortByValue">
+                <a-radio :value="1">播放数</a-radio>
+                <a-radio :value="2">投稿时间</a-radio>
+              </a-radio-group>
+            </p>
+            <p>排序：
+              <a-radio-group name="sortOrderGroup" v-model="sortOrderValue">
+                <a-radio :value="1">升序</a-radio>
+                <a-radio :value="2">降序</a-radio>
+              </a-radio-group>
+            </p>
           </a-collapse-panel>
         </a-collapse>
         <a-list
@@ -116,12 +128,15 @@ export default {
       soloOptions: ['独唱', '合唱'],
       soloValues: ['独唱', '合唱'],
       originalOptions: ['原创曲', '翻唱曲'],
-      originalValues: ['原创曲', '翻唱曲']
+      originalValues: ['原创曲', '翻唱曲'],
+      sortByValue: 1,
+      sortOrderValue: 2
     };
   },
   computed: {
     sprintVideoListFiltered: function() {
       var list = []
+      // filter
       for (var i = 0; i < this.sprintVideoList.length; i++) {
         if (this.containsSinger(this.sprintVideoList[i].singer)) { // singer filter
           if (this.satisfySolo(this.sprintVideoList[i].solo)) { // solo filter
@@ -130,6 +145,33 @@ export default {
             }
           }
         }
+      }
+      // sort
+      switch (this.sortByValue) {
+        case 1:
+          if (this.sortOrderValue == 1) {
+            list.sort(
+              (o1, o2) => o1.latestVideoRecord.view - o2.latestVideoRecord.view
+            )
+          } else if (this.sortOrderValue == 2) {
+            list.sort(
+              (o1, o2) => o2.latestVideoRecord.view - o1.latestVideoRecord.view
+            )
+          }
+          break;
+        case 2:
+          if (this.sortOrderValue == 1) {
+            list.sort(
+              (o1, o2) => o1.created - o2.created
+            )
+          } else if (this.sortOrderValue == 2) {
+            list.sort(
+              (o1, o2) => o2.created - o1.created
+            )
+          }
+          break;
+        default:
+          break;
       }
       return list
     }
@@ -169,11 +211,11 @@ export default {
     fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php")
       .then(response => response.json())
       .then(json => this.sprintVideoList = json.data)
-      .then(
-        () => this.sprintVideoList.sort(
-          (o1, o2) => o2.latestVideoRecord.view - o1.latestVideoRecord.view
-        )
-      )
+      // .then(
+      //   () => this.sprintVideoList.sort(
+      //     (o1, o2) => o1.latestVideoRecord.view - o2.latestVideoRecord.view
+      //   )
+      // )
       .then(
         () => {
           this.singerOptions = []

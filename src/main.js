@@ -19,6 +19,7 @@ import { Spin } from 'ant-design-vue'
 import { Pagination } from 'ant-design-vue'
 import { Checkbox } from 'ant-design-vue'
 import { Collapse } from 'ant-design-vue'
+import { Radio } from 'ant-design-vue'
 
 // apex chart
 import VueApexCharts from 'vue-apexcharts'
@@ -44,6 +45,7 @@ Vue.use(Spin)
 Vue.use(Pagination)
 Vue.use(Checkbox)
 Vue.use(Collapse)
+Vue.use(Radio)
 
 // apex chart
 Vue.use(VueApexCharts)
