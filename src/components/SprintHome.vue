@@ -38,16 +38,42 @@
     <div class="section-block" :style="sectionBlockStyle">
       <h1>助攻列表</h1>
       <a-spin :spinning="isLoadingVideo">
+        <a-collapse>
+          <a-collapse-panel header="条件筛选" style="margin-bottom: 12px">
+            <p>歌姬：<a-checkbox-group :options="singerOptions" v-model="singerValues"/></p>
+            <p>分类：<a-checkbox-group :options="soloOptions" v-model="soloValues"/></p>
+            <p>分类：<a-checkbox-group :options="originalOptions" v-model="originalValues"/></p>
+            <p>排序：
+              <a-radio-group name="sortByGroup" v-model="sortByValue">
+                <a-radio :value="1">播放数</a-radio>
+                <a-radio :value="2">投稿时间</a-radio>
+              </a-radio-group>
+            </p>
+            <p>排序：
+              <a-radio-group name="sortOrderGroup" v-model="sortOrderValue">
+                <a-radio :value="1">升序</a-radio>
+                <a-radio :value="2">降序</a-radio>
+              </a-radio-group>
+            </p>
+          </a-collapse-panel>
+        </a-collapse>
         <a-list
           :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
-          :dataSource="sprintVideoList"
+          :dataSource="sprintVideoListFiltered"
         >
           <a-list-item class="sprint-video-item" slot="renderItem" slot-scope="item">
-            <SprintVideoBrief 
-              :key="item.id"
-              :video="item"
-              :imgHeight="sprintVideoImgHeight"
-            ></SprintVideoBrief>
+            <!-- <div v-if="containsSinger(item.singer)">
+              <SprintVideoBrief 
+                :key="item.id"
+                :video="item"
+                :imgHeight="sprintVideoImgHeight"
+              ></SprintVideoBrief>
+            </div> -->
+              <SprintVideoBrief 
+                :key="item.id"
+                :video="item"
+                :imgHeight="sprintVideoImgHeight"
+              ></SprintVideoBrief>
           </a-list-item>
         </a-list>
       </a-spin>
@@ -96,8 +122,87 @@ export default {
       sprintDailyList: [],
       isLoadingVideo: false,
       isLoadingFinishedVideo: false,
-      isLoadingDaily: false
+      isLoadingDaily: false,
+      singerOptions: [],
+      singerValues: [],
+      soloOptions: ['独唱', '合唱'],
+      soloValues: ['独唱', '合唱'],
+      originalOptions: ['原创曲', '翻唱曲'],
+      originalValues: ['原创曲', '翻唱曲'],
+      sortByValue: 1,
+      sortOrderValue: 2
     };
+  },
+  computed: {
+    sprintVideoListFiltered: function() {
+      var list = []
+      // filter
+      for (var i = 0; i < this.sprintVideoList.length; i++) {
+        if (this.containsSinger(this.sprintVideoList[i].singer)) { // singer filter
+          if (this.satisfySolo(this.sprintVideoList[i].solo)) { // solo filter
+            if (this.satisfyOriginal(this.sprintVideoList[i].original)) { // original filter
+              list.push(this.sprintVideoList[i])
+            }
+          }
+        }
+      }
+      // sort
+      switch (this.sortByValue) {
+        case 1:
+          if (this.sortOrderValue == 1) {
+            list.sort(
+              (o1, o2) => o1.latestVideoRecord.view - o2.latestVideoRecord.view
+            )
+          } else if (this.sortOrderValue == 2) {
+            list.sort(
+              (o1, o2) => o2.latestVideoRecord.view - o1.latestVideoRecord.view
+            )
+          }
+          break;
+        case 2:
+          if (this.sortOrderValue == 1) {
+            list.sort(
+              (o1, o2) => o1.created - o2.created
+            )
+          } else if (this.sortOrderValue == 2) {
+            list.sort(
+              (o1, o2) => o2.created - o1.created
+            )
+          }
+          break;
+        default:
+          break;
+      }
+      return list
+    }
+  },
+  methods: {
+    containsSinger: function (singers) {
+      var result = false
+      for (var i = 0; i < singers.length; i++) {
+        if (this.singerValues.indexOf(singers[i]) > -1) {
+          result = true
+          break
+        }
+      }
+      return result
+    },
+    satisfySolo: function (solo) {
+      var result = false
+      var option = solo == 1 ? '独唱' : '合唱'
+      if (this.soloValues.indexOf(option) > -1) {
+        result = true
+      }
+      return result
+    },
+    satisfyOriginal: function (original) {
+      var result = false
+      var option = original == 1 ? '原创曲' : '翻唱曲'
+      if (this.originalValues.indexOf(option) > -1) {
+        result = true
+      }
+      return result
+    }
   },
   created: function() {
     this.isLoadingVideo = true
@@ -106,10 +211,23 @@ export default {
     fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php")
       .then(response => response.json())
       .then(json => this.sprintVideoList = json.data)
+      // .then(
+      //   () => this.sprintVideoList.sort(
+      //     (o1, o2) => o1.latestVideoRecord.view - o2.latestVideoRecord.view
+      //   )
+      // )
       .then(
-        () => this.sprintVideoList.sort(
-          (o1, o2) => o2.latestVideoRecord.view - o1.latestVideoRecord.view
-        )
+        () => {
+          this.singerOptions = []
+          for (var i = 0; i < this.sprintVideoList.length; i++) {
+            for (var j = 0; j < this.sprintVideoList[i].singer.length; j++) {
+              if (this.singerOptions.indexOf(this.sprintVideoList[i].singer[j]) == -1) {
+                this.singerOptions.push(this.sprintVideoList[i].singer[j])
+              }
+            }
+          }
+          this.singerValues = this.singerOptions
+        }
       )
       .then(() => this.isLoadingVideo = false)
     fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php?status=finished")
