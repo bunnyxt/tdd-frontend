@@ -62,13 +62,6 @@
           :dataSource="sprintVideoListFiltered"
         >
           <a-list-item class="sprint-video-item" slot="renderItem" slot-scope="item">
-            <!-- <div v-if="containsSinger(item.singer)">
-              <SprintVideoBrief 
-                :key="item.id"
-                :video="item"
-                :imgHeight="sprintVideoImgHeight"
-              ></SprintVideoBrief>
-            </div> -->
               <SprintVideoBrief 
                 :key="item.id"
                 :video="item"
