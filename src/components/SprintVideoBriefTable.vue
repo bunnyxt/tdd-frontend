@@ -60,6 +60,12 @@ export default {
         (date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()) + ":" + 
         (date.getSeconds()<10?"0"+date.getSeconds():date.getSeconds())
       )
+    },
+    handlePlayCircleClick: function(aid) {
+      window.open('https://www.bilibili.com/video/av' + aid);
+    },
+    handleLineChartClick: function(aid) {
+      this.$router.push("/sprint/av" + aid);
     }
   },
 }
