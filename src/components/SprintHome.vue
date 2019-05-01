@@ -39,11 +39,21 @@
           <div class="SlickDotsSpace">
           </div>
         </div>
+        <!-- <div>
+          <h1>助攻推荐</h1>
+          <div class="SlickDotsSpace">
+          </div>
+        </div>
         <div>
           <h1>助攻推荐</h1>
           <div class="SlickDotsSpace">
           </div>
         </div>
+        <div>
+          <h1>助攻推荐</h1>
+          <div class="SlickDotsSpace">
+          </div>
+        </div> -->
       </a-carousel>
     </div>
     <div class="section-seperator"></div>
@@ -108,12 +118,14 @@
 <script>
 import SprintVideoBrief from "./SprintVideoBrief.vue";
 import SprintDailyTable from "./SprintDailyTable.vue";
+//import SprintPromotionTable from './SprintPromotionTable.vue';
 
 export default {
   name: "SprintHome",
   components: {
     SprintVideoBrief,
-    SprintDailyTable
+    SprintDailyTable,
+    //SprintPromotionTable
   },
   data: function() {
     return {
@@ -135,7 +147,10 @@ export default {
       originalOptions: ['原创曲', '翻唱曲'],
       originalValues: ['原创曲', '翻唱曲'],
       sortByValue: 1,
-      sortOrderValue: 2
+      sortOrderValue: 2,
+      // mostViewedVideo: {},
+      // earliestCreatedVideo: {},
+      // randomSelectedVideo: {}
     };
   },
   computed: {
@@ -181,6 +196,43 @@ export default {
       return list
     }
   },
+  watch: {
+    // sprintVideoList: function() {
+    //   if (this.sprintVideoList.length > 0) {
+    //     var videos = this.sprintVideoList
+    //     var mostViewed = this.videos[0]
+    //     var mostViewedIndex = 0
+    //     var earliestCreated = this.videos[0]
+    //     var earliestCreatedIndex = 0
+    //     for (var i = 0; i < this.videos.length; i++) {
+    //       var video = this.videos[i]
+    //       if (video.latestVideoRecord.view > mostViewed.latestVideoRecord.view) {
+    //         mostViewed = video
+    //         mostViewedIndex = i
+    //       }
+    //       if (video.created < earliestCreated.created) {
+    //         earliestCreated = video
+    //         earliestCreatedIndex = i
+    //       }
+    //     }
+
+    //     // TODO
+    //     var randomSelected = this.videos[0]
+    //     var randomSelectedIndex = Math.floor(Math.random() * this.videos.length)
+    //     if (randomSelectedIndex != mostViewedIndex && randomSelectedIndex != earliestCreatedIndex) {
+    //       randomSelected = this.videos[randomSelectedIndex]
+    //     }
+
+    //     this.mostViewedVideo = mostViewed
+    //     this.earliestCreatedVideo = earliestCreated
+    //     this.randomSelectedVideo = randomSelected
+
+    //     console.log(mostViewed)
+    //     console.log(earliestCreated)
+    //     console.log(randomSelected)
+    //   }
+    // }
+  },
   methods: {
     containsSinger: function (singers) {
       var result = false
@@ -216,11 +268,6 @@ export default {
     fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php")
       .then(response => response.json())
       .then(json => this.sprintVideoList = json.data)
-      // .then(
-      //   () => this.sprintVideoList.sort(
-      //     (o1, o2) => o1.latestVideoRecord.view - o2.latestVideoRecord.view
-      //   )
-      // )
       .then(
         () => {
           this.singerOptions = []
@@ -239,7 +286,7 @@ export default {
       .then(response => response.json())
       .then(json => this.sprintFinishedVideoList = json.data)
       .then(() => this.isLoadingFinishedVideo = false)
-    fetch("http://api.bunnyxt.com/tdd/get_sprint_daily.php?limit=3")
+    fetch("http://api.bunnyxt.com/tdd/get_sprint_daily.php?limit=1")
       .then(response => response.json())
       .then(json => this.sprintDailyList = json.data)
       .then(() => this.isLoadingDaily = false)
