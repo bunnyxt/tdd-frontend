@@ -5,34 +5,56 @@
       <a-breadcrumb-item><a href="/sprint">传说助攻</a></a-breadcrumb-item>
     </a-breadcrumb>
     <div class="section-block" :style="sectionBlockStyle">
-      <h1>关于传说助攻</h1>
-      <p>VC传说冲刺曲目助攻计划，收录B站接近<a href="https://zh.moegirl.org/Vocaloid中文传说曲" target="_blank">中文VOCALOID传说曲</a>要求的曲目视频，目前以<strong>80万</strong>播放数作为收录标准。</p>
-      <p>曲目信息每10分钟更新一次，存在一定的延迟。移动端访问本站可能出现图表较小、查看不便等问题，可尝试将设备横过来，使用<strong>横屏浏览</strong>。</p>
-      <p>
-        点击<a-icon type="play-circle" title="立刻助攻"/>跳转至B站视频页进行助攻<br/>
-        点击<a-icon type="line-chart" title="查看详情"/>查看本站记录的冲刺数据详情
-      </p>
-      <p>数据交流与系统反馈
-        <ul>
-          <li>
-            QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>
-          </li>
-          <li>
-            个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
-          </li>
-        </ul>
-      </p>
-    </div>
-    <div class="section-seperator"></div>
-    <div class="section-block" :style="sectionBlockStyle">
-      <h1>助攻日报</h1>
-      <p>
-        基于传说助攻的数据，以<strong>UTC+8 06:00至次日06:00</strong>为统计区间，每日刊发一期的助攻日报，记录当日各冲刺视频播放数及播放数变化情况。
-      </p>
-      <p>查看<a href="/sprint/daily">往期助攻日报</a></p>
-      <a-spin :spinning="isLoadingDaily">
-       <SprintDailyTable :sprintDailyList="sprintDailyList" :showPagi="false"/>
-      </a-spin>
+      <a-carousel autoplay>
+        <div>
+          <h1>关于传说助攻</h1>
+          <p>VC传说冲刺曲目助攻计划，收录B站接近<a href="https://zh.moegirl.org/Vocaloid中文传说曲" target="_blank">中文VOCALOID传说曲</a>要求的曲目视频，目前以<strong>80万</strong>播放数作为收录标准。</p>
+          <p>曲目信息每10分钟更新一次，存在一定的延迟。移动端访问本站可能出现图表较小、查看不便等问题，可尝试将设备横过来，使用<strong>横屏浏览</strong>。</p>
+          <p>
+            点击<a-icon type="play-circle" title="立刻助攻"/>跳转至B站视频页进行助攻<br/>
+            点击<a-icon type="line-chart" title="查看详情"/>查看本站记录的冲刺数据详情
+          </p>
+          <p>数据交流与系统反馈
+            <ul>
+              <li>
+                QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>
+              </li>
+              <li>
+                个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
+              </li>
+            </ul>
+          </p>
+          <div class="SlickDotsSpace">
+          </div>
+        </div>
+        <div>
+          <h1>助攻日报</h1>
+          <p>
+            基于传说助攻的数据，以<strong>UTC+8 06:00至次日06:00</strong>为统计区间，每日刊发一期的助攻日报，记录当日各冲刺视频播放数及播放数变化情况。
+          </p>
+          <p>查看<a href="/sprint/daily">往期助攻日报</a></p>
+          <a-spin :spinning="isLoadingDaily">
+          <SprintDailyTable :sprintDailyList="sprintDailyList" :showPagi="false"/>
+          </a-spin>
+          <div class="SlickDotsSpace">
+          </div>
+        </div>
+        <!-- <div>
+          <h1>助攻推荐</h1>
+          <div class="SlickDotsSpace">
+          </div>
+        </div>
+        <div>
+          <h1>助攻推荐</h1>
+          <div class="SlickDotsSpace">
+          </div>
+        </div>
+        <div>
+          <h1>助攻推荐</h1>
+          <div class="SlickDotsSpace">
+          </div>
+        </div> -->
+      </a-carousel>
     </div>
     <div class="section-seperator"></div>
     <div class="section-block" :style="sectionBlockStyle">
@@ -96,17 +118,19 @@
 <script>
 import SprintVideoBrief from "./SprintVideoBrief.vue";
 import SprintDailyTable from "./SprintDailyTable.vue";
+//import SprintPromotionTable from './SprintPromotionTable.vue';
 
 export default {
   name: "SprintHome",
   components: {
     SprintVideoBrief,
-    SprintDailyTable
+    SprintDailyTable,
+    //SprintPromotionTable
   },
   data: function() {
     return {
       sectionBlockStyle: {
-        background: "#fff",
+        background: "#FFF",
         padding: "24px"
       },
       sprintVideoList: [],
@@ -123,7 +147,10 @@ export default {
       originalOptions: ['原创曲', '翻唱曲'],
       originalValues: ['原创曲', '翻唱曲'],
       sortByValue: 1,
-      sortOrderValue: 2
+      sortOrderValue: 2,
+      // mostViewedVideo: {},
+      // earliestCreatedVideo: {},
+      // randomSelectedVideo: {}
     };
   },
   computed: {
@@ -169,6 +196,43 @@ export default {
       return list
     }
   },
+  watch: {
+    // sprintVideoList: function() {
+    //   if (this.sprintVideoList.length > 0) {
+    //     var videos = this.sprintVideoList
+    //     var mostViewed = this.videos[0]
+    //     var mostViewedIndex = 0
+    //     var earliestCreated = this.videos[0]
+    //     var earliestCreatedIndex = 0
+    //     for (var i = 0; i < this.videos.length; i++) {
+    //       var video = this.videos[i]
+    //       if (video.latestVideoRecord.view > mostViewed.latestVideoRecord.view) {
+    //         mostViewed = video
+    //         mostViewedIndex = i
+    //       }
+    //       if (video.created < earliestCreated.created) {
+    //         earliestCreated = video
+    //         earliestCreatedIndex = i
+    //       }
+    //     }
+
+    //     // TODO
+    //     var randomSelected = this.videos[0]
+    //     var randomSelectedIndex = Math.floor(Math.random() * this.videos.length)
+    //     if (randomSelectedIndex != mostViewedIndex && randomSelectedIndex != earliestCreatedIndex) {
+    //       randomSelected = this.videos[randomSelectedIndex]
+    //     }
+
+    //     this.mostViewedVideo = mostViewed
+    //     this.earliestCreatedVideo = earliestCreated
+    //     this.randomSelectedVideo = randomSelected
+
+    //     console.log(mostViewed)
+    //     console.log(earliestCreated)
+    //     console.log(randomSelected)
+    //   }
+    // }
+  },
   methods: {
     containsSinger: function (singers) {
       var result = false
@@ -204,11 +268,6 @@ export default {
     fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php")
       .then(response => response.json())
       .then(json => this.sprintVideoList = json.data)
-      // .then(
-      //   () => this.sprintVideoList.sort(
-      //     (o1, o2) => o1.latestVideoRecord.view - o2.latestVideoRecord.view
-      //   )
-      // )
       .then(
         () => {
           this.singerOptions = []
@@ -227,7 +286,7 @@ export default {
       .then(response => response.json())
       .then(json => this.sprintFinishedVideoList = json.data)
       .then(() => this.isLoadingFinishedVideo = false)
-    fetch("http://api.bunnyxt.com/tdd/get_sprint_daily.php?limit=3")
+    fetch("http://api.bunnyxt.com/tdd/get_sprint_daily.php?limit=1")
       .then(response => response.json())
       .then(json => this.sprintDailyList = json.data)
       .then(() => this.isLoadingDaily = false)
@@ -238,3 +297,17 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.SlickDotsSpace {
+  height: 52px;
+}
+
+.ant-carousel >>> .slick-dots li button {
+  background: #364d79;
+}
+
+.ant-carousel >>> .slick-dots li.slick-active button {
+  background: #364d79;
+}
+</style>
