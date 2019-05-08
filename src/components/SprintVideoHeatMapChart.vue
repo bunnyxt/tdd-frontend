@@ -37,9 +37,14 @@ export default {
       var records = this.records
 
       var startTs = records[0].added
-      var endTs = records[records.length - 1].added
+      // var endTs = records[records.length - 1].added
 
-      var startWeekTs = (startTs + (60 * 60 * 24 * 4)) - startTs % (60 * 60 * 24 * 7) // modify week to Monday
+      var startWeekTs = startTs - (startTs % (60 * 60 * 24 * 7)) // modify week to Monday
+      if (startTs - startWeekTs >= (60 * 60 * 24 * 4)) {
+        startWeekTs += (60 * 60 * 24 * 4)
+      } else {
+        startWeekTs -= (60 * 60 * 24 * 3)
+      }
       startWeekTs -= (60 * 60 * 8) // UTC+8
       
       var p1 = 0
