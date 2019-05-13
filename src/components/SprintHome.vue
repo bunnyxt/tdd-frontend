@@ -39,21 +39,24 @@
           <div class="SlickDotsSpace">
           </div>
         </div>
-        <!-- <div>
+        <div>
           <h1>助攻推荐</h1>
+          <SprintVideoInfo :video="mostViewedVideo" :promotionReason="'最多播放'"/>
           <div class="SlickDotsSpace">
           </div>
         </div>
         <div>
           <h1>助攻推荐</h1>
+          <SprintVideoInfo :video="earliestCreatedVideo" :promotionReason="'最早投稿'"/>
           <div class="SlickDotsSpace">
           </div>
         </div>
         <div>
           <h1>助攻推荐</h1>
+          <SprintVideoInfo :video="randomSelectedVideo" :promotionReason="'随机推荐'"/>
           <div class="SlickDotsSpace">
           </div>
-        </div> -->
+        </div>
       </a-carousel>
     </div>
     <div class="section-seperator"></div>
@@ -118,14 +121,14 @@
 <script>
 import SprintVideoBrief from "./SprintVideoBrief.vue";
 import SprintDailyTable from "./SprintDailyTable.vue";
-//import SprintPromotionTable from './SprintPromotionTable.vue';
+import SprintVideoInfo from './SprintVideoInfo.vue';
 
 export default {
   name: "SprintHome",
   components: {
     SprintVideoBrief,
     SprintDailyTable,
-    //SprintPromotionTable
+    SprintVideoInfo
   },
   data: function() {
     return {
@@ -148,9 +151,9 @@ export default {
       originalValues: ['原创曲', '翻唱曲'],
       sortByValue: 1,
       sortOrderValue: 2,
-      // mostViewedVideo: {},
-      // earliestCreatedVideo: {},
-      // randomSelectedVideo: {}
+      mostViewedVideo: {},
+      earliestCreatedVideo: {},
+      randomSelectedVideo: {}
     };
   },
   computed: {
@@ -197,41 +200,39 @@ export default {
     }
   },
   watch: {
-    // sprintVideoList: function() {
-    //   if (this.sprintVideoList.length > 0) {
-    //     var videos = this.sprintVideoList
-    //     var mostViewed = this.videos[0]
-    //     var mostViewedIndex = 0
-    //     var earliestCreated = this.videos[0]
-    //     var earliestCreatedIndex = 0
-    //     for (var i = 0; i < this.videos.length; i++) {
-    //       var video = this.videos[i]
-    //       if (video.latestVideoRecord.view > mostViewed.latestVideoRecord.view) {
-    //         mostViewed = video
-    //         mostViewedIndex = i
-    //       }
-    //       if (video.created < earliestCreated.created) {
-    //         earliestCreated = video
-    //         earliestCreatedIndex = i
-    //       }
-    //     }
+    sprintVideoList: function() {
+      if (this.sprintVideoList.length > 0) {
+        var videos = this.sprintVideoList
+        var mostViewed = videos[0]
+        var mostViewedIndex = 0
+        var earliestCreated = videos[0]
+        var earliestCreatedIndex = 0
+        for (var i = 0; i < videos.length; i++) {
+          var video = videos[i]
+          if (video.latestVideoRecord.view > mostViewed.latestVideoRecord.view) {
+            mostViewed = video
+            mostViewedIndex = i
+          }
+          if (video.created < earliestCreated.created) {
+            earliestCreated = video
+            earliestCreatedIndex = i
+          }
+        }
 
-    //     // TODO
-    //     var randomSelected = this.videos[0]
-    //     var randomSelectedIndex = Math.floor(Math.random() * this.videos.length)
-    //     if (randomSelectedIndex != mostViewedIndex && randomSelectedIndex != earliestCreatedIndex) {
-    //       randomSelected = this.videos[randomSelectedIndex]
-    //     }
+        var randomIndexes = new Array()
+        for (var i = 0; i < videos.length; i++) {
+          if (i != mostViewedIndex && i != earliestCreatedIndex) {
+            randomIndexes.push(i)
+          }
+        }
+        var randomSelectedIndex = Math.floor(Math.random() * randomIndexes.length)
+        var randomSelected = videos[randomSelectedIndex]
 
-    //     this.mostViewedVideo = mostViewed
-    //     this.earliestCreatedVideo = earliestCreated
-    //     this.randomSelectedVideo = randomSelected
-
-    //     console.log(mostViewed)
-    //     console.log(earliestCreated)
-    //     console.log(randomSelected)
-    //   }
-    // }
+        this.mostViewedVideo = mostViewed
+        this.earliestCreatedVideo = earliestCreated
+        this.randomSelectedVideo = randomSelected
+      }
+    }
   },
   methods: {
     containsSinger: function (singers) {
