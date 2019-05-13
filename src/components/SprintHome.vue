@@ -41,34 +41,19 @@
         </div>
         <div>
           <h1>助攻推荐</h1>
-          <a-row :gutter="16">
-            <a-col :xs="24" :sm="8" >
-              <a-card
-                hoverable
-                style="width: 100%"
-              >
-                <img
-                  :src="mostViewedVideo.pic"
-                  slot="cover"
-                />
-                <template class="ant-card-actions" slot="actions">
-                  <a-icon type="setting" />
-                  <a-icon type="edit" />
-                  <a-icon type="ellipsis" />
-                </template>
-                <a-card-meta
-                  title="Card title"
-                  description="This is the description">
-                </a-card-meta>
-              </a-card>
-            </a-col>
-            <a-col :xs="24" :sm="8">
-              <img :src="earliestCreatedVideo.pic" style="width:100%"/>
-            </a-col>
-            <a-col :xs="24" :sm="8">
-              <img :src="randomSelectedVideo.pic" style="width:100%"/>
-            </a-col>
-          </a-row>
+          <SprintVideoInfo :video="mostViewedVideo" :promotionReason="'最多播放'"/>
+          <div class="SlickDotsSpace">
+          </div>
+        </div>
+        <div>
+          <h1>助攻推荐</h1>
+          <SprintVideoInfo :video="earliestCreatedVideo" :promotionReason="'最早投稿'"/>
+          <div class="SlickDotsSpace">
+          </div>
+        </div>
+        <div>
+          <h1>助攻推荐</h1>
+          <SprintVideoInfo :video="randomSelectedVideo" :promotionReason="'随机推荐'"/>
           <div class="SlickDotsSpace">
           </div>
         </div>
@@ -136,12 +121,14 @@
 <script>
 import SprintVideoBrief from "./SprintVideoBrief.vue";
 import SprintDailyTable from "./SprintDailyTable.vue";
+import SprintVideoInfo from './SprintVideoInfo.vue';
 
 export default {
   name: "SprintHome",
   components: {
     SprintVideoBrief,
     SprintDailyTable,
+    SprintVideoInfo
   },
   data: function() {
     return {
