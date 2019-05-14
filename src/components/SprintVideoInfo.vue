@@ -15,6 +15,11 @@
             <div v-if="promotionReason != null">
               <p>推荐理由：{{ promotionReason }}</p>
             </div>
+            <div v-if="records != null">
+              <p>昨日增速：{{ daySpeed }}</p>
+              <p>已用时间：{{ passedTime }}日</p>
+              <p>还需时间：{{ needTime }}日</p>
+            </div>
           </div>
         </a-list-item-meta>
         <img slot="extra" width="200" alt="pic" :src="item.pic" style="margin-bottom:12px"/>
@@ -28,11 +33,53 @@ export default {
   name: "SprintVideoInfo",
   props: {
     video: Object,
-    promotionReason: String
+    promotionReason: String,
+    records: Array
   },
   data: function() {
     return {
 
+    }
+  },
+  computed: {
+    latestUpdateTime: function() {
+      return this.video.latestVideoRecord.added
+    },
+    passedTime: function() {
+      return parseInt((this.latestUpdateTime - this.video.created) / (60 * 60 * 24))
+    },
+    daySpeed: function() {
+      var ts2 = this.latestUpdateTime - this.latestUpdateTime % (60 * 60 * 24) - (60 * 60 * 8) // UTC+8
+      if ((this.latestUpdateTime - (60 * 60 * 8) % (60 * 60 * 24)) > (60 * 60 * 6)) { // UTC+8
+        ts2 += (60 * 60 * 6)
+      } else {
+        ts2 -= (60 * 60 * 18)
+      }
+      var ts1 = ts2 - (60 * 60 * 24)
+      var v2 = 0
+      var v1 = this.records[0].view
+      var flag = false
+      for (var i = this.records.length - 1; i >= 0; i--){
+        var added = this.records[i].added
+        var view = this.records[i].view
+        if (flag == false) {
+          if (added < ts2) {
+            flag = true
+          } else {
+            v2 = view
+          }
+        } else {
+          if (added < ts1) {
+            break;
+          } else {
+            v1 = view
+          }
+        }
+      }
+      return v2 - v1
+    },
+    needTime: function() {
+      return parseInt((1000000 - this.video.latestVideoRecord.view) / this.daySpeed)
     }
   },
   methods: {

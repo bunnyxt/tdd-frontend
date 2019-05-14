@@ -15,17 +15,8 @@
     <div v-else>
       <div v-if="video.aid != '-1'">
         <div class="section-block" :style="sectionBlockStyle">
-          <p><img :src="video.pic" width="200px"/></p>
-          <h3>{{ video.title }}</h3>
-          <p>UP：<a :href="'https://space.bilibili.com/' + member.mid" target="_blank">{{ member.name }}</a></p>
-          <p>UP头像：<img :src="member.face" width="24"/></p>
-          <p>投稿时间：{{ formatDate(video.created) }}</p>
           <a-spin :spinning="isLoadingRecords">
-            <p>数据最后更新时间：{{ latestUpdateTimeString }}</p>
-            <p>当前播放：{{ latestView }}</p>
-            <p>昨日增速：{{ daySpeed }}</p>
-            <p>已用时间：{{ passedTime }}日</p>
-            <p>还需时间：{{ needTime }}日</p>
+            <SprintVideoInfo :video="video" :records="records"/>
           </a-spin>
         </div>
         <div class="section-seperator"></div>
@@ -54,12 +45,14 @@
 <script>
 import SprintVideoMainChart from "./SprintVideoMainChart.vue";
 import SprintVideoHeatMapChart from "./SprintVideoHeatMapChart.vue";
+import SprintVideoInfo from './SprintVideoInfo.vue';
 
 export default {
   name: "SprintVideoDetail", 
   components: {
     SprintVideoMainChart,
-    SprintVideoHeatMapChart
+    SprintVideoHeatMapChart,
+    SprintVideoInfo
   },
   data: function() {
     return {
@@ -86,60 +79,6 @@ export default {
       },
       isLoadingVideo: false,
       isLoadingRecords: false
-    }
-  },
-  computed: {
-    latestUpdateTime: function() {
-      return this.records[this.records.length - 1].added
-    },
-    latestUpdateTimeString: function() {
-      return this.formatDate(this.latestUpdateTime)
-    },
-    latestView: function() {
-      return this.records[this.records.length - 1].view
-    },
-    passedTime: function() {
-      return parseInt((this.latestUpdateTime - this.video.created) / (60 * 60 * 24))
-    },
-    daySpeed: function() {
-      var ts2 = this.latestUpdateTime - this.latestUpdateTime % (60 * 60 * 24) - (60 * 60 * 8) // UTC+8
-      if ((this.latestUpdateTime - (60 * 60 * 8) % (60 * 60 * 24)) > (60 * 60 * 6)) { // UTC+8
-        ts2 += (60 * 60 * 6)
-      } else {
-        ts2 -= (60 * 60 * 18)
-      }
-      var ts1 = ts2 - (60 * 60 * 24)
-      var v2 = 0
-      var v1 = this.records[0].view
-      var flag = false
-      for (var i = this.records.length - 1; i >= 0; i--){
-        var added = this.records[i].added
-        var view = this.records[i].view
-        if (flag == false) {
-          if (added < ts2) {
-            flag = true
-          } else {
-            v2 = view
-          }
-        } else {
-          if (added < ts1) {
-            break;
-          } else {
-            v1 = view
-          }
-        }
-      }
-      return v2 - v1
-    },
-    needTime: function() {
-      return parseInt((1000000 - this.latestView) / this.daySpeed)
-    }
-  },
-  watch: {
-    video: function (newVideo, oldVideo) {
-      fetch("http://api.bunnyxt.com/tdd/get_member.php?mid=" + newVideo.mid)
-        .then(response => response.json())
-        .then(json => this.member = json.data[0])
     }
   },
   methods: {
