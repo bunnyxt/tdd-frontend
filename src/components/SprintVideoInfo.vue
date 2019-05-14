@@ -6,9 +6,9 @@
     >
       <a-list-item slot="renderItem" slot-scope="item" key="item.id">
         <a-list-item-meta>
-          <a slot="title" :href="'/sprint/av'+item.aid"><h3>{{ item.title }}</h3></a>
+          <h3 slot="title" style="margin-bottom: 24px">{{ item.title }}</h3>
           <div slot="description">
-            <p><a-avatar size="small" :src="item.face" style="margin-right:12px"/>{{ item.name }}</p>
+            <p><a-avatar size="small" :src="item.face" style="margin-right:12px"/><a :href="'https://space.bilibili.com/'+item.mid" target="_blank">{{ item.name }}</a></p>
             <p>投稿时间：{{ formatDate(item.created) }}</p>
             <p>最后更新时间：{{ formatDate(item.latestVideoRecord.added) }}</p>
             <p>当前播放：{{ item.latestVideoRecord.view }}</p>
@@ -22,7 +22,17 @@
             </div>
           </div>
         </a-list-item-meta>
-        <img slot="extra" width="200" alt="pic" :src="item.pic" style="margin-bottom:12px"/>
+        <a-card
+          hoverable 
+          style="margin: 0px 0px 12px 0px; width:200px"
+          slot="extra"
+        >
+          <img slot="cover" width="198" height="124" alt="pic" :src="item.pic" @click="handleLineChartClick"/>
+          <template class="ant-card-actions" slot="actions">
+            <a-icon type="play-circle" title="立刻助攻" @click="handlePlayCircleClick"/>
+            <a-icon type="line-chart" title="查看详情" @click="handleLineChartClick"/>
+          </template>
+        </a-card>
       </a-list-item>
     </a-list>
   </div>
@@ -93,6 +103,12 @@ export default {
         (date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()) + ":" + 
         (date.getSeconds()<10?"0"+date.getSeconds():date.getSeconds())
       )
+    },
+    handlePlayCircleClick: function() {
+      window.open('https://www.bilibili.com/video/av' + this.video.aid);
+    },
+    handleLineChartClick: function() {
+      this.$router.push("/sprint/av" + this.video.aid);
     }
   }
 }
