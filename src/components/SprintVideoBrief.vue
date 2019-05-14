@@ -11,6 +11,7 @@
       :height="imgHeight"
       slot="cover"
       @load="initImg"
+      @click="handleLineChartClick"
     >
     <a-card-meta>
       <template slot="title">
