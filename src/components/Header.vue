@@ -1,7 +1,7 @@
 <template>
   <a-layout-header :style="{padding: headerPadding}">
     <div style="float:left; margin: 0px 20px">
-      <a @click="handleLogoClick">
+      <a href="/">
         <img src="/logo_32S.png">
       </a>
     </div>
@@ -24,9 +24,6 @@ export default {
     headerPadding: String
   },
   methods: {
-    handleLogoClick() {
-      this.$router.push("/");
-    },
     handleMenuClick(e) {
       switch (e.key) {
         case "1":
@@ -44,4 +41,7 @@ export default {
 </script>
 
 <style>
+.ant-menu.ant-menu-dark .ant-menu-item-selected {
+  background-color: #001529;
+}
 </style>
