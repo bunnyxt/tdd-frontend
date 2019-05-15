@@ -95,7 +95,7 @@ export default {
     }
   },
   watch: {
-    records: function (newRecords, oldRecords) {
+    records: function (newRecords) {
       var arr = new Array()
       newRecords.forEach(v => arr.push([v.added * 1000, v.view]))
       this.series = [{
