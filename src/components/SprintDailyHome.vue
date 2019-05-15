@@ -25,19 +25,19 @@
     <div class="section-block" :style="sectionBlockStyle">
       <h1>往期助攻日报</h1>
       <a-spin :spinning="isLoadingDaily">
-        <SprintVideoTable :sprintDailyList="sprintDailyList" :showPagi="true"/>
+        <SprintDailyTable :sprintDailyList="sprintDailyList" :showPagi="true"/>
       </a-spin>
     </div>
   </div>
 </template>
 
 <script>
-import SprintVideoTable from "./SprintDailyTable.vue"
+import SprintDailyTable from "./SprintDailyTable.vue"
 
 export default {
   name: "SprintDailyHome",
   components: {
-    SprintVideoTable
+    SprintDailyTable
   },
   data: function() {
     return {
