@@ -23,6 +23,11 @@
     </div>
     <div class="section-seperator"></div>
     <div class="section-block" :style="sectionBlockStyle">
+      <h1>助攻趋势</h1>
+      <SprintDailyChart :sprintDailyList="sprintDailyList"/>
+    </div>
+    <div class="section-seperator"></div>
+    <div class="section-block" :style="sectionBlockStyle">
       <h1>往期助攻日报</h1>
       <a-spin :spinning="isLoadingDaily">
         <SprintDailyTable :sprintDailyList="sprintDailyList" :showPagi="true"/>
@@ -33,11 +38,13 @@
 
 <script>
 import SprintDailyTable from "./SprintDailyTable.vue"
+import SprintDailyChart from "./SprintDailyChart.vue"
 
 export default {
   name: "SprintDailyHome",
   components: {
-    SprintDailyTable
+    SprintDailyTable,
+    SprintDailyChart
   },
   data: function() {
     return {
