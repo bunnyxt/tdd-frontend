@@ -22,6 +22,7 @@ import { Collapse } from 'ant-design-vue'
 import { Radio } from 'ant-design-vue'
 import { Carousel } from 'ant-design-vue'
 import { Avatar } from 'ant-design-vue'
+import { Input } from 'ant-design-vue'
 
 // apex chart
 import VueApexCharts from 'vue-apexcharts'
@@ -50,6 +51,7 @@ Vue.use(Collapse)
 Vue.use(Radio)
 Vue.use(Carousel)
 Vue.use(Avatar)
+Vue.use(Input)
 
 // apex chart
 Vue.use(VueApexCharts)

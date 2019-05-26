@@ -13,6 +13,7 @@
     >
       <a-menu-item key="1">首页</a-menu-item>
       <a-menu-item key="2">传说助攻</a-menu-item>
+      <a-menu-item key="3">辅助工具</a-menu-item>
     </a-menu>
   </a-layout-header>
 </template>
@@ -31,6 +32,9 @@ export default {
           break;
         case "2":
           this.$router.push("/sprint");
+          break;
+        case "3":
+          this.$router.push("/tool");
           break;
         default:
           break;
