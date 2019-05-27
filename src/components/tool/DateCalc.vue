@@ -8,8 +8,8 @@
     <div class="section-block" :style="sectionBlockStyle">
       <h1>耗时计算</h1>
       <p>输入起止时间，计算所消耗的时间长度，可用于计算曲目传说/殿堂耗时。</p>
-      <p>开始时间：<a-input placeholder="2013-01-31 19:29:40" v-model="startTimeString" style="width: 180px"></a-input></p>
-      <p>结束时间：<a-input :placeholder="nowTimeString" v-model="endTimeString" style="width: 180px"></a-input></p>
+      <p>开始时间：<a-input placeholder="yyyy-MM-dd HH:mm:ss" v-model="startTimeString" style="width: 180px"></a-input></p>
+      <p>结束时间：<a-input placeholder="yyyy-MM-dd HH:mm:ss" v-model="endTimeString" style="width: 180px"></a-input></p>
       <p>所耗时长：<a-input v-model="timePassed" style="width: 180px"></a-input></p>
     </div> 
   </div>
@@ -24,7 +24,6 @@ export default {
         background: "#FFF",
         padding: "24px"
       },
-      nowTimeString: "2013-01-31 19:29:40",
       startTimeString: "2013-01-31 19:29:40",
       endTimeString: "2013-01-31 19:29:40"
     }
@@ -34,7 +33,11 @@ export default {
       var startTime = new Date(this.startTimeString)
       var endTime = new Date(this.endTimeString)
       var ts = (endTime.valueOf() - startTime.valueOf()) / 1000
-      return this.tsToString(ts)
+      if (ts < 0) {
+        return "-"+this.tsToString(-ts)
+      } else {
+        return this.tsToString(ts)
+      }
     }
   },
   methods: {
@@ -66,7 +69,6 @@ export default {
   },
   mounted: function() {
     var nowTime = new Date()
-    this.nowTimeString = this.formatDate(nowTime)
     this.endTimeString = this.formatDate(nowTime)
   }
 }
