@@ -66,7 +66,6 @@ export default {
   },
   watch: {
     sprintDailyList: function(newSprintDailyList) {
-      console.log(newSprintDailyList)
       var arr = new Array()
       for (var i = 0; i < newSprintDailyList.length; i++) {
         if (newSprintDailyList[i].correct == 1) {
@@ -77,7 +76,6 @@ export default {
         name: "播放增长",
         data: arr
       }]
-      console.log(this.series)
     }
   },
   methods: {
