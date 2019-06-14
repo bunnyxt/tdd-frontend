@@ -270,6 +270,24 @@ export default {
               },
               text: '+非人哉',
             }
+          },{
+            x: new Date('2019-06-14').valueOf(),
+            y: 6379,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'lightgreen',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#00E396',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#00E396',
+              },
+              text: '-夜间出租车',
+            }
           },]
         },
         chart: {
