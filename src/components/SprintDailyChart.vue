@@ -288,6 +288,24 @@ export default {
               },
               text: '-夜间出租车',
             }
+          },{
+            x: new Date('2019-06-16').valueOf(),
+            y: 10245,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'red',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#FF4560',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#FF4560',
+              },
+              text: '+大小姐的复仇生涯',
+            }
           },]
         },
         chart: {
