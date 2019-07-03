@@ -30,8 +30,8 @@ export default {
   },
   computed: {
     timePassed: function() {
-      var startTime = new Date(this.startTimeString)
-      var endTime = new Date(this.endTimeString)
+      var startTime = new Date(this.startTimeString.replace(/-/g, '/'))
+      var endTime = new Date(this.endTimeString.replace(/-/g, '/'))
       var ts = (endTime.valueOf() - startTime.valueOf()) / 1000
       if (ts < 0) {
         return "-"+this.tsToString(-ts)
