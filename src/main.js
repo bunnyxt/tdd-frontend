@@ -23,6 +23,7 @@ import { Radio } from 'ant-design-vue'
 import { Carousel } from 'ant-design-vue'
 import { Avatar } from 'ant-design-vue'
 import { Input } from 'ant-design-vue'
+import { Switch } from 'ant-design-vue'
 
 // apex chart
 import VueApexCharts from 'vue-apexcharts'
@@ -52,6 +53,7 @@ Vue.use(Radio)
 Vue.use(Carousel)
 Vue.use(Avatar)
 Vue.use(Input)
+Vue.use(Switch)
 
 // apex chart
 Vue.use(VueApexCharts)

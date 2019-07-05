@@ -16,6 +16,8 @@
       <p>结束时间：
         <a-input placeholder="yyyy-MM-dd HH:mm:ss" v-model="endTimeString" style="width: 180px"></a-input>
         <a-button type="default" style="margin-left: 12px" @click="refreshEndTime">刷新</a-button>
+        <a-switch style="margin-left: 12px" :checked="needAutoRefresh" @change='onAutoRefreshSwitchChange'/>
+        <span style="margin-left: 12px">自动刷新</span>
       </p>
       <p>所耗时长：
         <a-input v-model="timePassed" style="width: 180px"></a-input>
@@ -25,6 +27,7 @@
 </template>
 
 <script>
+import { setInterval, clearInterval } from 'timers';
 export default {
   name: "DateCalc",
   data: function() {
@@ -37,6 +40,8 @@ export default {
       endTimeString: "2013-01-31 19:29:40",
       aidString: "",
       createdTimeMessage: "",
+      needAutoRefresh: true,
+      autoRefreshTimer: {},
       isGettingCreatedTs: false
     }
   },
@@ -101,10 +106,20 @@ export default {
           }
         })
       this.isGettingCreatedTs = false
+    },
+    onAutoRefreshSwitchChange: function() {
+      this.needAutoRefresh = !this.needAutoRefresh;
+      if (this.needAutoRefresh) {
+        this.refreshEndTime()
+        this.autoRefreshTimer = setInterval(this.refreshEndTime, 1000)
+      } else {
+        clearInterval(this.autoRefreshTimer)
+      }
     }
   },
   mounted: function() {
     this.refreshEndTime()
+    this.autoRefreshTimer = setInterval(this.refreshEndTime, 1000)
   }
 }
 </script>
