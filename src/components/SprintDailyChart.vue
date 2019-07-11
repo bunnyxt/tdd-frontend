@@ -306,6 +306,24 @@ export default {
               },
               text: '+大小姐的复仇生涯',
             }
+          },{
+            x: new Date('2019-07-08').valueOf(),
+            y: 9067,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'lightgreen',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#00E396',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#00E396',
+              },
+              text: '-七重痼病',
+            }
           },]
         },
         chart: {
