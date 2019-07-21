@@ -266,7 +266,7 @@ export default {
     this.isLoadingVideo = true
     this.isLoadingFinishedVideo = true
     this.isLoadingDaily = true
-    fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php")
+    fetch(this.$store.state.apiBase + "get_sprint_video.php")
       .then(response => response.json())
       .then(json => this.sprintVideoList = json.data)
       .then(
@@ -283,11 +283,11 @@ export default {
         }
       )
       .then(() => this.isLoadingVideo = false)
-    fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php?status=finished")
+    fetch(this.$store.state.apiBase + "get_sprint_video.php?status=finished")
       .then(response => response.json())
       .then(json => this.sprintFinishedVideoList = json.data)
       .then(() => this.isLoadingFinishedVideo = false)
-    fetch("http://api.bunnyxt.com/tdd/get_sprint_daily.php?limit=1")
+    fetch(this.$store.state.apiBase + "get_sprint_daily.php?limit=1")
       .then(response => response.json())
       .then(json => this.sprintDailyList = json.data)
       .then(() => this.isLoadingDaily = false)

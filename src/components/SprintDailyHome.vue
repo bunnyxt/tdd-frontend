@@ -58,7 +58,7 @@ export default {
   },
   created: function() {
     this.isLoadingDaily = true
-    fetch("http://api.bunnyxt.com/tdd/get_sprint_daily.php")
+    fetch(this.$store.state.apiBase + "get_sprint_daily.php")
       .then(response => response.json())
       .then(json => this.sprintDailyList = json.data)
       .then(() => this.isLoadingDaily = false)

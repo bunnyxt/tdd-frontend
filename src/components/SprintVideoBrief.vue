@@ -63,7 +63,7 @@ export default {
     }
   },
   created: function() {
-    fetch("http://api.bunnyxt.com/tdd/get_member.php?mid=" + this.video.mid)
+    fetch(this.$store.state.apiBase + "get_member.php?mid=" + this.video.mid)
       .then(response => response.json())
       .then(json => this.member = json.data[0])
   }
