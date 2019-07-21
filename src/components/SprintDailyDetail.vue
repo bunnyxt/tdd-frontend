@@ -163,7 +163,7 @@ export default {
       this.isLoadingNewVids = true
       var nList = new Array()
       for (var i = 0; i < this.daily.newvids.length; i++) {
-        fetch(this.$store.state.apiBase + "get_sprint_video.php?aid="+this.daily.newvids[i])
+        fetch(this.$store.state.apiBase + "sprint_video.php?aid="+this.daily.newvids[i])
           .then(response => response.json())
           .then(json => nList.push(json.data[0]))
       }
@@ -173,7 +173,7 @@ export default {
       this.isLoadingMillVids = true
       var mList = new Array()
       for (var i = 0; i < this.daily.millvids.length; i++) {
-        fetch(this.$store.state.apiBase + "get_sprint_video.php?aid="+this.daily.millvids[i])
+        fetch(this.$store.state.apiBase + "sprint_video.php?aid="+this.daily.millvids[i])
           .then(response => response.json())
           .then(json => mList.push(json.data[0]))
       }
@@ -184,7 +184,7 @@ export default {
   created: function() {
     this.isLoadingDaily = true
     this.isLoadingRecords = true
-    fetch(this.$store.state.apiBase + "get_sprint_daily.php?date="+this.$route.params.date)
+    fetch(this.$store.state.apiBase + "sprint_daily.php?date="+this.$route.params.date)
       .then(response => response.json())
       .then(json => {
         if (json.data[0]) {
@@ -192,7 +192,7 @@ export default {
         }
       })
       .then(() => this.isLoadingDaily = false)
-    fetch(this.$store.state.apiBase + "get_sprint_daily_record.php?date="+this.$route.params.date)
+    fetch(this.$store.state.apiBase + "sprint_daily_record.php?date="+this.$route.params.date)
       .then(response => response.json())
       .then(json => {
         if (json.data) {

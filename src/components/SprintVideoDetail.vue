@@ -97,7 +97,7 @@ export default {
   created: function() {
     this.isLoadingVideo = true
     this.isLoadingRecords = true
-    fetch(this.$store.state.apiBase + "get_sprint_video.php?aid=" + this.$route.params.aid)
+    fetch(this.$store.state.apiBase + "sprint_video.php?aid=" + this.$route.params.aid)
       .then(response => response.json())
       .then(json => {
         if (json.data.length > 0){
@@ -105,7 +105,7 @@ export default {
         }
         this.isLoadingVideo = false
       })
-    fetch(this.$store.state.apiBase + "get_sprint_video_record.php?aid=" + this.$route.params.aid)
+    fetch(this.$store.state.apiBase + "sprint_video_record.php?aid=" + this.$route.params.aid)
       .then(response => response.json())
       .then(json => this.records = json.data)
       .then(() => this.isLoadingRecords = false)

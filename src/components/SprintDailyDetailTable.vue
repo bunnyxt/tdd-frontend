@@ -27,16 +27,16 @@ export default {
     return {
       columns: [{
         title: '封面',
-        dataIndex: 'pic',
+        dataIndex: 'sprint_video.pic',
         width: '120px',
         scopedSlots: { customRender: 'picRender' }
       }, {
         title: '标题',
-        dataIndex: 'title',
+        dataIndex: 'sprint_video.title',
         width: '40%'
       }, {
         title: 'UP主',
-        dataIndex: 'name'
+        dataIndex: 'sprint_video.member.name'
       }, {
         title: '播放数',
         dataIndex: 'view',

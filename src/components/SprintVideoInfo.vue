@@ -8,10 +8,10 @@
         <a-list-item-meta>
           <h3 slot="title" style="margin-bottom: 24px">{{ item.title }}</h3>
           <div slot="description">
-            <p><a-avatar size="small" :src="item.face" style="margin-right:12px"/><a :href="'https://space.bilibili.com/'+item.mid" target="_blank">{{ item.name }}</a></p>
+            <p><a-avatar size="small" :src="item.member.face" style="margin-right:12px"/><a :href="'https://space.bilibili.com/'+item.mid" target="_blank">{{ item.member.name }}</a></p>
             <p>投稿时间：{{ formatDate(item.created) }}</p>
-            <p>最后更新时间：{{ formatDate(item.latestVideoRecord.added) }}</p>
-            <p>当前播放：{{ item.latestVideoRecord.view }}</p>
+            <p>最后更新时间：{{ formatDate(item.last_record.added) }}</p>
+            <p>当前播放：{{ item.last_record.view }}</p>
             <div v-if="promotionReason != null">
               <p>推荐理由：{{ promotionReason }}</p>
             </div>
@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     latestUpdateTime: function() {
-      return this.video.latestVideoRecord.added
+      return this.video.last_record.added
     },
     passedTime: function() {
       return parseInt((this.latestUpdateTime - this.video.created) / (60 * 60 * 24))
@@ -89,7 +89,7 @@ export default {
       return v2 - v1
     },
     needTime: function() {
-      return parseInt((1000000 - this.video.latestVideoRecord.view) / this.daySpeed)
+      return parseInt((1000000 - this.video.last_record.view) / this.daySpeed)
     }
   },
   methods: {
