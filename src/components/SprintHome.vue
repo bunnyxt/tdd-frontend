@@ -174,11 +174,11 @@ export default {
         case 1:
           if (this.sortOrderValue == 1) {
             list.sort(
-              (o1, o2) => o1.latestVideoRecord.view - o2.latestVideoRecord.view
+              (o1, o2) => o1.last_record.view - o2.last_record.view
             )
           } else if (this.sortOrderValue == 2) {
             list.sort(
-              (o1, o2) => o2.latestVideoRecord.view - o1.latestVideoRecord.view
+              (o1, o2) => o2.last_record.view - o1.last_record.view
             )
           }
           break;
@@ -209,7 +209,7 @@ export default {
         var earliestCreatedIndex = 0
         for (var i = 0; i < videos.length; i++) {
           var video = videos[i]
-          if (video.latestVideoRecord.view > mostViewed.latestVideoRecord.view) {
+          if (video.last_record.view > mostViewed.last_record.view) {
             mostViewed = video
             mostViewedIndex = i
           }
@@ -266,7 +266,7 @@ export default {
     this.isLoadingVideo = true
     this.isLoadingFinishedVideo = true
     this.isLoadingDaily = true
-    fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php")
+    fetch(this.$store.state.apiBase + "sprint_video.php?status=processing")
       .then(response => response.json())
       .then(json => this.sprintVideoList = json.data)
       .then(
@@ -283,11 +283,11 @@ export default {
         }
       )
       .then(() => this.isLoadingVideo = false)
-    fetch("http://api.bunnyxt.com/tdd/get_sprint_video.php?status=finished")
+    fetch(this.$store.state.apiBase + "sprint_video.php?status=finished")
       .then(response => response.json())
       .then(json => this.sprintFinishedVideoList = json.data)
       .then(() => this.isLoadingFinishedVideo = false)
-    fetch("http://api.bunnyxt.com/tdd/get_sprint_daily.php?limit=1")
+    fetch(this.$store.state.apiBase + "sprint_daily.php?limit=1")
       .then(response => response.json())
       .then(json => this.sprintDailyList = json.data)
       .then(() => this.isLoadingDaily = false)

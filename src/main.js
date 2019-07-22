@@ -30,6 +30,9 @@ import VueApexCharts from 'vue-apexcharts'
 
 import router from "./router"
 
+// vuex
+import store from './store'
+
 Vue.config.productionTip = false
 
 // ant design component use
@@ -61,5 +64,6 @@ Vue.component('apexchart', VueApexCharts)
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

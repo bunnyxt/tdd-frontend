@@ -24,7 +24,7 @@
       </template>
       <template slot="description">
         UP主：{{ member.name }}<br/>
-        播放数：{{ video.latestVideoRecord.view }}
+        播放数：{{ video.last_record.view }}
       </template>
     </a-card-meta>
     <template class="ant-card-actions" slot="actions">
@@ -63,7 +63,7 @@ export default {
     }
   },
   created: function() {
-    fetch("http://api.bunnyxt.com/tdd/get_member.php?mid=" + this.video.mid)
+    fetch(this.$store.state.apiBase + "member.php?mid=" + this.video.mid)
       .then(response => response.json())
       .then(json => this.member = json.data[0])
   }
