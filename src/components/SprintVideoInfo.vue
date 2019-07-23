@@ -59,19 +59,19 @@ export default {
       return parseInt((this.latestUpdateTime - this.video.created) / (60 * 60 * 24))
     },
     daySpeed: function() {
-      var ts2 = this.latestUpdateTime - this.latestUpdateTime % (60 * 60 * 24) - (60 * 60 * 8) // UTC+8
+      let ts2 = this.latestUpdateTime - this.latestUpdateTime % (60 * 60 * 24) - (60 * 60 * 8) // UTC+8
       if ((this.latestUpdateTime - (60 * 60 * 8) % (60 * 60 * 24)) > (60 * 60 * 6)) { // UTC+8
         ts2 += (60 * 60 * 6)
       } else {
         ts2 -= (60 * 60 * 18)
       }
-      var ts1 = ts2 - (60 * 60 * 24)
-      var v2 = 0
-      var v1 = this.records[0].view
-      var flag = false
-      for (var i = this.records.length - 1; i >= 0; i--){
-        var added = this.records[i].added
-        var view = this.records[i].view
+      let ts1 = ts2 - (60 * 60 * 24)
+      let v2 = 0
+      let v1 = this.records[0].view
+      let flag = false
+      for (let i = this.records.length - 1; i >= 0; i--){
+        let added = this.records[i].added
+        let view = this.records[i].view
         if (flag == false) {
           if (added < ts2) {
             flag = true
@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     formatDate: function(ts) {
-      var date = new Date(ts * 1000)
+      let date = new Date(ts * 1000)
       return (
         date.getFullYear() + "-" + 
         (date.getMonth()+1) + "-" + 

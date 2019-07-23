@@ -51,8 +51,8 @@ export default {
   },
   methods: {
     initImg: function() {
-      var img = document.getElementById("video-pic-" + this.video.id)
-      var width = img.clientWidth
+      let img = document.getElementById("video-pic-" + this.video.id)
+      let width = img.clientWidth
       img.setAttribute('height', width / 1.6 + "px")
     },
     handlePlayCircleClick: function() {

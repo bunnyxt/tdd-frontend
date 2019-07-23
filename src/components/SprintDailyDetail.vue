@@ -103,8 +103,8 @@ export default {
   },
   computed: {
     dateStart: function() {
-      var date = this.$route.params.date
-      var d = new Date()
+      let date = this.$route.params.date
+      let d = new Date()
       d.setFullYear(date.substring(0, 4))
       d.setMonth(date.substring(4, 6) - 1)
       d.setDate(date.substring(6, 8))
@@ -112,13 +112,13 @@ export default {
       d.setMinutes(0)
       d.setSeconds(0)
       d.setMilliseconds(0)
-      var ts = d.valueOf() / 1000 - (60 * 60 * 24)
-      var d = new Date(ts * 1000)
+      let ts = d.valueOf() / 1000 - (60 * 60 * 24)
+      d = new Date(ts * 1000)
       return d.getFullYear() +"-"+ (d.getMonth()+1) +"-"+ d.getDate()
     },
     dateEnd: function() {
-      var date = this.$route.params.date
-      var d = new Date()
+      let date = this.$route.params.date
+      let d = new Date()
       d.setFullYear(date.substring(0, 4))
       d.setMonth(date.substring(4, 6) - 1)
       d.setDate(date.substring(6, 8))
@@ -129,8 +129,8 @@ export default {
       return d.getFullYear() +"-"+ (d.getMonth()+1) +"-"+ d.getDate()
     },
     lastDate: function() {
-      var date = this.$route.params.date
-      var d = new Date()
+      let date = this.$route.params.date
+      let d = new Date()
       d.setFullYear(date.substring(0, 4))
       d.setMonth(date.substring(4, 6) - 1)
       d.setDate(date.substring(6, 8))
@@ -138,13 +138,13 @@ export default {
       d.setMinutes(0)
       d.setSeconds(0)
       d.setMilliseconds(0)
-      var ts = d.valueOf() / 1000 - (60 * 60 * 24)
-      var d = new Date(ts * 1000)
+      let ts = d.valueOf() / 1000 - (60 * 60 * 24)
+      d = new Date(ts * 1000)
       return "" + d.getFullYear() + ((d.getMonth()+1) < 10 ? '0'+(d.getMonth()+1):(d.getMonth()+1)) + (d.getDate() < 10 ? '0'+d.getDate():d.getDate())
     },
     nextDate: function() {
-      var date = this.$route.params.date
-      var d = new Date()
+      let date = this.$route.params.date
+      let d = new Date()
       d.setFullYear(date.substring(0, 4))
       d.setMonth(date.substring(4, 6) - 1)
       d.setDate(date.substring(6, 8))
@@ -152,17 +152,17 @@ export default {
       d.setMinutes(0)
       d.setSeconds(0)
       d.setMilliseconds(0)
-      var ts = d.valueOf() / 1000 + (60 * 60 * 24)
-      var d = new Date(ts * 1000)
+      let ts = d.valueOf() / 1000 + (60 * 60 * 24)
+      d = new Date(ts * 1000)
       return "" + d.getFullYear() + ((d.getMonth()+1) < 10 ? '0'+(d.getMonth()+1):(d.getMonth()+1)) + (d.getDate() < 10 ? '0'+d.getDate():d.getDate())
     }
   },
   watch: {
-    daily: function(oldDaily, newDaily) {
+    daily: function() {
       // TODO async error may occor here
       this.isLoadingNewVids = true
-      var nList = new Array()
-      for (var i = 0; i < this.daily.newvids.length; i++) {
+      let nList = new Array()
+      for (let i = 0; i < this.daily.newvids.length; i++) {
         fetch(this.$store.state.apiBase + "sprint_video.php?aid="+this.daily.newvids[i])
           .then(response => response.json())
           .then(json => nList.push(json.data[0]))
@@ -171,8 +171,8 @@ export default {
       this.isLoadingNewVids = false
 
       this.isLoadingMillVids = true
-      var mList = new Array()
-      for (var i = 0; i < this.daily.millvids.length; i++) {
+      let mList = new Array()
+      for (let i = 0; i < this.daily.millvids.length; i++) {
         fetch(this.$store.state.apiBase + "sprint_video.php?aid="+this.daily.millvids[i])
           .then(response => response.json())
           .then(json => mList.push(json.data[0]))

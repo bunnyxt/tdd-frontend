@@ -324,7 +324,7 @@ export default {
               },
               text: '-七重痼病',
             }
-          },,{
+          },{
             x: new Date('2019-07-16').valueOf(),
             y: 6388,
             marker: {
@@ -342,7 +342,7 @@ export default {
               },
               text: '-前尘如梦',
             }
-          },]
+          }]
         },
         chart: {
           toolbar: {
@@ -393,8 +393,8 @@ export default {
   },
   watch: {
     sprintDailyList: function(newSprintDailyList) {
-      var arr = new Array()
-      for (var i = 0; i < newSprintDailyList.length; i++) {
+      let arr = new Array()
+      for (let i = 0; i < newSprintDailyList.length; i++) {
         if (newSprintDailyList[i].correct == 1) {
           arr.push([this.dailyDateToTs(newSprintDailyList[i].date+''), newSprintDailyList[i].viewincr])
         }
@@ -407,7 +407,7 @@ export default {
   },
   methods: {
     dailyDateToTs: function(dailyDate) {
-      var date = new Date(dailyDate.substring(0, 4)+'-'+dailyDate.substring(4, 6)+'-'+dailyDate.substring(6, 8))
+      let date = new Date(dailyDate.substring(0, 4)+'-'+dailyDate.substring(4, 6)+'-'+dailyDate.substring(6, 8))
       return date.valueOf()
     }
   }

@@ -96,7 +96,7 @@ export default {
   },
   watch: {
     records: function (newRecords) {
-      var arr = new Array()
+      let arr = new Array()
       newRecords.forEach(v => arr.push([v.added * 1000, v.view]))
       this.series = [{
         name: "播放",
@@ -164,7 +164,7 @@ export default {
         }
       }}
     }
-    var that = this;
+    let that = this;
     window.addEventListener('resize',() => {
       if (document.body.clientWidth <= 576){
         that.chartOptions = {...this.chartOptions, ...{
@@ -187,6 +187,7 @@ export default {
   },
 };
 
+/*
 var resetCssClasses = function (activeEl) {
       var els = document.querySelectorAll("button");
       Array.prototype.forEach.call(els, function (el) {
@@ -195,5 +196,6 @@ var resetCssClasses = function (activeEl) {
 
       activeEl.target.classList.add('active')
     }
+ */
 
 </script>

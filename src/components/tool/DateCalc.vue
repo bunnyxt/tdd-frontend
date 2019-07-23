@@ -47,9 +47,9 @@ export default {
   },
   computed: {
     timePassed: function() {
-      var startTime = new Date(this.startTimeString.replace(/-/g, '/'))
-      var endTime = new Date(this.endTimeString.replace(/-/g, '/'))
-      var ts = (endTime.valueOf() - startTime.valueOf()) / 1000
+      let startTime = new Date(this.startTimeString.replace(/-/g, '/'))
+      let endTime = new Date(this.endTimeString.replace(/-/g, '/'))
+      let ts = (endTime.valueOf() - startTime.valueOf()) / 1000
       if (ts < 0) {
         return "-"+this.tsToString(-ts)
       } else {
@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     formatDate: function(date) {
-      var str = ""
+      let str = ""
       str += date.getFullYear()
       str += "-"
       str += this.addZero(date.getMonth()+1)
@@ -77,14 +77,14 @@ export default {
       return value < 10 ? "0"+value : ""+value
     },
     tsToString: function(ts) {
-      var day = parseInt(ts / (60 * 60 * 24))
-      var hour = parseInt((ts - day * (60 * 60 * 24)) / (60 * 60))
-      var minute = parseInt((ts - day * (60 * 60 * 24) - hour * (60 * 60)) / 60)
-      var second = parseInt(ts - day * (60 * 60 * 24) - hour * (60 * 60) - minute * 60)
+      let day = parseInt(ts / (60 * 60 * 24))
+      let hour = parseInt((ts - day * (60 * 60 * 24)) / (60 * 60))
+      let minute = parseInt((ts - day * (60 * 60 * 24) - hour * (60 * 60)) / 60)
+      let second = parseInt(ts - day * (60 * 60 * 24) - hour * (60 * 60) - minute * 60)
       return day+"日"+this.addZero(hour)+"时"+this.addZero(minute)+"分"+this.addZero(second)+"秒"
     },
     refreshEndTime: function() {
-      var nowTime = new Date()
+      let nowTime = new Date()
       this.endTimeString = this.formatDate(nowTime)
     },
     getCreatedTs: function() {
@@ -93,9 +93,10 @@ export default {
       fetch("http://api.bunnyxt.com/tdd/bapi_view.php?aid=" + this.aidString)
         .then(response => response.json())
         .then(json => {
+          let date
           switch (json.code) {
             case 0:
-              var date = new Date()
+              date = new Date()
               date.setTime(json.data.pubdate * 1000)
               this.startTimeString = this.formatDate(date)
               this.createdTimeMessage = json.data.title

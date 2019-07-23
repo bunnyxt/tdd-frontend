@@ -158,9 +158,9 @@ export default {
   },
   computed: {
     sprintVideoListFiltered: function() {
-      var list = []
+      let list = []
       // filter
-      for (var i = 0; i < this.sprintVideoList.length; i++) {
+      for (let i = 0; i < this.sprintVideoList.length; i++) {
         if (this.containsSinger(this.sprintVideoList[i].singer)) { // singer filter
           if (this.satisfySolo(this.sprintVideoList[i].solo)) { // solo filter
             if (this.satisfyOriginal(this.sprintVideoList[i].original)) { // original filter
@@ -202,13 +202,13 @@ export default {
   watch: {
     sprintVideoList: function() {
       if (this.sprintVideoList.length > 0) {
-        var videos = this.sprintVideoList
-        var mostViewed = videos[0]
-        var mostViewedIndex = 0
-        var earliestCreated = videos[0]
-        var earliestCreatedIndex = 0
-        for (var i = 0; i < videos.length; i++) {
-          var video = videos[i]
+        let videos = this.sprintVideoList
+        let mostViewed = videos[0]
+        let mostViewedIndex = 0
+        let earliestCreated = videos[0]
+        let earliestCreatedIndex = 0
+        for (let i = 0; i < videos.length; i++) {
+          let video = videos[i]
           if (video.last_record.view > mostViewed.last_record.view) {
             mostViewed = video
             mostViewedIndex = i
@@ -219,14 +219,14 @@ export default {
           }
         }
 
-        var randomIndexes = new Array()
-        for (var i = 0; i < videos.length; i++) {
+        let randomIndexes = new Array()
+        for (let i = 0; i < videos.length; i++) {
           if (i != mostViewedIndex && i != earliestCreatedIndex) {
             randomIndexes.push(i)
           }
         }
-        var randomSelectedIndex = Math.floor(Math.random() * randomIndexes.length)
-        var randomSelected = videos[randomSelectedIndex]
+        let randomSelectedIndex = Math.floor(Math.random() * randomIndexes.length)
+        let randomSelected = videos[randomSelectedIndex]
 
         this.mostViewedVideo = mostViewed
         this.earliestCreatedVideo = earliestCreated
@@ -236,8 +236,8 @@ export default {
   },
   methods: {
     containsSinger: function (singers) {
-      var result = false
-      for (var i = 0; i < singers.length; i++) {
+      let result = false
+      for (let i = 0; i < singers.length; i++) {
         if (this.singerValues.indexOf(singers[i]) > -1) {
           result = true
           break
@@ -246,16 +246,16 @@ export default {
       return result
     },
     satisfySolo: function (solo) {
-      var result = false
-      var option = solo == 1 ? '独唱' : '合唱'
+      let result = false
+      let option = solo == 1 ? '独唱' : '合唱'
       if (this.soloValues.indexOf(option) > -1) {
         result = true
       }
       return result
     },
     satisfyOriginal: function (original) {
-      var result = false
-      var option = original == 1 ? '原创曲' : '翻唱曲'
+      let result = false
+      let option = original == 1 ? '原创曲' : '翻唱曲'
       if (this.originalValues.indexOf(option) > -1) {
         result = true
       }
@@ -272,8 +272,8 @@ export default {
       .then(
         () => {
           this.singerOptions = []
-          for (var i = 0; i < this.sprintVideoList.length; i++) {
-            for (var j = 0; j < this.sprintVideoList[i].singer.length; j++) {
+          for (let i = 0; i < this.sprintVideoList.length; i++) {
+            for (let j = 0; j < this.sprintVideoList[i].singer.length; j++) {
               if (this.singerOptions.indexOf(this.sprintVideoList[i].singer[j]) == -1) {
                 this.singerOptions.push(this.sprintVideoList[i].singer[j])
               }
@@ -293,7 +293,7 @@ export default {
       .then(() => this.isLoadingDaily = false)
   },
   mounted: function(){
-    var that = this;
+    let that = this;
     window.addEventListener('resize',() => that.sprintVideoImgHeight = `${document.getElementsByClassName("sprint-video-card").item(0).clientWidth / 1.6}px`,false);
   }
 };
