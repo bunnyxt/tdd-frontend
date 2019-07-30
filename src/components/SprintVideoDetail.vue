@@ -6,7 +6,7 @@
       <a-breadcrumb-item><a :href="'/sprint/av'+this.$route.params.aid">{{ video.title }}</a></a-breadcrumb-item>
     </a-breadcrumb>
     <div v-if="isLoadingVideo">
-      <div class="section-block" :style="sectionBlockStyle">
+      <div class="section-block">
         <a-spin :spinning="isLoadingRecords">
           正在查找<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的冲刺记录
         </a-spin>
@@ -14,26 +14,26 @@
     </div>
     <div v-else>
       <div v-if="video.aid != '-1'">
-        <div class="section-block" :style="sectionBlockStyle">
+        <div class="section-block">
           <a-spin :spinning="isLoadingRecords">
             <SprintVideoInfo :video="video" :records="records"/>
           </a-spin>
         </div>
         <div class="section-seperator"></div>
-        <div class="section-block" :style="sectionBlockStyle">
+        <div class="section-block">
           <a-spin :spinning="isLoadingRecords">
             <SprintVideoMainChart :records="records"/>
           </a-spin>
         </div>
         <div class="section-seperator"></div>
-        <div class="section-block" :style="sectionBlockStyle">
+        <div class="section-block">
           <a-spin :spinning="isLoadingRecords">
             <SprintVideoHeatMapChart :records="records"/>
           </a-spin>
         </div>
       </div>
       <div v-else>
-        <div class="section-block" :style="sectionBlockStyle">
+        <div class="section-block">
           <p>没有找到<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的冲刺记录</p>
           <a href="/sprint">返回传说助攻</a>
         </div>
@@ -56,10 +56,6 @@ export default {
   },
   data: function() {
     return {
-      sectionBlockStyle: {
-        background: "#fff",
-        padding: "24px"
-      },
       video: {
         title: "av"+this.$route.params.aid,
         aid: "-1",

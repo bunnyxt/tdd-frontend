@@ -3,7 +3,7 @@
     <a-breadcrumb style="margin: 16px 0">
       <a-breadcrumb-item><a href="/">首页</a></a-breadcrumb-item>
     </a-breadcrumb>
-    <div class="section-block" :style="sectionBlockStyle">
+    <div class="section-block">
       <h1>传送门</h1>
       <ul>
         <li>
@@ -16,7 +16,7 @@
       </ul>
     </div>
     <div class="section-seperator"></div>
-    <div class="section-block" :style="sectionBlockStyle">
+    <div class="section-block">
       <h1>关于天钿Daily</h1>
       <img src="logo_64S.png"/>
       <p><small>logo by SweetFairyTale</small></p>
@@ -35,14 +35,14 @@
       </p>
     </div>
     <div class="section-seperator"></div>
-    <div class="section-block" :style="sectionBlockStyle">
+    <div class="section-block">
       <h1>技术相关</h1>
       <p>小霸王服务器由阿里云提供，<strong>谢绝爆破</strong>。</p>
       <p>网站前端采用Vue.js+<a href="https://ant.design" target="_blank">Ant Design</a>实现，后端使用PHP实现，数据库使用MySQL，爬虫脚本基于Python。</p>
       <p>部分源码可以在<a href="https://github.com/bunnyxt" target="_blank">这里</a>看到。</p>
     </div>
     <div class="section-seperator"></div>
-    <div class="section-block" :style="sectionBlockStyle">
+    <div class="section-block">
       <h1>关于bunnyxt</h1>
       <p>12年入坑VC厨。洛厨，南北党。<strong>不撕逼</strong>，<strong>不撕逼</strong>，<strong>不撕逼</strong>。</p>
       <p>日常活跃于新浪微博<a href="https://www.weibo.com/nny29/" target="_blank">@牛奶源29</a></p>
@@ -56,10 +56,7 @@ export default {
   name: "Home",
   data: function () {
     return {
-      sectionBlockStyle : {
-        background: '#fff', 
-        padding: '24px'
-      }
+
     }
   }
 };

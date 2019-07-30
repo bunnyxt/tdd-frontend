@@ -4,7 +4,7 @@
       <a-breadcrumb-item><a href="/">首页</a></a-breadcrumb-item>
       <a-breadcrumb-item><a href="/sprint">传说助攻</a></a-breadcrumb-item>
     </a-breadcrumb>
-    <div class="section-block" :style="sectionBlockStyle">
+    <div class="section-block">
       <a-carousel autoplay>
         <div>
           <h1>关于传说助攻</h1>
@@ -60,7 +60,7 @@
       </a-carousel>
     </div>
     <div class="section-seperator"></div>
-    <div class="section-block" :style="sectionBlockStyle">
+    <div class="section-block">
       <h1>助攻列表</h1>
       <a-spin :spinning="isLoadingVideo">
         <a-collapse>
@@ -97,7 +97,7 @@
       </a-spin>
     </div>
     <div class="section-seperator"></div>
-    <div class="section-block" :style="sectionBlockStyle">
+    <div class="section-block">
       <h1>历史助攻*</h1>
       <p>*展示已达成传说的，本系统曾经记录过的历史助攻曲目视频</p>
       <a-spin :spinning="isLoadingFinishedVideo">
@@ -132,10 +132,6 @@ export default {
   },
   data: function() {
     return {
-      sectionBlockStyle: {
-        background: "#FFF",
-        padding: "24px"
-      },
       sprintVideoList: [],
       sprintFinishedVideoList: [],
       sprintVideoImgHeight: '200px',

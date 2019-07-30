@@ -54,4 +54,8 @@ export default {
 .section-seperator {
   height: 24px;
 }
+.section-block {
+  background: #fff;
+  padding: 24px
+}
 </style>

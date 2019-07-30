@@ -5,7 +5,7 @@
       <a-breadcrumb-item><a href="/tool">辅助工具</a></a-breadcrumb-item>
       <a-breadcrumb-item><a href="/tool/datecalc">耗时计算</a></a-breadcrumb-item>
     </a-breadcrumb>
-    <div class="section-block" :style="sectionBlockStyle">
+    <div class="section-block">
       <h1>耗时计算</h1>
       <p>输入起止时间，计算所消耗的时间长度，可用于计算曲目传说/殿堂耗时。</p>
       <p>开始时间：
@@ -32,10 +32,6 @@ export default {
   name: "DateCalc",
   data: function() {
     return {
-      sectionBlockStyle: {
-        background: "#FFF",
-        padding: "24px"
-      },
       startTimeString: "2013-01-31 19:29:40",
       endTimeString: "2013-01-31 19:29:40",
       aidString: "",

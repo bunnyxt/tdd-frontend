@@ -4,7 +4,7 @@
       <a-breadcrumb-item><a href="/">首页</a></a-breadcrumb-item>
       <a-breadcrumb-item><a href="/tool">辅助工具</a></a-breadcrumb-item>
     </a-breadcrumb>
-    <div class="section-block" :style="sectionBlockStyle">
+    <div class="section-block">
       <h1>辅助工具</h1>
       <p>泛VC数据记录与分享相关所需要的辅助工具。</p>
       <ul>
@@ -21,10 +21,7 @@ export default {
   name: "ToolHome",
   data: function() {
     return {
-      sectionBlockStyle: {
-        background: "#FFF",
-        padding: "24px"
-      }
+
     }
   }
 }

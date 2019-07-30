@@ -7,7 +7,7 @@
       <a-breadcrumb-item><a :href="'/sprint/daily'+this.$route.params.date">{{ this.$route.params.date }}</a></a-breadcrumb-item>
     </a-breadcrumb>
     <div v-if="isLoadingDaily">
-      <div class="section-block" :style="sectionBlockStyle">
+      <div class="section-block">
         <a-spin :spinning="isLoadingDaily">
           正在查找助攻日报<a :href="'/sprint/daily/'+this.$route.params.date">#{{ this.$route.params.date }}</a>
         </a-spin>
@@ -15,7 +15,7 @@
     </div>
     <div v-else>
       <div v-if="daily.id != -1">
-        <div class="section-block" :style="sectionBlockStyle">
+        <div class="section-block">
           <h1>助攻日报#{{ this.$route.params.date }}</h1>
           <div v-if="daily.correct == 1">
             <p>本期收录时间范围：<strong>UTC+8 {{ dateStart }} 06:00 ~ {{ dateEnd }} 06:00</strong>，共收录传说冲刺曲目<strong>{{ daily.vidnum }}</strong>首。</p>
@@ -29,7 +29,7 @@
         <div class="section-seperator"></div>
 
         <div v-if="daily.newvids.length > 0">
-          <div class="section-block" :style="sectionBlockStyle">
+          <div class="section-block">
             <h2>本期有<strong>{{ daily.newvids.length }}</strong>首新曲</h2>
             <a-spin :spinning="isLoadingNewVids">
              <SprintVideoBriefTable :videos="newvidsList"/>
@@ -39,7 +39,7 @@
         </div>
 
         <div v-if="daily.millvids.length > 0">
-          <div class="section-block" :style="sectionBlockStyle">
+          <div class="section-block">
             <h2>本期有<strong>{{ daily.millvids.length }}</strong>首曲目达成传说</h2>
             <a-spin :spinning="isLoadingMillVids">
               <SprintVideoBriefTable :videos="millvidsList"/>
@@ -49,7 +49,7 @@
         </div>
 
         <div v-if="daily.correct == 1">
-          <div class="section-block" :style="sectionBlockStyle">
+          <div class="section-block">
             <a-spin :spinning="isLoadingRecords">
               <SprintDailyDetailTable :sprintDailyRecordList="sprintDailyRecordList"/>
             </a-spin>
@@ -57,7 +57,7 @@
         </div>
       </div>
       <div v-else>
-        <div class="section-block" :style="sectionBlockStyle">
+        <div class="section-block">
           <p>没有找到助攻日报<a :href="'/sprint/daily/'+this.$route.params.date">#{{ this.$route.params.date }}</a></p>
           <a href="/sprint/daily">返回往期助攻日报</a>
         </div>
@@ -78,10 +78,6 @@ export default {
   },
   data: function() {
     return {
-      sectionBlockStyle: {
-        background: "#fff",
-        padding: "24px"
-      },
       daily: {
         id: -1,
         correct: 1,
