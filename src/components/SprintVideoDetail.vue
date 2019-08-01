@@ -34,6 +34,7 @@
                     <a-button type="primary" :disabled="hasLoadAllRecords" @click="loadAddRecords">
                       {{ loadAllRecordsButtonText }}
                     </a-button>
+                    <a-spin :spinning="isLoadingAllRecords" style="margin-left: 12px"></a-spin>
                     <a-button @click="closeAllRecordsInfo" style="margin-left: 12px">
                       关闭提示
                     </a-button>
