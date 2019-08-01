@@ -19,6 +19,31 @@
             <SprintVideoInfo :video="video" :records="records"/>
           </a-spin>
         </div>
+        <transition name="fade">
+        <div v-if="isLoadAllRecordsShow">
+          <div class="section-seperator"></div>
+          <a-spin :spinning="isLoadingRecords">
+            <div class="section-block">
+              <a-alert message="提示" type="info">
+                <div slot="description">
+                  <p>
+                    为提高响应速度，当前仅加载最近一周内的数据。如需查看全部数据，请点击"获取全部数据"。<br>
+                    注意：这将耗费一定的时间以及流量。由于数据量可能会很大，加载完成时可能会出现卡顿，请耐心等待。
+                  </p>
+                  <p>
+                    <a-button type="primary" :disabled="hasLoadAllRecords" @click="loadAddRecords">
+                      {{ loadAllRecordsButtonText }}
+                    </a-button>
+                    <a-button @click="closeAllRecordsInfo" style="margin-left: 12px">
+                      关闭提示
+                    </a-button>
+                  </p>
+                </div>
+              </a-alert>
+            </div>
+          </a-spin>
+        </div>
+        </transition>
         <div class="section-seperator"></div>
         <div class="section-block">
           <a-spin :spinning="isLoadingRecords">
@@ -74,7 +99,23 @@ export default {
         face: ""
       },
       isLoadingVideo: false,
-      isLoadingRecords: false
+      isLoadingRecords: false,
+      hasLoadAllRecords: false,
+      isLoadingAllRecords: false,
+      isLoadAllRecordsShow: true
+    }
+  },
+  computed: {
+    loadAllRecordsButtonText: function() {
+      let f1 = this.hasLoadAllRecords
+      let f2 = this.isLoadingAllRecords
+      if (f1 == false && f2 == false) {
+        return "获取全部数据"
+      } else if (f1 == false && f2 == true) {
+        return "正在获取全部数据...请稍后"
+      } else {
+        return "已获取全部数据"
+      }
     }
   },
   methods: {
@@ -88,6 +129,20 @@ export default {
         (date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()) + ":" + 
         (date.getSeconds()<10?"0"+date.getSeconds():date.getSeconds())
       )
+    },
+    loadAddRecords: function() {
+      if (this.isLoadingAllRecords == true || this.hasLoadAllRecords == true) {
+        return
+      }
+      this.isLoadingAllRecords = true
+      fetch(this.$store.state.apiBase + "sprint_video_record.php?aid=" + this.$route.params.aid)
+        .then(response => response.json())
+        .then(json => this.records = json.data)
+        .then(() => this.isLoadingAllRecords = false)
+        .then(() => this.hasLoadAllRecords = true)
+    },
+    closeAllRecordsInfo: function() {
+      this.isLoadAllRecordsShow = false
     }
   },
   created: function() {
@@ -101,10 +156,27 @@ export default {
         }
         this.isLoadingVideo = false
       })
-    fetch(this.$store.state.apiBase + "sprint_video_record.php?aid=" + this.$route.params.aid)
+
+    // load only 1 week data first
+    let nowDate = new Date()
+    let endTs = nowDate.valueOf() / 1000
+    let startTs = endTs - 60 * 60 * 24 * 7
+    fetch(this.$store.state.apiBase + "sprint_video_record.php?aid=" + this.$route.params.aid + "&start=" + startTs + "&end=" + endTs)
       .then(response => response.json())
       .then(json => this.records = json.data)
       .then(() => this.isLoadingRecords = false)
+    this.hasLoadAllRecords = false
+
+    this.$message.success("已加载全部数据")
   }
 }
 </script>
+
+<style>
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .3s;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
+  }
+</style>
