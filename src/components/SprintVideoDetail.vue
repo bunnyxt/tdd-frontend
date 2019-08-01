@@ -87,7 +87,12 @@ export default {
         aid: "-1",
         mid: "-1",
         pic: "",
-        created: "0"
+        created: "0",
+        status: "processing",
+        last_record: {
+          view: 0,
+          added: 0
+        }
       },
       records: [{
         id: "-1",
@@ -119,6 +124,15 @@ export default {
       }
     }
   },
+  watch: {
+    video: function () {
+      if (this.video.status == "finished") {
+        let endTs = this.video.last_record.added
+        let startTs = endTs - 60 * 60 * 24 * 7
+        this.loadOneWeekRecords(startTs)
+      }
+    }
+  },
   methods: {
     formatDate: function(ts) {
       let date = new Date(ts * 1000)
@@ -130,6 +144,16 @@ export default {
         (date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()) + ":" + 
         (date.getSeconds()<10?"0"+date.getSeconds():date.getSeconds())
       )
+    },
+    loadOneWeekRecords: function(startTs){
+      if (this.isLoadingRecords) {
+        return
+      }
+      this.isLoadingRecords = true
+      fetch(this.$store.state.apiBase + "sprint_video_record.php?aid=" + this.$route.params.aid + "&start=" + startTs)
+        .then(response => response.json())
+        .then(json => this.records = json.data)
+        .then(() => this.isLoadingRecords = false)
     },
     loadAddRecords: function() {
       if (this.isLoadingAllRecords == true || this.hasLoadAllRecords == true) {
@@ -148,7 +172,6 @@ export default {
   },
   created: function() {
     this.isLoadingVideo = true
-    this.isLoadingRecords = true
     fetch(this.$store.state.apiBase + "sprint_video.php?aid=" + this.$route.params.aid)
       .then(response => response.json())
       .then(json => {
@@ -162,10 +185,7 @@ export default {
     let nowDate = new Date()
     let endTs = nowDate.valueOf() / 1000
     let startTs = endTs - 60 * 60 * 24 * 7
-    fetch(this.$store.state.apiBase + "sprint_video_record.php?aid=" + this.$route.params.aid + "&start=" + startTs)
-      .then(response => response.json())
-      .then(json => this.records = json.data)
-      .then(() => this.isLoadingRecords = false)
+    this.loadOneWeekRecords(startTs)
     this.hasLoadAllRecords = false
   }
 }

@@ -59,6 +59,9 @@ export default {
       return parseInt((this.latestUpdateTime - this.video.created) / (60 * 60 * 24))
     },
     daySpeed: function() {
+      if (this.records.length == 0) {
+        return 0;
+      }
       let ts2 = this.latestUpdateTime - this.latestUpdateTime % (60 * 60 * 24) - (60 * 60 * 8) // UTC+8
       if ((this.latestUpdateTime - (60 * 60 * 8) % (60 * 60 * 24)) > (60 * 60 * 6)) { // UTC+8
         ts2 += (60 * 60 * 6)
