@@ -161,20 +161,18 @@ export default {
     let nowDate = new Date()
     let endTs = nowDate.valueOf() / 1000
     let startTs = endTs - 60 * 60 * 24 * 7
-    fetch(this.$store.state.apiBase + "sprint_video_record.php?aid=" + this.$route.params.aid + "&start=" + startTs + "&end=" + endTs)
+    fetch(this.$store.state.apiBase + "sprint_video_record.php?aid=" + this.$route.params.aid + "&start=" + startTs)
       .then(response => response.json())
       .then(json => this.records = json.data)
       .then(() => this.isLoadingRecords = false)
     this.hasLoadAllRecords = false
-
-    this.$message.success("已加载全部数据")
   }
 }
 </script>
 
 <style>
   .fade-enter-active, .fade-leave-active {
-    transition: opacity .3s;
+    transition: opacity .5s;
   }
   .fade-enter, .fade-leave-to {
     opacity: 0;
