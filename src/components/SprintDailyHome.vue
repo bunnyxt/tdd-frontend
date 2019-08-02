@@ -24,7 +24,9 @@
     <div class="section-seperator"></div>
     <div class="section-block">
       <h1>助攻趋势</h1>
-      <SprintDailyChart :sprintDailyList="sprintDailyList"/>
+      <a-spin :spinning="isLoadingDaily">
+        <SprintDailyChart :sprintDailyList="sprintDailyList"/>
+      </a-spin>
     </div>
     <div class="section-seperator"></div>
     <div class="section-block">

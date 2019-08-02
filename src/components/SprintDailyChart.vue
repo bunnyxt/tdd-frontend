@@ -13,7 +13,9 @@ export default {
       series: [
         {
           name: "播放增长",
-          data: null
+          data: [
+            [0, 0]
+          ]
         }
       ],
       chartOptions: {
