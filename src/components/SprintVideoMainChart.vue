@@ -43,7 +43,10 @@ export default {
       latest_time: 0,
       series: [
       {
-        data: null
+        name: "播放",
+        data: [
+          [0, 0]
+        ]
       }
       ],
       chartOptions: {
@@ -54,7 +57,9 @@ export default {
             },
           },
           zoom: {
-            type: "xy"
+            enabled: true,
+            type: "x",
+            autoScaleYaxis: true // TODO not work properly now...
           }
         },
         dataLabels: {
