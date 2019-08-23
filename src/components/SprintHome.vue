@@ -32,10 +32,24 @@
           <p>
             基于传说助攻的数据，以<strong>UTC+8 06:00至次日06:00</strong>为统计区间，每日刊发一期的助攻日报，记录当日各冲刺视频播放数及播放数变化情况。
           </p>
-          <p>查看<a href="/sprint/daily">往期助攻日报</a></p>
           <a-spin :spinning="isLoadingDaily">
-          <SprintDailyTable :sprintDailyList="sprintDailyList" :showPagi="false"/>
+            <p>最后更新⬇️</p>
+            <h2>助攻日报<a :href="'sprint/daily/'+sprintDaily.date">#{{ sprintDaily.date }}</a></h2>
+            <div v-if="sprintDaily.correct == 1">
+              <p>本期收录时间范围：<strong>UTC+8 {{ sprintDailyDateStart }} 06:00 ~ {{ sprintDailyDateEnd }} 06:00</strong>，共收录传说冲刺曲目<strong>{{ sprintDaily.vidnum }}</strong>首。</p>
+              <p>本期传说冲刺曲目播放数总增长<strong>{{ sprintDaily.viewincr }}</strong>，与上一期相比<strong>{{ sprintDaily.viewincrincr > 0 ? "增长"+sprintDaily.viewincrincr:"减少"+(-sprintDaily.viewincrincr) }}</strong>。</p>
+              <div v-if="sprintDaily.newvids.length > 0">
+                <p>本期有<strong>{{ sprintDaily.newvids.length }}</strong>首新曲</p>
+              </div>
+              <div v-if="sprintDaily.millvids.length > 0">
+                <p>本期有<strong>{{ sprintDaily.millvids.length }}</strong>首曲目达成传说</p>
+              </div>
+            </div>
+            <div v-else>
+              <a-alert type="error" :message="sprintDaily.comment" banner style="margin-bottom: 12px"/>
+            </div>
           </a-spin>
+          <p>查看<a href="/sprint/daily">往期助攻日报</a></p>
           <div class="SlickDotsSpace">
           </div>
         </div>
@@ -120,14 +134,12 @@
 
 <script>
 import SprintVideoBrief from "./SprintVideoBrief.vue";
-import SprintDailyTable from "./SprintDailyTable.vue";
 import SprintVideoInfo from './SprintVideoInfo.vue';
 
 export default {
   name: "SprintHome",
   components: {
     SprintVideoBrief,
-    SprintDailyTable,
     SprintVideoInfo
   },
   data: function() {
@@ -135,7 +147,16 @@ export default {
       sprintVideoList: [],
       sprintFinishedVideoList: [],
       sprintVideoImgHeight: '200px',
-      sprintDailyList: [],
+      sprintDaily: {
+        date: 19700101,
+        correct: 1,
+        vidnum: 0,
+        newvids: [],
+        millvids: [],
+        viewincr: 0,
+        viewincrincr: 0,
+        comment: ""
+      },
       isLoadingVideo: false,
       isLoadingFinishedVideo: false,
       isLoadingDaily: false,
@@ -193,7 +214,33 @@ export default {
           break;
       }
       return list
-    }
+    },
+    sprintDailyDateStart: function() {
+      let date = this.sprintDaily.date + ""
+      let d = new Date()
+      d.setFullYear(date.substring(0, 4))
+      d.setMonth(date.substring(4, 6) - 1)
+      d.setDate(date.substring(6, 8))
+      d.setHours(0)
+      d.setMinutes(0)
+      d.setSeconds(0)
+      d.setMilliseconds(0)
+      let ts = d.valueOf() / 1000 - (60 * 60 * 24)
+      d = new Date(ts * 1000)
+      return d.getFullYear() +"-"+ (d.getMonth()+1) +"-"+ d.getDate()
+    },
+    sprintDailyDateEnd: function() {
+      let date = this.sprintDaily.date + ""
+      let d = new Date()
+      d.setFullYear(date.substring(0, 4))
+      d.setMonth(date.substring(4, 6) - 1)
+      d.setDate(date.substring(6, 8))
+      d.setHours(0)
+      d.setMinutes(0)
+      d.setSeconds(0)
+      d.setMilliseconds(0)
+      return d.getFullYear() +"-"+ (d.getMonth()+1) +"-"+ d.getDate()
+    },
   },
   watch: {
     sprintVideoList: function() {
@@ -285,7 +332,7 @@ export default {
       .then(() => this.isLoadingFinishedVideo = false)
     fetch(this.$store.state.apiBase + "sprint_daily.php?limit=1")
       .then(response => response.json())
-      .then(json => this.sprintDailyList = json.data)
+      .then(json => this.sprintDaily = json.data[0])
       .then(() => this.isLoadingDaily = false)
   },
   mounted: function(){
@@ -297,7 +344,7 @@ export default {
 
 <style scoped>
 .SlickDotsSpace {
-  height: 52px;
+  height: 16px;
 }
 
 .ant-carousel >>> .slick-dots li button {
