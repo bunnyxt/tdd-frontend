@@ -37,7 +37,7 @@
     <div class="section-seperator"></div>
     <div class="section-block">
       <h1>技术相关</h1>
-      <p>小霸王服务器由阿里云提供，<strong>谢绝爆破</strong>。</p>
+      <p>小霸王服务器由京东云提供，<strong>谢绝爆破</strong>。</p>
       <p>网站前端采用Vue.js+<a href="https://ant.design" target="_blank">Ant Design</a>实现，后端使用PHP实现，数据库使用MySQL，爬虫脚本基于Python。</p>
       <p>部分源码可以在<a href="https://github.com/bunnyxt" target="_blank">这里</a>看到。</p>
     </div>

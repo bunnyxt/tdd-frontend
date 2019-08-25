@@ -361,7 +361,25 @@ export default {
                 background: '#FF4560',
               },
               text: '+再一杯！',
-            }
+            },
+          },{
+            x: new Date('2019-08-25').valueOf(),
+            y: 63507,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'red',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#FF4560',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#FF4560',
+              },
+              text: '+达拉崩吧·史诗版',
+            },
           }]
         },
         chart: {
