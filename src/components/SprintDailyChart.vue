@@ -380,6 +380,24 @@ export default {
               },
               text: '+达拉崩吧·史诗版',
             },
+          },{
+            x: new Date('2019-08-26').valueOf(),
+            y: 69304,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'lightgreen',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#00E396',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#00E396',
+              },
+              text: '-再一杯！',
+            }
           }]
         },
         chart: {
