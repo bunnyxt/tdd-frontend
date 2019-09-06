@@ -398,6 +398,24 @@ export default {
               },
               text: '-再一杯！',
             }
+          },{
+            x: new Date('2019-09-06').valueOf(),
+            y: 3035,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'lightgreen',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#00E396',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#00E396',
+              },
+              text: '-达拉崩吧·史诗版',
+            }
           }]
         },
         chart: {
@@ -426,6 +444,7 @@ export default {
           }
         },
         yaxis: {
+          min: 0,
           labels: {
             show: true
           }
