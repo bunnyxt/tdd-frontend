@@ -416,6 +416,24 @@ export default {
               },
               text: '-达拉崩吧·史诗版',
             }
+          },{
+            x: new Date('2019-10-04').valueOf(),
+            y: 7562,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'red',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#FF4560',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#FF4560',
+              },
+              text: '+上学什么的，不干了啦！',
+            },
           }]
         },
         chart: {
