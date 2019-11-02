@@ -8,6 +8,7 @@ const SprintDailyHome = () => import("./components/SprintDailyHome");
 const SprintDailyDetail = () => import("./components/SprintDailyDetail");
 const ToolHome = () => import("./components/tool/ToolHome");
 const DateCalc = () => import("./components/tool/DateCalc");
+const BiliApi = () => import("./components/tool/BiliApi");
 const NotFound = () => import("./components/NotFound");
 
 Vue.use(Router);
@@ -40,6 +41,9 @@ export default new Router({
         }, {
             path: "/tool/datecalc",
             component: DateCalc
+        }, {
+            path: "/tool/biliapi",
+            component: BiliApi
         }, {
             path: "*",
             component: NotFound

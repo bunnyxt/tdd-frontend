@@ -9,7 +9,10 @@
       <p>泛VC数据记录与分享相关所需要的辅助工具。</p>
       <ul>
         <li>
-            <a href="/tool/datecalc">耗时计算</a>：输入起止时间，计算所消耗的时间长度，可用于计算曲目传说/殿堂耗时。
+          <a href="/tool/datecalc">耗时计算</a>：输入起止时间，计算所消耗的时间长度，可用于计算曲目传说/殿堂耗时。
+        </li>
+        <li>
+          <a href="/tool/biliapi">Bilibili API传送门</a>：常用Bilibili API传送门。
         </li>
       </ul>
     </div>
