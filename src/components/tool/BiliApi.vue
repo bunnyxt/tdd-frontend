@@ -6,7 +6,7 @@
       <a-breadcrumb-item><a href="/tool/biliapi">Bilibili API传送门</a></a-breadcrumb-item>
     </a-breadcrumb>
     <div class="section-block">
-      <h1>API传送门</h1>
+      <h1>Bilibili API传送门</h1>
       <p>常用Bilibili API传送门</p>
       <p>强烈推荐安装Chrome插件<a href="https://chrome.google.com/webstore/detail/json-viewer/gbmdgpbipfallnflgajpaliibnhdgobh" target="_blank">JSON Viewer</a>以方便查看JSON格式的API。</p>
       <p>推荐使用Python包<a href="https://pypi.org/project/pybiliapi/" target="_blank">pybiliapi</a>实现本地调用API。</p>
