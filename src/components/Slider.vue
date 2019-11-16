@@ -1,13 +1,20 @@
 <template>
-  <a-layout-header :style="{padding: headerPadding}">
-    <div style="float:left; margin: 0px 20px">
+  <a-layout-sider
+      breakpoint="xl"
+      collapsedWidth="0"
+      width="180px"
+  >
+    <div style="margin: 24px 0px 12px 24px">
       <a href="/">
         <img src="/logo_32S.png">
       </a>
+      <span class="logo-name">
+        天钿Daily
+      </span>
     </div>
     <a-menu
       theme="dark"
-      mode="horizontal"
+      mode="inline"
       :style="{ lineHeight: '64px' }"
       @click="handleMenuClick"
     >
@@ -16,14 +23,14 @@
       <a-menu-item key="3">传说助攻</a-menu-item>
       <a-menu-item key="4">辅助工具</a-menu-item>
     </a-menu>
-  </a-layout-header>
+  </a-layout-sider>
 </template>
 
 <script>
 export default {
-  name: "Header",
+  name: "Slider",
   props: {
-    headerPadding: String
+
   },
   methods: {
     handleMenuClick(e) {
@@ -49,7 +56,12 @@ export default {
 </script>
 
 <style>
-.ant-menu.ant-menu-dark .ant-menu-item-selected {
-  background-color: #001529;
-}
+  .ant-menu.ant-menu-dark .ant-menu-item-selected {
+     background-color: #001529;
+   }
+  .logo-name {
+    color: rgba(255, 255, 255, 0.65);
+    margin-left: 12px;
+    font-size: 18px
+  }
 </style>

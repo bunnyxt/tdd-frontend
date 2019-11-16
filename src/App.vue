@@ -1,22 +1,24 @@
 <template>
   <a-layout class="layout" style="min-height:100%">
-    <Header :headerPadding="headerPadding"/>
-    <a-layout-content :style="{padding: layoutPadding}">
-      <router-view></router-view>
-    </a-layout-content>
-    <div class="fake-footer"></div>
-    <Footer/>
+    <Slider/>
+    <a-layout>
+      <a-layout-content :style="{padding: layoutPadding}">
+        <router-view></router-view>
+      </a-layout-content>
+      <div class="fake-footer"></div>
+      <Footer/>
+    </a-layout>
   </a-layout>
 </template>
 
 <script>
-import Header from "./components/Header.vue";
+import Slider from "./components/Slider.vue";
 import Footer from "./components/Footer.vue";
 
 export default {
   name: "app",
   components: {
-    Header,
+    Slider,
     Footer
   },
   data: function() {
