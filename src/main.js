@@ -24,6 +24,8 @@ import { Carousel } from 'ant-design-vue'
 import { Avatar } from 'ant-design-vue'
 import { Input } from 'ant-design-vue'
 import { Switch } from 'ant-design-vue'
+import { DatePicker } from "ant-design-vue"
+import { Select } from "ant-design-vue"
 
 // apex chart
 import VueApexCharts from 'vue-apexcharts'
@@ -57,6 +59,8 @@ Vue.use(Carousel)
 Vue.use(Avatar)
 Vue.use(Input)
 Vue.use(Switch)
+Vue.use(DatePicker)
+Vue.use(Select)
 
 // apex chart
 Vue.use(VueApexCharts)
