@@ -96,7 +96,7 @@
     <div class="section-seperator"></div>
     <div class="section-block">
       <a-spin :spinning="isLoadingVideoList">
-        <a-list itemLayout="vertical" size="large" :pagination="pagination" :dataSource="videoList">
+        <a-list itemLayout="vertical" size="large" :dataSource="videoList">
           <a-list-item slot="renderItem" slot-scope="item" key="item.id">
             <a-row>
               <a-col :xs="24" :sm="8" :md="6" :xl="4" style="padding: 8px">
@@ -107,18 +107,27 @@
                   <template slot="title">
                     {{ item.title }}
                   </template>
-                  <h3 class="video-title" style="">{{item.title}}</h3>
+                  <h3 class="video-title" style="">{{ item.title }}</h3>
                 </a-tooltip>
                 <p>
                   <a-icon type="user" style="margin-right: 4px"/>
-                  {{item.mid}}
+                  {{ item.member ? item.member.name : 'mid'+item.mid}}
                   <a-icon type="calendar" style="margin-left: 8px; margin-right: 4px"/>
-                  {{tsToStr(item.pubdate)}}
+                  {{ tsToStr(item.pubdate) }}
                 </p>
               </a-col>
             </a-row>
           </a-list-item>
         </a-list>
+        <div v-if="!isLoadingVideoList">
+          <a-pagination
+              showQuickJumper
+              v-model="pagiCurrent"
+              :total="videoTotalCount"
+              :pageSize="20"
+              @change="onPagiChange"
+          />
+        </div>
       </a-spin>
     </div>
   </div>
@@ -135,16 +144,15 @@
         videoList: [],
         isLoadingVideoList: false,
         lastLoadVideoListDate: null,
-        pagination: {
-
-        },
         isvcValue: 2,
         orderValue: 1,
         pubdateStartValue: null,
         pubdateEndValue: null,
         pubdateEndOpen: false,
         titleValue: '',
-        memberNameValue: ''
+        memberNameValue: '',
+        pagiCurrent: 1,
+        videoTotalCount: 200
       }
     },
     computed: {
@@ -152,7 +160,32 @@
     },
     methods: {
       checkParams: function() {
+        // TODO
         return true;
+      },
+      assembleQueryUrl: function() {
+        let url = "https://api.bunnyxt.com/tdd/v2/video?";
+        // vc
+        if (this.isvcValue === 2) {
+          url += 'vc=1&';
+        }
+        // start_ts
+        if (this.pubdateStartValue) {
+          url += 'start_ts=' + Math.floor(this.pubdateStartValue.toDate().valueOf() / 1000) + '&';
+        }
+        // end_ts
+        if (this.pubdateStartValue) {
+          url += 'end_ts=' + Math.floor(this.pubdateEndValue.toDate().valueOf() / 1000) + '&';
+        }
+        // title
+        if (this.titleValue) {
+          url += 'title=' + this.titleValue + '&';
+        }
+        // up
+        if (this.memberNameValue) {
+          url += 'up='+ this.memberNameValue + '&';
+        }
+        return url;
       },
       fetchVideoList: function () {
         this.isLoadingVideoList = true;
@@ -160,11 +193,8 @@
           this.isLoadingVideoList = false;
           return;
         }
-        // TODO prepare params
 
-        // TODO assemble url
-        let url = "https://api.bunnyxt.com/tdd/v2/videos/vc";
-
+        let url = this.assembleQueryUrl();
         fetch(url)
           .then(response => response.json())
           .then(json => this.videoList = json)
@@ -211,6 +241,9 @@
         if (!this.isLoadingVideoList) {
           this.fetchVideoList();
         }
+      },
+      onPagiChange: function () {
+        // TODO
       }
     },
     created() {
