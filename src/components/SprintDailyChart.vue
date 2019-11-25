@@ -434,6 +434,24 @@ export default {
               },
               text: '+上学什么的，不干了啦！',
             },
+          },{
+            x: new Date('2019-11-22').valueOf(),
+            y: 3773,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'red',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#FF4560',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#FF4560',
+              },
+              text: '+地势坤',
+            },
           }]
         },
         chart: {
