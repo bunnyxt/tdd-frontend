@@ -452,6 +452,24 @@ export default {
               },
               text: '+地势坤',
             },
+          },{
+            x: new Date('2019-11-26').valueOf(),
+            y: 4597,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'lightgreen',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#00E396',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#00E396',
+              },
+              text: '-八重回归',
+            }
           }]
         },
         chart: {
