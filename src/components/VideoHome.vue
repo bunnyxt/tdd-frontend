@@ -185,6 +185,8 @@
         if (this.memberNameValue) {
           url += 'up='+ this.memberNameValue + '&';
         }
+        // pn
+        url += 'pn=' + this.pagiCurrent;
         return url;
       },
       fetchVideoList: function () {
@@ -200,6 +202,7 @@
           .then(json => this.videoList = json)
           .then(() => this.lastLoadVideoListDate = new Date())
           .then(() => this.isLoadingVideoList = false);
+        // TODO update total size
       },
       addZero: function(value) {
         return value < 10 ? "0" + value : "" + value;
@@ -239,11 +242,15 @@
       },
       handleSearchButtonClick: function () {
         if (!this.isLoadingVideoList) {
+          this.pagiCurrent = 1;
           this.fetchVideoList();
         }
       },
-      onPagiChange: function () {
+      onPagiChange: function (pagiClick) {
         // TODO
+        console.log(pagiClick);
+        this.pagiCurrent = pagiClick;
+        this.fetchVideoList();
       }
     },
     created() {
