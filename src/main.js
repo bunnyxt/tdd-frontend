@@ -26,6 +26,7 @@ import { Input } from 'ant-design-vue'
 import { Switch } from 'ant-design-vue'
 import { DatePicker } from "ant-design-vue"
 import { Select } from "ant-design-vue"
+import { LocaleProvider } from "ant-design-vue"
 
 // apex chart
 import VueApexCharts from 'vue-apexcharts'
@@ -61,6 +62,7 @@ Vue.use(Input)
 Vue.use(Switch)
 Vue.use(DatePicker)
 Vue.use(Select)
+Vue.use(LocaleProvider)
 
 // apex chart
 Vue.use(VueApexCharts)
