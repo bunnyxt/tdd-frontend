@@ -8,6 +8,7 @@
         </a-layout-content>
         <div class="fake-footer"></div>
         <Footer/>
+        <a-back-top />
       </a-layout>
     </a-layout>
   </a-locale-provider>
