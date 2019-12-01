@@ -7,6 +7,7 @@
     <div class="section-block">
       <h1>所有视频</h1>
       <p>天钿Daily收录B站<a href="https://www.bilibili.com/v/music/vocaloid/" target="_blank">VOCALOID·UTAU</a>分区下的所有视频和部分其他分区中的VC视频。</p>
+      <p>注意：播放、弹幕等数据并非时时数据，一般每天更新一次；点击视频列表查看详细信息。</p>
       <a-collapse>
         <a-collapse-panel header="筛选搜索">
           <table class="filter-table">
@@ -23,11 +24,29 @@
             </tr>
             <tr>
               <td class="filter-table-label">
-                排序
+                排序依据
               </td>
               <td>
                 <a-radio-group name="orderSelector" v-model="orderValue">
                   <a-radio :value="1">投稿时间</a-radio>
+                  <a-radio :value="2">播放</a-radio>
+                  <a-radio :value="3">弹幕</a-radio>
+                  <a-radio :value="4">评论</a-radio>
+                  <a-radio :value="5">收藏</a-radio>
+                  <a-radio :value="6">硬币</a-radio>
+                  <a-radio :value="7">分享</a-radio>
+                  <a-radio :value="8">点赞</a-radio>
+                </a-radio-group>
+              </td>
+            </tr>
+            <tr>
+              <td class="filter-table-label">
+                排序顺序
+              </td>
+              <td>
+                <a-radio-group name="orderDescSelector" v-model="orderDescValue">
+                  <a-radio :value="0">从小到大</a-radio>
+                  <a-radio :value="1">从大到小</a-radio>
                 </a-radio-group>
               </td>
             </tr>
@@ -120,7 +139,15 @@
                   <a-icon type="calendar" style="margin-left: 8px; margin-right: 4px"/>
                   {{ tsToStr(item.pubdate) }}
                 </p>
-<!--                <p>TODO: latest stat info</p>-->
+                <p>
+                  播放：{{ item.laststat ? item.laststat.view: -1 }} <span class="vertical-separator">|</span>
+                  弹幕：{{ item.laststat ? item.laststat.danmaku: -1 }} <span class="vertical-separator">|</span>
+                  评论：{{ item.laststat ? item.laststat.reply: -1 }} <span class="vertical-separator">|</span>
+                  收藏：{{ item.laststat ? item.laststat.favorite: -1 }} <span class="vertical-separator">|</span>
+                  硬币：{{ item.laststat ? item.laststat.coin: -1 }} <span class="vertical-separator">|</span>
+                  分享：{{ item.laststat ? item.laststat.share: -1 }} <span class="vertical-separator">|</span>
+                  点赞：{{ item.laststat ? item.laststat.like: -1 }}
+                </p>
                 <p></p>
               </a-col>
             </a-row>
@@ -131,6 +158,7 @@
             showQuickJumper
             v-model="pagiCurrent"
             :total="videoTotalCount"
+            :showTotal="total => `共 ${total} 个视频`"
             :pageSize="20"
             @change="onPagiChange"
         />
@@ -146,9 +174,15 @@
       >
         <h3>{{ videoDetailDrawerCurrentVideo.title }}</h3>
         <p>
-          <a-avatar size="small" :src="videoDetailDrawerCurrentVideo.member.face" style="margin-right:12px"/>
+          <a-avatar
+              size="small"
+              :src="videoDetailDrawerCurrentVideo.member
+                ? videoDetailDrawerCurrentVideo.member.face
+                : 'https://static.hdslb.com/images/member/noface.gif'"
+              style="margin-right:12px"
+          />
           <a :href="'https://space.bilibili.com/'+videoDetailDrawerCurrentVideo.mid" target="_blank">
-            {{ videoDetailDrawerCurrentVideo.member.name }}
+            {{ videoDetailDrawerCurrentVideo.member ? videoDetailDrawerCurrentVideo.member.name : 'mid'+videoDetailDrawerCurrentVideo.mid}}
           </a>
         </p>
         <p><a-icon type="calendar" style="margin-right: 12px"/>{{ tsToStr(videoDetailDrawerCurrentVideo.pubdate) }}</p>
@@ -157,12 +191,34 @@
         {{ videoDetailDrawerCurrentVideo.desc }}
         <a-divider orientation="left">标签</a-divider>
         <a-tag
-            v-for="tag in videoDetailDrawerCurrentVideo.tags.split(';').slice(0, -1)"
+            v-for="tag in videoDetailDrawerCurrentVideo.tags
+              ? videoDetailDrawerCurrentVideo.tags.split(';').slice(0, -1)
+              : []"
             :key="tag"
             style="margin-bottom: 4px"
         >
           {{ tag }}
         </a-tag>
+        <a-divider orientation="left">数据</a-divider>
+        <div v-if="videoDetailDrawerCurrentVideo.laststat">
+          <ul>
+            <li>播放：{{ videoDetailDrawerCurrentVideo.laststat.view }}</li>
+            <li>弹幕：{{ videoDetailDrawerCurrentVideo.laststat.danmaku }}</li>
+            <li>评论：{{ videoDetailDrawerCurrentVideo.laststat.reply }}</li>
+            <li>收藏：{{ videoDetailDrawerCurrentVideo.laststat.favorite }}</li>
+            <li>硬币：{{ videoDetailDrawerCurrentVideo.laststat.coin }}</li>
+            <li>分享：{{ videoDetailDrawerCurrentVideo.laststat.share }}</li>
+            <li>点赞：{{ videoDetailDrawerCurrentVideo.laststat.like }}</li>
+          </ul>
+          *{{ tsToStr(videoDetailDrawerCurrentVideo.laststat.added) }}更新
+        </div>
+        <div v-else>
+          <a-alert type="error" message="暂无数据" />
+        </div>
+        <a-divider orientation="left">其他</a-divider>
+        <div v-if="videoDetailDrawerCurrentVideo.isvc == 1">
+          <a-tag color="pink">VC</a-tag>
+        </div>
         <div class="fake-drawer-footer"></div>
         <div class="drawer-footer">
           <div @click="videoDetailClickHandler(videoDetailDrawerCurrentVideo.aid)">
@@ -190,13 +246,14 @@
         lastLoadVideoListDate: null,
         isvcValue: 2,
         orderValue: 1,
+        orderDescValue: 1,
         pubdateStartValue: null,
         pubdateEndValue: null,
         pubdateEndOpen: false,
         titleValue: '',
         memberNameValue: '',
         pagiCurrent: 1,
-        videoTotalCount: 20,
+        videoTotalCount: 0,
         videoDetailDrawerVisible: false,
         videoDetailDrawerCurrentIndex: 0
       }
@@ -236,6 +293,40 @@
         // up
         if (this.memberNameValue) {
           url += 'up='+ this.memberNameValue + '&';
+        }
+        // order_by
+        switch (this.orderValue) {
+          case 2:
+            url += 'order_by=view&';
+            break;
+          case 3:
+            url += 'order_by=danmaku&';
+            break;
+          case 4:
+            url += 'order_by=reply&';
+            break;
+          case 5:
+            url += 'order_by=favorite&';
+            break;
+          case 6:
+            url += 'order_by=coin&';
+            break;
+          case 7:
+            url += 'order_by=share&';
+            break;
+          case 8:
+            url += 'order_by=like&';
+            break;
+          case 1:
+          default:
+            url += 'order_by=pubdate&';
+            break;
+        }
+        // desc
+        if (this.orderDescValue === 0) {
+          url += 'desc=0&';
+        } else {
+          url += 'desc=1&';
         }
         // pn
         url += 'pn=' + this.pagiCurrent;
@@ -355,10 +446,13 @@
     box-shadow: 0 2px 8px rgba(0,0,0,.09);
     border-color: rgba(0,0,0,.09);
   }
+  .vertical-separator {
+    color: #e8e8e8;
+  }
   .drawer-footer {
     position: fixed;
     bottom: 0;
-    background: #FAFAFA;
+    background: #fafafa;
     width: 100%;
     margin-left: -24px;
     border-top: 1px solid #e8e8e8;
@@ -371,6 +465,9 @@
     text-align: center;
     border-left: 1px solid #e8e8e8;
     padding-top: 14px;
+  }
+  .drawer-footer div:hover {
+    background: #e8e8e8;
   }
   .fake-drawer-footer {
     height: 48px;
