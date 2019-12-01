@@ -1,26 +1,33 @@
 <template>
-  <a-layout class="layout" style="min-height:100%">
-    <Header :headerPadding="headerPadding"/>
-    <a-layout-content :style="{padding: layoutPadding}">
-      <router-view></router-view>
-    </a-layout-content>
-    <div class="fake-footer"></div>
-    <Footer/>
-  </a-layout>
+  <a-locale-provider :locale="locale">
+    <a-layout class="layout" style="min-height:100%">
+      <Slider/>
+      <a-layout>
+        <a-layout-content :style="{padding: layoutPadding}">
+          <router-view></router-view>
+        </a-layout-content>
+        <div class="fake-footer"></div>
+        <Footer/>
+        <a-back-top />
+      </a-layout>
+    </a-layout>
+  </a-locale-provider>
 </template>
 
 <script>
-import Header from "./components/Header.vue";
+import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
+import Slider from "./components/Slider.vue";
 import Footer from "./components/Footer.vue";
 
 export default {
   name: "app",
   components: {
-    Header,
+    Slider,
     Footer
   },
   data: function() {
     return {
+      locale: zhCN,
       headerPadding: '0 30px',
       layoutPadding: '0 50px'
     }

@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
-
 const Home = () => import("./components/Home");
+const VideoHome = () => import("./components/VideoHome");
 const SprintHome = () => import("./components/SprintHome");
 const SprintVideoDetail = () =>import("./components/SprintVideoDetail");
 const SprintDailyHome = () => import("./components/SprintDailyHome");
@@ -23,6 +23,9 @@ export default new Router({
         }, {
             path: "/index.html",
             redirect: "/"
+        }, {
+            path: "/video",
+            component: VideoHome
         }, {
             path: "/sprint",
             component: SprintHome
