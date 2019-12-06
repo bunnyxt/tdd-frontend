@@ -109,6 +109,13 @@
           >
             搜索
           </a-button>
+          <a-button
+              icon="reload"
+              @click="handleReloadButtonClick"
+              style="margin-top: 8px; margin-left: 16px"
+          >
+            重置
+          </a-button>
         </a-collapse-panel>
       </a-collapse>
     </div>
@@ -387,11 +394,21 @@
       handlePubdateEndOpenChange(open) {
         this.pubdateEndOpen = open;
       },
-      handleSearchButtonClick: function () {
+      handleSearchButtonClick: function() {
         if (!this.isLoadingVideoList) {
           this.pagiCurrent = 1;
           this.fetchVideoList();
         }
+      },
+      handleReloadButtonClick: function() {
+        this.isvcValue = 2;
+        this.orderValue = 1;
+        this.orderDescValue = 1;
+        this.pubdateStartValue = null;
+        this.pubdateEndValue = null;
+        this.pubdateEndOpen = false;
+        this.titleValue = '';
+        this.memberNameValue = '';
       },
       onPagiChange: function (pagiClick) {
         this.pagiCurrent = pagiClick;
