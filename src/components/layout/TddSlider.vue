@@ -33,7 +33,7 @@
 
 <script>
 export default {
-  name: "Slider",
+  name: "TddSlider",
   computed: {
     selectedKeys: function() {
       let path = this.$route.fullPath;

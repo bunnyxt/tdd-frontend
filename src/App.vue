@@ -4,13 +4,13 @@
       <div class="slider-open-icon" @click="sliderOpenIconClickHandler">
         <a-icon type="bars" />
       </div>
-      <Slider/>
+      <tdd-slider/>
       <a-layout>
         <a-layout-content :style="{padding: layoutPadding}">
           <router-view></router-view>
         </a-layout-content>
         <div class="fake-footer"></div>
-        <Footer/>
+        <tdd-footer/>
         <a-back-top />
       </a-layout>
     </a-layout>
@@ -19,14 +19,14 @@
 
 <script>
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
-import Slider from "./components/Slider.vue";
-import Footer from "./components/Footer.vue";
+import TddSlider from "./components/layout/TddSlider.vue";
+import TddFooter from "./components/layout/TddFooter.vue";
 
 export default {
   name: "app",
   components: {
-    Slider,
-    Footer
+    TddSlider,
+    TddFooter
   },
   data: function() {
     return {

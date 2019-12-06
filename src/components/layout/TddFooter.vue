@@ -9,6 +9,6 @@
 
 <script>
 export default {
-  name: "Footer"
+  name: "TddFooter"
 };
 </script>
