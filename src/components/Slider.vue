@@ -1,10 +1,12 @@
 <template>
-  <a-layout-sider
-      breakpoint="xl"
-      collapsedWidth="0"
-      width="180px"
+  <a-drawer
+      placement="left"
+      :closable="false"
+      :visible="this.$store.state.isSliderVisible"
+      width="200px"
+      @close="drawerCloseHandler"
   >
-    <div style="margin: 24px 0px 12px 24px">
+    <div>
       <a href="/">
         <img src="/logo_32S.png">
       </a>
@@ -12,27 +14,46 @@
         天钿Daily
       </span>
     </div>
-    <a-menu
-      theme="dark"
-      mode="inline"
-      :style="{ lineHeight: '64px' }"
-      @click="handleMenuClick"
-    >
-      <a-menu-item key="1">首页</a-menu-item>
-      <a-menu-item key="2">所有视频</a-menu-item>
-      <a-menu-item key="3">传说助攻</a-menu-item>
-      <a-menu-item key="4">辅助工具</a-menu-item>
-    </a-menu>
-  </a-layout-sider>
+    <div class="menu-wrapper">
+      <a-menu
+          theme="light"
+          mode="inline"
+          :style="{ lineHeight: '64px' }"
+          :selectedKeys="selectedKeys"
+          @click="handleMenuClick"
+      >
+        <a-menu-item key="1">首页</a-menu-item>
+        <a-menu-item key="2">所有视频</a-menu-item>
+        <a-menu-item key="3">传说助攻</a-menu-item>
+        <a-menu-item key="4">辅助工具</a-menu-item>
+      </a-menu>
+    </div>
+  </a-drawer>
 </template>
 
 <script>
 export default {
   name: "Slider",
-  props: {
-
+  computed: {
+    selectedKeys: function() {
+      let path = this.$route.fullPath;
+      let keys = [];
+      if (path === '/') {
+        keys = ['1'];
+      } else if (path.startsWith('/video')) {
+        keys = ['2'];
+      } else if (path.startsWith('/sprint')) {
+        keys = ['3'];
+      } else if (path.startsWith('/tool')) {
+        keys = ['4'];
+      }
+      return keys;
+    }
   },
   methods: {
+    drawerCloseHandler: function() {
+      this.$store.commit('changeSliderVisibility');
+    },
     handleMenuClick(e) {
       switch (e.key) {
         case "1":
@@ -56,12 +77,12 @@ export default {
 </script>
 
 <style>
-  .ant-menu.ant-menu-dark .ant-menu-item-selected {
-     background-color: #001529;
-   }
   .logo-name {
-    color: rgba(255, 255, 255, 0.65);
     margin-left: 12px;
     font-size: 18px
+  }
+  .menu-wrapper {
+    margin-top: 20px;
+    margin-left: -24px;
   }
 </style>

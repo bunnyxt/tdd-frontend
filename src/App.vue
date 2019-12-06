@@ -1,6 +1,9 @@
 <template>
   <a-locale-provider :locale="locale">
     <a-layout class="layout" style="min-height:100%">
+      <div class="slider-open-icon" @click="sliderOpenIconClickHandler">
+        <a-icon type="bars" />
+      </div>
       <Slider/>
       <a-layout>
         <a-layout-content :style="{padding: layoutPadding}">
@@ -32,6 +35,11 @@ export default {
       layoutPadding: '0 50px'
     }
   },
+  methods: {
+    sliderOpenIconClickHandler: function () {
+      this.$store.commit('changeSliderVisibility');
+    }
+  },
   mounted: function(){
     if (document.body.clientWidth <= 768){
       this.headerPadding = '0'
@@ -55,6 +63,23 @@ export default {
 </script>
 
 <style>
+.slider-open-icon {
+  position: fixed;
+  top: 64px;
+  background: #001529;
+  width: 36px;
+  height: 42px;
+  color: #ffffff;
+  font-size: 18px;
+  border-radius: 0 4px 4px 0;
+  text-align: center;
+  cursor: pointer;
+  line-height: 42px;
+  transition: background .3s ease;
+}
+.slider-open-icon:hover {
+  background: #192c3e;
+}
 .fake-footer{
   height: 120px
 }
