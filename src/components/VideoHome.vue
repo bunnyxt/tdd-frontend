@@ -490,3 +490,9 @@
     height: 48px;
   }
 </style>
+
+<style>
+  :global(.ant-pagination-options) {
+    display: inline-block;
+  }
+</style>
