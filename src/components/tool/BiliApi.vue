@@ -1,9 +1,9 @@
 <template>
   <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
     <a-breadcrumb style="margin: 16px 0">
-      <a-breadcrumb-item><a href="/">首页</a></a-breadcrumb-item>
-      <a-breadcrumb-item><a href="/tool">辅助工具</a></a-breadcrumb-item>
-      <a-breadcrumb-item><a href="/tool/biliapi">Bilibili API传送门</a></a-breadcrumb-item>
+      <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
+      <a-breadcrumb-item><router-link to="/tool">辅助工具</router-link></a-breadcrumb-item>
+      <a-breadcrumb-item>Bilibili API传送门</a-breadcrumb-item>
     </a-breadcrumb>
     <div class="section-block">
       <h1>Bilibili API传送门</h1>

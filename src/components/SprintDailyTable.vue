@@ -5,7 +5,7 @@
     :pagination="pagination"
   >
     <template slot="titleRender" slot-scope="date">
-      助攻日报<a :href="'/sprint/daily/'+date">#{{date}}</a>
+      助攻日报<router-link :to="'/sprint/daily/'+date">#{{date}}</router-link>
     </template>
   </a-table>
 </template>

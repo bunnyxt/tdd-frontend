@@ -1,9 +1,9 @@
 <template>
   <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
     <a-breadcrumb style="margin: 16px 0">
-      <a-breadcrumb-item><a href="/">首页</a></a-breadcrumb-item>
-      <a-breadcrumb-item><a href="/sprint">传说助攻</a></a-breadcrumb-item>
-      <a-breadcrumb-item><a :href="'/sprint/av'+this.$route.params.aid">{{ video.title }}</a></a-breadcrumb-item>
+      <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
+      <a-breadcrumb-item><router-link to="/sprint">传说助攻</router-link></a-breadcrumb-item>
+      <a-breadcrumb-item>{{ video.title }}</a-breadcrumb-item>
     </a-breadcrumb>
     <div v-if="isLoadingVideo">
       <div class="section-block">
@@ -61,7 +61,7 @@
       <div v-else>
         <div class="section-block">
           <p>没有找到<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的冲刺记录</p>
-          <a href="/sprint">返回传说助攻</a>
+          <router-link to="/sprint">返回传说助攻</router-link>
         </div>
       </div>
     </div>

@@ -1,10 +1,10 @@
 <template>
   <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
     <a-breadcrumb style="margin: 16px 0">
-      <a-breadcrumb-item><a href="/">首页</a></a-breadcrumb-item>
-      <a-breadcrumb-item><a href="/sprint">传说助攻</a></a-breadcrumb-item>
-      <a-breadcrumb-item><a href="/sprint/daily">助攻日报</a></a-breadcrumb-item>
-      <a-breadcrumb-item><a :href="'/sprint/daily'+this.$route.params.date">{{ this.$route.params.date }}</a></a-breadcrumb-item>
+      <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
+      <a-breadcrumb-item><router-link to="/sprint">传说助攻</router-link></a-breadcrumb-item>
+      <a-breadcrumb-item><router-link to="/sprint/daily">助攻日报</router-link></a-breadcrumb-item>
+      <a-breadcrumb-item>{{ this.$route.params.date }}</a-breadcrumb-item>
     </a-breadcrumb>
     <div v-if="isLoadingDaily">
       <div class="section-block">
@@ -178,6 +178,7 @@ export default {
     }
   },
   created: function() {
+    // TODO rewrite get info method to support router-view
     this.isLoadingDaily = true
     this.isLoadingRecords = true
     fetch(this.$store.state.apiBase + "sprint_daily.php?date="+this.$route.params.date)

@@ -1,8 +1,8 @@
 <template>
   <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
     <a-breadcrumb style="margin: 16px 0">
-      <a-breadcrumb-item><a href="/">首页</a></a-breadcrumb-item>
-      <a-breadcrumb-item><a href="/sprint">传说助攻</a></a-breadcrumb-item>
+      <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
+      <a-breadcrumb-item>传说助攻</a-breadcrumb-item>
     </a-breadcrumb>
     <div class="section-block">
       <a-carousel autoplay>
@@ -34,7 +34,7 @@
           </p>
           <a-spin :spinning="isLoadingDaily">
             <p>最后更新⬇️</p>
-            <h2>助攻日报<a :href="'sprint/daily/'+sprintDaily.date">#{{ sprintDaily.date }}</a></h2>
+            <h2>助攻日报<router-link :to="'sprint/daily/'+sprintDaily.date">#{{ sprintDaily.date }}</router-link></h2>
             <div v-if="sprintDaily.correct == 1">
               <p>本期收录时间范围：<strong>UTC+8 {{ sprintDailyDateStart }} 06:00 ~ {{ sprintDailyDateEnd }} 06:00</strong>，共收录传说冲刺曲目<strong>{{ sprintDaily.vidnum }}</strong>首。</p>
               <p>本期传说冲刺曲目播放数总增长<strong>{{ sprintDaily.viewincr }}</strong>，与上一期相比<strong>{{ sprintDaily.viewincrincr > 0 ? "增长"+sprintDaily.viewincrincr:"减少"+(-sprintDaily.viewincrincr) }}</strong>。</p>
@@ -49,7 +49,7 @@
               <a-alert type="error" :message="sprintDaily.comment" banner style="margin-bottom: 12px"/>
             </div>
           </a-spin>
-          <p>查看<a href="/sprint/daily">往期助攻日报</a></p>
+          <p>查看<router-link to="/sprint/daily">往期助攻日报</router-link></p>
           <div class="SlickDotsSpace">
           </div>
         </div>
