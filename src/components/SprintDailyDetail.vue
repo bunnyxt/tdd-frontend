@@ -1,11 +1,13 @@
 <template>
   <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
-    <a-breadcrumb style="margin: 16px 0">
-      <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-      <a-breadcrumb-item><router-link to="/sprint">传说助攻</router-link></a-breadcrumb-item>
-      <a-breadcrumb-item><router-link to="/sprint/daily">助攻日报</router-link></a-breadcrumb-item>
-      <a-breadcrumb-item>{{ this.$route.params.date }}</a-breadcrumb-item>
-    </a-breadcrumb>
+    <div class="tdd-breadcrumb">
+      <a-breadcrumb>
+        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/sprint">传说助攻</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/sprint/daily">助攻日报</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>{{ this.$route.params.date }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </div>
     <div v-if="isLoadingDaily">
       <div class="section-block">
         <a-spin :spinning="isLoadingDaily">
@@ -26,7 +28,7 @@
           </div>
           <p>传送门：<a-icon type="arrow-left" />助攻日报<a :href="'/sprint/daily/'+lastDate">#{{ lastDate }}</a> 助攻日报<a :href="'/sprint/daily/'+nextDate">#{{ nextDate }}</a><a-icon type="arrow-right" /></p>
         </div>
-        <div class="section-seperator"></div>
+        <div class="section-separator"></div>
 
         <div v-if="daily.newvids.length > 0">
           <div class="section-block">
@@ -35,7 +37,7 @@
              <SprintVideoBriefTable :videos="newvidsList"/>
             </a-spin>
           </div>
-          <div class="section-seperator"></div>
+          <div class="section-separator"></div>
         </div>
 
         <div v-if="daily.millvids.length > 0">
@@ -45,7 +47,7 @@
               <SprintVideoBriefTable :videos="millvidsList"/>
             </a-spin>
           </div>
-          <div class="section-seperator"></div>
+          <div class="section-separator"></div>
         </div>
 
         <div v-if="daily.correct == 1">

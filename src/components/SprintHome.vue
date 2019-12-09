@@ -1,9 +1,11 @@
 <template>
   <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
-    <a-breadcrumb style="margin: 16px 0">
-      <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-      <a-breadcrumb-item>传说助攻</a-breadcrumb-item>
-    </a-breadcrumb>
+    <div class="tdd-breadcrumb">
+      <a-breadcrumb>
+        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>传说助攻</a-breadcrumb-item>
+      </a-breadcrumb>
+    </div>
     <div class="section-block">
       <a-carousel autoplay>
         <div>
@@ -73,7 +75,7 @@
         </div>
       </a-carousel>
     </div>
-    <div class="section-seperator"></div>
+    <div class="section-separator"></div>
     <div class="section-block">
       <h1>助攻列表</h1>
       <a-spin :spinning="isLoadingVideo">
@@ -110,7 +112,7 @@
         </a-list>
       </a-spin>
     </div>
-    <div class="section-seperator"></div>
+    <div class="section-separator"></div>
     <div class="section-block">
       <h1>历史助攻*</h1>
       <p>*展示已达成传说的，本系统曾经记录过的历史助攻曲目视频</p>

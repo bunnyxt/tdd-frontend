@@ -1,9 +1,11 @@
 <template>
   <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
-    <a-breadcrumb style="margin: 16px 0">
-      <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-      <a-breadcrumb-item>辅助工具</a-breadcrumb-item>
-    </a-breadcrumb>
+    <div class="tdd-breadcrumb">
+      <a-breadcrumb>
+        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>辅助工具</a-breadcrumb-item>
+      </a-breadcrumb>
+    </div>
     <div class="section-block">
       <h1>辅助工具</h1>
       <p>泛VC数据记录与分享相关所需要的辅助工具。</p>

@@ -1,10 +1,12 @@
 <template>
   <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
-    <a-breadcrumb style="margin: 16px 0">
-      <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-      <a-breadcrumb-item><router-link to="/sprint">传说助攻</router-link></a-breadcrumb-item>
-      <a-breadcrumb-item>{{ video.title }}</a-breadcrumb-item>
-    </a-breadcrumb>
+    <div class="tdd-breadcrumb">
+      <a-breadcrumb>
+        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/sprint">传说助攻</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>{{ video.title }}</a-breadcrumb-item>
+      </a-breadcrumb>
+    </div>
     <div v-if="isLoadingVideo">
       <div class="section-block">
         <a-spin :spinning="isLoadingRecords">
@@ -21,7 +23,7 @@
         </div>
         <transition name="fade">
         <div v-if="isLoadAllRecordsShow">
-          <div class="section-seperator"></div>
+          <div class="section-separator"></div>
           <a-spin :spinning="isLoadingRecords">
             <div class="section-block">
               <a-alert message="提示" type="info">
@@ -45,13 +47,13 @@
           </a-spin>
         </div>
         </transition>
-        <div class="section-seperator"></div>
+        <div class="section-separator"></div>
         <div class="section-block">
           <a-spin :spinning="isLoadingRecords">
             <SprintVideoMainChart :records="records"/>
           </a-spin>
         </div>
-        <div class="section-seperator"></div>
+        <div class="section-separator"></div>
         <div class="section-block">
           <a-spin :spinning="isLoadingRecords">
             <SprintVideoHeatMapChart :records="records"/>

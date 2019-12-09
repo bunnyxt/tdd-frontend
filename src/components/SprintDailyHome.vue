@@ -1,10 +1,12 @@
 <template>
   <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
-    <a-breadcrumb style="margin: 16px 0">
-      <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-      <a-breadcrumb-item><router-link to="/sprint">传说助攻</router-link></a-breadcrumb-item>
-      <a-breadcrumb-item>助攻日报</a-breadcrumb-item>
-    </a-breadcrumb>
+    <div class="tdd-breadcrumb">
+      <a-breadcrumb>
+        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/sprint">传说助攻</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>助攻日报</a-breadcrumb-item>
+      </a-breadcrumb>
+    </div>
     <div class="section-block">
       <h1>关于助攻日报</h1>
       <p>
@@ -21,14 +23,14 @@
         </ul>
       </p>
     </div>
-    <div class="section-seperator"></div>
+    <div class="section-separator"></div>
     <div class="section-block">
       <h1>助攻趋势</h1>
       <a-spin :spinning="isLoadingDaily">
         <SprintDailyChart :sprintDailyList="sprintDailyList"/>
       </a-spin>
     </div>
-    <div class="section-seperator"></div>
+    <div class="section-separator"></div>
     <div class="section-block">
       <h1>往期助攻日报</h1>
       <a-spin :spinning="isLoadingDaily">
