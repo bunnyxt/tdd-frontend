@@ -146,10 +146,14 @@
                     {{ item.title }}
                   </span>
                   <span>
-                    <a-icon type="user" class="stat-item-icon"/>
-                    {{ item.member ? item.member.name : 'mid'+item.mid}}
-                    <a-icon type="play-circle" class="stat-item-icon" style="margin-left: 8px;"/>
-                    {{ item.laststat ? item.laststat.view: -1 }}
+                    <span>
+                      <a-icon type="user" class="stat-item-icon"/>
+                      {{ item.member ? item.member.name : 'mid'+item.mid}}
+                    </span>
+                    <span class="video-view">
+                      <a-icon type="play-circle" class="stat-item-icon" style="margin-left: 8px;"/>
+                      {{ item.laststat ? item.laststat.view: -1 }}
+                    </span>
                   </span>
                 </div>
               </div>
@@ -536,6 +540,12 @@
   @media only screen and (max-width: 576px) {
     .stat-item-icon {
       margin-right: 4px;
+    }
+  }
+  /* on very small screen */
+  @media only screen and (max-width: 360px) {
+    .video-view {
+      display: none;
     }
   }
 </style>
