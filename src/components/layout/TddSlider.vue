@@ -7,9 +7,9 @@
       @close="drawerCloseHandler"
   >
     <div>
-      <a href="/">
+      <router-link to="/">
         <img src="/logo_32S.png">
-      </a>
+      </router-link>
       <span class="logo-name">
         天钿Daily
       </span>
