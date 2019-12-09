@@ -108,6 +108,9 @@ export default {
 .tdd-breadcrumb {
   margin: 16px 0;
 }
+:global(.ant-list-vertical .ant-list-item-content) {
+  margin-bottom: 0 !important;
+}
 /* MOBILE version */
 @media only screen and (max-width: 576px) {
   .section-separator {
@@ -120,14 +123,14 @@ export default {
     margin: 8px 0;
   }
   :global(.ant-list-lg .ant-list-item) {
-    padding-top: 4px !important;
-    padding-bottom: 4px !important;
-  }
-  :global(.ant-list-vertical .ant-list-item-content) {
-    margin-bottom: 0 !important;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
   }
   p {
     margin-bottom: 4px !important;
+  }
+  h1 {
+    margin-bottom: 8px !important;
   }
 }
 </style>

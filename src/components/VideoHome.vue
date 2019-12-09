@@ -138,19 +138,18 @@
           >
             <div class="video-item" @click="videoItemClickHandler(item.id)">
               <div v-if="$store.getters.clientMode === 'MOBILE'">
-                <div style="float: left; width: 128px">
-                  <img width="120px" height="75px" alt="pic" :src="item.pic"/>
+                <div style="float: left; width: 116px">
+                  <img width="108px" height="65px" alt="pic" :src="item.pic"/>
                 </div>
-                <div style="height: 75px">
-                  <h3 class="video-title" style="margin-bottom: 4px">
+                <div style="height: 65px">
+                  <span class="video-title-mobile" style="margin-bottom: 4px">
                     {{ item.title }}
-                  </h3>
-                  <span style="width: 100px">
-                    <a-icon type="user" style="margin-right: 4px"/>
-                    {{ item.member ? item.member.name : 'mid'+item.mid}}
-                  </span><br/>
+                  </span>
                   <span>
-                    播放：{{ item.laststat ? item.laststat.view: -1 }} <span class="vertical-separator">|</span>
+                    <a-icon type="user" class="stat-item-icon"/>
+                    {{ item.member ? item.member.name : 'mid'+item.mid}}
+                    <a-icon type="play-circle" class="stat-item-icon" style="margin-left: 8px;"/>
+                    {{ item.laststat ? item.laststat.view: -1 }}
                   </span>
                 </div>
               </div>
@@ -166,15 +165,14 @@
                       {{ item.member ? item.member.name : 'mid'+item.mid}}
                       <a-icon type="calendar" style="margin-left: 8px; margin-right: 4px"/>
                       {{ tsToStr(item.pubdate) }}
-                    </p>
-                    <p>
-                      播放：{{ item.laststat ? item.laststat.view: -1 }} <span class="vertical-separator">|</span>
-                      弹幕：{{ item.laststat ? item.laststat.danmaku: -1 }} <span class="vertical-separator">|</span>
-                      评论：{{ item.laststat ? item.laststat.reply: -1 }} <span class="vertical-separator">|</span>
-                      收藏：{{ item.laststat ? item.laststat.favorite: -1 }} <span class="vertical-separator">|</span>
-                      硬币：{{ item.laststat ? item.laststat.coin: -1 }} <span class="vertical-separator">|</span>
-                      分享：{{ item.laststat ? item.laststat.share: -1 }} <span class="vertical-separator">|</span>
-                      点赞：{{ item.laststat ? item.laststat.like: -1 }}
+                      <br/>
+                      <span class="stat-item"><a-icon type="play-circle" class="stat-item-icon" />{{ item.laststat ? item.laststat.view: -1 }} </span><span class="vertical-separator">|</span>
+                      <span class="stat-item"><a-icon type="profile" class="stat-item-icon" />{{ item.laststat ? item.laststat.danmaku: -1 }} </span><span class="vertical-separator">|</span>
+                      <span class="stat-item"><a-icon type="message" class="stat-item-icon" />{{ item.laststat ? item.laststat.reply: -1 }} </span><span class="vertical-separator">|</span>
+                      <span class="stat-item"><a-icon type="star" class="stat-item-icon" />{{ item.laststat ? item.laststat.favorite: -1 }} </span><span class="vertical-separator">|</span>
+                      <span class="stat-item"><a-icon type="dollar" class="stat-item-icon" />{{ item.laststat ? item.laststat.coin: -1 }} </span><span class="vertical-separator">|</span>
+                      <span class="stat-item"><a-icon type="share-alt" class="stat-item-icon" />{{ item.laststat ? item.laststat.share: -1 }} </span><span class="vertical-separator">|</span>
+                      <span class="stat-item"><a-icon type="like" class="stat-item-icon" />{{ item.laststat ? item.laststat.like: -1 }} </span>
                     </p>
                   </a-col>
                 </a-row>
@@ -182,6 +180,9 @@
             </div>
           </a-list-item>
         </a-list>
+        <div v-if="$store.getters.clientMode === 'MOBILE'">
+          <div style="height: 8px" />
+        </div>
         <a-pagination
             showQuickJumper
             v-model="pagiCurrent"
@@ -230,14 +231,14 @@
         </a-tag>
         <a-divider orientation="left">数据</a-divider>
         <div v-if="videoDetailDrawerCurrentVideo.laststat">
-          <ul>
-            <li>播放：{{ videoDetailDrawerCurrentVideo.laststat.view }}</li>
-            <li>弹幕：{{ videoDetailDrawerCurrentVideo.laststat.danmaku }}</li>
-            <li>评论：{{ videoDetailDrawerCurrentVideo.laststat.reply }}</li>
-            <li>收藏：{{ videoDetailDrawerCurrentVideo.laststat.favorite }}</li>
-            <li>硬币：{{ videoDetailDrawerCurrentVideo.laststat.coin }}</li>
-            <li>分享：{{ videoDetailDrawerCurrentVideo.laststat.share }}</li>
-            <li>点赞：{{ videoDetailDrawerCurrentVideo.laststat.like }}</li>
+          <ul style="padding-left: 20px">
+            <li><a-icon type="play-circle" class="stat-item-icon" />播放：{{ videoDetailDrawerCurrentVideo.laststat.view }}</li>
+            <li><a-icon type="profile" class="stat-item-icon" />弹幕：{{ videoDetailDrawerCurrentVideo.laststat.danmaku }}</li>
+            <li><a-icon type="message" class="stat-item-icon" />评论：{{ videoDetailDrawerCurrentVideo.laststat.reply }}</li>
+            <li><a-icon type="star" class="stat-item-icon" />收藏：{{ videoDetailDrawerCurrentVideo.laststat.favorite }}</li>
+            <li><a-icon type="dollar" class="stat-item-icon" />硬币：{{ videoDetailDrawerCurrentVideo.laststat.coin }}</li>
+            <li><a-icon type="share-alt" class="stat-item-icon" />分享：{{ videoDetailDrawerCurrentVideo.laststat.share }}</li>
+            <li><a-icon type="like" class="stat-item-icon" />点赞：{{ videoDetailDrawerCurrentVideo.laststat.like }}</li>
           </ul>
           *{{ tsToStr(videoDetailDrawerCurrentVideo.laststat.added) }}更新
         </div>
@@ -467,6 +468,15 @@
 </script>
 
 <style scoped>
+  .video-title-mobile {
+    height: 40px;
+    color: rgba(0, 0, 0, 0.85);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
   .video-title {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -491,6 +501,14 @@
   }
   .vertical-separator {
     color: #e8e8e8;
+    margin-left: 4px;
+    margin-right: 8px;
+  }
+  .stat-item {
+    white-space: nowrap;
+  }
+  .stat-item-icon {
+    margin-right: 8px;
   }
   .drawer-footer {
     position: fixed;
@@ -514,10 +532,19 @@
   .fake-drawer-footer {
     height: 48px;
   }
+  /* MOBILE version */
+  @media only screen and (max-width: 576px) {
+    .stat-item-icon {
+      margin-right: 4px;
+    }
+  }
 </style>
 
 <style>
   :global(.ant-pagination-options) {
     display: inline-block;
+  }
+  :global(.ant-pagination li) {
+    margin-bottom: 8px;
   }
 </style>
