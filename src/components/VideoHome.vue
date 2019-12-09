@@ -1,9 +1,11 @@
 <template>
   <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
-    <a-breadcrumb style="margin: 16px 0">
-      <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-      <a-breadcrumb-item>所有视频</a-breadcrumb-item>
-    </a-breadcrumb>
+    <div class="tdd-breadcrumb">
+      <a-breadcrumb>
+        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>所有视频</a-breadcrumb-item>
+      </a-breadcrumb>
+    </div>
     <div class="section-block">
       <h1>所有视频</h1>
       <p>天钿Daily收录B站<a href="https://www.bilibili.com/v/music/vocaloid/" target="_blank">VOCALOID·UTAU</a>分区下的所有视频和部分其他分区中的VC视频。</p>
@@ -109,17 +111,23 @@
           >
             搜索
           </a-button>
-          <a-button
-              icon="reload"
-              @click="handleReloadButtonClick"
-              style="margin-top: 8px; margin-left: 16px"
+          <a-popconfirm
+              title="确定重置所有条件？"
+              @confirm="handleReloadButtonClick"
+              okText="确定"
+              cancelText="取消"
           >
-            重置
-          </a-button>
+            <a-button
+                icon="reload"
+                style="margin-top: 8px; margin-left: 16px"
+            >
+              重置
+            </a-button>
+          </a-popconfirm>
         </a-collapse-panel>
       </a-collapse>
     </div>
-    <div class="section-seperator"></div>
+    <div class="section-separator"></div>
     <div class="section-block">
       <a-spin :spinning="isLoadingVideoList">
         <a-list itemLayout="vertical" size="large" :dataSource="videoList">
@@ -129,35 +137,48 @@
               key="item.id"
           >
             <div class="video-item" @click="videoItemClickHandler(item.id)">
-            <a-row >
-              <a-col :xs="24" :sm="8" :md="6" :xl="4" style="padding: 8px">
-                <img width="100%" height="100%" alt="pic" :src="item.pic"/>
-              </a-col>
-              <a-col :xs="24" :sm="16" :md="18" :xl="20" style="padding: 8px">
-                <a-tooltip placement="topLeft" >
-                  <template slot="title">
+              <div v-if="$store.getters.clientMode === 'MOBILE'">
+                <div style="float: left; width: 128px">
+                  <img width="120px" height="75px" alt="pic" :src="item.pic"/>
+                </div>
+                <div style="height: 75px">
+                  <h3 class="video-title" style="margin-bottom: 4px">
                     {{ item.title }}
-                  </template>
-                  <h3 class="video-title" style="">{{ item.title }}</h3>
-                </a-tooltip>
-                <p>
-                  <a-icon type="user" style="margin-right: 4px"/>
-                  {{ item.member ? item.member.name : 'mid'+item.mid}}
-                  <a-icon type="calendar" style="margin-left: 8px; margin-right: 4px"/>
-                  {{ tsToStr(item.pubdate) }}
-                </p>
-                <p>
-                  播放：{{ item.laststat ? item.laststat.view: -1 }} <span class="vertical-separator">|</span>
-                  弹幕：{{ item.laststat ? item.laststat.danmaku: -1 }} <span class="vertical-separator">|</span>
-                  评论：{{ item.laststat ? item.laststat.reply: -1 }} <span class="vertical-separator">|</span>
-                  收藏：{{ item.laststat ? item.laststat.favorite: -1 }} <span class="vertical-separator">|</span>
-                  硬币：{{ item.laststat ? item.laststat.coin: -1 }} <span class="vertical-separator">|</span>
-                  分享：{{ item.laststat ? item.laststat.share: -1 }} <span class="vertical-separator">|</span>
-                  点赞：{{ item.laststat ? item.laststat.like: -1 }}
-                </p>
-                <p></p>
-              </a-col>
-            </a-row>
+                  </h3>
+                  <span style="width: 100px">
+                    <a-icon type="user" style="margin-right: 4px"/>
+                    {{ item.member ? item.member.name : 'mid'+item.mid}}
+                  </span><br/>
+                  <span>
+                    播放：{{ item.laststat ? item.laststat.view: -1 }} <span class="vertical-separator">|</span>
+                  </span>
+                </div>
+              </div>
+              <div v-else>
+                <a-row >
+                  <a-col :xs="24" :sm="8" :md="6" :xl="4" style="padding: 8px">
+                    <img width="100%" height="100%" alt="pic" :src="item.pic"/>
+                  </a-col>
+                  <a-col :xs="24" :sm="16" :md="18" :xl="20" style="padding: 8px">
+                    <h3 class="video-title" style="">{{ item.title }}</h3>
+                    <p>
+                      <a-icon type="user" style="margin-right: 4px"/>
+                      {{ item.member ? item.member.name : 'mid'+item.mid}}
+                      <a-icon type="calendar" style="margin-left: 8px; margin-right: 4px"/>
+                      {{ tsToStr(item.pubdate) }}
+                    </p>
+                    <p>
+                      播放：{{ item.laststat ? item.laststat.view: -1 }} <span class="vertical-separator">|</span>
+                      弹幕：{{ item.laststat ? item.laststat.danmaku: -1 }} <span class="vertical-separator">|</span>
+                      评论：{{ item.laststat ? item.laststat.reply: -1 }} <span class="vertical-separator">|</span>
+                      收藏：{{ item.laststat ? item.laststat.favorite: -1 }} <span class="vertical-separator">|</span>
+                      硬币：{{ item.laststat ? item.laststat.coin: -1 }} <span class="vertical-separator">|</span>
+                      分享：{{ item.laststat ? item.laststat.share: -1 }} <span class="vertical-separator">|</span>
+                      点赞：{{ item.laststat ? item.laststat.like: -1 }}
+                    </p>
+                  </a-col>
+                </a-row>
+              </div>
             </div>
           </a-list-item>
         </a-list>
@@ -175,9 +196,10 @@
       <a-drawer
           :title="'av' + videoDetailDrawerCurrentVideo.aid.toString()"
           placement="right"
-          :closable="true"
+          :closable="false"
           @close="videoDetailDrawerCloseHandler"
           :visible="videoDetailDrawerVisible"
+          :width="videoDetailDrawerWidth + 'px'"
       >
         <h3>{{ videoDetailDrawerCurrentVideo.title }}</h3>
         <p>
@@ -228,10 +250,12 @@
         </div>
         <div class="fake-drawer-footer"></div>
         <div class="drawer-footer">
-          <div @click="videoDetailClickHandler(videoDetailDrawerCurrentVideo.aid)">
-              <a-icon type="line-chart" title="视频详情" style="margin-right: 8px"/>视频详情
+          <div @click="$router.push('/video/av'+videoDetailDrawerCurrentVideo.aid)"
+               :style="{ width: videoDetailDrawerWidth / 2 + 'px'}">
+              <a-icon type="line-chart" title="详细数据" style="margin-right: 8px"/>详细数据
           </div>
-          <div @click="videoViewClickHandler(videoDetailDrawerCurrentVideo.aid)">
+          <div @click="videoViewClickHandler(videoDetailDrawerCurrentVideo.aid)"
+               :style="{ width: videoDetailDrawerWidth / 2 + 'px'}">
             <a-icon type="play-circle" title="观看视频" style="margin-right: 8px"/>观看视频
           </div>
         </div>
@@ -272,6 +296,9 @@
         } else {
           return null;
         }
+      },
+      videoDetailDrawerWidth: function() {
+        return Math.min(this.$store.state.clientWidth * 0.7, 512);
       }
     },
     methods: {
@@ -388,7 +415,9 @@
       },
       handlePubdateStartOpenChange(open) {
         if (!open) {
-          this.pubdateEndOpen = true;
+          if (this.pubdateStartValue != null && this.pubdateEndValue == null) {
+            this.pubdateEndOpen = true;
+          }
         }
       },
       handlePubdateEndOpenChange(open) {
@@ -425,9 +454,6 @@
             break;
           }
         }
-      },
-      videoDetailClickHandler: function(aid) {
-        this.$router.push('/video/av'+aid);
       },
       videoViewClickHandler: function(aid) {
         window.open('https://www.bilibili.com/video/av'+aid);
@@ -477,7 +503,6 @@
   }
   .drawer-footer div {
     float: left;
-    width: 128px;
     height: 48px;
     text-align: center;
     border-left: 1px solid #e8e8e8;

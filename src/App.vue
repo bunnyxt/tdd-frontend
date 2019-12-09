@@ -1,7 +1,7 @@
 <template>
   <a-locale-provider :locale="locale">
     <a-layout class="layout" style="min-height:100%">
-      <div class="slider-open-icon" @click="sliderOpenIconClickHandler">
+      <div class="slider-open-icon" @click="$store.commit('changeSliderVisibility')">
         <a-icon type="bars" />
       </div>
       <tdd-slider/>
@@ -30,34 +30,48 @@ export default {
   },
   data: function() {
     return {
-      locale: zhCN,
-      headerPadding: '0 30px',
-      layoutPadding: '0 50px'
+      locale: zhCN
     }
   },
-  methods: {
-    sliderOpenIconClickHandler: function () {
-      this.$store.commit('changeSliderVisibility');
+  computed: {
+    layoutPadding: function() {
+      let width = this.$store.state.clientWidth;
+      if (width < 576) {
+        return '0 8px'
+      } else if (width < 768) {
+        return '0 20px'
+      } else {
+        return '0 50px'
+      }
     }
   },
   mounted: function(){
-    if (document.body.clientWidth <= 768){
-      this.headerPadding = '0'
-      this.layoutPadding = '0 20px'
-    } else {
-      this.headerPadding = '0 30px'
-      this.layoutPadding = '0 50px'
-    }
+    // if (document.body.clientWidth <= 768){
+    //   this.layoutPadding = '0 20px'
+    // } else {
+    //   this.layoutPadding = '0 50px'
+    // }
+    //
+    // window.addEventListener('resize',() => {
+    //   if (document.body.clientWidth <= 768){
+    //     that.layoutPadding = '0 20px'
+    //   } else {
+    //     that.layoutPadding = '0 50px'
+    //   }
+    // },false);
     var that = this;
-    window.addEventListener('resize',() => {
-      if (document.body.clientWidth <= 768){
-        that.headerPadding = '0'
-        that.layoutPadding = '0 20px'
-      } else {
-        that.headerPadding = '0 30px'
-        that.layoutPadding = '0 50px'
+
+    // global client mode
+    let width = (document && document.body && document.body.clientWidth) || -1;
+    if (width > 0) {
+      that.$store.commit('setClientWidth', width);
+    }
+    window.addEventListener('resize', () => {
+      let width = (document && document.body && document.body.clientWidth) || -1;
+      if (width > 0) {
+        that.$store.commit('setClientWidth', width);
       }
-    },false);
+    });
   }
 };
 </script>
@@ -65,7 +79,7 @@ export default {
 <style>
 .slider-open-icon {
   position: fixed;
-  top: 64px;
+  top: 92px;
   background: #001529;
   width: 36px;
   height: 42px;
@@ -76,6 +90,7 @@ export default {
   cursor: pointer;
   line-height: 42px;
   transition: background .3s ease;
+  z-index: 100;
 }
 .slider-open-icon:hover {
   background: #192c3e;
@@ -83,11 +98,36 @@ export default {
 .fake-footer{
   height: 120px
 }
-.section-seperator {
+.section-separator {
   height: 24px;
 }
 .section-block {
   background: #fff;
   padding: 24px
+}
+.tdd-breadcrumb {
+  margin: 16px 0;
+}
+/* MOBILE version */
+@media only screen and (max-width: 576px) {
+  .section-separator {
+    height: 12px;
+  }
+  .section-block {
+    padding: 8px;
+  }
+  .tdd-breadcrumb {
+    margin: 8px 0;
+  }
+  :global(.ant-list-lg .ant-list-item) {
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
+  :global(.ant-list-vertical .ant-list-item-content) {
+    margin-bottom: 0 !important;
+  }
+  p {
+    margin-bottom: 4px !important;
+  }
 }
 </style>
