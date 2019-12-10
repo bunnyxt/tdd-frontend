@@ -26,6 +26,7 @@
         <a-menu-item key="2">所有视频</a-menu-item>
         <a-menu-item key="3">传说助攻</a-menu-item>
         <a-menu-item key="4">辅助工具</a-menu-item>
+        <a-menu-item key="5">关于</a-menu-item>
       </a-menu>
     </div>
   </a-drawer>
@@ -46,6 +47,8 @@ export default {
         keys = ['3'];
       } else if (path.startsWith('/tool')) {
         keys = ['4'];
+      } else if (path.startsWith('/about')) {
+        keys = ['5'];
       }
       return keys;
     }
@@ -67,6 +70,9 @@ export default {
           break;
         case "4":
           this.$router.push("/tool");
+          break;
+        case "5":
+          this.$router.push("/about");
           break;
         default:
           break;
