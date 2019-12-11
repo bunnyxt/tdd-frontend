@@ -11,32 +11,39 @@
       <img src="/logo_64S.png" alt="logo" />
       <p><small>logo by SweetFairyTale</small></p>
       <p>天钿Daily（TianDian Daily）是一个VC相关数据交流与分享的网站。本站以推动VC相关数据交流为宗旨，基于B站API以及简单的网络爬虫，定期抓取并存储VC相关数据，选取感兴趣的纬度公开展示。</p>
-      <p>本站<strong>不鼓励</strong>基于数据的，对任何实体，包括作品、P主、社团、歌姬等的任何<strong>片面评价</strong>。数据受到多方面因素的影响，实体的评价也应该综合全面。</p>
-      <p>本站收集的所有数据均通过公开的正当的方式获取，并承诺不会收集任何敏感信息。由于存在不可避免的网络问题或程序问题，本站无法保证所有数据的绝对可靠。若您因为本站的信息直接或间接蒙受任何损失，本站将不负任何责任。</p>
-      <p>数据交流与系统反馈
-      <ul>
-        <li>
-          QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>
-        </li>
-        <li>
-          个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
-        </li>
-      </ul>
+      <p>
+        QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><br/>
+        个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
       </p>
     </div>
+<!--    <div class="section-separator"></div>-->
+<!--    <div class="section-block">-->
+<!--      <h1>常见问题</h1>-->
+<!--      // TODO-->
+<!--    </div>-->
     <div class="section-separator"></div>
     <div class="section-block">
       <h1>技术相关</h1>
       <p>小霸王服务器由京东云提供，<strong>谢绝爆破</strong>。</p>
-      <p>网站前端采用Vue.js+<a href="https://ant.design" target="_blank">Ant Design</a>实现，后端使用PHP实现，数据库使用MySQL，爬虫脚本基于Python。</p>
-      <p>部分源码可以在<a href="https://github.com/bunnyxt" target="_blank">这里</a>看到。</p>
+      <p>前端使用Vue全家桶构建，包括vue-router前端路由以及vuex状态管理。界面使用<a href="https://ant.design" target="_blank">Ant Design</a> UI设计语言，并根据项目需要，针对移动端访问进行了一系列优化。图表目前采用<a href="https://github.com/apexcharts/vue-apexcharts" target="_blank">ApexCharts</a>，但由于兼容性、更新频率与性能等问题，计划换成<a href="https://g2.antv.vision/" target="_blank">G2</a>。</p>
+      <p>后端使用Spring Boot构建RESTful API，另外还有部分使用PHP实现的旧版接口。本站所有数据可以通过调用API获取。<strong>资源有限，请勿滥用。</strong>数据库依旧使用MySQL（因为不会用NoSQL）。</p>
+      <p>爬虫脚本基于Python。很丢人，目前还没使用多线程爬虫，不知道怎么避免触发412。</p>
+      <p>绝大部分源码可以在<a href="https://github.com/users/bunnyxt/projects/1" target="_blank">GitHub TianDian Daily Project</a>看到。点开右侧Menu，进入Linked repositories查看不同模块的项目。<strong>欢迎Star，欢迎Issue！</strong></p>
+    </div>
+    <div class="section-separator"></div>
+    <div class="section-block">
+      <h1>免责声明</h1>
+      <p>本站数据收集自BiliBili。</p>
+      <p>本站收集的所有数据均从公开渠道获取，不会收集任何敏感信息。</p>
+      <p>由于存在不可避免的网络问题或程序问题，本站无法保证所有数据的绝对可靠。若您因为本站的信息直接或间接蒙受任何损失，本站将不负任何责任。</p>
+      <p>本站对所有数据持中立态度，不发表也<strong>不鼓励</strong>基于数据的，对任何实体，包括作品、P主、社团、歌姬等的任何<strong>片面评价</strong>。数据受到多方面因素的影响，实体的评价也应该综合全面。</p>
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
       <h1>关于bunnyxt</h1>
-      <p>12年入坑VC厨。洛厨，南北党。<strong>不撕逼</strong>，<strong>不撕逼</strong>，<strong>不撕逼</strong>。</p>
-      <p>日常活跃于新浪微博<a href="https://www.weibo.com/nny29/" target="_blank">@牛奶源29</a></p>
-      <p>naïve coder，是鶸。</p>
+      <p>12年入坑的VC厨。洛厨，南北党。"<a href="https://www.bilibili.com/video/av456930/" target="_blank">默默守望，希望天依越来越好~</a>"</p>
+      <p>日常活跃于新浪微博 <a href="https://www.weibo.com/nny29" target="_blank">@牛奶源29</a></p>
+      <p>INTJ, naive coder from NJAU. 业余全栈工程师，GitHub <a href="https://github.com/bunnyxt" target="_blank">@bunnyxt</a></p>
     </div>
   </div>
 </template>
