@@ -470,6 +470,24 @@ export default {
               },
               text: '-八重回归',
             }
+          },{
+            x: new Date('2019-12-09').valueOf(),
+            y: 9824,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'red',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#FF4560',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#FF4560',
+              },
+              text: '+卡路里（VS全员）',
+            },
           }]
         },
         chart: {
