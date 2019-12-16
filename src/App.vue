@@ -46,19 +46,6 @@ export default {
     }
   },
   mounted: function(){
-    // if (document.body.clientWidth <= 768){
-    //   this.layoutPadding = '0 20px'
-    // } else {
-    //   this.layoutPadding = '0 50px'
-    // }
-    //
-    // window.addEventListener('resize',() => {
-    //   if (document.body.clientWidth <= 768){
-    //     that.layoutPadding = '0 20px'
-    //   } else {
-    //     that.layoutPadding = '0 50px'
-    //   }
-    // },false);
     var that = this;
 
     // global client mode

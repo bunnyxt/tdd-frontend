@@ -206,7 +206,7 @@
           :visible="videoDetailDrawerVisible"
           :width="videoDetailDrawerWidth + 'px'"
       >
-        <h3>{{ videoDetailDrawerCurrentVideo.title }}</h3>
+        <h3 style="margin-bottom: 14px">{{ videoDetailDrawerCurrentVideo.title }}</h3>
         <p>
           <a-avatar
               size="small"
