@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 const Home = () => import("./components/Home");
 const VideoHome = () => import("./components/VideoHome");
+const VideoDetail = () => import("./components/VideoDetail");
 const SprintHome = () => import("./components/SprintHome");
 const SprintVideoDetail = () =>import("./components/SprintVideoDetail");
 const SprintDailyHome = () => import("./components/SprintDailyHome");
@@ -27,6 +28,9 @@ export default new Router({
         }, {
             path: "/video",
             component: VideoHome
+        }, {
+            path: "/video/av:aid",
+            component: VideoDetail
         }, {
             path: "/sprint",
             component: SprintHome
