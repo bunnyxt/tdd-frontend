@@ -78,6 +78,13 @@ Vue.use(Popconfirm)
 Vue.use(VueApexCharts)
 Vue.component('apexchart', VueApexCharts)
 
+// axios
+import axios from './api/axios'
+Vue.prototype.$axios = axios;
+
+// G2
+// import G2 from '@antv/g2';
+
 new Vue({
   router,
   store,
