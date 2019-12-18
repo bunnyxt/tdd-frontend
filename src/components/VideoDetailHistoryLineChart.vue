@@ -13,50 +13,53 @@ export default {
   name: '',
   data: function() {
     return {
-      chart: null
+      chart: null,
+      ds: null,
+      dv: null
     }
   },
   props: {
     videoRecords: Array
   },
   methods: {
-    draw: function() {
-      const chart = new G2.Chart({
+    init: function() {
+      this.chart = new G2.Chart({
         container: 'video-detail-history-line-chart',
         forceFit: true,
         height : 400
       });
 
-      const ds = new DataSet({
+      this.ds = new DataSet({
         state: {
           start: '',
           end: ''
         }
       });
-      const dv = ds.createView();
-      dv.source(this.videoRecords)
+
+      this.dv = this.ds.createView()
+        .source(this.videoRecords)
         .transform({
           type: 'fold',
-          fields: [ 'view', 'danmaku', 'reply', 'favorite', 'coin', 'share', 'like' ],
-          key: 'key',
+          fields: ['view', 'danmaku', 'reply', 'favorite', 'coin', 'share', 'like'],
+          key: 'prop',
           value: 'value'
         })
         .transform({
           type: 'map',
           callback(row) {
-            row.added = row.added * 1000;
+            row.added = row.added * 1000; // ts_s -> ts_ms
             return row;
           }
         });
 
-      chart.source(dv, {
+      this.chart.source(this.dv, {
         added: {
           type: 'time',
           mask: 'YYYY-MM-DD HH:mm:ss'
-        },
+        }
       });
 
-      chart.axis('added', {
+      this.chart.axis('added', {
         label: {
           formatter: function (text) {
             return text.slice(5, 10);
@@ -72,17 +75,16 @@ export default {
       //   yAxis: 'view',
       // });
 
-      chart
+      this.chart
         .line()
         .position('added*value')
-        .color('key');
+        .color('prop');
 
-      this.chart = chart;
       this.chart.render();
     }
   },
   mounted: function() {
-    this.draw();
+    this.init();
   }
 }
 </script>
