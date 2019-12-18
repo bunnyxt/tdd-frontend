@@ -95,7 +95,7 @@ export default {
 .tdd-breadcrumb {
   margin: 16px 0;
 }
-:global(.ant-list-vertical .ant-list-item-content) {
+.ant-list-vertical .ant-list-item-content {
   margin-bottom: 0 !important;
 }
 /* MOBILE version */
@@ -109,7 +109,7 @@ export default {
   .tdd-breadcrumb {
     margin: 8px 0;
   }
-  :global(.ant-list-lg .ant-list-item) {
+  .ant-list-lg .ant-list-item {
     padding-top: 8px !important;
     padding-bottom: 8px !important;
   }

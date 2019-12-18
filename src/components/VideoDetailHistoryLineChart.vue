@@ -73,7 +73,7 @@ export default {
           }
         }
       });
-      
+
       let dv_slider = this.ds.createView()
         .source(this.videoRecords)
         .transform({

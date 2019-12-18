@@ -551,10 +551,10 @@
 </style>
 
 <style>
-  :global(.ant-pagination-options) {
+  .ant-pagination-options {
     display: inline-block;
   }
-  :global(.ant-pagination li) {
+  .ant-pagination li {
     margin-bottom: 8px;
   }
 </style>
