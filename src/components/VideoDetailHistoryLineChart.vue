@@ -31,13 +31,20 @@ export default {
 
       this.ds = new DataSet({
         state: {
-          start: '',
-          end: ''
+          start: this.videoRecords.length > 0 ? this.videoRecords[0].added : 0,
+          end: this.videoRecords.length > 0 ? this.videoRecords[this.videoRecords.length-1].added : 0
         }
       });
 
+      let that = this;
       this.dv = this.ds.createView()
         .source(this.videoRecords)
+        .transform({
+          type: 'filter',
+          callback(row) {
+            return row.added >= that.ds.state.start && row.added <= that.ds.state.end;
+          }
+        })
         .transform({
           type: 'fold',
           fields: ['view', 'danmaku', 'reply', 'favorite', 'coin', 'share', 'like'],
@@ -66,14 +73,29 @@ export default {
           }
         }
       });
-
-      // TODO slider
-      // chart.interact('slider', {
-      //   container: 'video-detail-history-line-chart-slider',
-      //   data: this.videoRecords,
-      //   xAxis: 'added',
-      //   yAxis: 'view',
-      // });
+      
+      let dv_slider = this.ds.createView()
+        .source(this.videoRecords)
+        .transform({
+          type: 'map',
+          callback(row) {
+            row.added = row.added * 1000; // ts_s -> ts_ms
+            return row;
+          }
+        });
+      this.chart.interact('slider', {
+        container: 'video-detail-history-line-chart-slider',
+        data: dv_slider,
+        xAxis: 'added',
+        yAxis: 'view',
+        onChange: ({ startValue, endValue}) => {
+          that.ds.setState('start', Math.floor(startValue / 1000));
+          that.ds.setState('end', Math.floor(endValue / 1000));
+          setTimeout(() => {
+            that.chart.render();
+          }, 32);
+        }
+      });
 
       this.chart
         .line()
