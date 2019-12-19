@@ -250,7 +250,7 @@
           <a-alert type="error" message="暂无数据" />
         </div>
         <a-divider orientation="left">其他</a-divider>
-        <div v-if="videoDetailDrawerCurrentVideo.isvc == 1">
+        <div v-if="videoDetailDrawerCurrentVideo.isvc === 1">
           <a-tag color="pink">VC</a-tag>
         </div>
         <div class="fake-drawer-footer"></div>
@@ -270,6 +270,7 @@
 </template>
 
 <script>
+  import { Modal } from 'ant-design-vue';
   export default {
     name: "VideoHome",
     components: {
@@ -387,7 +388,16 @@
             that.lastLoadVideoListDate = new Date();
           })
           .catch(function (error) {
-            console.log(error);
+            let title = error.response.data.code + ' - ' + error.response.data.message;
+            let content = JSON.stringify(error.response.data.detail);
+            if (error.response.data.code === 40001) {
+              title = '请求参数出错';
+              content = '请检查筛选搜索条件。' + JSON.stringify(error.response.data);
+            }
+            Modal.error({
+              title: title,
+              content: content
+            });
           })
           .finally(function () {
             that.isLoadingVideoList = false;

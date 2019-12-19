@@ -32,6 +32,7 @@ import { Drawer } from "ant-design-vue"
 import { Divider } from "ant-design-vue"
 import { Tag } from "ant-design-vue"
 import { Popconfirm } from "ant-design-vue"
+import { Modal } from "ant-design-vue"
 
 // apex chart
 import VueApexCharts from 'vue-apexcharts'
@@ -73,6 +74,7 @@ Vue.use(Drawer)
 Vue.use(Divider)
 Vue.use(Tag)
 Vue.use(Popconfirm)
+Vue.use(Modal)
 
 // apex chart
 Vue.use(VueApexCharts)
