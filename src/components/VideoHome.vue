@@ -312,7 +312,7 @@
         return true;
       },
       assembleQueryUrl: function() {
-        let url = "https://api.bunnyxt.com/tdd/v2/video?";
+        let url = "video?";
         // vc
         if (this.isvcValue === 2) {
           url += 'vc=1&';
@@ -322,7 +322,7 @@
           url += 'start_ts=' + Math.floor(this.pubdateStartValue.toDate().valueOf() / 1000) + '&';
         }
         // end_ts
-        if (this.pubdateStartValue) {
+        if (this.pubdateEndValue) {
           url += 'end_ts=' + Math.floor(this.pubdateEndValue.toDate().valueOf() / 1000) + '&';
         }
         // title
@@ -379,16 +379,19 @@
         }
 
         let url = this.assembleQueryUrl();
-        fetch(url)
-          .then(response => {
-            this.videoTotalCount = parseInt(response.headers.get("x-total-count"));
-            return response
+        let that = this;
+        this.$axios.get(url)
+          .then(function (response) {
+            that.videoList = response.data;
+            that.videoTotalCount = parseInt(response.headers['x-total-count']);
+            that.lastLoadVideoListDate = new Date();
           })
-          .then(response => response.json())
-          .then(json => this.videoList = json)
-
-          .then(() => this.lastLoadVideoListDate = new Date())
-          .then(() => this.isLoadingVideoList = false);
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            that.isLoadingVideoList = false;
+          });
       },
       addZero: function(value) {
         return value < 10 ? "0" + value : "" + value;
