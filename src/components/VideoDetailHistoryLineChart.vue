@@ -1,5 +1,6 @@
 <template>
   <div>
+    <span>坐标系类型：<a-switch defaultChecked checkedChildren="对数" unCheckedChildren="线性" @change="onValueTypeSwitchChange" /></span>
     <div id="video-detail-history-line-chart"></div>
     <div id="video-detail-history-line-chart-slider"></div>
   </div>
@@ -23,19 +24,34 @@ export default {
   },
   methods: {
     init: function() {
+      this.initChart();
+      this.initDs();
+      this.initDv();
+
+      this.setChartSource('log');
+      this.setChartAxis();
+      this.setChartInteract();
+
+      this.setChartStyle();
+      this.chart.render();
+    },
+    initChart: function() {
       this.chart = new G2.Chart({
         container: 'video-detail-history-line-chart',
         forceFit: true,
         height : 400
       });
-
+    },
+    initDs: function() {
       this.ds = new DataSet({
         state: {
           start: this.videoRecords.length > 0 ? this.videoRecords[0].added : 0,
-          end: this.videoRecords.length > 0 ? this.videoRecords[this.videoRecords.length-1].added : 0
+          end: this.videoRecords.length > 0 ? this.videoRecords[this.videoRecords.length-1].added : 0,
+          valueType: 'log'
         }
       });
-
+    },
+    initDv: function() {
       let that = this;
       this.dv = this.ds.createView()
         .source(this.videoRecords)
@@ -58,14 +74,21 @@ export default {
             return row;
           }
         });
-
+    },
+    setChartSource: function(valueType) {
       this.chart.source(this.dv, {
         added: {
           type: 'time',
           mask: 'YYYY-MM-DD HH:mm:ss'
+        },
+        value: {
+          type: valueType,
+          base: 10, // only work when valueType === 'log'
+          nice: false
         }
       });
-
+    },
+    setChartAxis: function() {
       this.chart.axis('added', {
         label: {
           formatter: function (text) {
@@ -73,7 +96,9 @@ export default {
           }
         }
       });
-
+    },
+    setChartInteract: function() {
+      let that = this;
       let dv_slider = this.ds.createView()
         .source(this.videoRecords)
         .transform({
@@ -96,12 +121,19 @@ export default {
           }, 32);
         }
       });
-
+    },
+    setChartStyle: function() {
       this.chart
         .line()
         .position('added*value')
         .color('prop');
-
+    },
+    onValueTypeSwitchChange: function (checked) {
+      if (checked) {
+        this.setChartSource('log');
+      } else {
+        this.setChartSource('linear');
+      }
       this.chart.render();
     }
   },
