@@ -1,6 +1,8 @@
 <template>
   <div>
-    <span>坐标系类型：<a-switch defaultChecked checkedChildren="对数" unCheckedChildren="线性" @change="onValueTypeSwitchChange" /></span>
+    <div>
+      <span>坐标系类型：<a-switch defaultChecked checkedChildren="对数" unCheckedChildren="线性" @change="onValueTypeSwitchChange" /></span>
+    </div>
     <div id="video-detail-history-line-chart"></div>
     <div id="video-detail-history-line-chart-slider"></div>
   </div>
@@ -62,8 +64,20 @@ export default {
           }
         })
         .transform({
+          type: 'rename',
+          map: {
+            view: '播放',
+            danmaku: '弹幕',
+            reply: '评论',
+            favorite: '收藏',
+            coin: '硬币',
+            share: '分享',
+            like: '点赞'
+          }
+        })
+        .transform({
           type: 'fold',
-          fields: ['view', 'danmaku', 'reply', 'favorite', 'coin', 'share', 'like'],
+          fields: ['播放', '弹幕', '评论', '收藏', '硬币', '分享', '点赞'],
           key: 'prop',
           value: 'value'
         })
