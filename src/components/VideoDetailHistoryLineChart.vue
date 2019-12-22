@@ -18,31 +18,36 @@ export default {
     return {
       chart: null,
       ds: null,
-      dv: null
+      dv: null,
+      paddingDESKTOP: [ 20, 8, 95, 60 ],
+      paddingMOBILE: [ 20, 8, 95, 8 ],
     }
   },
   props: {
     videoRecords: Array
   },
+  computed: {
+    _storeClientMode: function() {
+      return this.$store.getters.clientMode;
+    },
+    padding: function() {
+      return this.$store.getters.clientMode === 'MOBILE' ? this.paddingMOBILE : this.paddingDESKTOP;
+    }
+  },
+  watch: {
+    _storeClientMode: function() {
+      this.chart.destroy();
+      document.getElementById('video-detail-history-line-chart-slider').innerHTML = ''; // destroy slider
+      this.initChart();
+      this.chart.render();
+    }
+  },
   methods: {
     init: function() {
-      this.initChart();
       this.initDs();
       this.initDv();
-
-      this.setChartSource('log');
-      this.setChartAxis();
-      this.setChartInteract();
-
-      this.setChartStyle();
+      this.initChart();
       this.chart.render();
-    },
-    initChart: function() {
-      this.chart = new G2.Chart({
-        container: 'video-detail-history-line-chart',
-        forceFit: true,
-        height : 400
-      });
     },
     initDs: function() {
       this.ds = new DataSet({
@@ -89,6 +94,22 @@ export default {
           }
         });
     },
+    initChart: function() {
+      this.createChart();
+      this.setChartAxis();
+      this.setChartSource('log');
+
+      this.setChartInteract();
+      this.setChartStyle();
+    },
+    createChart: function() {
+      this.chart = new G2.Chart({
+        container: 'video-detail-history-line-chart',
+        forceFit: true,
+        height : 400,
+        padding: this.padding
+      });
+    },
     setChartSource: function(valueType) {
       this.chart.source(this.dv, {
         added: {
@@ -110,6 +131,9 @@ export default {
           }
         }
       });
+      this.chart.axis('value', {
+        label: this.$store.getters.clientMode === 'MOBILE' ? null : {}
+      });
     },
     setChartInteract: function() {
       let that = this;
@@ -127,6 +151,7 @@ export default {
         data: dv_slider,
         xAxis: 'added',
         yAxis: 'view',
+        padding: this.padding,
         onChange: ({ startValue, endValue}) => {
           that.ds.setState('start', Math.floor(startValue / 1000));
           that.ds.setState('end', Math.floor(endValue / 1000));
