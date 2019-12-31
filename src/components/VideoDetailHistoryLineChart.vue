@@ -35,6 +35,9 @@ export default {
     }
   },
   watch: {
+    videoRecords: function() {
+      this.init();
+    },
     _storeClientMode: function() {
       this.chart.destroy();
       document.getElementById('video-detail-history-line-chart-slider').innerHTML = ''; // destroy slider
@@ -152,7 +155,7 @@ export default {
         xAxis: 'added',
         yAxis: 'view',
         padding: this.padding,
-        onChange: ({ startValue, endValue}) => {
+        onChange: ({ startValue, endValue }) => {
           that.ds.setState('start', Math.floor(startValue / 1000));
           that.ds.setState('end', Math.floor(endValue / 1000));
           setTimeout(() => {
