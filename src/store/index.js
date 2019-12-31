@@ -8,7 +8,8 @@ const store = new Vuex.Store({
     apiBase: "https://api.bunnyxt.com/tdd/",
     //apiBase: "http://localhost/tdd/", // debug
     isSliderVisible: false,
-    clientWidth: 0
+    clientWidth: 0,
+    videoHomeData: null
   },
   mutations: {
     changeSliderVisibility(state) {
@@ -16,6 +17,9 @@ const store = new Vuex.Store({
     },
     setClientWidth(state, clientWidth) {
       state.clientWidth = clientWidth;
+    },
+    storeVideoHomeData(state, data) {
+      state.videoHomeData = data;
     }
   },
   getters: {
