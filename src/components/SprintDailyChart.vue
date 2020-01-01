@@ -488,6 +488,78 @@ export default {
               },
               text: '+卡路里（VS全员）',
             },
+          },{
+            x: new Date('2019-12-17').valueOf(),
+            y: 5222,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'red',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#FF4560',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#FF4560',
+              },
+              text: '+白石溪 +保卫罗德岛',
+            },
+          },{
+            x: new Date('2019-12-29').valueOf(),
+            y: 18323,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'red',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#FF4560',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#FF4560',
+              },
+              text: '+不老不死',
+            },
+          },{
+            x: new Date('2019-12-31').valueOf(),
+            y: 14112,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'red',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#FF4560',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#FF4560',
+              },
+              text: '+上山岗',
+            },
+          },{
+            x: new Date('2019-12-31').valueOf(),
+            y: 14112,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'lightgreen',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#00E396',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#00E396',
+              },
+              text: '-〇',
+            }
           }]
         },
         chart: {
