@@ -63,6 +63,7 @@
                     format="YYYY-MM-DD HH:mm:ss"
                     placeholder="开始"
                     v-model="pubdateStartValue"
+                    @change="handlePubdateStartChange"
                     @openChange="handlePubdateStartOpenChange"
                 />
                  ~
@@ -73,8 +74,21 @@
                     placeholder="结束"
                     v-model="pubdateEndValue"
                     :open="pubdateEndOpen"
+                    @change="handlePubdateEndChange"
                     @openChange="handlePubdateEndOpenChange"
+                    style="margin-right: 8px"
                 />
+                <a-select
+                    style="width: 100px"
+                    placeholder="快速选择"
+                    v-model="pubdateSelectValue"
+                    @change="handlePubdateSelectChange">
+                  <a-select-option value="custom">自定义</a-select-option>
+                  <a-select-option value="day">本日</a-select-option>
+                  <a-select-option value="week">本周</a-select-option>
+                  <a-select-option value="month">本月</a-select-option>
+                  <a-select-option value="year">本年</a-select-option>
+                </a-select>
               </td>
             </tr>
             <tr>
@@ -271,6 +285,7 @@
 
 <script>
   import { Modal } from 'ant-design-vue';
+  import moment from 'moment';
   export default {
     name: "VideoHome",
     components: {
@@ -287,6 +302,7 @@
         pubdateStartValue: null,
         pubdateEndValue: null,
         pubdateEndOpen: false,
+        pubdateSelectValue: undefined,
         titleValue: '',
         memberNameValue: '',
         pagiCurrent: 1,
@@ -431,6 +447,11 @@
         }
         return startValue.valueOf() >= endValue.valueOf();
       },
+      handlePubdateStartChange() {
+        if (this.pubdateSelectValue !== 'custom') {
+          this.pubdateSelectValue = 'custom';
+        }
+      },
       handlePubdateStartOpenChange(open) {
         if (!open) {
           if (this.pubdateStartValue != null && this.pubdateEndValue == null) {
@@ -438,8 +459,30 @@
           }
         }
       },
+      handlePubdateEndChange() {
+        if (this.pubdateSelectValue !== 'custom') {
+          this.pubdateSelectValue = 'custom';
+        }
+      },
       handlePubdateEndOpenChange(open) {
         this.pubdateEndOpen = open;
+      },
+      handlePubdateSelectChange(value) {
+        switch (value) {
+          case 'custom':
+            this.pubdateStartValue = null;
+            this.pubdateEndValue = null;
+            break;
+          case 'day':
+          case 'week':
+          case 'month':
+          case 'year':
+            this.pubdateStartValue = moment().startOf(value);
+            this.pubdateEndValue = moment().endOf(value);
+            break;
+          default:
+            break;
+        }
       },
       handleSearchButtonClick: function() {
         if (!this.isLoadingVideoList) {
@@ -454,6 +497,7 @@
         this.pubdateStartValue = null;
         this.pubdateEndValue = null;
         this.pubdateEndOpen = false;
+        this.pubdateSelectValue = undefined;
         this.titleValue = '';
         this.memberNameValue = '';
       },
@@ -490,6 +534,7 @@
         this.pubdateStartValue = data.pubdateStartValue;
         this.pubdateEndValue = data.pubdateEndValue;
         this.pubdateEndOpen = data.pubdateEndOpen;
+        this.pubdateSelectValue = data.pubdateSelectValue;
         this.titleValue = data.titleValue;
         this.memberNameValue = data.memberNameValue;
         this.pagiCurrent = data.pagiCurrent;
@@ -513,6 +558,7 @@
       data.pubdateStartValue = this.pubdateStartValue;
       data.pubdateEndValue = this.pubdateEndValue;
       data.pubdateEndOpen = this.pubdateEndOpen;
+      data.pubdateSelectValue = this.pubdateSelectValue;
       data.titleValue = this.titleValue;
       data.memberNameValue = this.memberNameValue;
       data.pagiCurrent = this.pagiCurrent;
