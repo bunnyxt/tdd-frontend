@@ -221,18 +221,23 @@
           :width="videoDetailDrawerWidth + 'px'"
       >
         <h3 style="margin-bottom: 14px">{{ videoDetailDrawerCurrentVideo.title }}</h3>
-        <p>
-          <a-avatar
-              size="small"
-              :src="videoDetailDrawerCurrentVideo.member
+        <div v-if="videoDetailDrawerCurrentVideo.hasstaff === 1">
+          ?
+        </div>
+        <div v-else>
+          <p>
+            <a-avatar
+                size="small"
+                :src="videoDetailDrawerCurrentVideo.member
                 ? videoDetailDrawerCurrentVideo.member.face
                 : 'https://static.hdslb.com/images/member/noface.gif'"
-              style="margin-right:12px"
-          />
-          <a :href="'https://space.bilibili.com/'+videoDetailDrawerCurrentVideo.mid" target="_blank">
-            {{ videoDetailDrawerCurrentVideo.member ? videoDetailDrawerCurrentVideo.member.name : 'mid'+videoDetailDrawerCurrentVideo.mid}}
-          </a>
-        </p>
+                style="margin-right:12px"
+            />
+            <a :href="'https://space.bilibili.com/'+videoDetailDrawerCurrentVideo.mid" target="_blank">
+              {{ videoDetailDrawerCurrentVideo.member ? videoDetailDrawerCurrentVideo.member.name : 'mid'+videoDetailDrawerCurrentVideo.mid}}
+            </a>
+          </p>
+        </div>
         <p><a-icon type="calendar" style="margin-right: 12px"/>{{ tsToStr(videoDetailDrawerCurrentVideo.pubdate) }}</p>
         <p><a-icon type="database" style="margin-right: 12px"/>{{ videoDetailDrawerCurrentVideo.tname }}</p>
         <a-divider orientation="left">简介</a-divider>
@@ -419,6 +424,9 @@
             that.isLoadingVideoList = false;
           });
       },
+      fetchVideoStaff: function(aid) {
+        let url = 
+      },
       addZero: function(value) {
         return value < 10 ? "0" + value : "" + value;
       },
@@ -516,6 +524,8 @@
             break;
           }
         }
+        // add video staff data
+
       },
       videoViewClickHandler: function(aid) {
         window.open('https://www.bilibili.com/video/av'+aid);
