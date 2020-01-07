@@ -44,6 +44,32 @@
                 {{ video.member ? video.member.name : 'mid'+video.mid}}
               </a>
             </p>
+            <div v-if="video.hasstaff === 1">
+              <p>
+                <a-collapse>
+                  <a-collapse-panel :header="'创作团队 ('+video.staff.length+')'">
+                    <table cellpadding="4px">
+                      <tr v-for="staff in video.staff" :key="staff.mid">
+                        <td>
+                          <a-avatar
+                              size="small"
+                              :src="staff.face"
+                          />
+                        </td>
+                        <td>
+                          <a :href="'https://space.bilibili.com/'+staff.mid" target="_blank">
+                            {{ staff.name }}
+                          </a>
+                        </td>
+                        <td>
+                          {{ staff.title }}
+                        </td>
+                      </tr>
+                    </table>
+                  </a-collapse-panel>
+                </a-collapse>
+              </p>
+            </div>
             <p><a-icon type="calendar" style="margin-right: 12px"/>{{ tsToStr(video.pubdate) }}</p>
             <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
             <p><a-icon type="play-circle" style="margin-right: 12px"/><a :href="'https://www.bilibili.com/video/av'+video.aid" target="_blank">去B站观看</a></p>
