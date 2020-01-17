@@ -560,6 +560,60 @@ export default {
               },
               text: '-〇',
             }
+          },{
+            x: new Date('2020-01-06').valueOf(),
+            y: 20443,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'lightgreen',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#00E396',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#00E396',
+              },
+              text: '-大小姐的复仇生涯',
+            }
+          },{
+            x: new Date('2020-01-09').valueOf(),
+            y: 18935,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'lightgreen',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#00E396',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#00E396',
+              },
+              text: '-非人哉',
+            }
+          },{
+            x: new Date('2020-01-14').valueOf(),
+            y: 12777,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'lightgreen',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#00E396',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#00E396',
+              },
+              text: '-地势坤',
+            }
           }]
         },
         chart: {
