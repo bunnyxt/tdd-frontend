@@ -83,7 +83,8 @@ export default {
   background: #192c3e;
 }
 .fake-footer{
-  height: 120px
+  height: 120px;
+  z-index: -1;
 }
 .section-separator {
   height: 24px;
