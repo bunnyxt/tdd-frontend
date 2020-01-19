@@ -9,7 +9,8 @@
     <div class="section-block">
       <h1>所有视频</h1>
       <p>天钿Daily收录B站<a href="https://www.bilibili.com/v/music/vocaloid/" target="_blank">VOCALOID·UTAU</a>分区下的所有视频和部分其他分区中的VC视频。</p>
-      <p>注意：播放、弹幕等数据并非时时数据，一般每天更新一次；点击视频列表查看详细信息。</p>
+      <a-alert style="margin-bottom: 8px" message="播放、弹幕等数据并非时时数据，一般每天更新一次" banner />
+      <a-alert style="margin-bottom: 8px" message="点击视频列表查看详细信息" banner type="info"/>
       <a-collapse>
         <a-collapse-panel header="筛选搜索">
           <table class="filter-table">
