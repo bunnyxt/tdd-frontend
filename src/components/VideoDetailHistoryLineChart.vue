@@ -1,7 +1,20 @@
 <template>
   <div>
-    <div>
-      <span>坐标系类型：<a-switch defaultChecked checkedChildren="对数" unCheckedChildren="线性" @change="onValueTypeSwitchChange" /></span>
+    <div id="video-detail-history-line-chart-toolbar">
+      <span>坐标系类型：</span>
+      <a-switch defaultChecked checkedChildren="对数" unCheckedChildren="线性" @change="onValueTypeSwitchChange" />
+      <a-popover title="使用提示" trigger="hover" placement="bottomRight" style="float: right">
+        <template slot="content">
+          <ul style="padding: 0 0 0 12px">
+            <li><span style="color: red">对数坐标系</span>的纵轴成对数比例增长，适用于数值规模差距较大的属性对比。</li>
+            <li><span style="color: red">线性坐标系</span>的纵轴成线性比例增长，适用于观察单个属性走势情况。</li>
+            <li>点击图表下方图例隐藏/显示某属性。</li>
+            <li>调整图表底端滑块调整显示的时间段。</li>
+          </ul>
+        </template>
+        <a-icon type="question-circle" style="cursor: help"/>
+      </a-popover>
+
     </div>
     <div id="video-detail-history-line-chart"></div>
     <div id="video-detail-history-line-chart-slider"></div>
