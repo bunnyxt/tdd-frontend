@@ -614,6 +614,24 @@ export default {
               },
               text: '-地势坤',
             }
+          },{
+            x: new Date('2020-01-20').valueOf(),
+            y: 6021,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'lightgreen',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#00E396',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#00E396',
+              },
+              text: '-大小姐的逃亡生涯 -上山岗',
+            }
           }]
         },
         chart: {
