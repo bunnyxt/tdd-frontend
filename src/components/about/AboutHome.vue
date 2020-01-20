@@ -8,8 +8,10 @@
     </div>
     <div class="section-block">
       <h1>关于天钿Daily</h1>
-      <img src="/logo_64S.png" alt="logo" />
-      <p><small>logo by SweetFairyTale</small></p>
+      <div style="float: right">
+        <img src="img/logo_64S.png" alt="logo" /><br>
+        <span style="font-size: 10px">logo by <br>SweetFairyTale</span>
+      </div>
       <p>天钿Daily（TianDian Daily）是一个VC相关数据交流与分享的网站。本站以推动VC相关数据交流为宗旨，基于B站API以及简单的网络爬虫，定期抓取并存储VC相关数据，选取感兴趣的纬度公开展示。</p>
       <p>
         QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><br/>
