@@ -8,7 +8,7 @@
     </div>
     <div class="section-block">
       <h1>关于天钿Daily</h1>
-      <div style="float: right">
+      <div style="float: right; margin-left: 8px; margin-bottom: 8px">
         <img src="img/logo_64S.png" alt="logo" /><br>
         <span style="font-size: 10px">logo by <br>SweetFairyTale</span>
       </div>
