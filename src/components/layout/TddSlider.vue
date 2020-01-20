@@ -8,7 +8,7 @@
   >
     <div>
       <router-link to="/">
-        <img src="/logo_32S.png" alt="logo">
+        <img src="img/logo_32S.png" alt="logo">
       </router-link>
       <span class="logo-name">
         天钿Daily
