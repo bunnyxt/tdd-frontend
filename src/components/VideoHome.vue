@@ -620,10 +620,10 @@
     width: 80px;
     white-space: nowrap;
   }
-  .video-item {
-    transition: all .3s;
+  .ant-list-item {
+    transition: all .2s;
   }
-  .video-item:hover {
+  .ant-list-item:hover {
     cursor: pointer;
     -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.09);
     -moz-box-shadow: 0 2px 8px rgba(0,0,0,.09);
