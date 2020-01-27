@@ -1,11 +1,10 @@
 <template>
   <a-locale-provider :locale="locale">
     <a-layout class="layout" style="min-height:100%">
-      <div class="slider-open-icon" @click="$store.commit('changeSliderVisibility')">
-        <a-icon type="bars" />
-      </div>
-      <tdd-slider/>
+      <tdd-menu-slider />
+      <tdd-login-slider />
       <a-layout>
+        <tdd-header />
         <a-layout-content :style="{padding: layoutPadding}">
           <router-view></router-view>
         </a-layout-content>
@@ -19,13 +18,17 @@
 
 <script>
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
-import TddSlider from "./components/layout/TddSlider.vue";
+import TddHeader from "./components/layout/TddHeader.vue";
+import TddMenuSlider from "./components/layout/TddMenuSlider.vue";
+import TddLoginSlider from "./components/layout/TddLoginSlider.vue";
 import TddFooter from "./components/layout/TddFooter.vue";
 
 export default {
   name: "app",
   components: {
-    TddSlider,
+    TddHeader,
+    TddMenuSlider,
+    TddLoginSlider,
     TddFooter
   },
   data: function() {
