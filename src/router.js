@@ -11,6 +11,7 @@ const ToolHome = () => import("./components/tool/ToolHome");
 const DateCalc = () => import("./components/tool/DateCalc");
 const BiliApi = () => import("./components/tool/BiliApi");
 const AboutHome = () => import("./components/about/AboutHome");
+const UpdateLog = () => import("./components/about/UpdateLog");
 const NotFound = () => import("./components/NotFound");
 
 Vue.use(Router);
@@ -55,6 +56,9 @@ export default new Router({
         }, {
             path: "/about",
             component: AboutHome
+        }, {
+            path: "/about/updatelog",
+            component: UpdateLog
         }, {
             path: "*",
             component: NotFound
