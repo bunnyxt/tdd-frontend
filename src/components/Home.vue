@@ -85,8 +85,22 @@
           </div>
         </div>
       </div>
-      <div>
-        还没想好加什么
+      <div class="carousel-page">
+        <div class="carousel-page-container">
+          <h1>更新动态</h1>
+          <div class="carousel-p3-timeline-container">
+            <a-timeline>
+              <a-timeline-item
+                  v-for="updateLog in updateLogList"
+                  :key="updateLog.added"
+                  :color="getTimelineItemColor(updateLog.type)"
+              >
+                <b>{{ formatDate(updateLog.added).substring(0, 10) }}</b> {{ updateLog.content }}
+              </a-timeline-item>
+              <a-button slot="pending" type="link" @click="() => this.$router.push('/about/updatelog')">查看更多...</a-button>
+            </a-timeline>
+          </div>
+        </div>
       </div>
     </a-carousel>
     <div class="section-separator"></div>
@@ -111,9 +125,11 @@ export default {
   data: function () {
     return {
       contactUsPopoverVisible: false,
-      isLoadingStatDailyList: true,
+      isLoadingStatDailyList: false,
       statDailyList: [],
-      statDailyTotalCount: 0
+      statDailyTotalCount: 0,
+      isLoadingUpdateLogList: false,
+      updateLogList: []
     }
   },
   computed: {
@@ -180,14 +196,18 @@ export default {
       let date = new Date(ts * 1000);
       return (
         date.getFullYear() + "-" +
-        (date.getMonth()+1) + "-" +
-        date.getDate() + " " +
+        ((date.getMonth()+1)<10?"0"+(date.getMonth()+1):(date.getMonth()+1)) + "-" +
+        (date.getDate()<10?"0"+date.getDate():date.getDate()) + " " +
         (date.getHours()<10?"0"+date.getHours():date.getHours()) + ":" +
         (date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()) + ":" +
         (date.getSeconds()<10?"0"+date.getSeconds():date.getSeconds())
       )
     },
     drawChart: function () {
+      if (this.$store.getters.clientMode === 'MOBILE') {
+        return;
+      }
+
       const ds = new DataSet();
       const dv = ds.createView()
         .source(this.statDailyList)
@@ -233,6 +253,26 @@ export default {
       });
       chart.line().position('added*'+yLabel);
       chart.render();
+    },
+    fetchUpdateLogList: function () {
+      this.isLoadingUpdateLogList = true;
+      let last_count = 3;
+      let url = 'updatelog?last_count=' + last_count;
+      let that = this;
+      this.$axios.get(url)
+        .then(function (response) {
+          that.updateLogList = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingUpdateLogList = false;
+        });
+    },
+    getTimelineItemColor: function (type) {
+      let timelineItemColorArray = ['blue', 'blue', 'red', 'green'];
+      return timelineItemColorArray[type];
     }
   },
   watch: {
@@ -248,6 +288,7 @@ export default {
   },
   created() {
     this.fetchStatDailyList();
+    this.fetchUpdateLogList();
   }
 };
 </script>
@@ -263,18 +304,19 @@ export default {
     background: #fff;
     height: 300px;
   }
+
   .carousel-page {
     height: 300px;
     padding: 50px 20px;
     text-align: center;
   }
-
   .carousel-page-container {
     max-width: 600px;
     text-align: left;
     margin: auto;
     overflow: hidden;
   }
+
   .carousel-p1-text {
     float: left;
     width: 60%;
@@ -297,6 +339,13 @@ export default {
     float: left;
     width: 50%;
   }
+
+  .carousel-p3-timeline-container {
+    overflow-y: auto;
+    height: 140px;
+    padding-top: 4px;
+  }
+
   /* MOBILE version */
   @media only screen and (max-width: 576px) {
     .ant-carousel >>> .slick-slide {
@@ -311,6 +360,9 @@ export default {
     }
     .carousel-p1-image {
       display: none;
+    }
+    .carousel-p3-timeline-container {
+      height: 100px;
     }
   }
 </style>

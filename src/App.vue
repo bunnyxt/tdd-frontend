@@ -117,6 +117,9 @@ export default {
     padding-top: 8px !important;
     padding-bottom: 8px !important;
   }
+  .ant-timeline-item {
+    padding-bottom: 8px;
+  }
   p {
     margin-bottom: 4px !important;
   }

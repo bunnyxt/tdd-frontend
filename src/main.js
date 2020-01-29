@@ -35,6 +35,7 @@ import { Popconfirm } from "ant-design-vue"
 import { Modal } from "ant-design-vue"
 import { Popover } from "ant-design-vue"
 import { Statistic } from "ant-design-vue"
+import { Timeline } from "ant-design-vue"
 
 // apex chart
 import VueApexCharts from 'vue-apexcharts'
@@ -79,6 +80,7 @@ Vue.use(Popconfirm)
 Vue.use(Modal)
 Vue.use(Popover)
 Vue.use(Statistic)
+Vue.use(Timeline)
 
 // apex chart
 Vue.use(VueApexCharts)
