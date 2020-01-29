@@ -9,7 +9,7 @@
     <div class="section-block">
       <h1>关于天钿Daily</h1>
       <div style="float: right; margin-left: 8px; margin-bottom: 8px">
-        <img src="img/logo_64S.png" alt="logo" /><br>
+        <img src="img/logo_max.png" alt="logo" width="64px" /><br>
         <span style="font-size: 10px">logo by <br>SweetFairyTale</span>
       </div>
       <p>天钿Daily（TianDian Daily）是一个VC相关数据交流与分享的网站。本站致力于VC相关数据交流，基于B站API以及简单的网络爬虫，定期抓取VC相关数据，选取有意义的纬度展示。</p>

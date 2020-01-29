@@ -23,7 +23,7 @@
             </div>
           </div>
           <div class="carousel-p1-image">
-            <img src="img/logo_64S.png" alt="logo" />
+            <img src="img/logo_max.png" alt="logo" />
           </div>
         </div>
       </div>
@@ -55,7 +55,7 @@
           <template v-else>
             <div style="overflow: hidden">
               <div class="carousel-p2-col">
-                <div id="video-count-chart" />
+                <div id="video-count-chart"></div>
                 <a-statistic title="收录视频" :value="latestVideoCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
                     个
@@ -63,7 +63,7 @@
                 </a-statistic>
               </div>
               <div class="carousel-p2-col">
-                <div id="member-count-chart" />
+                <div id="member-count-chart"></div>
                 <a-statistic title="覆盖P主" :value="latestMemberCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
                     位
@@ -71,7 +71,7 @@
                 </a-statistic>
               </div>
               <div class="carousel-p2-col">
-                <div id="video-record-count-chart" />
+                <div id="video-record-count-chart"></div>
                 <a-statistic title="数据记录" :value="latestVideoRecordCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
                     条
