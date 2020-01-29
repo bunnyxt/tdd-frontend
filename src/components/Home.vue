@@ -29,7 +29,7 @@
       </div>
       <div class="carousel-page">
         <div class="carousel-page-container">
-          <div v-if="this.$store.getters.clientMode === 'MOBILE'">
+          <template v-if="this.$store.getters.clientMode === 'MOBILE'">
             <div style="overflow: hidden">
               <div class="carousel-p2-mobile-row1-col">
                 <a-statistic title="收录视频" :value="latestVideoCount">
@@ -51,33 +51,36 @@
                 条
               </template>
             </a-statistic>
-          </div>
-          <div v-else>
+          </template>
+          <template v-else>
             <div style="overflow: hidden">
               <div class="carousel-p2-col">
-                <a-statistic title="收录视频" :value="latestVideoCount">
+                <div id="video-count-chart" />
+                <a-statistic title="收录视频" :value="latestVideoCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
                     个
                   </template>
                 </a-statistic>
               </div>
               <div class="carousel-p2-col">
-                <a-statistic title="覆盖P主" :value="latestMemberCount">
+                <div id="member-count-chart" />
+                <a-statistic title="覆盖P主" :value="latestMemberCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
                     位
                   </template>
                 </a-statistic>
               </div>
               <div class="carousel-p2-col">
-                <a-statistic title="数据记录" :value="latestVideoRecordCount">
+                <div id="video-record-count-chart" />
+                <a-statistic title="数据记录" :value="latestVideoRecordCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
                     条
                   </template>
                 </a-statistic>
               </div>
             </div>
-          </div>
-          <div style="text-align: right; color: rgba(0, 0, 0, 0.45)">
+          </template>
+          <div style="text-align: right; color: rgba(0, 0, 0, 0.45); margin-top: 8px">
             <p>*截至{{ latestStatDailyTimeStr }}</p>
           </div>
         </div>
@@ -100,6 +103,9 @@
 </template>
 
 <script>
+import G2 from '@antv/g2';
+import DataSet from '@antv/data-set';
+
 export default {
   name: "Home",
   data: function () {
@@ -111,6 +117,9 @@ export default {
     }
   },
   computed: {
+    _storeClientMode: function() {
+      return this.$store.getters.clientMode;
+    },
     latestStatDaily: function () {
       let length = this.statDailyList.length;
       if (length > 0) {
@@ -152,7 +161,7 @@ export default {
     fetchStatDailyList: function () {
       this.isLoadingStatDailyList = true;
       let now = new Date();
-      let start_ts = Math.floor(now.valueOf() / 1000) - 7 * 24 * 60 * 60; // 7 days before
+      let start_ts = Math.floor(now.valueOf() / 1000) - 30 * 24 * 60 * 60; // 30 days before
       let url = 'statdaily?start_ts=' + start_ts;
       let that = this;
       this.$axios.get(url)
@@ -178,6 +187,64 @@ export default {
         (date.getSeconds()<10?"0"+date.getSeconds():date.getSeconds())
       )
     },
+    drawChart: function () {
+      const ds = new DataSet();
+      const dv = ds.createView()
+        .source(this.statDailyList)
+        .transform({
+          type: 'rename',
+          map: {
+            video_count: '收录视频',
+            member_count: '覆盖P主',
+            video_record_count: '数据记录'
+          }
+        })
+        .transform({
+          type: 'map',
+          callback(row) {
+            row.added = row.added * 1000; // ts_s -> ts_ms
+            return row;
+          }
+        });
+
+      // video count chart
+      this.drawOneChart('video-count-chart', dv, '收录视频');
+      this.drawOneChart('member-count-chart', dv, '覆盖P主');
+      this.drawOneChart('video-record-count-chart', dv, '数据记录');
+    },
+    drawOneChart: function (container, dv, yLabel) {
+      const chart = new G2.Chart({
+        container: container,
+        forceFit: true,
+        height: 100,
+        padding: [ 0, 20, 0, 20 ]
+      });
+      chart.source(dv, {
+        added: {
+          type: 'time',
+          mask: 'YYYY-MM-DD'
+        }
+      });
+      chart.axis('added', {
+        label: null
+      });
+      chart.axis(yLabel, {
+        label: null
+      });
+      chart.line().position('added*'+yLabel);
+      chart.render();
+    }
+  },
+  watch: {
+    _storeClientMode: function() {
+      if (this.$store.getters.clientMode !== 'MOBILE') {
+        let that = this;
+        setTimeout(() => that.drawChart(), 100); // to avoid missing div
+      }
+    },
+    statDailyList: function () {
+      this.drawChart();
+    }
   },
   created() {
     this.fetchStatDailyList();
