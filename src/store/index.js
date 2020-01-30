@@ -7,13 +7,18 @@ const store = new Vuex.Store({
   state: {
     apiBase: "https://api.bunnyxt.com/tdd/",
     //apiBase: "http://localhost/tdd/", // debug
-    isSliderVisible: false,
+    isMenuSliderVisible: false,
+    isLoginSliderVisible: false,
+    isUserLoggedIn: false,
     clientWidth: 0,
     videoHomeData: null
   },
   mutations: {
-    changeSliderVisibility(state) {
-      state.isSliderVisible = !state.isSliderVisible;
+    changeMenuSliderVisibility(state) {
+      state.isMenuSliderVisible = !state.isMenuSliderVisible;
+    },
+    changeLoginSliderVisibility(state) {
+      state.isLoginSliderVisible = !state.isLoginSliderVisible;
     },
     setClientWidth(state, clientWidth) {
       state.clientWidth = clientWidth;

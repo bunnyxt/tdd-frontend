@@ -1,11 +1,10 @@
 <template>
   <a-locale-provider :locale="locale">
     <a-layout class="layout" style="min-height:100%">
-      <div class="slider-open-icon" @click="$store.commit('changeSliderVisibility')">
-        <a-icon type="bars" />
-      </div>
-      <tdd-slider/>
+      <tdd-menu-slider />
+      <tdd-login-slider />
       <a-layout>
+        <tdd-header />
         <a-layout-content :style="{padding: layoutPadding}">
           <router-view></router-view>
         </a-layout-content>
@@ -19,13 +18,17 @@
 
 <script>
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
-import TddSlider from "./components/layout/TddSlider.vue";
+import TddHeader from "./components/layout/TddHeader.vue";
+import TddMenuSlider from "./components/layout/TddMenuSlider.vue";
+import TddLoginSlider from "./components/layout/TddLoginSlider.vue";
 import TddFooter from "./components/layout/TddFooter.vue";
 
 export default {
   name: "app",
   components: {
-    TddSlider,
+    TddHeader,
+    TddMenuSlider,
+    TddLoginSlider,
     TddFooter
   },
   data: function() {
@@ -64,25 +67,14 @@ export default {
 </script>
 
 <style>
-.slider-open-icon {
-  position: fixed;
-  top: 92px;
-  background: #001529;
-  width: 36px;
-  height: 42px;
-  color: #ffffff;
-  font-size: 18px;
-  border-radius: 0 4px 4px 0;
-  text-align: center;
+.custom-link {
+  transition: color .2s;
+}
+.custom-link:hover {
+  color: #1890ff;
   cursor: pointer;
-  line-height: 42px;
-  transition: background .3s ease;
-  z-index: 100;
 }
-.slider-open-icon:hover {
-  background: #192c3e;
-}
-.fake-footer{
+.fake-footer {
   height: 120px;
   z-index: -1;
 }
@@ -113,6 +105,9 @@ export default {
   .ant-list-lg .ant-list-item {
     padding-top: 8px !important;
     padding-bottom: 8px !important;
+  }
+  .ant-timeline-item {
+    padding-bottom: 8px;
   }
   p {
     margin-bottom: 4px !important;

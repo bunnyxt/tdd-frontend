@@ -2,18 +2,10 @@
   <a-drawer
       placement="left"
       :closable="false"
-      :visible="this.$store.state.isSliderVisible"
+      :visible="this.$store.state.isMenuSliderVisible"
       width="200px"
       @close="drawerCloseHandler"
   >
-    <div>
-      <router-link to="/">
-        <img src="img/logo_32S.png" alt="logo">
-      </router-link>
-      <span class="logo-name">
-        天钿Daily
-      </span>
-    </div>
     <div class="menu-wrapper">
       <a-menu
           theme="light"
@@ -34,7 +26,7 @@
 
 <script>
 export default {
-  name: "TddSlider",
+  name: "TddMenuSlider",
   computed: {
     selectedKeys: function() {
       let path = this.$route.fullPath;
@@ -55,7 +47,7 @@ export default {
   },
   methods: {
     drawerCloseHandler: function() {
-      this.$store.commit('changeSliderVisibility');
+      this.$store.commit('changeMenuSliderVisibility');
     },
     handleMenuClick(e) {
       switch (e.key) {
@@ -83,12 +75,7 @@ export default {
 </script>
 
 <style>
-  .logo-name {
-    margin-left: 12px;
-    font-size: 18px
-  }
   .menu-wrapper {
-    margin-top: 20px;
     margin-left: -24px;
   }
 </style>

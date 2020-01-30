@@ -162,7 +162,11 @@
                   </span>
                   <span>
                     <span>
-                      <a-icon type="user" class="stat-item-icon"/>
+                      <a-avatar
+                          :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+                          :size="16"
+                          style="margin-right: 4px; margin-bottom: 1px"
+                      />
                       {{ item.member ? item.member.name : 'mid'+item.mid}}
                     </span>
                     <span class="video-view">
@@ -173,14 +177,18 @@
                 </div>
               </div>
               <div v-else>
-                <a-row >
+                <a-row>
                   <a-col :xs="24" :sm="8" :md="6" :xl="4" style="padding: 8px">
                     <img width="100%" height="100%" alt="pic" :src="item.pic"/>
                   </a-col>
                   <a-col :xs="24" :sm="16" :md="18" :xl="20" style="padding: 8px">
                     <h3 class="video-title" style="">{{ item.title }}</h3>
                     <p>
-                      <a-icon type="user" style="margin-right: 4px"/>
+                      <a-avatar
+                          :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+                          :size="16"
+                          style="margin-right: 4px; margin-bottom: 1px"
+                      />
                       {{ item.member ? item.member.name : 'mid'+item.mid}}
                       <a-icon type="calendar" style="margin-left: 8px; margin-right: 4px"/>
                       {{ tsToStr(item.pubdate) }}
@@ -620,10 +628,10 @@
     width: 80px;
     white-space: nowrap;
   }
-  .video-item {
-    transition: all .3s;
+  .ant-list-item {
+    transition: all .2s;
   }
-  .video-item:hover {
+  .ant-list-item:hover {
     cursor: pointer;
     -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.09);
     -moz-box-shadow: 0 2px 8px rgba(0,0,0,.09);
