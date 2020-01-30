@@ -13,9 +13,9 @@
             <p>致力于推动VC相关数据交流，定期抓取VC相关数据，选取有意义的纬度展示。</p>
             <div style="margin-top: 20px">
               <a-button type="primary" @click="() => this.$router.push('/about')">了解更多</a-button>
-              <a-popover title="联系我们" trigger="click" v-model="contactUsPopoverVisible" placement="bottom">
+              <a-popover title="联系我们" trigger="hover" placement="bottom">
                 <div slot="content">
-                  QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><br/>
+                  QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/><a target="_blank" href="https://img04.sogoucdn.com/app/a/100520146/8890ed5f23adc62b22a1033c403be444">二维码</a><br/>
                   个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
                 </div>
                 <a-button style="margin-left: 8px">联系我们</a-button>
@@ -317,7 +317,6 @@ export default {
 
   data: function () {
     return {
-      contactUsPopoverVisible: false,
       isLoadingStatDailyList: false,
       statDailyList: [],
       statDailyTotalCount: 0,
