@@ -632,6 +632,42 @@ export default {
               },
               text: '-大小姐的逃亡生涯 -上山岗',
             }
+          },{
+            x: new Date('2020-01-26').valueOf(),
+            y: 204961,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'red',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#FF4560',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#FF4560',
+              },
+              text: '+万古生香',
+            },
+          },{
+            x: new Date('2020-01-26').valueOf(),
+            y: 204961,
+            marker: {
+              size: 4,
+              fillColor: '#fff',
+              strokeColor: 'lightgreen',
+              radius: 2,
+            },
+            label: {
+              borderColor: '#00E396',
+              offsetY: 0,
+              style: {
+                color: '#fff',
+                background: '#00E396',
+              },
+              text: '-万古生香',
+            }
           }]
         },
         chart: {
@@ -653,7 +689,7 @@ export default {
         },
         xaxis: {
           type: "datetime",
-          //min: this.latest_time - 7 * 24 * 60 * 60 * 1000,
+          min: new Date().valueOf() - 6 * 30 * 24 * 60 * 60 * 1000,
           tickAmount: 6,
           labels: {
             rotate: 0
