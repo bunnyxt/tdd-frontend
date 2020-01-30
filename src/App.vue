@@ -67,25 +67,14 @@ export default {
 </script>
 
 <style>
-.slider-open-icon {
-  position: fixed;
-  top: 92px;
-  background: #001529;
-  width: 36px;
-  height: 42px;
-  color: #ffffff;
-  font-size: 18px;
-  border-radius: 0 4px 4px 0;
-  text-align: center;
+.custom-link {
+  transition: color .2s;
+}
+.custom-link:hover {
+  color: #1890ff;
   cursor: pointer;
-  line-height: 42px;
-  transition: background .3s ease;
-  z-index: 100;
 }
-.slider-open-icon:hover {
-  background: #192c3e;
-}
-.fake-footer{
+.fake-footer {
   height: 120px;
   z-index: -1;
 }
