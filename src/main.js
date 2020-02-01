@@ -93,6 +93,10 @@ Vue.prototype.$axios = axios;
 // G2
 // import G2 from '@antv/g2';
 
+// util
+import util from './util/index'
+Vue.prototype.$util = util;
+
 new Vue({
   router,
   store,

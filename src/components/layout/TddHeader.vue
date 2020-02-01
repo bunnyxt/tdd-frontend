@@ -81,14 +81,7 @@
     },
     computed: {
       layoutPadding: function() {
-        let width = this.$store.state.clientWidth;
-        if (width < 576) {
-          return '0 8px'
-        } else if (width < 768) {
-          return '0 20px'
-        } else {
-          return '0 50px'
-        }
+        return this.$util.calcLayoutPadding(this.$store.state.clientWidth);
       },
       selectedKeys: function() {
         let path = this.$route.fullPath;
