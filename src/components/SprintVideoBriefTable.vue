@@ -12,7 +12,7 @@
       <a-button title="查看详情" @click="handleLineChartClick(aid)"><a-icon type="line-chart"/></a-button>
     </template>
     <template slot="dateRender" slot-scope="ts">
-      {{ formatDate(ts) }}
+      {{ $util.tsToDateString(ts) }}
     </template>
   </a-table>
 </template>
@@ -50,17 +50,6 @@ export default {
     }
   },
   methods: {
-    formatDate: function(ts) {
-      let date = new Date(ts * 1000)
-      return (
-        date.getFullYear() + "-" + 
-        (date.getMonth()+1) + "-" + 
-        date.getDate() + " " + 
-        (date.getHours()<10?"0"+date.getHours():date.getHours()) + ":" + 
-        (date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()) + ":" + 
-        (date.getSeconds()<10?"0"+date.getSeconds():date.getSeconds())
-      )
-    },
     handlePlayCircleClick: function(aid) {
       window.open('https://www.bilibili.com/video/av' + aid);
     },

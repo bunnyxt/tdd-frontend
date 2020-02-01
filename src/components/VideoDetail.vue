@@ -70,7 +70,7 @@
                 </a-collapse>
               </p>
             </div>
-            <p><a-icon type="calendar" style="margin-right: 12px"/>{{ tsToStr(video.pubdate) }}</p>
+            <p><a-icon type="calendar" style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
             <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
             <p><a-icon type="play-circle" style="margin-right: 12px"/><a :href="'https://www.bilibili.com/video/av'+video.aid" target="_blank">去B站观看</a></p>
           </div>
@@ -97,7 +97,7 @@
               <li><a-icon type="share-alt" class="stat-item-icon" />分享：{{ video.laststat.share }}</li>
               <li><a-icon type="like" class="stat-item-icon" />点赞：{{ video.laststat.like }}</li>
             </ul>
-            *{{ tsToStr(video.laststat.added) }}更新
+            *{{ $util.tsToDateString(video.laststat.added) }}更新
           </div>
           <div v-else>
             <a-alert type="error" message="暂无数据" />
@@ -159,20 +159,6 @@ export default {
     }
   },
   methods: {
-    addZero: function(value) {
-      return value < 10 ? "0" + value : "" + value;
-    },
-    tsToStr: function (ts) {
-      let date = new Date(ts * 1000);
-      let dateString = "";
-      dateString += date.getFullYear() + "-";
-      dateString += this.addZero(date.getMonth() + 1) + "-";
-      dateString += this.addZero(date.getDate()) + " ";
-      dateString += this.addZero(date.getHours()) + ":";
-      dateString += this.addZero(date.getMinutes()) + ":";
-      dateString += this.addZero(date.getSeconds());
-      return dateString;
-    },
     getVideoInfo: function(aid) {
       this.isLoading = true;
 

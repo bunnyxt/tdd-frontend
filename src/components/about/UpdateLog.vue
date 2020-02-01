@@ -24,7 +24,7 @@
               :key="updateLog.added"
               :color="getTimelineItemColor(updateLog.type)"
           >
-            <b>{{ formatDate(updateLog.added).substring(0, 10) }}</b> {{ updateLog.content }}
+            <b>{{ $util.tsToDateString(updateLog.added) }}</b> {{ updateLog.content }}
           </a-timeline-item>
         </a-timeline>
       </template>
@@ -42,17 +42,6 @@ export default {
     }
   },
   methods: {
-    formatDate: function(ts) {
-      let date = new Date(ts * 1000);
-      return (
-        date.getFullYear() + "-" +
-        ((date.getMonth()+1)<10?"0"+(date.getMonth()+1):(date.getMonth()+1)) + "-" +
-        (date.getDate()<10?"0"+date.getDate():date.getDate()) + " " +
-        (date.getHours()<10?"0"+date.getHours():date.getHours()) + ":" +
-        (date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()) + ":" +
-        (date.getSeconds()<10?"0"+date.getSeconds():date.getSeconds())
-      )
-    },
     fetchUpdateLogList: function () {
       this.isLoadingUpdateLogList = true;
       let last_count = 0; // get all logs

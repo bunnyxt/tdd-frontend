@@ -95,7 +95,7 @@
                   :key="updateLog.added"
                   :color="getTimelineItemColor(updateLog.type)"
               >
-                <b>{{ formatDate(updateLog.added).substring(0, 10) }}</b> {{ updateLog.content }}
+                <b>{{ $util.tsToDateString(updateLog.added, 'yyyy-MM-dd') }}</b> {{ updateLog.content }}
               </a-timeline-item>
               <a-button slot="pending" type="link" @click="() => this.$router.push('/about/updatelog')">查看更多...</a-button>
             </a-timeline>
@@ -163,7 +163,7 @@
                         />
                         {{ item.member ? item.member.name : 'mid'+item.mid}}
                         <a-icon type="calendar" style="margin-left: 8px; margin-right: 4px"/>
-                        {{ formatDate(item.pubdate) }}
+                        {{ $util.tsToDateString(item.pubdate) }}
                         <br/>
                         <span class="stat-item"><a-icon type="play-circle" class="stat-item-icon" />{{ item.laststat ? item.laststat.view: -1 }} </span><span class="vertical-separator">|</span>
                         <span class="stat-item"><a-icon type="profile" class="stat-item-icon" />{{ item.laststat ? item.laststat.danmaku: -1 }} </span><span class="vertical-separator">|</span>
@@ -255,7 +255,7 @@
                       />
                       {{ item.member ? item.member.name : 'mid'+item.mid}}
                       <a-icon type="calendar" style="margin-left: 8px; margin-right: 4px"/>
-                      {{ formatDate(item.created) }}
+                      {{ $util.tsToDateString(item.created) }}
                       <br/>
                     </p>
                     <div>
@@ -364,9 +364,9 @@ export default {
     },
     latestStatDailyTimeStr: function () {
       if (this.latestStatDaily) {
-        return this.formatDate(this.latestStatDaily.added);
+        return this.$util.tsToDateString(this.latestStatDaily.added);
       } else {
-        return this.formatDate(0);
+        return this.$util.tsToDateString(0);
       }
     },
     refreshString: function () {
@@ -402,17 +402,6 @@ export default {
         .finally(function () {
           that.isLoadingStatDailyList = false;
         });
-    },
-    formatDate: function(ts) {
-      let date = new Date(ts * 1000);
-      return (
-        date.getFullYear() + "-" +
-        ((date.getMonth()+1)<10?"0"+(date.getMonth()+1):(date.getMonth()+1)) + "-" +
-        (date.getDate()<10?"0"+date.getDate():date.getDate()) + " " +
-        (date.getHours()<10?"0"+date.getHours():date.getHours()) + ":" +
-        (date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()) + ":" +
-        (date.getSeconds()<10?"0"+date.getSeconds():date.getSeconds())
-      )
     },
     drawChart: function () {
       if (this.$store.getters.clientMode === 'MOBILE') {

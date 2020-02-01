@@ -136,17 +136,6 @@ export default {
     }
   },
   methods: {
-    formatDate: function(ts) {
-      let date = new Date(ts * 1000)
-      return (
-        date.getFullYear() + "-" + 
-        (date.getMonth()+1) + "-" + 
-        date.getDate() + " " + 
-        (date.getHours()<10?"0"+date.getHours():date.getHours()) + ":" + 
-        (date.getMinutes()<10?"0"+date.getMinutes():date.getMinutes()) + ":" + 
-        (date.getSeconds()<10?"0"+date.getSeconds():date.getSeconds())
-      )
-    },
     loadOneWeekRecords: function(startTs){
       if (this.isLoadingRecords) {
         return
