@@ -566,6 +566,7 @@ export default {
 </script>
 
 <style scoped>
+  /* home page carousel related */
   .ant-carousel >>> .slick-dots li.slick-active button {
     background: #192c3e;
   }
@@ -618,54 +619,6 @@ export default {
     padding-top: 4px;
   }
 
-  .video-title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-  .video-title-mobile {
-    height: 40px;
-    color: rgba(0, 0, 0, 0.85);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-  .stat-item {
-    white-space: nowrap;
-  }
-  .stat-item-icon {
-    margin-right: 8px;
-  }
-  .ant-list-item {
-    transition: all .2s;
-  }
-  .ant-list-item:hover {
-    cursor: pointer;
-    -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    -moz-box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    border-color: rgba(0,0,0,.09);
-  }
-  .vertical-separator {
-    color: #e8e8e8;
-    margin-left: 4px;
-    margin-right: 8px;
-  }
-  /* MOBILE version */
-  @media only screen and (max-width: 576px) {
-    .stat-item-icon {
-      margin-right: 4px;
-    }
-  }
-  /* on very small screen */
-  @media only screen and (max-width: 360px) {
-    .video-view {
-      display: none;
-    }
-  }
-  /* MOBILE version */
   @media only screen and (max-width: 576px) {
     .ant-carousel >>> .slick-slide {
       height: 188px;

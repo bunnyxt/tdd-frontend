@@ -178,7 +178,4 @@
   .ant-menu-item {
     padding: 0 12px;
   }
-  .ant-menu-item-selected {
-    background-color: #001529;
-  }
 </style>
