@@ -5,7 +5,7 @@
         <a-breadcrumb-item>首页</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
-    <a-carousel autoplay  >
+    <a-carousel autoplay >
       <div class="carousel-page">
         <div class="carousel-page-container">
           <div class="carousel-p1-text">
@@ -115,71 +115,20 @@
         </div>
       </div>
       <p>本站收录的所有视频，包括B站UV分区下的所有视频和部分其他分区中的VC视频。</p>
-      <div>
-        <a-spin :spinning="isLoadingRandomVideoList">
-          <a-list itemLayout="vertical" size="large" :dataSource="randomVideoList">
-            <a-list-item
-                slot="renderItem"
-                slot-scope="item"
-                key="item.id"
-            >
-              <div class="video-item" @click="randomVideoItemClickHandler(item.aid)">
-                <div v-if="$store.getters.clientMode === 'MOBILE'">
-                  <div style="float: left; width: 116px">
-                    <img width="108px" height="65px" alt="pic" :src="item.pic"/>
-                  </div>
-                  <div style="height: 65px">
-                  <span class="video-title-mobile" style="margin-bottom: 4px">
-                    {{ item.title }}
-                  </span>
-                    <span>
-                    <span>
-                      <a-avatar
-                          :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
-                          :size="16"
-                          style="margin-right: 4px; margin-bottom: 1px"
-                      />
-                      {{ item.member ? item.member.name : 'mid'+item.mid}}
-                    </span>
-                    <span class="video-view">
-                      <a-icon type="play-circle" class="stat-item-icon" style="margin-left: 8px;"/>
-                      {{ item.laststat ? item.laststat.view: -1 }}
-                    </span>
-                  </span>
-                  </div>
-                </div>
-                <div v-else>
-                  <a-row>
-                    <a-col :xs="24" :sm="8" :md="6" :xl="4" style="padding: 8px">
-                      <img width="100%" height="100%" alt="pic" :src="item.pic"/>
-                    </a-col>
-                    <a-col :xs="24" :sm="16" :md="18" :xl="20" style="padding: 8px">
-                      <h3 class="video-title" style="">{{ item.title }}</h3>
-                      <p>
-                        <a-avatar
-                            :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
-                            :size="16"
-                            style="margin-right: 4px; margin-bottom: 1px"
-                        />
-                        {{ item.member ? item.member.name : 'mid'+item.mid}}
-                        <a-icon type="calendar" style="margin-left: 8px; margin-right: 4px"/>
-                        {{ $util.tsToDateString(item.pubdate) }}
-                        <br/>
-                        <span class="stat-item"><a-icon type="play-circle" class="stat-item-icon" />{{ item.laststat ? item.laststat.view: -1 }} </span><span class="vertical-separator">|</span>
-                        <span class="stat-item"><a-icon type="profile" class="stat-item-icon" />{{ item.laststat ? item.laststat.danmaku: -1 }} </span><span class="vertical-separator">|</span>
-                        <span class="stat-item"><a-icon type="message" class="stat-item-icon" />{{ item.laststat ? item.laststat.reply: -1 }} </span><span class="vertical-separator">|</span>
-                        <span class="stat-item"><a-icon type="star" class="stat-item-icon" />{{ item.laststat ? item.laststat.favorite: -1 }} </span><span class="vertical-separator">|</span>
-                        <span class="stat-item"><a-icon type="dollar" class="stat-item-icon" />{{ item.laststat ? item.laststat.coin: -1 }} </span><span class="vertical-separator">|</span>
-                        <span class="stat-item"><a-icon type="share-alt" class="stat-item-icon" />{{ item.laststat ? item.laststat.share: -1 }} </span><span class="vertical-separator">|</span>
-                        <span class="stat-item"><a-icon type="like" class="stat-item-icon" />{{ item.laststat ? item.laststat.like: -1 }} </span>
-                      </p>
-                    </a-col>
-                  </a-row>
-                </div>
-              </div>
-            </a-list-item>
-          </a-list>
-        </a-spin>
+      <a-spin :spinning="isLoadingRandomVideoList">
+        <tdd-video-list
+            :video-list="randomVideoList"
+            mode="list"
+            @item-clicked="randomVideoListItemClickedHandler"
+        ></tdd-video-list>
+      </a-spin>
+      <div v-if="randomVideoDetailDrawerVideo">
+        <tdd-video-detail-drawer
+            :video="randomVideoDetailDrawerVideo"
+            :visible="randomVideoDetailDrawerVisible"
+            @close="() => this.randomVideoDetailDrawerVisible = false"
+        >
+        </tdd-video-detail-drawer>
       </div>
     </div>
     <div class="section-separator"></div>
@@ -195,93 +144,14 @@
       </div>
       <p>VC传说冲刺曲目助攻计划，收录B站接近<a href="https://zh.moegirl.org/Vocaloid中文传说曲" target="_blank">中文VOCALOID传说曲</a>要求的曲目视频，记录播放、收藏等数据变化，提供传说助攻参考。</p>
       <a-spin :spinning="isLoadingSprintVideoList">
-        <a-list itemLayout="vertical" size="large" :dataSource="sprintVideoListFiltered">
-          <a-list-item
-              slot="renderItem"
-              slot-scope="item"
-              key="item.id"
-          >
-            <div @click="sprintVideoItemClickHandler(item.aid)">
-              <template v-if="$store.getters.clientMode === 'MOBILE'">
-                <div style="overflow: hidden;">
-                  <div style="float: left; width: 116px">
-                    <img width="108px" height="65px" alt="pic" :src="item.pic"/>
-                  </div>
-                  <div style="height: 65px">
-                    <span class="video-title-mobile" style="margin-bottom: 4px">
-                      {{ item.title }}
-                    </span>
-                    <span>
-                      <a-avatar
-                          :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
-                          :size="16"
-                          style="margin-right: 4px; margin-bottom: 1px"
-                      />
-                      {{ item.member ? item.member.name : 'mid'+item.mid}}
-                    </span>
-                  </div>
-                </div>
-                <div style="margin-top: 4px">
-                  <div style="overflow: hidden">
-                    <div style="width: 50%; float: left">
-                      当前播放：{{ item.last_record ? item.last_record.view : -1 }}
-                    </div>
-                    <div style="width: 50%; float: left">
-                      昨日增加：{{ item.one_day_view ? item.one_day_view : -1}}
-                    </div>
-                  </div>
-                  <div style="overflow: hidden">
-                    <div style="width: 50%; float: left">
-                      已用时间：{{ calcTimeSpanString(Math.floor(new Date().valueOf() / 1000) - item.created) }}
-                    </div>
-                    <div style="width: 50%; float: left">
-                      预计剩余：{{ item.last_record && item.one_day_view > 0 ? calcTimeSpanString((1000000 - item.last_record.view) / item.one_day_view * 24 * 60 * 60) : -1}}
-                    </div>
-                  </div>
-                </div>
-              </template>
-              <template v-else>
-                <a-row>
-                  <a-col :xs="24" :sm="8" :md="6" :xl="4" style="padding: 8px">
-                    <img width="100%" height="100%" alt="pic" :src="item.pic"/>
-                  </a-col>
-                  <a-col :xs="24" :sm="16" :md="18" :xl="20" style="padding: 8px">
-                    <h3 class="video-title" style="">{{ item.title }}</h3>
-                    <p>
-                      <a-avatar
-                          :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
-                          :size="16"
-                          style="margin-right: 4px; margin-bottom: 1px"
-                      />
-                      {{ item.member ? item.member.name : 'mid'+item.mid}}
-                      <a-icon type="calendar" style="margin-left: 8px; margin-right: 4px"/>
-                      {{ $util.tsToDateString(item.created) }}
-                      <br/>
-                    </p>
-                    <div>
-                      <div style="overflow: hidden">
-                        <div style="width: 140px; float: left">
-                          当前播放：{{ item.last_record ? item.last_record.view: -1 }}
-                        </div>
-                        <div style="width: 140px; float: left">
-                          昨日增加：{{ item.one_day_view ? item.one_day_view : -1}}
-                        </div>
-                      </div>
-                      <div style="overflow: hidden">
-                        <div style="width: 140px; float: left">
-                          已用时间：{{ calcTimeSpanString(Math.floor(new Date().valueOf() / 1000) - item.created) }}
-                        </div>
-                        <div style="width: 140px; float: left">
-                          预计剩余：{{ item.last_record && item.one_day_view > 0 ? calcTimeSpanString((1000000 - item.last_record.view) / item.one_day_view * 24 * 60 * 60) : -1}}
-                        </div>
-                      </div>
-                    </div>
-                  </a-col>
-                </a-row>
-              </template>
-            </div>
-          </a-list-item>
-        </a-list>
+        <tdd-video-list
+            :video-list="sprintVideoListFiltered"
+            mode="list"
+            :show-stat-bar="false"
+            :show-mobile-view="false"
+            :show-sprint-board="true"
+            @item-clicked="sprintVideoListItemClickedHandler"
+        ></tdd-video-list>
       </a-spin>
     </div>
     <div class="section-separator"></div>
@@ -310,11 +180,15 @@
 <script>
 import G2 from '@antv/g2';
 import DataSet from '@antv/data-set';
+import TddVideoList from "./common/TddVideoList";
+import TddVideoDetailDrawer from "./common/TddVideoDetailDrawer";
 
 export default {
   name: "Home",
-  components: {},
-
+  components: {
+    TddVideoList,
+    TddVideoDetailDrawer
+  },
   data: function () {
     return {
       isLoadingStatDailyList: false,
@@ -324,6 +198,8 @@ export default {
       updateLogList: [],
       isLoadingRandomVideoList: false,
       randomVideoList: [],
+      randomVideoDetailDrawerVideo: null,
+      randomVideoDetailDrawerVisible: false,
       isLoadingSprintVideoList: false,
       sprintVideoList: [],
       sprintVideoListFiltered: []
@@ -382,7 +258,7 @@ export default {
       } else {
         return '更多';
       }
-    },
+    }
   },
   methods: {
     fetchStatDailyList: function () {
@@ -496,6 +372,10 @@ export default {
         .then(response => response.json())
         .then(json => this.sprintVideoList = json.data)
         .then(function () {
+          // change to new data format
+          for (let i = 0; i < that.sprintVideoList.length; i++) {
+            that.sprintVideoList[i].pubdate = that.sprintVideoList[i].created;
+          }
           that.sprintVideoList.sort((a, b) => b.last_record.view - a.last_record.view);
           that.getSprintVideoListFiltered();
           that.isLoadingSprintVideoList = false;
@@ -516,22 +396,12 @@ export default {
         }
       }
     },
-    sprintVideoItemClickHandler: function (aid) {
-      this.$router.push('sprint/av' + aid);
+    sprintVideoListItemClickedHandler: function (item) {
+      this.$router.push('sprint/av' + item.aid);
     },
-    calcTimeSpanString: function (ts) {
-      if (ts < 60) {
-        return ts + '秒';
-      } else if (ts < 60 * 60) {
-        return Math.floor(ts / 60) + '分';
-      } else if (ts < 60 * 60 * 24) {
-        return Math.floor(ts / 60 / 60) + '时';
-      } else {
-        return Math.floor(ts / 60 / 60 / 24) + '日';
-      }
-    },
-    randomVideoItemClickHandler: function (aid) {
-      this.$router.push('video/av' + aid);
+    randomVideoListItemClickedHandler: function (item) {
+      this.randomVideoDetailDrawerVideo = item;
+      this.randomVideoDetailDrawerVisible = true;
     }
   },
   watch: {
