@@ -83,7 +83,7 @@
         if (this.displayMode === 'vertical') {
           return '<br>';
         } else if (this.displayMode === 'bar') {
-          return '<span class="vertical-separator">|</span>';
+          return '<span style="color: #e8e8e8; margin: 0 8px">|</span>';
         } else {
           return '';
         }
@@ -93,11 +93,6 @@
 </script>
 
 <style scoped>
-  .vertical-separator {
-    color: #e8e8e8;
-    margin-left: 8px;
-    margin-right: 8px;
-  }
   .stat-item {
     white-space: nowrap;
   }
