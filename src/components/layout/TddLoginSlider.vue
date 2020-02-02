@@ -16,10 +16,12 @@
         </a-menu-item>
       </a-menu>
       <div v-if="currentKeys.indexOf('login') !== -1">
-        登录相关表单
+        其实...登录注册功能还没有做好Orz...<br>
+        可以来QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>催更（跑
       </div>
       <div v-if="currentKeys.indexOf('register') !== -1">
-        注册相关表单
+        其实...登录注册功能还没有做好Orz...<br>
+        可以来QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>催更（跑
       </div>
     </div>
   </a-drawer>
