@@ -11,8 +11,11 @@
       <p>天钿Daily收录B站<a href="https://www.bilibili.com/v/music/vocaloid/" target="_blank">VOCALOID·UTAU</a>分区下的所有视频和部分其他分区中的VC视频。</p>
       <a-alert style="margin-bottom: 8px" message="播放、弹幕等数据并非时时数据，一般每天更新一次" banner />
       <a-alert style="margin-bottom: 8px" message="点击视频列表查看详细信息" banner type="info"/>
-      <a-collapse>
-        <a-collapse-panel header="筛选搜索">
+    </div>
+    <div class="section-separator"></div>
+    <div class="section-block">
+      <a-collapse :activeKey="[1]" style="margin-bottom: 8px">
+        <a-collapse-panel header="筛选搜索" key="1">
           <table class="filter-table">
             <tr>
               <td class="filter-table-label">
@@ -67,7 +70,7 @@
                     @change="handlePubdateStartChange"
                     @openChange="handlePubdateStartOpenChange"
                 />
-                 ~
+                ~
                 <a-date-picker
                     :disabledDate="disabledEndDate"
                     showTime
@@ -141,179 +144,30 @@
           </a-popconfirm>
         </a-collapse-panel>
       </a-collapse>
-    </div>
-    <div class="section-separator"></div>
-    <div class="section-block">
       <a-spin :spinning="isLoadingVideoList">
-        <a-list itemLayout="vertical" size="large" :dataSource="videoList">
-          <a-list-item
-              slot="renderItem"
-              slot-scope="item"
-              key="item.id"
-          >
-            <div class="video-item" @click="videoItemClickHandler(item.id)">
-              <div v-if="$store.getters.clientMode === 'MOBILE'">
-                <div style="float: left; width: 116px">
-                  <img width="108px" height="65px" alt="pic" :src="item.pic"/>
-                </div>
-                <div style="height: 65px">
-                  <span class="video-title-mobile" style="margin-bottom: 4px">
-                    {{ item.title }}
-                  </span>
-                  <span>
-                    <span>
-                      <a-avatar
-                          :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
-                          :size="16"
-                          style="margin-right: 4px; margin-bottom: 1px"
-                      />
-                      {{ item.member ? item.member.name : 'mid'+item.mid}}
-                    </span>
-                    <span class="video-view">
-                      <a-icon type="play-circle" class="stat-item-icon" style="margin-left: 8px;"/>
-                      {{ item.laststat ? item.laststat.view: -1 }}
-                    </span>
-                  </span>
-                </div>
-              </div>
-              <div v-else>
-                <a-row>
-                  <a-col :xs="24" :sm="8" :md="6" :xl="4" style="padding: 8px">
-                    <img width="100%" height="100%" alt="pic" :src="item.pic"/>
-                  </a-col>
-                  <a-col :xs="24" :sm="16" :md="18" :xl="20" style="padding: 8px">
-                    <h3 class="video-title" style="">{{ item.title }}</h3>
-                    <p>
-                      <a-avatar
-                          :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
-                          :size="16"
-                          style="margin-right: 4px; margin-bottom: 1px"
-                      />
-                      {{ item.member ? item.member.name : 'mid'+item.mid}}
-                      <a-icon type="calendar" style="margin-left: 8px; margin-right: 4px"/>
-                      {{ tsToStr(item.pubdate) }}
-                      <br/>
-                      <span class="stat-item"><a-icon type="play-circle" class="stat-item-icon" />{{ item.laststat ? item.laststat.view: -1 }} </span><span class="vertical-separator">|</span>
-                      <span class="stat-item"><a-icon type="profile" class="stat-item-icon" />{{ item.laststat ? item.laststat.danmaku: -1 }} </span><span class="vertical-separator">|</span>
-                      <span class="stat-item"><a-icon type="message" class="stat-item-icon" />{{ item.laststat ? item.laststat.reply: -1 }} </span><span class="vertical-separator">|</span>
-                      <span class="stat-item"><a-icon type="star" class="stat-item-icon" />{{ item.laststat ? item.laststat.favorite: -1 }} </span><span class="vertical-separator">|</span>
-                      <span class="stat-item"><a-icon type="dollar" class="stat-item-icon" />{{ item.laststat ? item.laststat.coin: -1 }} </span><span class="vertical-separator">|</span>
-                      <span class="stat-item"><a-icon type="share-alt" class="stat-item-icon" />{{ item.laststat ? item.laststat.share: -1 }} </span><span class="vertical-separator">|</span>
-                      <span class="stat-item"><a-icon type="like" class="stat-item-icon" />{{ item.laststat ? item.laststat.like: -1 }} </span>
-                    </p>
-                  </a-col>
-                </a-row>
-              </div>
-            </div>
-          </a-list-item>
-        </a-list>
-        <div v-if="$store.getters.clientMode === 'MOBILE'">
-          <div style="height: 8px" />
-        </div>
+        <tdd-video-list
+            :video-list="videoList"
+            mode="list"
+            @item-clicked="videoListItemClickedHandler"
+        ></tdd-video-list>
         <a-pagination
             showQuickJumper
             v-model="pagiCurrent"
             :total="videoTotalCount"
             :showTotal="total => `共 ${total} 个视频`"
             :pageSize="20"
+            style="margin-top: 8px"
             @change="onPagiChange"
         />
       </a-spin>
     </div>
-    <div v-if="videoDetailDrawerCurrentVideo">
-      <a-drawer
-          :title="'av' + videoDetailDrawerCurrentVideo.aid.toString()"
-          placement="right"
-          :closable="false"
-          @close="videoDetailDrawerCloseHandler"
+    <div v-if="videoDetailDrawerVideo">
+      <tdd-video-detail-drawer
+          :video="videoDetailDrawerVideo"
           :visible="videoDetailDrawerVisible"
-          :width="videoDetailDrawerWidth + 'px'"
+          @close="() => this.videoDetailDrawerVisible = false"
       >
-        <h3 style="margin-bottom: 14px">{{ videoDetailDrawerCurrentVideo.title }}</h3>
-        <p>
-          <a-avatar
-              size="small"
-              :src="videoDetailDrawerCurrentVideo.member
-              ? videoDetailDrawerCurrentVideo.member.face
-              : 'https://static.hdslb.com/images/member/noface.gif'"
-              style="margin-right:12px"
-          />
-          <a :href="'https://space.bilibili.com/'+videoDetailDrawerCurrentVideo.mid" target="_blank">
-            {{ videoDetailDrawerCurrentVideo.member ? videoDetailDrawerCurrentVideo.member.name : 'mid'+videoDetailDrawerCurrentVideo.mid}}
-          </a>
-        </p>
-        <div v-if="videoDetailDrawerCurrentVideo.hasstaff === 1">
-          <p>
-          <a-collapse>
-            <a-collapse-panel :header="'创作团队 ('+videoDetailDrawerCurrentVideo.staff.length+')'">
-              <table cellpadding="4px">
-                <tr v-for="staff in videoDetailDrawerCurrentVideo.staff" :key="staff.mid">
-                  <td>
-                    <a-avatar
-                        size="small"
-                        :src="staff.face"
-                    />
-                  </td>
-                  <td>
-                    <a :href="'https://space.bilibili.com/'+staff.mid" target="_blank">
-                      {{ staff.name }}
-                    </a>
-                  </td>
-                  <td>
-                    {{ staff.title }}
-                  </td>
-                </tr>
-              </table>
-            </a-collapse-panel>
-          </a-collapse>
-          </p>
-        </div>
-        <p><a-icon type="calendar" style="margin-right: 12px"/>{{ tsToStr(videoDetailDrawerCurrentVideo.pubdate) }}</p>
-        <p><a-icon type="database" style="margin-right: 12px"/>{{ videoDetailDrawerCurrentVideo.tname }}</p>
-        <a-divider orientation="left">简介</a-divider>
-        {{ videoDetailDrawerCurrentVideo.desc }}
-        <a-divider orientation="left">标签</a-divider>
-        <a-tag
-            v-for="tag in videoDetailDrawerCurrentVideo.tags
-              ? videoDetailDrawerCurrentVideo.tags.split(';').slice(0, -1)
-              : []"
-            :key="tag"
-            style="margin-bottom: 4px"
-        >
-          {{ tag }}
-        </a-tag>
-        <a-divider orientation="left">数据</a-divider>
-        <div v-if="videoDetailDrawerCurrentVideo.laststat">
-          <ul style="padding-left: 20px">
-            <li><a-icon type="play-circle" class="stat-item-icon" />播放：{{ videoDetailDrawerCurrentVideo.laststat.view }}</li>
-            <li><a-icon type="profile" class="stat-item-icon" />弹幕：{{ videoDetailDrawerCurrentVideo.laststat.danmaku }}</li>
-            <li><a-icon type="message" class="stat-item-icon" />评论：{{ videoDetailDrawerCurrentVideo.laststat.reply }}</li>
-            <li><a-icon type="star" class="stat-item-icon" />收藏：{{ videoDetailDrawerCurrentVideo.laststat.favorite }}</li>
-            <li><a-icon type="dollar" class="stat-item-icon" />硬币：{{ videoDetailDrawerCurrentVideo.laststat.coin }}</li>
-            <li><a-icon type="share-alt" class="stat-item-icon" />分享：{{ videoDetailDrawerCurrentVideo.laststat.share }}</li>
-            <li><a-icon type="like" class="stat-item-icon" />点赞：{{ videoDetailDrawerCurrentVideo.laststat.like }}</li>
-          </ul>
-          *{{ tsToStr(videoDetailDrawerCurrentVideo.laststat.added) }}更新
-        </div>
-        <div v-else>
-          <a-alert type="error" message="暂无数据" />
-        </div>
-        <a-divider orientation="left">其他</a-divider>
-        <div v-if="videoDetailDrawerCurrentVideo.isvc === 1">
-          <a-tag color="pink">VC</a-tag>
-        </div>
-        <div class="fake-drawer-footer"></div>
-        <div class="drawer-footer">
-          <div @click="$router.push('/video/av'+videoDetailDrawerCurrentVideo.aid)"
-               :style="{ width: videoDetailDrawerWidth / 2 + 'px'}">
-              <a-icon type="line-chart" title="详细数据" style="margin-right: 8px"/>详细数据
-          </div>
-          <div @click="videoViewClickHandler(videoDetailDrawerCurrentVideo.aid)"
-               :style="{ width: videoDetailDrawerWidth / 2 + 'px'}">
-            <a-icon type="play-circle" title="观看视频" style="margin-right: 8px"/>观看视频
-          </div>
-        </div>
-      </a-drawer>
+      </tdd-video-detail-drawer>
     </div>
   </div>
 </template>
@@ -321,11 +175,14 @@
 <script>
   import {Modal} from 'ant-design-vue';
   import moment from 'moment';
+  import TddVideoList from "./common/TddVideoList";
+  import TddVideoDetailDrawer from "./common/TddVideoDetailDrawer";
 
   export default {
     name: "VideoHome",
     components: {
-
+      TddVideoList,
+      TddVideoDetailDrawer
     },
     data: function() {
       return {
@@ -344,22 +201,20 @@
         pagiCurrent: 1,
         videoTotalCount: 0,
         videoDetailDrawerVisible: false,
-        videoDetailDrawerCurrentIndex: 0
+        videoDetailDrawerCurrentIndex: 0,
+        videoDetailDrawerVideo: null
       }
     },
     computed: {
-      videoDetailDrawerCurrentVideo: function() {
-        if (this.videoList[this.videoDetailDrawerCurrentIndex]) {
-          return this.videoList[this.videoDetailDrawerCurrentIndex];
-        } else {
-          return null;
-        }
-      },
       videoDetailDrawerWidth: function() {
         return Math.min(this.$store.state.clientWidth * 0.7, 512);
       }
     },
     methods: {
+      videoListItemClickedHandler: function (item) {
+        this.videoDetailDrawerVideo = item;
+        this.videoDetailDrawerVisible = true;
+      },
       checkParams: function() {
         // TODO
         return true;
@@ -455,20 +310,6 @@
             that.isLoadingVideoList = false;
           });
       },
-      addZero: function(value) {
-        return value < 10 ? "0" + value : "" + value;
-      },
-      tsToStr: function (ts) {
-        let date = new Date(ts * 1000);
-        let dateString = "";
-        dateString += date.getFullYear() + "-";
-        dateString += this.addZero(date.getMonth() + 1) + "-";
-        dateString += this.addZero(date.getDate()) + " ";
-        dateString += this.addZero(date.getHours()) + ":";
-        dateString += this.addZero(date.getMinutes()) + ":";
-        dateString += this.addZero(date.getSeconds());
-        return dateString;
-      },
       disabledStartDate(startValue) {
         const endValue = this.pubdateEndValue;
         if (!startValue || !endValue) {
@@ -541,21 +382,6 @@
         this.pagiCurrent = pagiClick;
         this.fetchVideoList();
       },
-      videoDetailDrawerCloseHandler: function() {
-        this.videoDetailDrawerVisible = false;
-      },
-      videoItemClickHandler: function(id) {
-        this.videoDetailDrawerVisible = true;
-        for (let i = 0; i < this.videoTotalCount; i++) {
-          if (this.videoList[i].id === id) {
-            this.videoDetailDrawerCurrentIndex = i;
-            break;
-          }
-        }
-      },
-      videoViewClickHandler: function(aid) {
-        window.open('https://www.bilibili.com/video/av'+aid);
-      }
     },
     created() {
       let data = this.$store.state.videoHomeData;
@@ -615,28 +441,7 @@
     white-space: nowrap;
   }
 
-  .drawer-footer {
-    position: fixed;
-    bottom: 0;
-    background: #fafafa;
-    width: 100%;
-    margin-left: -24px;
-    border-top: 1px solid #e8e8e8;
-    cursor: pointer;
-  }
-  .drawer-footer div {
-    float: left;
-    height: 48px;
-    text-align: center;
-    border-left: 1px solid #e8e8e8;
-    padding-top: 14px;
-  }
-  .drawer-footer div:hover {
-    background: #e8e8e8;
-  }
-  .fake-drawer-footer {
-    height: 48px;
-  }
+
 </style>
 
 <style>
