@@ -1,6 +1,6 @@
 <template>
   <a-list
-      :itemLayout="displayMode === 'list' ? 'vertical' : ''"
+      :itemLayout="mode === 'list' ? 'vertical' : ''"
       :dataSource="videoList"
   >
     <a-list-item
@@ -17,7 +17,7 @@
               {{ item.title }}
             </div>
             <div class="tdd-video-item-mobile-right-content-footer">
-              <div>
+              <div :style="{ width: showMobileView?'50%':'100%' }">
                 <a-avatar
                     :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
                     :size="16"
@@ -25,7 +25,7 @@
                 />
                 {{ item.member ? item.member.name : 'mid'+item.mid }}
               </div>
-              <div>
+              <div v-if="showMobileView">
                 <a-icon type="play-circle" class="stat-item-icon"/>
                 {{ item.laststat ? item.laststat.view : -1 }}
               </div>
@@ -33,11 +33,30 @@
           </div>
         </div>
         <div class="tdd-video-item-mobile-bottom-content">
-          <slot name="bottom-content"></slot>
+          <div class="tdd-video-item-mobile-sprint-board">
+            <div style="margin-top: 4px" slot="bottom-content">
+              <div style="overflow: hidden">
+                <div style="width: 50%; float: left">
+                  当前播放：{{ item.last_record ? item.last_record.view : -1 }}
+                </div>
+                <div style="width: 50%; float: left">
+                  昨日增加：{{ item.one_day_view ? item.one_day_view : -1}}
+                </div>
+              </div>
+              <div style="overflow: hidden">
+                <div style="width: 50%; float: left">
+                  已用时间：{{ calcTimeSpanString(Math.floor(new Date().valueOf() / 1000) - item.created) }}
+                </div>
+                <div style="width: 50%; float: left">
+                  预计剩余：{{ item.last_record && item.one_day_view > 0 ? calcTimeSpanString((1000000 - item.last_record.view) / item.one_day_view * 24 * 60 * 60) : -1}}
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </template>
       <template v-else>
-        <template v-if="displayMode === 'list'">
+        <template v-if="mode === 'list'">
           <a-row>
             <a-col :xs="24" :sm="8" :md="6" :lg="5" :xl="4" style="padding-left: 12px">
               <img width="100%" height="100%" alt="pic" :src="item.pic"/>
@@ -54,11 +73,31 @@
                 <a-icon type="calendar" style="margin-left: 8px; margin-right: 4px"/>
                 {{ $util.tsToDateString(item.pubdate) }}
               </div>
-              <video-stat-bar :stat="item.laststat" :show-name="false" :mode="'bar'"></video-stat-bar>
+              <div v-if="showStatBar">
+                <video-stat-bar :stat="item.laststat" :show-name="false" :mode="'bar'"></video-stat-bar>
+              </div>
+              <div v-if="showSprintBoard">
+                <div style="overflow: hidden">
+                  <div style="width: 140px; float: left">
+                    当前播放：{{ item.last_record ? item.last_record.view: -1 }}
+                  </div>
+                  <div style="width: 140px; float: left">
+                    昨日增加：{{ item.one_day_view ? item.one_day_view : -1}}
+                  </div>
+                </div>
+                <div style="overflow: hidden">
+                  <div style="width: 140px; float: left">
+                    已用时间：{{ calcTimeSpanString(Math.floor(new Date().valueOf() / 1000) - item.created) }}
+                  </div>
+                  <div style="width: 140px; float: left">
+                    预计剩余：{{ item.last_record && item.one_day_view > 0 ? calcTimeSpanString((1000000 - item.last_record.view) / item.one_day_view * 24 * 60 * 60) : -1}}
+                  </div>
+                </div>
+              </div>
             </a-col>
           </a-row>
         </template>
-        <template v-if="displayMode === 'grid'">
+        <template v-if="mode === 'grid'">
 
         </template>
       </template>
@@ -71,8 +110,26 @@
   export default {
     name: 'TddVideoList',
     props: {
-      videoList: Array,
-      mode: String
+      videoList: {
+        type: Array,
+        required: true
+      },
+      mode: {
+        type: String,
+        default: 'list'
+      },
+      showStatBar: {
+        type: Boolean,
+        default: true
+      },
+      showMobileView: {
+        type: Boolean,
+        default: true
+      },
+      showSprintBoard: {
+        type: Boolean,
+        default: false
+      }
     },
     components: {
       VideoStatBar
@@ -82,12 +139,16 @@
 
       }
     },
-    computed: {
-      displayMode: function () {
-        if (this.mode === 'grid') {
-          return 'grid';
+    methods: {
+      calcTimeSpanString: function (ts) {
+        if (ts < 60) {
+          return ts + '秒';
+        } else if (ts < 60 * 60) {
+          return Math.floor(ts / 60) + '分';
+        } else if (ts < 60 * 60 * 24) {
+          return Math.floor(ts / 60 / 60) + '时';
         } else {
-          return 'list';
+          return Math.floor(ts / 60 / 60 / 24) + '日';
         }
       }
     }
@@ -137,5 +198,16 @@
     white-space: nowrap;
   }
 
-
+  /* overwrite ant design style */
+  /* add list item hover shadow */
+  .ant-list-item {
+    transition: all .2s;
+  }
+  .ant-list-item:hover {
+    cursor: pointer;
+    -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.09);
+    -moz-box-shadow: 0 2px 8px rgba(0,0,0,.09);
+    box-shadow: 0 2px 8px rgba(0,0,0,.09);
+    border-color: rgba(0,0,0,.09);
+  }
 </style>
