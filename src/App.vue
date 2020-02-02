@@ -42,8 +42,7 @@ export default {
     }
   },
   mounted: function(){
-    var that = this;
-
+    let that = this;
     // global client mode
     let width = (document && document.body && document.body.clientWidth) || -1;
     if (width > 0) {
@@ -102,53 +101,6 @@ export default {
   }
   h1 {
     margin-bottom: 8px !important;
-  }
-}
-
-/* video list related */
-.video-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.video-title-mobile {
-  height: 40px;
-  color: rgba(0, 0, 0, 0.85);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-.ant-list-item {
-  transition: all .2s;
-}
-.ant-list-item:hover {
-  cursor: pointer;
-  -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.09);
-  -moz-box-shadow: 0 2px 8px rgba(0,0,0,.09);
-  box-shadow: 0 2px 8px rgba(0,0,0,.09);
-  border-color: rgba(0,0,0,.09);
-}
-.vertical-separator {
-  color: #e8e8e8;
-  margin-left: 4px;
-  margin-right: 8px;
-}
-.stat-item {
-  white-space: nowrap;
-}
-.stat-item-icon {
-  margin-right: 8px;
-}
-@media only screen and (max-width: 576px) {
-  .stat-item-icon {
-    margin-right: 4px;
-  }
-}
-@media only screen and (max-width: 360px) {
-  .video-view {
-    display: none;
   }
 }
 </style>
