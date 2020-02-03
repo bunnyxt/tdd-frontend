@@ -110,15 +110,15 @@
           <h1>所有视频</h1>
         </div>
         <div style="float: right; margin-top: 8px">
-          <a-button size="small" @click="fetchRandomVideoList(3)"><a-icon type="reload" />{{ refreshString }}</a-button>
+          <a-button size="small" @click="fetchRandomVideoList(6)"><a-icon type="reload" />{{ refreshString }}</a-button>
           <a-button size="small" @click="() => this.$router.push('/video')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
         </div>
       </div>
       <p>本站收录的所有视频，包括B站UV分区下的所有视频和部分其他分区中的VC视频。</p>
       <a-spin :spinning="isLoadingRandomVideoList">
         <tdd-video-list
-            :video-list="randomVideoList"
-            mode="list"
+            :video-list="randomVideoList.slice(0, listColNum)"
+            mode="grid"
             @item-clicked="randomVideoListItemClickedHandler"
         ></tdd-video-list>
       </a-spin>
@@ -145,8 +145,8 @@
       <p>VC传说冲刺曲目助攻计划，收录B站接近<a href="https://zh.moegirl.org/Vocaloid中文传说曲" target="_blank">中文VOCALOID传说曲</a>要求的曲目视频，记录播放、收藏等数据变化，提供传说助攻参考。</p>
       <a-spin :spinning="isLoadingSprintVideoList">
         <tdd-video-list
-            :video-list="sprintVideoListFiltered"
-            mode="list"
+            :video-list="sprintVideoListFiltered.slice(0, listColNum)"
+            mode="grid"
             :show-stat-bar="false"
             :show-mobile-view="false"
             :show-sprint-board="true"
@@ -257,6 +257,23 @@ export default {
         return '';
       } else {
         return '更多';
+      }
+    },
+    listColNum: function () {
+      let width = this.$store.state.clientWidth; // TODO bug here, in chrome this will cut scrollbar width, about 15px
+      if (width < 576) {
+        // return 1;
+        return 3;
+      } else if (width < 768) {
+        return 2;
+      } else if (width < 992) {
+        return 3;
+      } else if (width < 1200) {
+        return 3;
+      } else if (width < 1600) {
+        return 4;
+      } else {
+        return 6;
       }
     }
   },
@@ -388,7 +405,7 @@ export default {
       let max = this.sprintVideoList.length;
       let indexList = [];
 
-      while (indexList.length < 3) {
+      while (indexList.length < 6) {
         let index = Math.floor(Math.random() * max);
         if (indexList.indexOf(index) === -1 && lastAidList.indexOf(this.sprintVideoList[index].aid) === -1) {
           indexList.push(index);
@@ -418,7 +435,7 @@ export default {
   created() {
     this.fetchStatDailyList();
     this.fetchUpdateLogList();
-    this.fetchRandomVideoList(3);
+    this.fetchRandomVideoList(6);
     this.fetchSprintVideoList();
   }
 };

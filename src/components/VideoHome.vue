@@ -147,7 +147,7 @@
       <a-spin :spinning="isLoadingVideoList">
         <tdd-video-list
             :video-list="videoList"
-            mode="list"
+            mode="grid"
             @item-clicked="videoListItemClickedHandler"
         ></tdd-video-list>
         <a-pagination
