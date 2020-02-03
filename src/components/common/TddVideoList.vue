@@ -1,7 +1,7 @@
 <template>
   <a-list
-      :itemLayout="mode === 'list' ? 'vertical' : ''"
-      :grid="mode === 'grid' ? { gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null"
+      :itemLayout="(mode === 'list' || $store.getters.clientMode === 'MOBILE') ? 'vertical' : ''"
+      :grid="(mode === 'grid' && $store.getters.clientMode !== 'MOBILE') ? { gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null"
       :dataSource="videoList"
   >
     <a-list-item
