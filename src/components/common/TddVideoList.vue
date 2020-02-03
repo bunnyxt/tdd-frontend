@@ -1,6 +1,7 @@
 <template>
   <a-list
       :itemLayout="mode === 'list' ? 'vertical' : ''"
+      :grid="mode === 'grid' ? { gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null"
       :dataSource="videoList"
   >
     <a-list-item
@@ -34,7 +35,7 @@
         </div>
         <div class="tdd-video-item-mobile-bottom-content">
           <div class="tdd-video-item-mobile-sprint-board">
-            <div style="margin-top: 4px" slot="bottom-content">
+            <div style="margin-top: 4px" v-if="showSprintBoard">
               <div style="overflow: hidden">
                 <div style="width: 50%; float: left">
                   当前播放：{{ item.last_record ? item.last_record.view : -1 }}
@@ -59,10 +60,12 @@
         <template v-if="mode === 'list'">
           <a-row>
             <a-col :xs="24" :sm="8" :md="6" :lg="5" :xl="4" style="padding-left: 12px">
-              <img width="100%" height="100%" alt="pic" :src="item.pic"/>
+              <div class="tdd-cover-pid" style="width: 100%">
+                <img width="100%" height="100%" alt="pic" :src="item.pic"/>
+              </div>
             </a-col>
             <a-col :xs="24" :sm="16" :md="18" :lg="19" :xl="20" style="padding-left: 12px">
-              <h3 class="tdd-video-item-desktop-title">{{ item.title }}</h3>
+              <h3 class="tdd-video-item-desktop-list-title">{{ item.title }}</h3>
               <div>
                 <a-avatar
                     :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
@@ -98,7 +101,50 @@
           </a-row>
         </template>
         <template v-if="mode === 'grid'">
-
+          <div class="tdd-video-item-desktop-grid-card">
+            <div class="tdd-cover-pic" style="width: 100%">
+              <img width="100%" height="100%" alt="pic" :src="item.pic" style="position: absolute"/>
+            </div>
+            <div style="padding: 12px">
+              <h3 class="tdd-video-item-desktop-grid-title">{{ item.title }}</h3>
+              <div>
+                <a-avatar
+                    :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+                    :size="16"
+                    style="margin-right: 4px; margin-bottom: 1px"
+                />
+                {{ item.member ? item.member.name : 'mid'+item.mid}}<br>
+                <a-icon type="calendar" style="margin-right: 4px"/>
+                {{ $util.tsToDateString(item.pubdate) }}
+              </div>
+              <div v-if="showStatBar">
+                <video-stat-bar
+                    class="tdd-video-item-desktop-grid-video-stat-bar"
+                    :stat="item.laststat"
+                    :show-name="false"
+                    :mode="'bar'"
+                ></video-stat-bar>
+              </div>
+              <div v-if="showSprintBoard">
+                <div style="overflow: hidden">
+                  <div style="width: 140px; float: left">
+                    当前播放：{{ item.last_record ? item.last_record.view: -1 }}
+                  </div>
+                  <div style="width: 140px; float: left">
+                    昨日增加：{{ item.one_day_view ? item.one_day_view : -1}}
+                  </div>
+                </div>
+                <div style="overflow: hidden">
+                  <div style="width: 140px; float: left">
+                    已用时间：{{ calcTimeSpanString(Math.floor(new Date().valueOf() / 1000) - item.created) }}
+                  </div>
+                  <div style="width: 140px; float: left">
+                    预计剩余：{{ item.last_record && item.one_day_view > 0 ? calcTimeSpanString((1000000 - item.last_record.view) / item.one_day_view * 24 * 60 * 60) : -1}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </template>
       </template>
     </a-list-item>
@@ -192,10 +238,38 @@
     padding-right: 4px;
   }
 
-  .tdd-video-item-desktop-title {
+  .tdd-video-item-desktop-list-title {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .tdd-video-item-desktop-grid-card {
+    transition: all .2s;
+    border: 1px solid #e8e8e8;
+  }
+  .tdd-video-item-desktop-grid-card:hover {
+    cursor: pointer;
+    -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.09);
+    -moz-box-shadow: 0 2px 8px rgba(0,0,0,.09);
+    box-shadow: 0 2px 8px rgba(0,0,0,.09);
+    border-color: rgba(0,0,0,.09);
+  }
+  .tdd-video-item-desktop-grid-title {
+    height: 48px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+  .tdd-video-item-desktop-grid-video-stat-bar {
+    height: 42px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   /* overwrite ant design style */
