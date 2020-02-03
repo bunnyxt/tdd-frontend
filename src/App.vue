@@ -77,6 +77,17 @@ export default {
 .ant-list-vertical .ant-list-item-content {
   margin-bottom: 0 !important;
 }
+
+/* fixed width-height ratio image */
+.tdd-cover-pic {
+  height: 0px;
+  position: relative;
+  padding-bottom: 60%;
+}
+.tdd-cover-pic img {
+  position: absolute;
+}
+
 /* MOBILE version */
 @media only screen and (max-width: 576px) {
   /* custom layout style*/
