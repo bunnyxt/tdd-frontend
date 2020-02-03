@@ -140,12 +140,7 @@ export default {
       let style = {};
       if (this.$store.getters.clientMode !== 'MOBILE') {
         style['float'] = 'left';
-        let clientWidth = this.$store.state.clientWidth;
-        if (clientWidth < 768) {
-          style['width'] = (clientWidth - 250 - 24*2 - 20*2 - 12) + 'px';  // layoutPadding: '0 20px'
-        } else {
-          style['width'] = (clientWidth - 250 - 24*2 - 50*2 - 24 - 6) + 'px';  // layoutPadding: '0 50px'
-        }
+        style['width'] = 'calc(100% - 250px - 12px)';
       }
       return style;
     }
