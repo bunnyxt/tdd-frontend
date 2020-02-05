@@ -77,10 +77,16 @@ export default {
 .ant-list-vertical .ant-list-item-content {
   margin-bottom: 0 !important;
 }
+.ant-pagination-options {
+  display: inline-block;
+}
+.ant-pagination li {
+  margin-bottom: 8px;
+}
 
 /* fixed width-height ratio image */
 .tdd-cover-pic {
-  height: 0px;
+  height: 0;
   position: relative;
   padding-bottom: 60%;
 }

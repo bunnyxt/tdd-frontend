@@ -9,7 +9,7 @@
     <div class="section-block">
       <h1>所有视频</h1>
       <p>天钿Daily收录B站<a href="https://www.bilibili.com/v/music/vocaloid/" target="_blank">VOCALOID·UTAU</a>分区下的所有视频和部分其他分区中的VC视频。</p>
-      <a-alert style="margin-bottom: 8px" message="播放、弹幕等数据并非时时数据，一般每天更新一次" banner />
+      <a-alert style="margin-bottom: 8px" message="播放、弹幕等数据并非时时数据，最低每24小时更新一次" banner />
       <a-alert style="margin-bottom: 8px" message="点击视频列表查看详细信息" banner type="info"/>
     </div>
     <div class="section-separator"></div>
@@ -173,7 +173,7 @@
 </template>
 
 <script>
-  import {Modal} from 'ant-design-vue';
+  import { Modal } from 'ant-design-vue';
   import moment from 'moment';
   import TddVideoList from "./common/TddVideoList";
   import TddVideoDetailDrawer from "./common/TddVideoDetailDrawer";
@@ -442,13 +442,4 @@
   }
 
 
-</style>
-
-<style>
-  .ant-pagination-options {
-    display: inline-block;
-  }
-  .ant-pagination li {
-    margin-bottom: 8px;
-  }
 </style>
