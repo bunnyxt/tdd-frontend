@@ -109,8 +109,12 @@
         </div>
         <div class="section-separator"></div>
         <div class="section-block">
-          <a-divider orientation="left">历史数据</a-divider>
+          <a-divider orientation="left">历史趋势</a-divider>
           <video-detail-history-line-chart :videoRecords="videoRecords" />
+          <a-divider orientation="left">详细数据</a-divider>
+          <video-detail-history-table :video-records="videoRecords" />
+          <a-divider orientation="left">数据下载</a-divider>
+          <tdd-video-record-saver :video-records="videoRecords" />
         </div>
       </div>
     </div>
@@ -119,11 +123,15 @@
 
 <script>
 import VideoDetailHistoryLineChart from "./VideoDetailHistoryLineChart";
+import VideoDetailHistoryTable from "./VideoDetailHistoryTable";
+import TddVideoRecordSaver from "./common/TddVideoRecordSaver";
 
 export default {
   name: 'VideoDetail',
   components: {
-    VideoDetailHistoryLineChart
+    VideoDetailHistoryLineChart,
+    VideoDetailHistoryTable,
+    TddVideoRecordSaver
   },
   data: function() {
     return {
