@@ -1,5 +1,6 @@
 <template>
   <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
+    <div v-wechat-title="$route.meta.title='助攻日报'+this.$route.params.date+' - 天钿Daily'"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>

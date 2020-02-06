@@ -1,5 +1,6 @@
 <template>
   <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
+    <div v-wechat-title="$route.meta.title='av'+this.$route.params.aid+' - 助攻详情 - 天钿Daily'"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
@@ -16,6 +17,7 @@
     </div>
     <div v-else>
       <div v-if="video.aid != '-1'">
+        <div v-wechat-title="$route.meta.title=video.title+' - 助攻详情 - 天钿Daily'"></div>
         <div class="section-block">
           <a-spin :spinning="isLoadingRecords">
             <SprintVideoInfo :video="video" :records="records"/>
