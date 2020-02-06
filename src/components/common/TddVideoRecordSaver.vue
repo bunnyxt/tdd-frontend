@@ -35,7 +35,7 @@
       <div style="overflow: hidden">
         <div style="float: right; text-align: right">
           共 {{ videoRecords.length }} 条数据<br>
-          <a-button type="primary" @click="onSaverClick">确认下载</a-button><br>
+          <a-button type="primary" @click="onSaverClick" style="margin: 8px 0">确认下载</a-button><br>
           <small>*直接从本地浏览器的缓存中加载数据<br>不会造成额外的网络流量，请放心下载</small>
         </div>
       </div>
