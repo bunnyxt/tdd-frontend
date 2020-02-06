@@ -10,6 +10,7 @@ const SprintDailyDetail = () => import("./components/SprintDailyDetail");
 const ToolHome = () => import("./components/tool/ToolHome");
 const DateCalc = () => import("./components/tool/DateCalc");
 const BiliApi = () => import("./components/tool/BiliApi");
+const ZkCalc = () => import("./components/tool/ZkCalc");
 const AboutHome = () => import("./components/about/AboutHome");
 const UpdateLog = () => import("./components/about/UpdateLog");
 const NotFound = () => import("./components/NotFound");
@@ -53,6 +54,9 @@ export default new Router({
         }, {
             path: "/tool/biliapi",
             component: BiliApi
+        }, {
+            path: "/tool/zkcalc",
+            component: ZkCalc
         }, {
             path: "/about",
             component: AboutHome

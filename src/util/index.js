@@ -47,5 +47,28 @@ export default {
     let pos_ss = pattern.indexOf('ss');
     pos_ss > -1 ? date.setSeconds(parseInt(pattern.substring(pos_ss, pos_ss + 2))) : undefined;
     return Math.floor(date.valueOf() / 1000);
+  },
+  zkCalc: function (view, reply, danmaku, favorite, page) {
+    // init inner value to ensure they are float type
+    let _view = parseFloat(parseInt(view).toFixed());
+    let _reply = parseFloat(parseInt(reply).toFixed());
+    let _danmaku = parseFloat(parseInt(danmaku).toFixed());
+    let _favorite = parseFloat(parseInt(favorite).toFixed());
+    let _page = parseFloat(parseInt(page).toFixed());
+
+    let view_point_basic = _view / _page;
+    let view_point = view_point_basic > 10000 ? view_point_basic * 0.5 + 5000 : view_point_basic;
+
+    let xiua = parseFloat((
+      (view_point + _favorite) / (view_point + _favorite + _danmaku * 10 + _reply * 20)
+    ).toFixed(2));
+
+    let xiub = parseFloat((_favorite / _view * 250).toFixed(2));
+    xiub = xiub > 50 ? 50 : xiub;
+
+    let view_point_final = xiub < 10 ? view_point * xiub * 0.1 : view_point;
+    let point = Math.floor(view_point_final + (_reply * 25 + _danmaku) * xiua + _favorite * xiub);
+
+    return { point, xiua, xiub }
   }
 }

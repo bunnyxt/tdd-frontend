@@ -16,6 +16,9 @@
         <li>
           <router-link to="/tool/biliapi">Bilibili API传送门</router-link>：常用Bilibili API传送门。
         </li>
+        <li>
+          <router-link to="/tool/zkcalc">周刊算分</router-link>：周刊VOCALOID中文排行榜计分规则计算器。
+        </li>
       </ul>
     </div>
   </div>
