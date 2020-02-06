@@ -41,7 +41,12 @@ import { message } from "ant-design-vue"
 // apex chart
 import VueApexCharts from 'vue-apexcharts'
 
+// router
 import router from "./router"
+
+// vue wechat title
+import VueWechatTitle from 'vue-wechat-title'
+Vue.use(VueWechatTitle);
 
 // vuex
 import store from './store'
