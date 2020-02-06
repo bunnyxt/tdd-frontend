@@ -36,7 +36,7 @@
         <div style="float: right; text-align: right">
           共 {{ videoRecords.length }} 条数据<br>
           <a-button type="primary" @click="onSaverClick">确认下载</a-button><br>
-          <small>*直接从本地浏览器缓存加载数据<br>不会造成额外的网络流量，请放心下载</small>
+          <small>*直接从本地浏览器的缓存中加载数据<br>不会造成额外的网络流量，请放心下载</small>
         </div>
       </div>
     </template>
@@ -172,7 +172,14 @@
           this.startDownloadBlob(blob, filename + '.json');
         }
 
-        this.$message.success('已开始下载！请留意浏览器下载文件');
+        this.$message.success('已开始下载！请留意浏览器的下载文件');
+        // check android
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.indexOf('linux') > -1) {
+          if (ua.indexOf('android') > -1) {
+            setTimeout(() => this.$message.error('抱歉！由于技术原因，安卓平台浏览器可能无法下载，请换PC端重试'), 500);
+          }
+        }
       },
       // openDownloadDialog: function (url, saveName) {
       //   if (typeof url == 'object' && url instanceof Blob) {
