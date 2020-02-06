@@ -10,7 +10,7 @@
       />
       <img
           class="mobile-header-logo"
-          src="img/logo_32S.png"
+          :src="logo_small"
           @click="() => this.$router.push('/')"
       />
       <div v-if="!this.$store.state.isUserLoggedIn">
@@ -34,7 +34,7 @@
     <a-layout-header :style="{padding: layoutPadding}">
       <img
           class="desktop-header-logo"
-          src="img/logo_32S.png"
+          :src="logo_small"
           @click="() => this.$router.push('/')"
       />
       <a-menu
@@ -72,11 +72,12 @@
 </template>
 
 <script>
+  import logo_small from '../../assets/img/logo_32S.png'
   export default {
     name: 'TddHeader',
     data: function () {
       return {
-
+        logo_small: logo_small
       }
     },
     computed: {

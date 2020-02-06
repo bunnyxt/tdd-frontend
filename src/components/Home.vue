@@ -23,7 +23,7 @@
             </div>
           </div>
           <div class="carousel-p1-image">
-            <img src="img/logo_max.png" alt="logo" />
+            <img :src="logo_max" alt="logo" />
           </div>
         </div>
       </div>
@@ -182,6 +182,7 @@ import G2 from '@antv/g2';
 import DataSet from '@antv/data-set';
 import TddVideoList from "./common/TddVideoList";
 import TddVideoDetailDrawer from "./common/TddVideoDetailDrawer";
+import logo_max from '../assets/img/logo_max.png'
 
 export default {
   name: "Home",
@@ -191,6 +192,7 @@ export default {
   },
   data: function () {
     return {
+      logo_max: logo_max,
       isLoadingStatDailyList: false,
       statDailyList: [],
       statDailyTotalCount: 0,
