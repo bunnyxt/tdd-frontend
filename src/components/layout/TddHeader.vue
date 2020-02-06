@@ -2,6 +2,7 @@
   <div v-if="this.$store.getters.clientMode === 'MOBILE'">
     <a-layout-header
         class="mobile-header"
+        :style="{ position: 'fixed', zIndex: 30, width: '100%' }"
     >
       <a-icon
           class="trigger mobile-header-menu-icon"

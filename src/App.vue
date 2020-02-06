@@ -5,7 +5,7 @@
       <tdd-login-slider />
       <a-layout>
         <tdd-header />
-        <a-layout-content :style="{padding: layoutPadding}">
+        <a-layout-content :style="{padding: layoutPadding, marginTop: layoutMarginTop}">
           <router-view></router-view>
         </a-layout-content>
         <div class="fake-footer"></div>
@@ -37,8 +37,11 @@ export default {
     }
   },
   computed: {
-    layoutPadding: function() {
+    layoutPadding: function () {
       return this.$util.calcLayoutPadding(this.$store.state.clientWidth);
+    },
+    layoutMarginTop: function () {
+      return this.$store.getters.clientMode === 'MOBILE' ? '64px' : '0';
     }
   },
   mounted: function(){
