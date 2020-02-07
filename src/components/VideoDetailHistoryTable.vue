@@ -31,7 +31,7 @@
             scopedSlots: { customRender: 'added' },
             sorter: (a, b) => a.added - b.added,
             defaultSortOrder: 'descend',
-            width: '172px',
+            width: '168px',
             fixed: 'left',
           }, {
             title: '播放',
