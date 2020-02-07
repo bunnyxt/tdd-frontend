@@ -115,6 +115,8 @@
           <video-detail-history-line-chart :videoRecords="videoRecords" />
           <a-divider orientation="left">详细数据</a-divider>
           <video-detail-history-table :video-records="videoRecords" />
+          <a-divider orientation="left" style="margin-top: -16px">周刊算分</a-divider>
+          <tdd-video-record-zk-calc :video-records="videoRecords" :page="video ? video.videos : 1" :pubdate="video ? video.pubdate : null" />
           <a-divider orientation="left">数据下载</a-divider>
           <tdd-video-record-saver :video-records="videoRecords" />
         </div>
@@ -127,13 +129,15 @@
 import VideoDetailHistoryLineChart from "./VideoDetailHistoryLineChart";
 import VideoDetailHistoryTable from "./VideoDetailHistoryTable";
 import TddVideoRecordSaver from "./common/TddVideoRecordSaver";
+import TddVideoRecordZkCalc from "./common/TddVideoRecordZkCalc";
 
 export default {
   name: 'VideoDetail',
   components: {
     VideoDetailHistoryLineChart,
     VideoDetailHistoryTable,
-    TddVideoRecordSaver
+    TddVideoRecordSaver,
+    TddVideoRecordZkCalc
   },
   data: function() {
     return {
