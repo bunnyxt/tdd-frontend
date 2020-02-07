@@ -36,7 +36,10 @@ import { Modal } from "ant-design-vue"
 import { Popover } from "ant-design-vue"
 import { Statistic } from "ant-design-vue"
 import { Timeline } from "ant-design-vue"
+import { InputNumber } from "ant-design-vue";
+
 import { message } from "ant-design-vue"
+Vue.prototype.$message = message;
 
 // apex chart
 import VueApexCharts from 'vue-apexcharts'
@@ -87,8 +90,7 @@ Vue.use(Modal)
 Vue.use(Popover)
 Vue.use(Statistic)
 Vue.use(Timeline)
-
-Vue.prototype.$message = message;
+Vue.use(InputNumber)
 
 // apex chart
 Vue.use(VueApexCharts)
@@ -104,6 +106,11 @@ Vue.prototype.$axios = axios;
 // util
 import util from './util/index'
 Vue.prototype.$util = util;
+
+// moment
+import moment from 'moment';
+import 'moment/locale/zh-cn';
+moment.locale('zh-cn');
 
 new Vue({
   router,
