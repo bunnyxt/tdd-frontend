@@ -14,6 +14,24 @@
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
+      <a-auto-complete
+          placeholder="视频aid"
+          v-model="videoAidInput"
+          @change="onAidInputChange"
+          optionLabelProp="text"
+          allowClear
+          style="width: calc(100% - 72px); margin-right: 8px"
+      >
+        <template slot="dataSource">
+          <a-select-option v-for="item in videoAidTitleListStringified" :key="item.aid" :text="item.aid" >
+            {{ item.aid }} - {{ item.title }}
+          </a-select-option>
+        </template>
+      </a-auto-complete>
+      <a-button type="primary" @click="goAidJump">跳转</a-button>
+    </div>
+    <div class="section-separator"></div>
+    <div class="section-block">
       <a-collapse :activeKey="[1]" style="margin-bottom: 8px">
         <a-collapse-panel header="筛选搜索" key="1">
           <table class="filter-table">
@@ -186,6 +204,9 @@
     },
     data: function() {
       return {
+        videoAidInput: undefined,
+        isLoadingVideoAidTitleList: false,
+        videoAidTitleList: [],
         videoList: [],
         isLoadingVideoList: false,
         lastLoadVideoListDate: null,
@@ -206,11 +227,50 @@
       }
     },
     computed: {
+      videoAidTitleListStringified: function () {
+        return this.videoAidTitleList.map(x => {
+          let obj = {};
+          obj.aid = '' + x.aid;
+          obj.title = x.title;
+          return obj;
+        });
+      },
       videoDetailDrawerWidth: function() {
         return Math.min(this.$store.state.clientWidth * 0.7, 512);
       }
     },
     methods: {
+      goAidJump: function () {
+        if (this.videoAidInput) {
+          this.$router.push('/video/av' + this.videoAidInput);
+        }
+      },
+      onAidInputChange: function () {
+        if (this.videoAidInput && this.videoAidInput.length >= 4) {
+          this.fetchVideoAidTileList();
+        } else {
+          this.videoAidTitleList = [];
+        }
+      },
+      fetchVideoAidTileList: function () {
+        this.isLoadingVideoAidTitleList = true;
+        if ('' + parseInt(this.videoAidInput) !== this.videoAidInput) {
+          this.isLoadingVideoAidTitleList = false;
+          return;
+        }
+        let url = 'video/aidtitle?aid=' + this.videoAidInput;
+        let that = this;
+        this.$axios.get(url)
+          .then(function (response) {
+            that.videoAidTitleList = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            that.isLoadingVideoAidTitleList = false;
+          });
+      },
       videoListItemClickedHandler: function (item) {
         this.videoDetailDrawerVideo = item;
         this.videoDetailDrawerVisible = true;
