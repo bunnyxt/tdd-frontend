@@ -57,7 +57,7 @@
           <h3>起止记录</h3>
           <a-table
               :columns="columns"
-              :rowKey="record => record.added"
+              :rowKey="record => record.tableId"
               :pagination="false"
               :dataSource="videoRecordsFromTo"
               :scroll="{ x: 700 }"
@@ -176,8 +176,10 @@
         return this.calcZkIssueValueViaTs(Math.floor(new Date().valueOf() / 1000));
       },
       videoRecordsFromTo: function () {
-        let videoRecordFrom = this.videoRecords[this.videoRecordFromIndex];
-        let videoRecordTo = this.videoRecords[this.videoRecordToIndex];
+        let videoRecordFrom = JSON.parse(JSON.stringify(this.videoRecords[this.videoRecordFromIndex]));
+        videoRecordFrom.tableId = 0;
+        let videoRecordTo = JSON.parse(JSON.stringify(this.videoRecords[this.videoRecordToIndex]));
+        videoRecordTo.tableId = 1;
         return [videoRecordFrom, videoRecordTo];
       },
       startDateStyle: function () {
