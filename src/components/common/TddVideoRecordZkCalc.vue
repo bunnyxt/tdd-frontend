@@ -306,26 +306,51 @@
         this.setTimespanViaZkIssueValue();
       },
       locateNearestIndex: function (ts) {
-        let index = 0;
-        while (index < this.videoRecords.length) {
-          if (this.videoRecords[index].added >= ts) {
-            break;
+        // binary search
+        let lo = 0;
+        let hi = this.videoRecords.length;
+        while (lo < hi) {
+          let mid = Math.floor(lo + (hi - lo) / 2);
+          if (this.videoRecords[mid].added < ts) {
+            lo = mid + 1;
           } else {
-            index++;
+            hi = mid;
           }
         }
-        if (index === 0) {
-          return index;
+        if (lo === 0) {
+          return lo;
         }
-        if (index === this.videoRecords.length) {
-          return index - 1;
+        if (lo === this.videoRecords.length) {
+          return lo - 1;
         }
-        let diff = this.videoRecords[index].added - ts;
-        if (ts - this.videoRecords[index - 1].added < diff) {
-          return index - 1;
+        let leftTs = this.videoRecords[lo - 1].added;
+        let rightTs = this.videoRecords[lo].added;
+        if (ts - leftTs < rightTs - ts) {
+          return lo - 1;
         } else {
-          return index;
+          return lo;
         }
+        // brute force
+        // let index = 0;
+        // while (index < this.videoRecords.length) {
+        //   if (this.videoRecords[index].added >= ts) {
+        //     break;
+        //   } else {
+        //     index++;
+        //   }
+        // }
+        // if (index === 0) {
+        //   return index;
+        // }
+        // if (index === this.videoRecords.length) {
+        //   return index - 1;
+        // }
+        // let diff = this.videoRecords[index].added - ts;
+        // if (ts - this.videoRecords[index - 1].added < diff) {
+        //   return index - 1;
+        // } else {
+        //   return index;
+        // }
       },
       updateVideoRecordFromIndex: function () {
         this.videoRecordFromIndex = this.locateNearestIndex(Math.floor(this.recordStartValue.valueOf() / 1000));
