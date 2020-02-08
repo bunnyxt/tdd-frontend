@@ -10,6 +10,12 @@
     <div class="section-block">
       <h1>周刊算分</h1>
       <p><a href="https://zh.moegirl.org/周刊VOCALOID中文排行榜" target="_blank">周刊VOCALOID中文排行榜</a>计分规则计算器。</p>
+      <a-alert type="info">
+        <span slot="description">
+          别再手动输入数据算分惹！天钿Daily视频详情页添加「周刊算分」模块，只需选择周刊期数，指定时间范围，系统自动根据「本站观测到的数据」直接计算得分结果_8(:3 」∠ )_<br>
+          视频详情页传送门：tdd.bunnyxt.com/video/av<a-input size="small" v-model="aidInputValue" style="width: 100px; margin-right: 8px" /><router-link :to="'/video/av'+aidInputValue">跳转</router-link>
+        </span>
+      </a-alert>
       <div style="overflow: hidden; margin-top: 16px; margin-bottom: 16px">
         <table cellpadding="4" :style="tableStyle">
           <tr>
@@ -85,7 +91,7 @@
         注意：<br>
         1. 本计算器采用周刊第211期开始使用的新规则。<br>
         2. 周刊统计的播放数只计算站内播放，该数值可能会稍小于第三方观测到的播放数，因此使用第三方观测的数据计算得到的分数可能与周刊的分数存在出入。<br>
-        3. 计算结果仅供参考，最终解释权归周刊组所有。<br>
+        3. 计算结果仅供参考，最终数据以周刊公布的数据为准。<br>
         4. 若发现本算分计算器出现计算错误或对本程序有疑问，请加QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a> 联系。<br>
       </p>
     </div>
@@ -101,7 +107,8 @@
         reply: '4388',
         danmaku: '6498',
         favorite: '38963',
-        page: '1'
+        page: '1',
+        aidInputValue: 78977256
       }
     },
     computed: {
