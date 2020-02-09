@@ -79,8 +79,8 @@
               <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
             </div>
           </div>
-          <a-divider orientation="left">简介</a-divider>
-          {{ video.desc }}
+          <a-divider orientation="left">新简介</a-divider>
+          <tdd-video-description :description="video.desc" />
           <a-divider orientation="left">标签</a-divider>
           <a-tag
               v-for="tag in video.tags
@@ -129,6 +129,7 @@ import VideoDetailHistoryLineChart from "./VideoDetailHistoryLineChart";
 import VideoDetailHistoryTable from "./VideoDetailHistoryTable";
 import TddVideoRecordSaver from "./common/TddVideoRecordSaver";
 import TddVideoRecordZkCalc from "./common/TddVideoRecordZkCalc";
+import TddVideoDescription from "./common/TddVideoDescription";
 
 export default {
   name: 'VideoDetail',
@@ -136,7 +137,8 @@ export default {
     VideoDetailHistoryLineChart,
     VideoDetailHistoryTable,
     TddVideoRecordSaver,
-    TddVideoRecordZkCalc
+    TddVideoRecordZkCalc,
+    TddVideoDescription
   },
   data: function() {
     return {

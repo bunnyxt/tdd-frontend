@@ -50,7 +50,7 @@
     <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
     <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
     <a-divider orientation="left">简介</a-divider>
-    {{ video.desc }}
+    <tdd-video-description :description="video.desc" :key="video.aid" />
     <a-divider orientation="left">标签</a-divider>
     <a-tag
         v-for="tag in video.tags
@@ -89,6 +89,7 @@
 
 <script>
   import VideoStatBar from "./VideoStatBar";
+  import TddVideoDescription from "./TddVideoDescription";
 
   export default {
     name: 'TddVideoDetailDrawer',
@@ -97,8 +98,8 @@
       visible: Boolean
     },
     components: {
-      VideoStatBar
-
+      VideoStatBar,
+      TddVideoDescription
     },
     data: function () {
       return {
