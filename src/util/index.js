@@ -79,30 +79,39 @@ export default {
     switch (video.isvc) {
       case 1:
       case 2:
-        tagList.push({ title: 'VC视频', color: '#ff66e1' });
+        tagList.push({ title: 'VC', color: '#f99ee8' });
         break;
       default:
         break;
     }
     switch (video.activity) {
       case 1:
-        tagList.push({ title: '活跃视频', color: '#ff7f00' });
+        tagList.push({ title: '活跃', color: '#f98317' });
         break;
       case 2:
-        tagList.push({ title: '热门视频', color: '#ff0000' });
+        tagList.push({ title: '热门', color: '#f80b16' });
         break;
       default:
         break;
     }
     switch (video.recent) {
       case 1:
-        tagList.push({ title: '本周新作', color: '#0000e8' });
+        tagList.push({ title: '本周新作', color: '#210df6' });
         break;
       case 2:
-        tagList.push({ title: '本日新作', color: '#00b2ff' });
+        tagList.push({ title: '本日新作', color: '#2daefb' });
         break;
       default:
         break;
+    }
+    if (video.laststat) {
+      if (video.laststat.view >= 10000000) {
+        tagList.push({ title: '神话入', color: '#9200bd' });
+      } else if (video.laststat.view >= 1000000) {
+        tagList.push({ title: '传说入', color: '#b131f3' });
+      } else if (video.laststat.view >= 100000) {
+        tagList.push({ title: '殿堂入', color: '#6837f8' });
+      }
     }
     return tagList;
   }
