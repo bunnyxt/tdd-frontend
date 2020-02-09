@@ -12,6 +12,9 @@
     >
       <template v-if="$store.getters.clientMode === 'MOBILE'">
         <div class="tdd-video-item-mobile">
+<!--          <div style="width: 108px; height: 65px; float: left; margin-right: 8px">-->
+<!--            <tdd-video-cover :src="item.pic" :video="item" />-->
+<!--          </div>-->
           <img class="tdd-video-item-mobile-cover-pic" width="108px" height="65px" alt="pic" :src="item.pic"/>
           <div class="tdd-video-item-mobile-right-content">
             <div class="tdd-video-item-mobile-title">
@@ -60,9 +63,7 @@
         <template v-if="mode === 'list'">
           <a-row>
             <a-col :xs="24" :sm="8" :md="6" :lg="5" :xl="4" style="padding-left: 12px">
-              <div class="tdd-cover-pid" style="width: 100%">
-                <img width="100%" height="100%" alt="pic" :src="item.pic"/>
-              </div>
+              <tdd-video-cover :src="item.pic" :video="item" />
             </a-col>
             <a-col :xs="24" :sm="16" :md="18" :lg="19" :xl="20" style="padding-left: 12px">
               <h3 class="tdd-video-item-desktop-list-title">{{ item.title }}</h3>
@@ -102,9 +103,7 @@
         </template>
         <template v-if="mode === 'grid'">
           <div class="tdd-video-item-desktop-grid-card">
-            <div class="tdd-cover-pic" style="width: 100%">
-              <img width="100%" height="100%" alt="pic" :src="item.pic" style="position: absolute"/>
-            </div>
+            <tdd-video-cover :src="item.pic" :video="item" />
             <div style="padding: 12px">
               <h3 class="tdd-video-item-desktop-grid-title">{{ item.title }}</h3>
               <div>
@@ -153,6 +152,8 @@
 
 <script>
   import VideoStatBar from "./VideoStatBar.vue";
+  import TddVideoCover from "./TddVideoCover";
+
   export default {
     name: 'TddVideoList',
     props: {
@@ -178,7 +179,8 @@
       }
     },
     components: {
-      VideoStatBar
+      VideoStatBar,
+      TddVideoCover
     },
     data: function () {
       return {
