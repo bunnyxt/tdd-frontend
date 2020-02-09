@@ -106,11 +106,11 @@ export default {
     }
     if (video.laststat) {
       if (video.laststat.view >= 10000000) {
-        tagList.push({ title: '神话入', color: '#9200bd' });
+        tagList.push({ title: '神话', color: '#9200bd' });
       } else if (video.laststat.view >= 1000000) {
-        tagList.push({ title: '传说入', color: '#b131f3' });
+        tagList.push({ title: '传说', color: '#b131f3' });
       } else if (video.laststat.view >= 100000) {
-        tagList.push({ title: '殿堂入', color: '#6837f8' });
+        tagList.push({ title: '殿堂', color: '#6837f8' });
       }
     }
     return tagList;
