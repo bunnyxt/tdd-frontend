@@ -9,9 +9,9 @@ const store = new Vuex.Store({
     //apiBase: "http://localhost/tdd/", // debug
     isMenuSliderVisible: false,
     isLoginSliderVisible: false,
+    isVideoDetailDrawerVisible: false,
     isUserLoggedIn: false,
-    clientWidth: 0,
-    videoHomeData: null
+    clientWidth: 0
   },
   mutations: {
     changeMenuSliderVisibility(state) {
@@ -19,6 +19,9 @@ const store = new Vuex.Store({
     },
     changeLoginSliderVisibility(state) {
       state.isLoginSliderVisible = !state.isLoginSliderVisible;
+    },
+    changeVideoDetailDrawerVisibility(state) {
+      state.isVideoDetailDrawerVisible = !state.isVideoDetailDrawerVisible;
     },
     setClientWidth(state, clientWidth) {
       state.clientWidth = clientWidth;

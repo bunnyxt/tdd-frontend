@@ -73,13 +73,9 @@
     <div v-else>
       <a-alert type="error" message="暂无数据" />
     </div>
-<!--    <a-divider orientation="left">其他</a-divider>-->
-<!--    <div v-if="video.isvc === 1">-->
-<!--      <a-tag color="pink">VC</a-tag>-->
-<!--    </div>-->
     <div class="drawer-fake-footer"></div>
     <div class="drawer-footer">
-      <div @click="$router.push('/video/av'+video.aid)"
+      <div @click="videoDetailClickHandler(video.aid)"
            :style="{ width: videoDetailDrawerWidth / 2 + 'px'}">
         <a-icon type="line-chart" title="详细数据" style="margin-right: 8px"/>详细数据
       </div>
@@ -115,8 +111,12 @@
       }
     },
     methods: {
+      videoDetailClickHandler: function (aid) {
+        this.$store.commit('changeVideoDetailDrawerVisibility');
+        this.$router.push('/video/av' + aid);
+      },
       videoViewClickHandler: function(aid) {
-        window.open('https://www.bilibili.com/video/av'+aid);
+        window.open('https://www.bilibili.com/video/av' + aid);
       }
     }
   }
