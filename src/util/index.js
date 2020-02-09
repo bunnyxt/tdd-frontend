@@ -70,5 +70,29 @@ export default {
     let point = Math.floor(view_point_final + (_reply * 25 + _danmaku) * xiua + _favorite * xiub);
 
     return { point, xiua, xiub }
+  },
+  getTagList: function (video) {
+    let tagList = [];
+    switch (video.activity) {
+      case 1:
+        tagList.push({ title: '活跃视频', color: '#ff7f00' });
+        break;
+      case 2:
+        tagList.push({ title: '热门视频', color: '#ff0000' });
+        break;
+      default:
+        break;
+    }
+    switch (video.recent) {
+      case 1:
+        tagList.push({ title: '本周新作', color: '#0000e8' });
+        break;
+      case 2:
+        tagList.push({ title: '本日新作', color: '#00b2ff' });
+        break;
+      default:
+        break;
+    }
+    return tagList;
   }
 }
