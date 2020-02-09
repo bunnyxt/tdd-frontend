@@ -73,6 +73,17 @@ export default {
   },
   getTagList: function (video) {
     let tagList = [];
+    if (!video) {
+      return tagList;
+    }
+    switch (video.isvc) {
+      case 1:
+      case 2:
+        tagList.push({ title: 'VC视频', color: '#ff66e1' });
+        break;
+      default:
+        break;
+    }
     switch (video.activity) {
       case 1:
         tagList.push({ title: '活跃视频', color: '#ff7f00' });
