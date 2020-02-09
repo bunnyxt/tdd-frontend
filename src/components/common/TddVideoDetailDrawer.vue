@@ -48,7 +48,7 @@
     </div>
     <p><a-icon type="calendar" style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
     <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
-    <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color">{{ tag.title }}</a-tag>
+    <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
     <a-divider orientation="left">简介</a-divider>
     {{ video.desc }}
     <a-divider orientation="left">标签</a-divider>

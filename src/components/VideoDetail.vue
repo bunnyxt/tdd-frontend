@@ -76,7 +76,7 @@
             <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
             <p><a-icon type="play-circle" style="margin-right: 12px"/><a :href="'https://www.bilibili.com/video/av'+video.aid" target="_blank">去B站观看</a></p>
             <div style="margin-bottom: 12px">
-              <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color">{{ tag.title }}</a-tag>
+              <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
             </div>
           </div>
           <a-divider orientation="left">简介</a-divider>
