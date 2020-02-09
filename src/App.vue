@@ -6,7 +6,10 @@
       <a-layout>
         <tdd-header />
         <a-layout-content :style="{padding: layoutPadding, marginTop: layoutMarginTop}">
-          <router-view v-wechat-title="$route.meta.title" ></router-view>
+          <keep-alive>
+            <router-view v-if="$route.meta.keepAlive" v-wechat-title="$route.meta.title"></router-view>
+          </keep-alive>
+          <router-view v-if="!$route.meta.keepAlive" v-wechat-title="$route.meta.title"></router-view>
         </a-layout-content>
         <div class="fake-footer"></div>
         <tdd-footer/>

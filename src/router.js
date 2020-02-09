@@ -38,7 +38,8 @@ export default new VueRouter({
       path: "/video",
       component: VideoHome,
       meta: {
-        title: '所有视频 - ' + SITE_NAME
+        title: '所有视频 - ' + SITE_NAME,
+        keepAlive: true
       }
     }, {
       path: "/video/av:aid",
@@ -50,7 +51,8 @@ export default new VueRouter({
       path: "/sprint",
       component: SprintHome,
       meta: {
-        title: '传说助攻 - ' + SITE_NAME
+        title: '传说助攻 - ' + SITE_NAME,
+        keepAlive: true
       }
     }, {
       path: "/sprint/av:aid",
