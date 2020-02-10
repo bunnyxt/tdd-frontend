@@ -179,14 +179,6 @@
         />
       </a-spin>
     </div>
-    <div v-if="videoDetailDrawerVideo">
-      <tdd-video-detail-drawer
-          :video="videoDetailDrawerVideo"
-          :visible="videoDetailDrawerVisible"
-          @close="() => this.videoDetailDrawerVisible = false"
-      >
-      </tdd-video-detail-drawer>
-    </div>
   </div>
 </template>
 
@@ -194,13 +186,11 @@
   import { Modal } from 'ant-design-vue';
   import moment from 'moment';
   import TddVideoList from "./common/TddVideoList";
-  import TddVideoDetailDrawer from "./common/TddVideoDetailDrawer";
 
   export default {
     name: "VideoHome",
     components: {
-      TddVideoList,
-      TddVideoDetailDrawer
+      TddVideoList
     },
     data: function() {
       return {
@@ -220,20 +210,10 @@
         titleValue: '',
         memberNameValue: '',
         pagiCurrent: 1,
-        videoTotalCount: 0,
-        videoDetailDrawerCurrentIndex: 0,
-        videoDetailDrawerVideo: null
+        videoTotalCount: 0
       }
     },
     computed: {
-      videoDetailDrawerVisible: {
-        get () {
-          return this.$store.state.isVideoDetailDrawerVisible;
-        },
-        set () {
-          this.$store.commit('changeVideoDetailDrawerVisibility');
-        }
-      },
       videoAidTitleListStringified: function () {
         return this.videoAidTitleList.map(x => {
           let obj = {};
@@ -241,9 +221,6 @@
           obj.title = x.title;
           return obj;
         });
-      },
-      videoDetailDrawerWidth: function() {
-        return Math.min(this.$store.state.clientWidth * 0.7, 512);
       }
     },
     methods: {
@@ -279,8 +256,8 @@
           });
       },
       videoListItemClickedHandler: function (item) {
-        this.videoDetailDrawerVideo = item;
-        this.videoDetailDrawerVisible = true;
+        this.$store.commit('setVideoDetailDrawerVideo', item);
+        this.$store.commit('setVideoDetailDrawerVisibility', true);
       },
       checkParams: function() {
         // TODO
@@ -451,51 +428,7 @@
       },
     },
     created() {
-      // let data = this.$store.state.videoHomeData;
-      // if (data) {
-      //   // data !== null, data stored, now restore
-      //   this.videoList = data.videoList;
-      //   this.isLoadingVideoList = data.isLoadingVideoList;
-      //   this.lastLoadVideoListDate = data.lastLoadVideoListDate;
-      //   this.isvcValue = data.isvcValue;
-      //   this.orderValue = data.orderValue;
-      //   this.orderDescValue = data.orderDescValue;
-      //   this.pubdateStartValue = data.pubdateStartValue;
-      //   this.pubdateEndValue = data.pubdateEndValue;
-      //   this.pubdateEndOpen = data.pubdateEndOpen;
-      //   this.pubdateSelectValue = data.pubdateSelectValue;
-      //   this.titleValue = data.titleValue;
-      //   this.memberNameValue = data.memberNameValue;
-      //   this.pagiCurrent = data.pagiCurrent;
-      //   this.videoTotalCount = data.videoTotalCount;
-      //   // this.videoDetailDrawerVisible = data.videoDetailDrawerVisible;
-      //   this.videoDetailDrawerCurrentIndex = data.videoDetailDrawerCurrentIndex;
-      // } else {
-      //   // data === null, fetch data first
-      //   this.fetchVideoList();
-      // }
       this.fetchVideoList();
-    },
-    beforeDestroy() {
-      // store data
-      // let data = {};
-      // data.videoList = this.videoList;
-      // data.isLoadingVideoList = this.isLoadingVideoList;
-      // data.lastLoadVideoListDate = this.lastLoadVideoListDate;
-      // data.isvcValue = this.isvcValue;
-      // data.orderValue = this.orderValue;
-      // data.orderDescValue = this.orderDescValue;
-      // data.pubdateStartValue = this.pubdateStartValue;
-      // data.pubdateEndValue = this.pubdateEndValue;
-      // data.pubdateEndOpen = this.pubdateEndOpen;
-      // data.pubdateSelectValue = this.pubdateSelectValue;
-      // data.titleValue = this.titleValue;
-      // data.memberNameValue = this.memberNameValue;
-      // data.pagiCurrent = this.pagiCurrent;
-      // data.videoTotalCount = this.videoTotalCount;
-      // // data.videoDetailDrawerVisible = this.videoDetailDrawerVisible;
-      // data.videoDetailDrawerCurrentIndex = this.videoDetailDrawerCurrentIndex;
-      // this.$store.commit('storeVideoHomeData', data);
     }
   }
 </script>

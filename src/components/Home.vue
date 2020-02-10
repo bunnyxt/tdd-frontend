@@ -122,14 +122,6 @@
             @item-clicked="randomVideoListItemClickedHandler"
         ></tdd-video-list>
       </a-spin>
-      <div v-if="randomVideoDetailDrawerVideo">
-        <tdd-video-detail-drawer
-            :video="randomVideoDetailDrawerVideo"
-            :visible="randomVideoDetailDrawerVisible"
-            @close="() => this.randomVideoDetailDrawerVisible = false"
-        >
-        </tdd-video-detail-drawer>
-      </div>
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
@@ -183,16 +175,14 @@
 <script>
 import G2 from '@antv/g2';
 import DataSet from '@antv/data-set';
-import TddVideoList from "./common/TddVideoList";
-import TddVideoDetailDrawer from "./common/TddVideoDetailDrawer";
+import TddVideoList from "./common/TddVideoList"
 import logo_max from '../assets/img/logo_max.png'
 import qqgroup_qrcode from '../assets/img/qrcode_1580391374617.jpg'
 
 export default {
   name: "Home",
   components: {
-    TddVideoList,
-    TddVideoDetailDrawer
+    TddVideoList
   },
   data: function () {
     return {
@@ -205,8 +195,6 @@ export default {
       updateLogList: [],
       isLoadingRandomVideoList: false,
       randomVideoList: [],
-      randomVideoDetailDrawerVideo: null,
-      randomVideoDetailDrawerVisible: false,
       isLoadingSprintVideoList: false,
       sprintVideoList: [],
       sprintVideoListFiltered: []
@@ -424,8 +412,8 @@ export default {
       this.$router.push('sprint/av' + item.aid);
     },
     randomVideoListItemClickedHandler: function (item) {
-      this.randomVideoDetailDrawerVideo = item;
-      this.randomVideoDetailDrawerVisible = true;
+      this.$store.commit('setVideoDetailDrawerVideo', item);
+      this.$store.commit('setVideoDetailDrawerVisibility', true);
     }
   },
   watch: {
