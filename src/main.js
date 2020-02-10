@@ -38,6 +38,7 @@ import { Statistic } from "ant-design-vue"
 import { Timeline } from "ant-design-vue"
 import { InputNumber } from "ant-design-vue";
 import { AutoComplete } from "ant-design-vue";
+import { Dropdown } from "ant-design-vue";
 
 import { message } from "ant-design-vue"
 Vue.prototype.$message = message;
@@ -93,6 +94,7 @@ Vue.use(Statistic)
 Vue.use(Timeline)
 Vue.use(InputNumber)
 Vue.use(AutoComplete)
+Vue.use(Dropdown)
 
 // apex chart
 Vue.use(VueApexCharts)
