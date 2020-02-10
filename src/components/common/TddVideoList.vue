@@ -78,7 +78,7 @@
                 {{ $util.tsToDateString(item.pubdate) }}
               </div>
               <div v-if="showStatBar">
-                <video-stat-bar :stat="item.laststat" :show-name="false" :mode="'bar'"></video-stat-bar>
+                <tdd-video-stat-bar :stat="item.laststat" :show-name="false" :mode="'bar'"></tdd-video-stat-bar>
               </div>
               <div v-if="showSprintBoard">
                 <div style="overflow: hidden">
@@ -117,12 +117,12 @@
                 {{ $util.tsToDateString(item.pubdate) }}
               </div>
               <div v-if="showStatBar">
-                <video-stat-bar
+                <tdd-video-stat-bar
                     class="tdd-video-item-desktop-grid-video-stat-bar"
                     :stat="item.laststat"
                     :show-name="false"
                     :mode="'bar'"
-                ></video-stat-bar>
+                ></tdd-video-stat-bar>
               </div>
               <div v-if="showSprintBoard">
                 <div style="overflow: hidden">
@@ -151,7 +151,7 @@
 </template>
 
 <script>
-  import VideoStatBar from "./VideoStatBar.vue";
+  import TddVideoStatBar from "./TddVideoStatBar.vue";
   import TddVideoCover from "./TddVideoCover";
 
   export default {
@@ -179,7 +179,7 @@
       }
     },
     components: {
-      VideoStatBar,
+      TddVideoStatBar,
       TddVideoCover
     },
     data: function () {

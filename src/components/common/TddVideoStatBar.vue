@@ -12,7 +12,7 @@
 
 <script>
   export default {
-    name: 'VideoStatBar',
+    name: 'TddVideoStatBar',
     props: {
       stat: Object,
       mode: String,

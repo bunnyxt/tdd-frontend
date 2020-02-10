@@ -55,11 +55,11 @@
       </a-tag>
       <a-divider orientation="left">数据</a-divider>
       <div v-if="video.laststat">
-        <video-stat-bar
+        <tdd-video-stat-bar
             :stat="video.laststat"
             mode="vertical"
             :show-name="true"
-        ></video-stat-bar>
+        ></tdd-video-stat-bar>
         *{{ $util.tsToDateString(video.laststat.added) }}更新
       </div>
       <div v-else>
@@ -81,13 +81,13 @@
 </template>
 
 <script>
-  import VideoStatBar from "./VideoStatBar";
+  import TddVideoStatBar from "./TddVideoStatBar";
   import TddVideoDescription from "./TddVideoDescription";
 
   export default {
     name: 'TddVideoDetailDrawer',
     components: {
-      VideoStatBar,
+      TddVideoStatBar,
       TddVideoDescription
     },
     data: function () {
