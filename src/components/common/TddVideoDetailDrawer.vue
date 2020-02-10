@@ -9,43 +9,34 @@
         :width="videoDetailDrawerWidth + 'px'"
     >
       <h3 style="margin-bottom: 14px">{{ video.title }}</h3>
-      <p>
-        <a-avatar
-            size="small"
-            :src="video.member
-              ? video.member.face
-              : 'https://static.hdslb.com/images/member/noface.gif'"
-            style="margin-right:12px"
-        />
-        <a :href="'https://space.bilibili.com/'+video.mid" target="_blank">
-          {{ video.member ? video.member.name : 'mid'+video.mid}}
-        </a>
-      </p>
-      <div v-if="video.hasstaff === 1">
-        <p>
-          <a-collapse>
-            <a-collapse-panel :header="'创作团队 ('+video.staff.length+')'">
-              <table cellpadding="4px">
-                <tr v-for="staff in video.staff" :key="staff.mid">
-                  <td>
-                    <a-avatar
-                        size="small"
-                        :src="staff.face"
-                    />
-                  </td>
-                  <td>
-                    <a :href="'https://space.bilibili.com/'+staff.mid" target="_blank">
-                      {{ staff.name }}
-                    </a>
-                  </td>
-                  <td>
-                    {{ staff.title }}
-                  </td>
-                </tr>
-              </table>
-            </a-collapse-panel>
-          </a-collapse>
-        </p>
+      <div style="overflow: hidden">
+        <div style="float: left; margin-right: 20px; margin-bottom: 12px">
+          <a-avatar
+              size="small"
+              :src="video.member
+                    ? video.member.face
+                    : 'https://static.hdslb.com/images/member/noface.gif'"
+              style="margin-right:12px"
+          />
+          <a :href="'https://space.bilibili.com/'+video.mid" target="_blank">
+            {{ video.member ? video.member.name : 'mid'+video.mid}}
+          </a>
+        </div>
+        <div v-if="video.hasstaff === 1" style="float: left; margin-bottom: 12px">
+          <a-dropdown :trigger="['click']" placement="bottomCenter">
+            <a class="ant-dropdown-link" href="#">创作团队 ({{ video.staff.length }}) <a-icon type="down" /> </a>
+            <a-menu slot="overlay">
+              <template v-for="staff in video.staff">
+                <a-menu-item :key="staff.mid">
+                  <a :href="'https://space.bilibili.com/'+staff.mid" target="_blank">
+                    <a-avatar size="small" :src="staff.face" style="margin-right: 8px" />
+                    {{ staff.name }} - {{ staff.title }}
+                  </a>
+                </a-menu-item>
+              </template>
+            </a-menu>
+          </a-dropdown>
+        </div>
       </div>
       <p><a-icon type="calendar" style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
       <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
