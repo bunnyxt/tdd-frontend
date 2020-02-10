@@ -10,6 +10,7 @@ const store = new Vuex.Store({
     isMenuSliderVisible: false,
     isLoginSliderVisible: false,
     isVideoDetailDrawerVisible: false,
+    videoDetailDrawerVideo: null,
     isUserLoggedIn: false,
     clientWidth: 0
   },
@@ -22,6 +23,12 @@ const store = new Vuex.Store({
     },
     changeVideoDetailDrawerVisibility(state) {
       state.isVideoDetailDrawerVisible = !state.isVideoDetailDrawerVisible;
+    },
+    setVideoDetailDrawerVisibility(state, visibility) {
+      state.isVideoDetailDrawerVisible = visibility;
+    },
+    setVideoDetailDrawerVideo(state, video) {
+      state.videoDetailDrawerVideo = video;
     },
     setClientWidth(state, clientWidth) {
       state.clientWidth = clientWidth;

@@ -1,90 +1,92 @@
 <template>
-  <a-drawer
-      :title="'av'+video.aid"
-      placement="right"
-      :closable="false"
-      @close="$emit('close')"
-      :visible="visible"
-      :width="videoDetailDrawerWidth + 'px'"
-  >
-    <h3 style="margin-bottom: 14px">{{ video.title }}</h3>
-    <p>
-      <a-avatar
-          size="small"
-          :src="video.member
+  <div v-if="video">
+    <a-drawer
+        :title="'av'+video.aid"
+        placement="right"
+        :closable="false"
+        :visible="this.$store.state.isVideoDetailDrawerVisible"
+        @close="() => $store.commit('setVideoDetailDrawerVisibility', false)"
+        :width="videoDetailDrawerWidth + 'px'"
+    >
+      <h3 style="margin-bottom: 14px">{{ video.title }}</h3>
+      <p>
+        <a-avatar
+            size="small"
+            :src="video.member
               ? video.member.face
               : 'https://static.hdslb.com/images/member/noface.gif'"
-          style="margin-right:12px"
-      />
-      <a :href="'https://space.bilibili.com/'+video.mid" target="_blank">
-        {{ video.member ? video.member.name : 'mid'+video.mid}}
-      </a>
-    </p>
-    <div v-if="video.hasstaff === 1">
-      <p>
-        <a-collapse>
-          <a-collapse-panel :header="'创作团队 ('+video.staff.length+')'">
-            <table cellpadding="4px">
-              <tr v-for="staff in video.staff" :key="staff.mid">
-                <td>
-                  <a-avatar
-                      size="small"
-                      :src="staff.face"
-                  />
-                </td>
-                <td>
-                  <a :href="'https://space.bilibili.com/'+staff.mid" target="_blank">
-                    {{ staff.name }}
-                  </a>
-                </td>
-                <td>
-                  {{ staff.title }}
-                </td>
-              </tr>
-            </table>
-          </a-collapse-panel>
-        </a-collapse>
+            style="margin-right:12px"
+        />
+        <a :href="'https://space.bilibili.com/'+video.mid" target="_blank">
+          {{ video.member ? video.member.name : 'mid'+video.mid}}
+        </a>
       </p>
-    </div>
-    <p><a-icon type="calendar" style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
-    <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
-    <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
-    <a-divider orientation="left">简介</a-divider>
-    <tdd-video-description :description="video.desc" :key="video.aid" />
-    <a-divider orientation="left">标签</a-divider>
-    <a-tag
-        v-for="tag in video.tags
+      <div v-if="video.hasstaff === 1">
+        <p>
+          <a-collapse>
+            <a-collapse-panel :header="'创作团队 ('+video.staff.length+')'">
+              <table cellpadding="4px">
+                <tr v-for="staff in video.staff" :key="staff.mid">
+                  <td>
+                    <a-avatar
+                        size="small"
+                        :src="staff.face"
+                    />
+                  </td>
+                  <td>
+                    <a :href="'https://space.bilibili.com/'+staff.mid" target="_blank">
+                      {{ staff.name }}
+                    </a>
+                  </td>
+                  <td>
+                    {{ staff.title }}
+                  </td>
+                </tr>
+              </table>
+            </a-collapse-panel>
+          </a-collapse>
+        </p>
+      </div>
+      <p><a-icon type="calendar" style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
+      <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
+      <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
+      <a-divider orientation="left">简介</a-divider>
+      <tdd-video-description :description="video.desc" :key="video.aid" />
+      <a-divider orientation="left">标签</a-divider>
+      <a-tag
+          v-for="tag in video.tags
               ? video.tags.split(';').slice(0, -1)
               : []"
-        :key="tag"
-        style="margin-bottom: 4px"
-    >
-      {{ tag }}
-    </a-tag>
-    <a-divider orientation="left">数据</a-divider>
-    <div v-if="video.laststat">
-      <video-stat-bar
-        :stat="video.laststat"
-        mode="vertical"
-        :show-name="true"
-      ></video-stat-bar>
-      *{{ $util.tsToDateString(video.laststat.added) }}更新
-    </div>
-    <div v-else>
-      <a-alert type="error" message="暂无数据" />
-    </div>
-    <div class="drawer-fake-footer"></div>
-    <div class="drawer-footer">
-      <div @click="videoDetailClickHandler(video.aid)"
-           :style="{ width: videoDetailDrawerWidth / 2 + 'px'}">
-        <a-icon type="line-chart" title="详细数据" style="margin-right: 8px"/>详细数据
+          :key="tag"
+          style="margin-bottom: 4px"
+      >
+        {{ tag }}
+      </a-tag>
+      <a-divider orientation="left">数据</a-divider>
+      <div v-if="video.laststat">
+        <video-stat-bar
+            :stat="video.laststat"
+            mode="vertical"
+            :show-name="true"
+        ></video-stat-bar>
+        *{{ $util.tsToDateString(video.laststat.added) }}更新
       </div>
-      <div @click="videoViewClickHandler(video.aid)"
-           :style="{ width: videoDetailDrawerWidth / 2 + 'px'}">
-        <a-icon type="play-circle" title="观看视频" style="margin-right: 8px"/>观看视频
+      <div v-else>
+        <a-alert type="error" message="暂无数据" />
       </div>
-    </div>
-  </a-drawer>
+      <div class="drawer-fake-footer"></div>
+      <div class="drawer-footer">
+        <div @click="videoDetailClickHandler(video.aid)"
+             :style="{ width: videoDetailDrawerWidth / 2 + 'px'}">
+          <a-icon type="line-chart" title="详细数据" style="margin-right: 8px"/>详细数据
+        </div>
+        <div @click="videoViewClickHandler(video.aid)"
+             :style="{ width: videoDetailDrawerWidth / 2 + 'px'}">
+          <a-icon type="play-circle" title="观看视频" style="margin-right: 8px"/>观看视频
+        </div>
+      </div>
+    </a-drawer>
+  </div>
 </template>
 
 <script>
@@ -93,10 +95,6 @@
 
   export default {
     name: 'TddVideoDetailDrawer',
-    props: {
-      video: Object,
-      visible: Boolean
-    },
     components: {
       VideoStatBar,
       TddVideoDescription
@@ -107,13 +105,18 @@
       }
     },
     computed: {
+      video: {
+        get() {
+          return this.$store.state.videoDetailDrawerVideo;
+        }
+      },
       videoDetailDrawerWidth: function() {
         return Math.min(this.$store.state.clientWidth * 0.7, 512);
       }
     },
     methods: {
       videoDetailClickHandler: function (aid) {
-        this.$store.commit('changeVideoDetailDrawerVisibility');
+        this.$store.commit('setVideoDetailDrawerVisibility', false)
         this.$router.push('/video/av' + aid);
       },
       videoViewClickHandler: function(aid) {

@@ -3,6 +3,7 @@
     <a-layout class="layout" style="min-height:100%">
       <tdd-menu-slider />
       <tdd-login-slider />
+      <tdd-video-detail-drawer />
       <a-layout>
         <tdd-header />
         <a-layout-content :style="{padding: layoutPadding, marginTop: layoutMarginTop}">
@@ -24,6 +25,7 @@ import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
 import TddHeader from "./components/layout/TddHeader.vue";
 import TddMenuSlider from "./components/layout/TddMenuSlider.vue";
 import TddLoginSlider from "./components/layout/TddLoginSlider.vue";
+import TddVideoDetailDrawer from "./components/common/TddVideoDetailDrawer";
 import TddFooter from "./components/layout/TddFooter.vue";
 
 export default {
@@ -32,6 +34,7 @@ export default {
     TddHeader,
     TddMenuSlider,
     TddLoginSlider,
+    TddVideoDetailDrawer,
     TddFooter
   },
   data: function() {
