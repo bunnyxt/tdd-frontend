@@ -70,7 +70,7 @@
               <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
             </div>
           </div>
-          <a-divider orientation="left">新简介</a-divider>
+          <a-divider orientation="left">简介</a-divider>
           <tdd-video-description :description="video.desc" />
           <a-divider orientation="left">标签</a-divider>
           <a-tag
@@ -84,15 +84,7 @@
           </a-tag>
           <a-divider orientation="left">数据</a-divider>
           <div v-if="video.laststat">
-            <ul style="padding-left: 20px">
-              <li><a-icon type="play-circle" class="stat-item-icon" />播放：{{ video.laststat.view }}</li>
-              <li><a-icon type="profile" class="stat-item-icon" />弹幕：{{ video.laststat.danmaku }}</li>
-              <li><a-icon type="message" class="stat-item-icon" />评论：{{ video.laststat.reply }}</li>
-              <li><a-icon type="star" class="stat-item-icon" />收藏：{{ video.laststat.favorite }}</li>
-              <li><a-icon type="dollar" class="stat-item-icon" />硬币：{{ video.laststat.coin }}</li>
-              <li><a-icon type="share-alt" class="stat-item-icon" />分享：{{ video.laststat.share }}</li>
-              <li><a-icon type="like" class="stat-item-icon" />点赞：{{ video.laststat.like }}</li>
-            </ul>
+            <tdd-video-stat-bar :stat="video.laststat" :show-name="true" :mode="'vertical'"></tdd-video-stat-bar>
             *{{ $util.tsToDateString(video.laststat.added) }}更新
           </div>
           <div v-else>
@@ -121,6 +113,7 @@ import VideoDetailHistoryTable from "./VideoDetailHistoryTable";
 import TddVideoRecordSaver from "./common/TddVideoRecordSaver";
 import TddVideoRecordZkCalc from "./common/TddVideoRecordZkCalc";
 import TddVideoDescription from "./common/TddVideoDescription";
+import TddVideoStatBar from "./common/TddVideoStatBar";
 
 export default {
   name: 'VideoDetail',
@@ -129,7 +122,8 @@ export default {
     VideoDetailHistoryTable,
     TddVideoRecordSaver,
     TddVideoRecordZkCalc,
-    TddVideoDescription
+    TddVideoDescription,
+    TddVideoStatBar
   },
   data: function() {
     return {
