@@ -48,6 +48,30 @@
             </tr>
             <tr>
               <td class="filter-table-label">
+                活跃程度
+              </td>
+              <td>
+                <a-radio-group name="activitySelector" v-model="activityValue">
+                  <a-radio :value="0">所有视频</a-radio>
+                  <a-radio :value="1">活跃视频</a-radio>
+                  <a-radio :value="2">热门视频</a-radio>
+                </a-radio-group>
+              </td>
+            </tr>
+            <tr>
+              <td class="filter-table-label">
+                最近投稿
+              </td>
+              <td>
+                <a-radio-group name="recentSelector" v-model="recentValue">
+                  <a-radio :value="0">所有视频</a-radio>
+                  <a-radio :value="1">本周新作</a-radio>
+                  <a-radio :value="2">本日新作</a-radio>
+                </a-radio-group>
+              </td>
+            </tr>
+            <tr>
+              <td class="filter-table-label">
                 排序依据
               </td>
               <td>
@@ -201,6 +225,8 @@
         isLoadingVideoList: false,
         lastLoadVideoListDate: null,
         isvcValue: 2,
+        activityValue: 0,
+        recentValue: 0,
         orderValue: 1,
         orderDescValue: 1,
         pubdateStartValue: null,
@@ -268,6 +294,14 @@
         // vc
         if (this.isvcValue === 2) {
           url += 'vc=1&';
+        }
+        // activity
+        if (this.activityValue) {
+          url += 'activity=' + this.activityValue + '&';
+        }
+        // recent
+        if (this.recentValue) {
+          url += 'recent=' + this.recentValue + '&';
         }
         // start_ts
         if (this.pubdateStartValue) {
