@@ -13,14 +13,14 @@
       <a-alert style="margin-bottom: 8px" message="点击视频列表查看详细信息" banner type="info"/>
     </div>
     <div class="section-separator"></div>
-    <div class="section-block">
+    <div class="section-block" style="display: flex; display: -webkit-flex">
       <a-auto-complete
           placeholder="视频aid"
           v-model="videoAidInput"
           @change="onAidInputChange"
           optionLabelProp="text"
           allowClear
-          style="width: calc(100% - 72px); margin-right: 8px"
+          style="margin-right: 8px; flex-grow: 1"
       >
         <template slot="dataSource">
           <a-select-option v-for="item in videoAidTitleListStringified" :key="item.aid" :text="item.aid" >
@@ -28,7 +28,7 @@
           </a-select-option>
         </template>
       </a-auto-complete>
-      <a-button type="primary" @click="goAidJump">跳转</a-button>
+      <a-button type="primary" @click="goAidJump" style="">跳转</a-button>
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
