@@ -19,7 +19,7 @@ const NotFound = () => import("./components/NotFound");
 Vue.use(VueRouter);
 
 const SITE_NAME = '天钿Daily';
-const STIE_NAME_LONG = '天钿Daily - VC数据交流与分享';
+const SITE_NAME_LONG = '天钿Daily - VC数据交流与分享';
 
 export default new VueRouter({
   mode: "history",
@@ -29,7 +29,7 @@ export default new VueRouter({
       path: "/",
       component: Home,
       meta: {
-        title: STIE_NAME_LONG
+        title: SITE_NAME_LONG
       }
     }, {
       path: "/index.html",
