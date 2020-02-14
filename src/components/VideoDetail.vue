@@ -8,17 +8,17 @@
         <a-breadcrumb-item>av{{ aid }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
-    <div v-if="isLoading">
+    <div v-if="isLoadingVideo">
       <div class="section-block">
-        <a-spin :spinning="isLoading">
-          正在获取<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的详细数据
+        <a-spin :spinning="true">
+          正在获取<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的视频信息
         </a-spin>
       </div>
     </div>
     <div v-else>
       <div v-if="Object.keys(video).length === 0">
         <div class="section-block">
-          <p>没有找到<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的详细数据</p>
+          <p>没有找到<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的视频信息</p>
           <p>可能是因为该视频不在本站收录范围内</p>
           <a @click="$router.go(-1)">返回上一页</a>
         </div>
@@ -39,8 +39,8 @@
                 <a-avatar
                     size="small"
                     :src="video.member
-                    ? video.member.face
-                    : 'https://static.hdslb.com/images/member/noface.gif'"
+                      ? video.member.face
+                      : 'https://static.hdslb.com/images/member/noface.gif'"
                     style="margin-right:12px"
                 />
                 <a :href="'https://space.bilibili.com/'+video.mid" target="_blank">
@@ -75,8 +75,8 @@
           <a-divider orientation="left">标签</a-divider>
           <a-tag
               v-for="tag in video.tags
-                ? video.tags.split(';').slice(0, -1)
-                : []"
+                  ? video.tags.split(';').slice(0, -1)
+                  : []"
               :key="tag"
               style="margin-bottom: 4px"
           >
@@ -93,14 +93,28 @@
         </div>
         <div class="section-separator"></div>
         <div class="section-block">
-          <a-divider orientation="left">历史趋势</a-divider>
-          <video-detail-history-line-chart :videoRecords="videoRecords" />
-          <a-divider orientation="left">详细数据</a-divider>
-          <video-detail-history-table :video-records="videoRecords" />
-          <a-divider orientation="left" style="margin-top: -16px">周刊算分</a-divider>
-          <tdd-video-record-zk-calc :video-records="videoRecords" :page="video ? video.videos : 1" :pubdate="video ? video.pubdate : null" />
-          <a-divider orientation="left">数据下载</a-divider>
-          <tdd-video-record-saver :video-records="videoRecords" />
+          <div v-if="isLoadingVideoRecords">
+            <a-spin :spinning="true">
+              正在获取<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的历史数据
+            </a-spin>
+          </div>
+          <div v-else>
+            <div v-if="videoRecords.length === 0">
+              <a-alert banner>
+                没有找到<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的历史数据
+              </a-alert>
+            </div>
+            <div v-else>
+              <a-divider orientation="left">历史趋势</a-divider>
+              <video-detail-history-line-chart :videoRecords="videoRecords" />
+              <a-divider orientation="left">详细数据</a-divider>
+              <video-detail-history-table :video-records="videoRecords" />
+              <a-divider orientation="left" style="margin-top: -16px">周刊算分</a-divider>
+              <tdd-video-record-zk-calc :video-records="videoRecords" :page="video ? video.videos : 1" :pubdate="video ? video.pubdate : null" />
+              <a-divider orientation="left">数据下载</a-divider>
+              <tdd-video-record-saver :video-records="videoRecords" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -129,7 +143,8 @@ export default {
     return {
       video: null,
       videoRecords: null,
-      isLoading: false
+      isLoadingVideo: false,
+      isLoadingVideoRecords: false
     }
   },
   computed: {
@@ -154,34 +169,50 @@ export default {
     }
   },
   methods: {
-    getVideoInfo: function(aid) {
-      this.isLoading = true;
+    getVideoInfo: function(aid, checkVideoFromStore=false) {
+      this.isLoadingVideo = true;
+      this.isLoadingVideoRecords = true;
 
-      let axios = this.$axios;
-      function getVideo() {
-        return axios.get('video/' + aid);
-      }
-
-      function getVideoRecords() {
-        return axios.get('video/' + aid + '/record');
+      // check video from store
+      let videoLoadedFromStore = false;
+      if (checkVideoFromStore) {
+        let video = this.$store.state.videoDetailVideo;
+        if (video && video.aid === aid) {
+          this.video = video;
+          // this.$store.commit('setVideoDetailVideo', null);
+          videoLoadedFromStore = true;
+          this.isLoadingVideo = false;
+        }
       }
 
       let that = this;
-      this.$axios.all([getVideo(), getVideoRecords()])
-        .then(this.$axios.spread(function (video, videoRecords) {
-          // video
-          that.video = video.data;
+      if (!videoLoadedFromStore) {
+        this.$axios.get('video/' + aid)
+          .then(function (response) {
+            that.video = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            that.isLoadingVideo = false;
+          });
+      }
 
-          // video records
-          that.videoRecords = videoRecords.data;
-        }))
+      this.$axios.get('video/' + aid + '/record')
+        .then(function (response) {
+          that.videoRecords = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
         .finally(function () {
-          that.isLoading = false;
+          that.isLoadingVideoRecords = false;
         });
     }
   },
   created: function() {
-    this.getVideoInfo(this.aid);
+    this.getVideoInfo(this.aid, true);
   },
   mounted: function () {
 

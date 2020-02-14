@@ -107,7 +107,8 @@
     },
     methods: {
       videoDetailClickHandler: function (aid) {
-        this.$store.commit('setVideoDetailDrawerVisibility', false)
+        this.$store.commit('setVideoDetailVideo', this.video);
+        this.$store.commit('setVideoDetailDrawerVisibility', false);
         this.$router.push('/video/av' + aid);
       },
       videoViewClickHandler: function(aid) {
