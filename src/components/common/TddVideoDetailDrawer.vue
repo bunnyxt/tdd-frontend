@@ -134,7 +134,6 @@
             break;
           case '作曲':
           case '编曲':
-          case '混音':
             color = 'orange';
             break;
           case '调校':
