@@ -4,7 +4,7 @@
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/video">所有视频</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/video">视频</router-link></a-breadcrumb-item>
         <a-breadcrumb-item>av{{ aid }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>

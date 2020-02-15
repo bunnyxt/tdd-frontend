@@ -107,7 +107,7 @@
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
-          <h1>所有视频</h1>
+          <h1>视频</h1>
         </div>
         <div style="float: right; margin-top: 8px">
           <a-button size="small" @click="fetchRandomVideoList(6)"><a-icon type="reload" />{{ refreshString }}</a-button>
