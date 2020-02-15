@@ -45,11 +45,12 @@
           :style="{ lineHeight: '64px', float: 'left' }"
           @click="handleMenuClick"
       >
-        <a-menu-item key="1">首页</a-menu-item>
-        <a-menu-item key="2">所有视频</a-menu-item>
-        <a-menu-item key="3">传说助攻</a-menu-item>
-        <a-menu-item key="4">辅助工具</a-menu-item>
-        <a-menu-item key="5">关于</a-menu-item>
+        <a-menu-item key="home">首页</a-menu-item>
+        <a-menu-item key="video">视频</a-menu-item>
+        <a-menu-item key="member">UP主</a-menu-item>
+        <a-menu-item key="sprint">传说助攻</a-menu-item>
+        <a-menu-item key="tool">辅助工具</a-menu-item>
+        <a-menu-item key="about">关于</a-menu-item>
       </a-menu>
       <div v-if="!this.$store.state.isUserLoggedIn">
         <a-button
@@ -89,15 +90,17 @@
         let path = this.$route.fullPath;
         let keys = [];
         if (path === '/') {
-          keys = ['1'];
+          keys = ['home'];
         } else if (path.startsWith('/video')) {
-          keys = ['2'];
+          keys = ['video'];
+        } else if (path.startsWith('/member')) {
+          keys = ['member'];
         } else if (path.startsWith('/sprint')) {
-          keys = ['3'];
+          keys = ['sprint'];
         } else if (path.startsWith('/tool')) {
-          keys = ['4'];
+          keys = ['tool'];
         } else if (path.startsWith('/about')) {
-          keys = ['5'];
+          keys = ['about'];
         }
         return keys;
       }
@@ -108,19 +111,22 @@
       },
       handleMenuClick(e) {
         switch (e.key) {
-          case "1":
+          case "home":
             this.$router.push("/");
             break;
-          case "2":
+          case "video":
             this.$router.push("/video");
             break;
-          case "3":
+          case "member":
+            this.$router.push("/member");
+            break;
+          case "sprint":
             this.$router.push("/sprint");
             break;
-          case "4":
+          case "tool":
             this.$router.push("/tool");
             break;
-          case "5":
+          case "about":
             this.$router.push("/about");
             break;
           default:

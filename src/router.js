@@ -4,6 +4,7 @@ import VueRouter from "vue-router";
 const Home = () => import("./components/Home");
 const VideoHome = () => import("./components/VideoHome");
 const VideoDetail = () => import("./components/VideoDetail");
+const MemberHome = () => import("./components/MemberHome");
 const SprintHome = () => import("./components/SprintHome");
 const SprintVideoDetail = () => import("./components/SprintVideoDetail");
 const SprintDailyHome = () => import("./components/SprintDailyHome");
@@ -52,6 +53,13 @@ export default new VueRouter({
       component: SprintHome,
       meta: {
         title: '传说助攻 - ' + SITE_NAME,
+        keepAlive: true
+      }
+    }, {
+      path: "/member",
+      component: MemberHome,
+      meta: {
+        title: 'UP主 - ' + SITE_NAME,
         keepAlive: true
       }
     }, {
