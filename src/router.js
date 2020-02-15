@@ -5,6 +5,7 @@ const Home = () => import("./components/Home");
 const VideoHome = () => import("./components/VideoHome");
 const VideoDetail = () => import("./components/VideoDetail");
 const MemberHome = () => import("./components/MemberHome");
+const MemberDetail = () => import("./components/MemberDetail");
 const SprintHome = () => import("./components/SprintHome");
 const SprintVideoDetail = () => import("./components/SprintVideoDetail");
 const SprintDailyHome = () => import("./components/SprintDailyHome");
@@ -39,7 +40,7 @@ export default new VueRouter({
       path: "/video",
       component: VideoHome,
       meta: {
-        title: '所有视频 - ' + SITE_NAME,
+        title: '视频 - ' + SITE_NAME,
         keepAlive: true
       }
     }, {
@@ -49,17 +50,23 @@ export default new VueRouter({
         title: '视频详情 - ' + SITE_NAME
       }
     }, {
-      path: "/sprint",
-      component: SprintHome,
-      meta: {
-        title: '传说助攻 - ' + SITE_NAME,
-        keepAlive: true
-      }
-    }, {
       path: "/member",
       component: MemberHome,
       meta: {
         title: 'UP主 - ' + SITE_NAME,
+        keepAlive: true
+      }
+    }, {
+      path: "/member/:mid",
+      component: MemberDetail,
+      meta: {
+        title: 'UP主详情 - ' + SITE_NAME
+      }
+    }, {
+      path: "/sprint",
+      component: SprintHome,
+      meta: {
+        title: '传说助攻 - ' + SITE_NAME,
         keepAlive: true
       }
     }, {
