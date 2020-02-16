@@ -256,6 +256,9 @@
         }
       },
       onAidInputChange: function () {
+        if (this.videoAidInput && this.videoAidInput.toLowerCase().startsWith('av')) {
+          this.videoAidInput = this.videoAidInput.slice(2);
+        }
         if (this.videoAidInput && this.videoAidInput.length >= 4) {
           this.fetchVideoAidTileList();
         } else {
