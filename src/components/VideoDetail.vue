@@ -43,8 +43,8 @@
                       : 'https://static.hdslb.com/images/member/noface.gif'"
                     style="margin-right:12px"
                 />
-                <a :href="'https://space.bilibili.com/'+video.mid" target="_blank">
-                  {{ video.member ? video.member.name : 'mid'+video.mid}}
+                <a @click="videoMemberNameClickHandler(video.mid)">
+                  {{ video.member ? video.member.name : 'mid_'+video.mid}}
                 </a>
               </div>
               <div v-if="video.hasstaff === 1" style="float: left; margin-bottom: 12px">
@@ -53,7 +53,7 @@
                   <a-menu slot="overlay">
                     <template v-for="staff in video.staff.filter( s => s.title === 'UP主')">
                       <a-menu-item :key="staff.mid">
-                        <a :href="'https://space.bilibili.com/'+staff.mid" target="_blank">
+                        <a @click="videoMemberNameClickHandler(staff.mid)">
                           <a-avatar size="small" :src="staff.face" style="margin-right: 8px" />
                           {{ staff.name }}<a-tag :color="getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
                         </a>
@@ -61,7 +61,7 @@
                     </template>
                     <template v-for="staff in video.staff.filter( s => s.title !== 'UP主')">
                       <a-menu-item :key="staff.mid">
-                        <a :href="'https://space.bilibili.com/'+staff.mid" target="_blank">
+                        <a @click="videoMemberNameClickHandler(staff.mid)">
                           <a-avatar size="small" :src="staff.face" style="margin-right: 8px" />
                           {{ staff.name }}<a-tag :color="getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
                         </a>
@@ -250,6 +250,9 @@ export default {
           break;
       }
       return color;
+    },
+    videoMemberNameClickHandler: function (mid) {
+      this.$router.push('/member/' + mid);
     }
   },
   created: function() {
