@@ -157,6 +157,7 @@
         this.fetchMemberList();
       },
       memberListItemClickedHandler: function (item) {
+        this.$store.commit('setMemberDetailMember', item);
         this.$router.push('member/' + item.mid);
       }
     },
