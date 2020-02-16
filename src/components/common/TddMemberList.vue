@@ -28,8 +28,8 @@
                   <icon-font type="icon-xingbie-nv" />
                 </span>
               </template>
-              <template v-else-if="item.sex === '未知'">
-                <span style="">
+              <template v-else-if="item.sex === '保密'">
+                <span style="color: rgba(183,183,183,0.95)">
                   <icon-font type="icon-xingbie-weizhi" />
                 </span>
               </template>
