@@ -115,6 +115,23 @@
         </div>
       </div>
       <p>本站收录的所有视频，包括B站UV分区下的所有视频和部分其他分区中的VC视频。</p>
+      <p style="display: flex; display: -webkit-flex">
+        <a-auto-complete
+            placeholder="视频aid"
+            v-model="videoAidInput"
+            @change="onAidInputChange"
+            optionLabelProp="text"
+            allowClear
+            style="margin-right: 8px; flex-grow: 1"
+        >
+          <template slot="dataSource">
+            <a-select-option v-for="item in videoAidTitleListStringified" :key="item.aid" :text="item.aid" >
+              {{ item.aid }} - {{ item.title }}
+            </a-select-option>
+          </template>
+        </a-auto-complete>
+        <a-button type="primary" @click="goAidJump" style="">跳转</a-button>
+      </p>
       <a-spin :spinning="isLoadingRandomVideoList">
         <tdd-video-list
             :video-list="randomVideoList.slice(0, listColNum)"
@@ -193,6 +210,9 @@ export default {
       statDailyTotalCount: 0,
       isLoadingUpdateLogList: false,
       updateLogList: [],
+      videoAidInput: undefined,
+      isLoadingVideoAidTitleList: false,
+      videoAidTitleList: [],
       isLoadingRandomVideoList: false,
       randomVideoList: [],
       isLoadingSprintVideoList: false,
@@ -201,6 +221,14 @@ export default {
     }
   },
   computed: {
+    videoAidTitleListStringified: function () {
+      return this.videoAidTitleList.map(x => {
+        let obj = {};
+        obj.aid = '' + x.aid;
+        obj.title = x.title;
+        return obj;
+      });
+    },
     _storeClientMode: function() {
       return this.$store.getters.clientMode;
     },
@@ -273,6 +301,37 @@ export default {
     }
   },
   methods: {
+    goAidJump: function () {
+      if (this.videoAidInput) {
+        this.$router.push('/video/av' + this.videoAidInput);
+      }
+    },
+    onAidInputChange: function () {
+      if (this.videoAidInput && this.videoAidInput.length >= 4) {
+        this.fetchVideoAidTileList();
+      } else {
+        this.videoAidTitleList = [];
+      }
+    },
+    fetchVideoAidTileList: function () {
+      this.isLoadingVideoAidTitleList = true;
+      if ('' + parseInt(this.videoAidInput) !== this.videoAidInput) {
+        this.isLoadingVideoAidTitleList = false;
+        return;
+      }
+      let url = 'video/aidtitle?aid=' + this.videoAidInput;
+      let that = this;
+      this.$axios.get(url)
+        .then(function (response) {
+          that.videoAidTitleList = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingVideoAidTitleList = false;
+        });
+    },
     fetchStatDailyList: function () {
       this.isLoadingStatDailyList = true;
       let now = new Date();
