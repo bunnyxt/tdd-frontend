@@ -16,7 +16,7 @@
       </div>
     </div>
     <div v-else>
-      <div v-if="Object.keys(member).length === 0">
+      <div v-if="!member || Object.keys(member).length === 0">
         <div class="section-block">
           <p>没有找到用户<a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>的信息</p>
           <p>可能是因为改用户的视频投稿不在本站收录范围内</p>

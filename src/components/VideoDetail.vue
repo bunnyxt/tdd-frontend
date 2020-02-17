@@ -16,7 +16,7 @@
       </div>
     </div>
     <div v-else>
-      <div v-if="Object.keys(video).length === 0">
+      <div v-if="!video || Object.keys(video).length === 0">
         <div class="section-block">
           <p>没有找到<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的视频信息</p>
           <p>可能是因为该视频不在本站收录范围内</p>
