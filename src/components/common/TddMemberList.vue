@@ -34,8 +34,49 @@
                 </span>
               </template>
             </div>
-            <div>
-              TODO：投稿数、总播放、最近投稿
+            <div class="tdd-member-item-mobile-right-content-footer">
+              <div style="width: 40%">
+                <a-icon type="video-camera" class="stat-item-icon" />
+                {{ item.video_count }}
+              </div>
+              <div style="width: 60%">
+                <template v-if="mainProp === 'sr_view'">
+                  <a-icon type="play-circle" class="stat-item-icon" />
+                  {{ item.last_total_stat ? item.last_total_stat.view : -1 }}
+                </template>
+                <template v-else-if="mainProp === 'sr_danmaku'">
+                  <a-icon type="profile" class="stat-item-icon" />
+                  {{ item.last_total_stat ? item.last_total_stat.danmaku : -1 }}
+                </template>
+                <template v-else-if="mainProp === 'sr_reply'">
+                  <a-icon type="message" class="stat-item-icon" />
+                  {{ item.last_total_stat ? item.last_total_stat.reply : -1 }}
+                </template>
+                <template v-else-if="mainProp === 'sr_favorite'">
+                  <a-icon type="star" class="stat-item-icon" />
+                  {{ item.last_total_stat ? item.last_total_stat.favorite : -1 }}
+                </template>
+                <template v-else-if="mainProp === 'sr_coin'">
+                  <a-icon type="dollar" class="stat-item-icon" />
+                  {{ item.last_total_stat ? item.last_total_stat.coin : -1 }}
+                </template>
+                <template v-else-if="mainProp === 'sr_share'">
+                  <a-icon type="share-alt" class="stat-item-icon" />
+                  {{ item.last_total_stat ? item.last_total_stat.share : -1 }}
+                </template>
+                <template v-else-if="mainProp === 'sr_like'">
+                  <a-icon type="like" class="stat-item-icon" />
+                  {{ item.last_total_stat ? item.last_total_stat.like : -1 }}
+                </template>
+                <template v-else-if="mainProp === 'v_pubdate'">
+                  <a-icon type="calendar" class="stat-item-icon" />
+                  {{ $util.tsToDateString(item.last_video ? item.last_video.pubdate : 0, 'MM-dd HH:mm:ss') }}
+                </template>
+                <template v-else-if="mainProp === 'fr_follower'">
+                  <a-icon type="team" class="stat-item-icon" />
+                  {{ item.last_follower ? item.last_follower.follower : -1 }}
+                </template>
+              </div>
             </div>
           </div>
         </div>
@@ -60,6 +101,12 @@
       memberList: {
         type: Array,
         required: true
+      },
+      mainProp: {
+        type: String,
+        default: function () {
+          return 'sr_view';
+        }
       }
     },
     components: {
@@ -78,6 +125,7 @@
 
 <style scoped>
   .tdd-member-item-mobile {
+    width: 100%;
     overflow: hidden;
   }
   .tdd-member-item-mobile-avatar {
@@ -94,6 +142,19 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  .tdd-member-item-mobile-right-content-footer {
+    margin-top: 6px;
+    overflow: hidden;
+  }
+  .tdd-member-item-mobile-right-content-footer div {
+    float: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .stat-item-icon {
+    margin-right: 4px;
   }
 
   /* overwrite ant design style */

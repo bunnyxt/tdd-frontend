@@ -100,6 +100,7 @@
       <a-spin :spinning="isLoadingMemberList">
         <tdd-member-list
             :member-list="memberList"
+            :main-prop="mainProp"
             @item-clicked="memberListItemClickedHandler"
         />
         <a-pagination
@@ -133,7 +134,8 @@
         orderDescValue: 1,
         sexValue: '不限',
         nameValue: '',
-        isLoadingMemberList: false
+        isLoadingMemberList: false,
+        mainProp: 'sr_view'
       }
     },
     methods: {
@@ -176,6 +178,16 @@
           .then(function (response) {
             that.memberList = response.data;
             that.memberTotalCount = parseInt(response.headers['x-total-count']);
+            // change mainProp
+            if (that.orderValue.startsWith('sr_')) {
+              that.mainProp = that.orderValue;
+            } else if (that.orderValue === 'fr_follower') {
+              that.mainProp = 'fr_follower';
+            } else if (that.orderValue === 'v_pubdate') {
+              that.mainProp = 'v_pubdate';
+            }else {
+              that.mainProp = 'sr_view';
+            }
           })
           .catch(function (error) {
             console.log(error);
