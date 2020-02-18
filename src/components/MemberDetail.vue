@@ -26,7 +26,36 @@
       <div v-else>
         <div v-wechat-title="$route.meta.title=member.name+' - UP主详情 - 天钿Daily'"></div>
         <div class="section-block">
-        {{ member }}
+          <div class="tdd-member-detail-header">
+            <a-avatar
+                class="tdd-member-detail-header-avatar"
+                :src="member.face ? member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+                :size="48"
+            />
+            <div class="tdd-member-detail-header-content">
+              <div class="tdd-member-detail-header-title">
+                <span style="font-size: 1.17em; color: rgba(0, 0, 0, 0.85); font-weight: 500">{{ member.name }}</span>
+                <template v-if="member.sex === '男'">
+                <span class="tdd-member-detail-header-title-sex" style="color: #00b5f6">
+                  <icon-font type="icon-xingbie-nan" />
+                </span>
+                </template>
+                <template v-else-if="member.sex === '女'">
+                <span class="tdd-member-detail-header-title-sex" style="color: #f9a9f8">
+                  <icon-font type="icon-xingbie-nv" />
+                </span>
+                </template>
+                <template v-else-if="member.sex === '保密'">
+                <span class="tdd-member-detail-header-title-sex" style="color: rgba(183,183,183,0.95)">
+                  <icon-font type="icon-xingbie-weizhi" />
+                </span>
+                </template>
+              </div>
+              <div class="tdd-member-detail-header-sign">
+                {{ member.sign }}
+              </div>
+            </div>
+          </div>
         </div>
         <div class="section-separator"></div>
         <div class="section-block">
@@ -109,7 +138,12 @@
 </template>
 
 <script>
+  import { Icon } from 'ant-design-vue';
   import TddVideoList from "./common/TddVideoList";
+
+  const IconFont = Icon.createFromIconfontCN({
+    scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
+  });
 
   export default {
     name: 'MemberDetail',
@@ -126,7 +160,8 @@
       }
     },
     components: {
-      TddVideoList
+      TddVideoList,
+      IconFont
     },
     computed: {
       mid: function () {
@@ -258,5 +293,30 @@
   .filter-table-label {
     width: 80px;
     white-space: nowrap;
+  }
+
+  .tdd-member-detail-header {
+    overflow: hidden;
+  }
+  .tdd-member-detail-header-avatar {
+    float: left;
+    margin-right: 12px;
+  }
+  .tdd-member-detail-header-content {
+    float: left;
+    width: calc(100% - 116px);
+  }
+  .tdd-member-detail-header-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .tdd-member-detail-header-title-sex {
+    font-size: 1.17em;
+    margin-top: 4px;
+    margin-left: 8px;
+  }
+  .tdd-member-detail-header-sign {
+    margin-top: 4px;
   }
 </style>
