@@ -136,7 +136,7 @@
             </template>
           <div
               class="tdd-member-item-desktop-grid-last-video"
-              @click="itemLastVideoClickHandler(item.last_video ? item.last_video.aid : -1)"
+              @click.stop="itemLastVideoClickHandler(item.last_video ? item.last_video.aid : -1)"
           >
             <img
                 class="tdd-member-item-desktop-grid-last-video-cover-pic"
