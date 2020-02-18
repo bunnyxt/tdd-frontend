@@ -76,14 +76,14 @@
               </td>
               <td>
                 <a-radio-group name="orderSelector" v-model="orderValue">
-                  <a-radio :value="1">投稿时间</a-radio>
-                  <a-radio :value="2">播放</a-radio>
-                  <a-radio :value="3">弹幕</a-radio>
-                  <a-radio :value="4">评论</a-radio>
-                  <a-radio :value="5">收藏</a-radio>
-                  <a-radio :value="6">硬币</a-radio>
-                  <a-radio :value="7">分享</a-radio>
-                  <a-radio :value="8">点赞</a-radio>
+                  <a-radio :value="'pubdate'">投稿时间</a-radio>
+                  <a-radio :value="'view'">播放</a-radio>
+                  <a-radio :value="'danmaku'">弹幕</a-radio>
+                  <a-radio :value="'reply'">评论</a-radio>
+                  <a-radio :value="'favorite'">收藏</a-radio>
+                  <a-radio :value="'coin'">硬币</a-radio>
+                  <a-radio :value="'share'">分享</a-radio>
+                  <a-radio :value="'like'">点赞</a-radio>
                 </a-radio-group>
               </td>
             </tr>
@@ -189,6 +189,7 @@
       <a-spin :spinning="isLoadingVideoList">
         <tdd-video-list
             :video-list="videoList"
+            :main-prop="mainProp"
             mode="grid"
             @item-clicked="videoListItemClickedHandler"
         ></tdd-video-list>
@@ -227,7 +228,7 @@
         isvcValue: 2,
         activityValue: 0,
         recentValue: 0,
-        orderValue: 1,
+        orderValue: 'pubdate',
         orderDescValue: 1,
         pubdateStartValue: null,
         pubdateEndValue: null,
@@ -236,7 +237,8 @@
         titleValue: '',
         memberNameValue: '',
         pagiCurrent: 1,
-        videoTotalCount: 0
+        videoTotalCount: 0,
+        mainProp: 'view'
       }
     },
     computed: {
@@ -323,33 +325,34 @@
           url += 'up='+ this.memberNameValue + '&';
         }
         // order_by
-        switch (this.orderValue) {
-          case 2:
-            url += 'order_by=view&';
-            break;
-          case 3:
-            url += 'order_by=danmaku&';
-            break;
-          case 4:
-            url += 'order_by=reply&';
-            break;
-          case 5:
-            url += 'order_by=favorite&';
-            break;
-          case 6:
-            url += 'order_by=coin&';
-            break;
-          case 7:
-            url += 'order_by=share&';
-            break;
-          case 8:
-            url += 'order_by=like&';
-            break;
-          case 1:
-          default:
-            url += 'order_by=pubdate&';
-            break;
-        }
+        // switch (this.orderValue) {
+        //   case 2:
+        //     url += 'order_by=view&';
+        //     break;
+        //   case 3:
+        //     url += 'order_by=danmaku&';
+        //     break;
+        //   case 4:
+        //     url += 'order_by=reply&';
+        //     break;
+        //   case 5:
+        //     url += 'order_by=favorite&';
+        //     break;
+        //   case 6:
+        //     url += 'order_by=coin&';
+        //     break;
+        //   case 7:
+        //     url += 'order_by=share&';
+        //     break;
+        //   case 8:
+        //     url += 'order_by=like&';
+        //     break;
+        //   case 1:
+        //   default:
+        //     url += 'order_by=pubdate&';
+        //     break;
+        // }
+        url += 'order_by=' + this.orderValue + '&';
         // desc
         if (this.orderDescValue === 0) {
           url += 'desc=0&';
@@ -374,6 +377,8 @@
             that.videoList = response.data;
             that.videoTotalCount = parseInt(response.headers['x-total-count']);
             that.lastLoadVideoListDate = new Date();
+            // change mainProp
+            that.mainProp = that.orderValue;
           })
           .catch(function (error) {
             let title = error.response.data.code + ' - ' + error.response.data.message;

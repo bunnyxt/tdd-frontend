@@ -30,8 +30,38 @@
                 {{ item.member ? item.member.name : 'mid'+item.mid }}
               </div>
               <div v-if="showMobileView">
-                <a-icon type="play-circle" class="stat-item-icon"/>
-                {{ item.laststat ? item.laststat.view : -1 }}
+                <template v-if="mainProp === 'view'">
+                  <a-icon type="play-circle" class="stat-item-icon" />
+                  {{ item.laststat ? item.laststat.view : -1 }}
+                </template>
+                <template v-else-if="mainProp === 'danmaku'">
+                  <a-icon type="profile" class="stat-item-icon" />
+                  {{ item.laststat ? item.laststat.danmaku : -1 }}
+                </template>
+                <template v-else-if="mainProp === 'reply'">
+                  <a-icon type="message" class="stat-item-icon" />
+                  {{ item.laststat ? item.laststat.reply : -1 }}
+                </template>
+                <template v-else-if="mainProp === 'favorite'">
+                  <a-icon type="star" class="stat-item-icon" />
+                  {{ item.laststat ? item.laststat.favorite : -1 }}
+                </template>
+                <template v-else-if="mainProp === 'coin'">
+                  <a-icon type="dollar" class="stat-item-icon" />
+                  {{ item.laststat ? item.laststat.coin : -1 }}
+                </template>
+                <template v-else-if="mainProp === 'share'">
+                  <a-icon type="share-alt" class="stat-item-icon" />
+                  {{ item.laststat ? item.laststat.share : -1 }}
+                </template>
+                <template v-else-if="mainProp === 'like'">
+                  <a-icon type="like" class="stat-item-icon" />
+                  {{ item.laststat ? item.laststat.like : -1 }}
+                </template>
+                <template v-else-if="mainProp === 'pubdate'">
+                  <a-icon type="calendar" class="stat-item-icon" />
+                  {{ $util.tsToDateString(item.pubdate, 'HH:mm:ss') }}
+                </template>
               </div>
             </div>
           </div>
@@ -165,6 +195,12 @@
         type: String,
         default: 'list'
       },
+      mainProp: {
+        type: String,
+        default: function () {
+          return 'view';
+        }
+      },
       showStatBar: {
         type: Boolean,
         default: true
@@ -272,6 +308,9 @@
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+  }
+  .stat-item-icon {
+    margin-right: 4px;
   }
 
   /* overwrite ant design style */
