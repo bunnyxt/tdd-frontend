@@ -18,6 +18,37 @@
           <table class="filter-table">
             <tr>
               <td class="filter-table-label">
+                排序依据
+              </td>
+              <td>
+                <a-radio-group name="orderSelector" v-model="orderValue">
+                  <a-radio :value="'mid'">用户mid</a-radio>
+                  <a-radio :value="'video_count'">投稿总数</a-radio>
+                  <a-radio :value="'v_pubdate'">最近投稿</a-radio>
+                  <a-radio :value="'fr_follower'">粉丝数</a-radio><br>
+                  <a-radio :value="'sr_view'">总播放数</a-radio>
+                  <a-radio :value="'sr_danmaku'">总弹幕数</a-radio>
+                  <a-radio :value="'sr_reply'">总评论数</a-radio>
+                  <a-radio :value="'sr_favorite'">总收藏数</a-radio>
+                  <a-radio :value="'sr_coin'">总硬币数</a-radio>
+                  <a-radio :value="'sr_share'">总分享数</a-radio>
+                  <a-radio :value="'sr_like'">总点赞数</a-radio>
+                </a-radio-group>
+              </td>
+            </tr>
+            <tr>
+              <td class="filter-table-label">
+                排序顺序
+              </td>
+              <td>
+                <a-radio-group name="orderDescSelector" v-model="orderDescValue">
+                  <a-radio :value="0">从小到大</a-radio>
+                  <a-radio :value="1">从大到小</a-radio>
+                </a-radio-group>
+              </td>
+            </tr>
+            <tr>
+              <td class="filter-table-label">
                 性别
               </td>
               <td>
@@ -98,6 +129,8 @@
         memberList: [],
         memberTotalCount: 0,
         pagiCurrent: 1,
+        orderValue: 'sr_view',
+        orderDescValue: 1,
         sexValue: '不限',
         nameValue: '',
         isLoadingMemberList: false
@@ -110,6 +143,14 @@
       },
       assembleQueryUrl: function () {
         let url = 'member?';
+        // order_by
+        url += 'order_by=' + this.orderValue + '&';
+        // desc
+        if (this.orderDescValue === 0) {
+          url += 'desc=0&';
+        } else {
+          url += 'desc=1&';
+        }
         // sex
         if (['男', '女', '保密'].indexOf(this.sexValue) >= 0) {
           url += 'sex=' + this.sexValue + '&';
