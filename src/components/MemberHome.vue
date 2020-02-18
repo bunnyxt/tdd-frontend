@@ -9,7 +9,7 @@
     <div class="section-block">
       <h1>UP主</h1>
       <p>天钿Daily收录的所有视频的B站UP主和staff们。</p>
-      <a-alert style="margin-bottom: 8px" message="UP主昵称、头像、签名等信息并非实时，最低每24小时更新一次" banner />
+      <a-alert style="margin-bottom: 8px" message="UP主信息、粉丝数、数据总计等并非实时，最低每24小时更新一次" banner />
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
@@ -185,7 +185,7 @@
               that.mainProp = 'fr_follower';
             } else if (that.orderValue === 'v_pubdate') {
               that.mainProp = 'v_pubdate';
-            }else {
+            } else {
               that.mainProp = 'sr_view';
             }
           })
