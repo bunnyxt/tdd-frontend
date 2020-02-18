@@ -146,14 +146,19 @@
                 <a-icon type="calendar" style="margin-right: 4px"/>
                 {{ $util.tsToDateString(item.pubdate) }}
               </div>
-              <div v-if="showStatBar">
-                <tdd-video-stat-bar
-                    class="tdd-video-item-desktop-grid-video-stat-bar"
-                    :stat="item.laststat"
-                    :show-name="false"
-                    :mode="'bar'"
-                ></tdd-video-stat-bar>
-              </div>
+              <a-tooltip>
+                <template slot="title">
+                  <tdd-video-stat-bar :stat="item.laststat" />
+                </template>
+                <div v-if="showStatBar">
+                  <tdd-video-stat-bar
+                      class="tdd-video-item-desktop-grid-video-stat-bar"
+                      :stat="item.laststat"
+                      :show-name="false"
+                      :mode="'bar'"
+                  ></tdd-video-stat-bar>
+                </div>
+              </a-tooltip>
               <div v-if="showSprintBoard">
                 <div style="overflow: hidden">
                   <div style="width: 140px; float: left">
