@@ -3,11 +3,11 @@
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>所有视频</a-breadcrumb-item>
+        <a-breadcrumb-item>视频</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div class="section-block">
-      <h1>所有视频</h1>
+      <h1>视频</h1>
       <p>天钿Daily收录B站<a href="https://www.bilibili.com/v/music/vocaloid/" target="_blank">VOCALOID·UTAU</a>分区下的所有视频和部分其他分区中的VC视频。</p>
       <a-alert style="margin-bottom: 8px" message="播放、弹幕等数据并非时时数据，最低每24小时更新一次" banner />
       <a-alert style="margin-bottom: 8px" message="点击视频列表查看详细信息" banner type="info"/>
@@ -76,14 +76,14 @@
               </td>
               <td>
                 <a-radio-group name="orderSelector" v-model="orderValue">
-                  <a-radio :value="1">投稿时间</a-radio>
-                  <a-radio :value="2">播放</a-radio>
-                  <a-radio :value="3">弹幕</a-radio>
-                  <a-radio :value="4">评论</a-radio>
-                  <a-radio :value="5">收藏</a-radio>
-                  <a-radio :value="6">硬币</a-radio>
-                  <a-radio :value="7">分享</a-radio>
-                  <a-radio :value="8">点赞</a-radio>
+                  <a-radio :value="'pubdate'">投稿时间</a-radio>
+                  <a-radio :value="'view'">播放</a-radio>
+                  <a-radio :value="'danmaku'">弹幕</a-radio>
+                  <a-radio :value="'reply'">评论</a-radio>
+                  <a-radio :value="'favorite'">收藏</a-radio>
+                  <a-radio :value="'coin'">硬币</a-radio>
+                  <a-radio :value="'share'">分享</a-radio>
+                  <a-radio :value="'like'">点赞</a-radio>
                 </a-radio-group>
               </td>
             </tr>
@@ -189,6 +189,7 @@
       <a-spin :spinning="isLoadingVideoList">
         <tdd-video-list
             :video-list="videoList"
+            :main-prop="mainProp"
             mode="grid"
             @item-clicked="videoListItemClickedHandler"
         ></tdd-video-list>
@@ -227,7 +228,7 @@
         isvcValue: 2,
         activityValue: 0,
         recentValue: 0,
-        orderValue: 1,
+        orderValue: 'pubdate',
         orderDescValue: 1,
         pubdateStartValue: null,
         pubdateEndValue: null,
@@ -236,7 +237,8 @@
         titleValue: '',
         memberNameValue: '',
         pagiCurrent: 1,
-        videoTotalCount: 0
+        videoTotalCount: 0,
+        mainProp: 'view'
       }
     },
     computed: {
@@ -256,6 +258,9 @@
         }
       },
       onAidInputChange: function () {
+        if (this.videoAidInput && this.videoAidInput.toLowerCase().startsWith('av')) {
+          this.videoAidInput = this.videoAidInput.slice(2);
+        }
         if (this.videoAidInput && this.videoAidInput.length >= 4) {
           this.fetchVideoAidTileList();
         } else {
@@ -320,33 +325,34 @@
           url += 'up='+ this.memberNameValue + '&';
         }
         // order_by
-        switch (this.orderValue) {
-          case 2:
-            url += 'order_by=view&';
-            break;
-          case 3:
-            url += 'order_by=danmaku&';
-            break;
-          case 4:
-            url += 'order_by=reply&';
-            break;
-          case 5:
-            url += 'order_by=favorite&';
-            break;
-          case 6:
-            url += 'order_by=coin&';
-            break;
-          case 7:
-            url += 'order_by=share&';
-            break;
-          case 8:
-            url += 'order_by=like&';
-            break;
-          case 1:
-          default:
-            url += 'order_by=pubdate&';
-            break;
-        }
+        // switch (this.orderValue) {
+        //   case 2:
+        //     url += 'order_by=view&';
+        //     break;
+        //   case 3:
+        //     url += 'order_by=danmaku&';
+        //     break;
+        //   case 4:
+        //     url += 'order_by=reply&';
+        //     break;
+        //   case 5:
+        //     url += 'order_by=favorite&';
+        //     break;
+        //   case 6:
+        //     url += 'order_by=coin&';
+        //     break;
+        //   case 7:
+        //     url += 'order_by=share&';
+        //     break;
+        //   case 8:
+        //     url += 'order_by=like&';
+        //     break;
+        //   case 1:
+        //   default:
+        //     url += 'order_by=pubdate&';
+        //     break;
+        // }
+        url += 'order_by=' + this.orderValue + '&';
         // desc
         if (this.orderDescValue === 0) {
           url += 'desc=0&';
@@ -371,6 +377,8 @@
             that.videoList = response.data;
             that.videoTotalCount = parseInt(response.headers['x-total-count']);
             that.lastLoadVideoListDate = new Date();
+            // change mainProp
+            that.mainProp = that.orderValue;
           })
           .catch(function (error) {
             let title = error.response.data.code + ' - ' + error.response.data.message;

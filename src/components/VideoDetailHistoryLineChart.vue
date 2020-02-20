@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div id="video-detail-history-line-chart-toolbar">
+    <div id="video-detail-history-line-chart-toolbar" style="overflow: hidden">
       <span>坐标系类型：</span>
-      <a-switch defaultChecked checkedChildren="对数" unCheckedChildren="线性" @change="onValueTypeSwitchChange" />
+      <a-switch checkedChildren="对数" unCheckedChildren="线性" @change="onValueTypeSwitchChange" />
       <a-popover title="使用提示" trigger="hover" placement="bottomRight" style="float: right">
         <template slot="content">
           <ul style="padding: 0 0 0 12px">
@@ -12,9 +12,8 @@
             <li>调整图表底端滑块调整显示的时间段。</li>
           </ul>
         </template>
-        <a-icon type="question-circle" style="cursor: help"/>
+        <span style="cursor: help">使用提示 <a-icon type="question-circle"/></span>
       </a-popover>
-
     </div>
     <div id="video-detail-history-line-chart"></div>
     <div id="video-detail-history-line-chart-slider"></div>
@@ -26,7 +25,7 @@ import G2 from '@antv/g2';
 import DataSet from '@antv/data-set';
 
 export default {
-  name: '',
+  name: 'VideoDetailHistoryLineChart',
   data: function() {
     return {
       chart: null,
@@ -34,10 +33,16 @@ export default {
       dv: null,
       paddingDESKTOP: [ 20, 8, 95, 60 ],
       paddingMOBILE: [ 20, 8, 95, 8 ],
+      heightDESKTOP: 400,
+      heightMOBILE: 300,
+      isInitialing: false
     }
   },
   props: {
-    videoRecords: Array
+    videoRecords: {
+      type: Array,
+      required: true
+    }
   },
   computed: {
     _storeClientMode: function() {
@@ -45,6 +50,9 @@ export default {
     },
     padding: function() {
       return this.$store.getters.clientMode === 'MOBILE' ? this.paddingMOBILE : this.paddingDESKTOP;
+    },
+    height: function() {
+      return this.$store.getters.clientMode === 'MOBILE' ? this.heightMOBILE : this.heightDESKTOP;
     }
   },
   watch: {
@@ -60,17 +68,23 @@ export default {
   },
   methods: {
     init: function() {
+      if (this.isInitialing === true) {
+        return;
+      } else {
+        this.isInitialing = true;
+      }
       this.initDs();
       this.initDv();
       this.initChart();
       this.chart.render();
+      this.isInitialing = false;
     },
     initDs: function() {
       this.ds = new DataSet({
         state: {
           start: this.videoRecords.length > 0 ? this.videoRecords[0].added : 0,
           end: this.videoRecords.length > 0 ? this.videoRecords[this.videoRecords.length-1].added : 0,
-          valueType: 'log'
+          valueType: 'linear'
         }
       });
     },
@@ -113,7 +127,7 @@ export default {
     initChart: function() {
       this.createChart();
       this.setChartAxis();
-      this.setChartSource('log');
+      this.setChartSource('linear');
 
       this.setChartInteract();
       this.setChartStyle();
@@ -122,7 +136,7 @@ export default {
       this.chart = new G2.Chart({
         container: 'video-detail-history-line-chart',
         forceFit: true,
-        height : 400,
+        height : this.height,
         padding: this.padding
       });
     },
@@ -193,7 +207,9 @@ export default {
     }
   },
   mounted: function() {
-    this.init();
+    if (typeof(this.videoRecords) === typeof([]) && this.videoRecords.length > 0) {
+      this.init();
+    }
   }
 }
 </script>

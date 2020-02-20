@@ -107,7 +107,7 @@
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
-          <h1>所有视频</h1>
+          <h1>视频</h1>
         </div>
         <div style="float: right; margin-top: 8px">
           <a-button size="small" @click="fetchRandomVideoList(6)"><a-icon type="reload" />{{ refreshString }}</a-button>
@@ -115,12 +115,48 @@
         </div>
       </div>
       <p>本站收录的所有视频，包括B站UV分区下的所有视频和部分其他分区中的VC视频。</p>
+      <p style="display: flex; display: -webkit-flex">
+        <a-auto-complete
+            placeholder="视频aid"
+            v-model="videoAidInput"
+            @change="onAidInputChange"
+            optionLabelProp="text"
+            allowClear
+            style="margin-right: 8px; flex-grow: 1"
+        >
+          <template slot="dataSource">
+            <a-select-option v-for="item in videoAidTitleListStringified" :key="item.aid" :text="item.aid" >
+              {{ item.aid }} - {{ item.title }}
+            </a-select-option>
+          </template>
+        </a-auto-complete>
+        <a-button type="primary" @click="goAidJump" style="">跳转</a-button>
+      </p>
       <a-spin :spinning="isLoadingRandomVideoList">
         <tdd-video-list
             :video-list="randomVideoList.slice(0, listColNum)"
             mode="grid"
             @item-clicked="randomVideoListItemClickedHandler"
         ></tdd-video-list>
+      </a-spin>
+    </div>
+    <div class="section-separator"></div>
+    <div class="section-block">
+      <div style="overflow: hidden">
+        <div style="float: left">
+          <h1>UP主</h1>
+        </div>
+        <div style="float: right; margin-top: 8px">
+          <a-button size="small" @click="fetchRandomMemberList(6)"><a-icon type="reload" />{{ refreshString }}</a-button>
+          <a-button size="small" @click="() => this.$router.push('/member')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
+        </div>
+      </div>
+      <p>本站收录的所有视频的B站UP主和staff们。</p>
+      <a-spin :spinning="isLoadingRandomMemberList">
+        <tdd-member-list
+            :member-list="randomMemberList.slice(0, listColNum)"
+            @item-clicked="randomMemberListItemClickedHandler"
+        ></tdd-member-list>
       </a-spin>
     </div>
     <div class="section-separator"></div>
@@ -176,13 +212,15 @@
 import G2 from '@antv/g2';
 import DataSet from '@antv/data-set';
 import TddVideoList from "./common/TddVideoList"
+import TddMemberList from "./common/TddMemberList";
 import logo_max from '../assets/img/logo_max.png'
 import qqgroup_qrcode from '../assets/img/qrcode_1580391374617.jpg'
 
 export default {
   name: "Home",
   components: {
-    TddVideoList
+    TddVideoList,
+    TddMemberList
   },
   data: function () {
     return {
@@ -193,14 +231,27 @@ export default {
       statDailyTotalCount: 0,
       isLoadingUpdateLogList: false,
       updateLogList: [],
+      videoAidInput: undefined,
+      isLoadingVideoAidTitleList: false,
+      videoAidTitleList: [],
       isLoadingRandomVideoList: false,
       randomVideoList: [],
+      isLoadingRandomMemberList: false,
+      randomMemberList: [],
       isLoadingSprintVideoList: false,
       sprintVideoList: [],
       sprintVideoListFiltered: []
     }
   },
   computed: {
+    videoAidTitleListStringified: function () {
+      return this.videoAidTitleList.map(x => {
+        let obj = {};
+        obj.aid = '' + x.aid;
+        obj.title = x.title;
+        return obj;
+      });
+    },
     _storeClientMode: function() {
       return this.$store.getters.clientMode;
     },
@@ -273,6 +324,40 @@ export default {
     }
   },
   methods: {
+    goAidJump: function () {
+      if (this.videoAidInput) {
+        this.$router.push('/video/av' + this.videoAidInput);
+      }
+    },
+    onAidInputChange: function () {
+      if (this.videoAidInput && this.videoAidInput.toLowerCase().startsWith('av')) {
+        this.videoAidInput = this.videoAidInput.slice(2);
+      }
+      if (this.videoAidInput && this.videoAidInput.length >= 4) {
+        this.fetchVideoAidTileList();
+      } else {
+        this.videoAidTitleList = [];
+      }
+    },
+    fetchVideoAidTileList: function () {
+      this.isLoadingVideoAidTitleList = true;
+      if ('' + parseInt(this.videoAidInput) !== this.videoAidInput) {
+        this.isLoadingVideoAidTitleList = false;
+        return;
+      }
+      let url = 'video/aidtitle?aid=' + this.videoAidInput;
+      let that = this;
+      this.$axios.get(url)
+        .then(function (response) {
+          that.videoAidTitleList = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingVideoAidTitleList = false;
+        });
+    },
     fetchStatDailyList: function () {
       this.isLoadingStatDailyList = true;
       let now = new Date();
@@ -377,6 +462,21 @@ export default {
           that.isLoadingRandomVideoList = false;
         });
     },
+    fetchRandomMemberList: function (count) {
+      this.isLoadingRandomMemberList = true;
+      let url = '/member/random?count=' + count;
+      let that = this;
+      this.$axios.get(url)
+        .then(function (response) {
+          that.randomMemberList = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingRandomMemberList = false;
+        });
+    },
     fetchSprintVideoList: function () {
       let that = this;
       this.isLoadingSprintVideoList = true;
@@ -414,6 +514,9 @@ export default {
     randomVideoListItemClickedHandler: function (item) {
       this.$store.commit('setVideoDetailDrawerVideo', item);
       this.$store.commit('setVideoDetailDrawerVisibility', true);
+    },
+    randomMemberListItemClickedHandler: function (item) {
+      this.$router.push('member/' + item.mid);
     }
   },
   watch: {
@@ -431,6 +534,7 @@ export default {
     this.fetchStatDailyList();
     this.fetchUpdateLogList();
     this.fetchRandomVideoList(6);
+    this.fetchRandomMemberList(6);
     this.fetchSprintVideoList();
   }
 };

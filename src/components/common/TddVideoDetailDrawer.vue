@@ -18,19 +18,27 @@
                     : 'https://static.hdslb.com/images/member/noface.gif'"
               style="margin-right:12px"
           />
-          <a :href="'https://space.bilibili.com/'+video.mid" target="_blank">
-            {{ video.member ? video.member.name : 'mid'+video.mid}}
+          <a @click="videoMemberNameClickHandler(video.mid)">
+            {{ video.member ? video.member.name : 'mid_'+video.mid}}
           </a>
         </div>
         <div v-if="video.hasstaff === 1" style="float: left; margin-bottom: 12px">
           <a-dropdown :trigger="['click']" placement="bottomCenter">
             <a class="ant-dropdown-link" href="#">创作团队 ({{ video.staff.length }}) <a-icon type="down" /> </a>
             <a-menu slot="overlay">
-              <template v-for="staff in video.staff">
+              <template v-for="staff in video.staff.filter( s => s.title === 'UP主')">
                 <a-menu-item :key="staff.mid">
-                  <a :href="'https://space.bilibili.com/'+staff.mid" target="_blank">
+                  <a @click="videoMemberNameClickHandler(staff.mid)">
                     <a-avatar size="small" :src="staff.face" style="margin-right: 8px" />
-                    {{ staff.name }} - {{ staff.title }}
+                    {{ staff.name }}<a-tag :color="getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
+                  </a>
+                </a-menu-item>
+              </template>
+              <template v-for="staff in video.staff.filter( s => s.title !== 'UP主')">
+                <a-menu-item :key="staff.mid">
+                  <a @click="videoMemberNameClickHandler(staff.mid)">
+                    <a-avatar size="small" :src="staff.face" style="margin-right: 8px" />
+                    {{ staff.name }}<a-tag :color="getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
                   </a>
                 </a-menu-item>
               </template>
@@ -106,6 +114,10 @@
       }
     },
     methods: {
+      videoMemberNameClickHandler: function (mid) {
+        this.$router.push('/member/' + mid);
+        this.$store.commit('setVideoDetailDrawerVisibility', false);
+      },
       videoDetailClickHandler: function (aid) {
         this.$store.commit('setVideoDetailVideo', this.video);
         this.$store.commit('setVideoDetailDrawerVisibility', false);
@@ -113,6 +125,39 @@
       },
       videoViewClickHandler: function(aid) {
         window.open('https://www.bilibili.com/video/av' + aid);
+      },
+      getStaffTitleColor: function (title) {
+        let color = '';
+        switch (title) {
+          case 'UP主':
+            color = 'red';
+            break;
+          case '作词':
+          case '填词':
+            color = 'pink';
+            break;
+          case '作曲':
+          case '编曲':
+            color = 'orange';
+            break;
+          case '调校':
+          case '调教':
+          case '调音':
+            color = 'green';
+            break;
+          case '曲绘':
+            color = 'cyan';
+            break;
+          case '策划':
+            color = 'blue';
+            break;
+          case '视频制作':
+          case '剪辑':
+          case '字幕':
+            color = 'purple';
+            break;
+        }
+        return color;
       }
     }
   }

@@ -12,6 +12,7 @@ const store = new Vuex.Store({
     isVideoDetailDrawerVisible: false,
     videoDetailDrawerVideo: null,
     videoDetailVideo: null,
+    memberDetailMember: null,
     isUserLoggedIn: false,
     clientWidth: 0
   },
@@ -33,6 +34,9 @@ const store = new Vuex.Store({
     },
     setVideoDetailVideo(state, video) {
       state.videoDetailVideo = video;
+    },
+    setMemberDetailMember(state, member) {
+      state.memberDetailMember = member;
     },
     setClientWidth(state, clientWidth) {
       state.clientWidth = clientWidth;

@@ -4,7 +4,7 @@
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/video">所有视频</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/video">视频</router-link></a-breadcrumb-item>
         <a-breadcrumb-item>av{{ aid }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
@@ -16,7 +16,7 @@
       </div>
     </div>
     <div v-else>
-      <div v-if="Object.keys(video).length === 0">
+      <div v-if="!video || Object.keys(video).length === 0">
         <div class="section-block">
           <p>没有找到<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的视频信息</p>
           <p>可能是因为该视频不在本站收录范围内</p>
@@ -43,19 +43,27 @@
                       : 'https://static.hdslb.com/images/member/noface.gif'"
                     style="margin-right:12px"
                 />
-                <a :href="'https://space.bilibili.com/'+video.mid" target="_blank">
-                  {{ video.member ? video.member.name : 'mid'+video.mid}}
+                <a @click="videoMemberNameClickHandler(video.mid)">
+                  {{ video.member ? video.member.name : 'mid_'+video.mid}}
                 </a>
               </div>
               <div v-if="video.hasstaff === 1" style="float: left; margin-bottom: 12px">
                 <a-dropdown :trigger="['click']" placement="bottomCenter">
                   <a class="ant-dropdown-link" href="#">创作团队 ({{ video.staff.length }}) <a-icon type="down" /> </a>
                   <a-menu slot="overlay">
-                    <template v-for="staff in video.staff">
+                    <template v-for="staff in video.staff.filter( s => s.title === 'UP主')">
                       <a-menu-item :key="staff.mid">
-                        <a :href="'https://space.bilibili.com/'+staff.mid" target="_blank">
+                        <a @click="videoMemberNameClickHandler(staff.mid)">
                           <a-avatar size="small" :src="staff.face" style="margin-right: 8px" />
-                          {{ staff.name }} - {{ staff.title }}
+                          {{ staff.name }}<a-tag :color="getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
+                        </a>
+                      </a-menu-item>
+                    </template>
+                    <template v-for="staff in video.staff.filter( s => s.title !== 'UP主')">
+                      <a-menu-item :key="staff.mid">
+                        <a @click="videoMemberNameClickHandler(staff.mid)">
+                          <a-avatar size="small" :src="staff.face" style="margin-right: 8px" />
+                          {{ staff.name }}<a-tag :color="getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
                         </a>
                       </a-menu-item>
                     </template>
@@ -105,14 +113,24 @@
               </a-alert>
             </div>
             <div v-else>
-              <a-divider orientation="left">历史趋势</a-divider>
-              <video-detail-history-line-chart :videoRecords="videoRecords" />
-              <a-divider orientation="left">详细数据</a-divider>
-              <video-detail-history-table :video-records="videoRecords" />
-              <a-divider orientation="left" style="margin-top: -16px">周刊算分</a-divider>
-              <tdd-video-record-zk-calc :video-records="videoRecords" :page="video ? video.videos : 1" :pubdate="video ? video.pubdate : null" />
-              <a-divider orientation="left">数据下载</a-divider>
-              <tdd-video-record-saver :video-records="videoRecords" />
+              <a-menu v-model="currentDataCategory" mode="horizontal" style="margin-bottom: 16px">
+                <a-menu-item key="recordChart"> <a-icon type="line-chart" />历史趋势 </a-menu-item>
+                <a-menu-item key="recordTable"> <a-icon type="table" />详细数据 </a-menu-item>
+                <a-menu-item key="zkCalc"> <a-icon type="calculator" />周刊算分 </a-menu-item>
+                <a-menu-item key="recordSaver"> <a-icon type="download" />数据下载 </a-menu-item>
+              </a-menu>
+              <div v-show="currentDataCategory.indexOf('recordChart') !== -1">
+                <video-detail-history-line-chart :videoRecords="videoRecords" />
+              </div>
+              <div v-show="currentDataCategory.indexOf('recordTable') !== -1">
+                <video-detail-history-table :video-records="videoRecords" />
+              </div>
+              <div v-show="currentDataCategory.indexOf('zkCalc') !== -1">
+                <tdd-video-record-zk-calc :video-records="videoRecords" :page="video ? video.videos : 1" :pubdate="video ? video.pubdate : null" />
+              </div>
+              <div v-show="currentDataCategory.indexOf('recordSaver') !== -1">
+                <tdd-video-record-saver :video-records="videoRecords" />
+              </div>
             </div>
           </div>
         </div>
@@ -144,7 +162,8 @@ export default {
       video: null,
       videoRecords: null,
       isLoadingVideo: false,
-      isLoadingVideoRecords: false
+      isLoadingVideoRecords: false,
+      currentDataCategory: ['recordChart']
     }
   },
   computed: {
@@ -209,6 +228,42 @@ export default {
         .finally(function () {
           that.isLoadingVideoRecords = false;
         });
+    },
+    getStaffTitleColor: function (title) {
+      let color = '';
+      switch (title) {
+        case 'UP主':
+          color = 'red';
+          break;
+        case '作词':
+        case '填词':
+          color = 'pink';
+          break;
+        case '作曲':
+        case '编曲':
+          color = 'orange';
+          break;
+        case '调校':
+        case '调教':
+        case '调音':
+          color = 'green';
+          break;
+        case '曲绘':
+          color = 'cyan';
+          break;
+        case '策划':
+          color = 'blue';
+          break;
+        case '视频制作':
+        case '剪辑':
+        case '字幕':
+          color = 'purple';
+          break;
+      }
+      return color;
+    },
+    videoMemberNameClickHandler: function (mid) {
+      this.$router.push('/member/' + mid);
     }
   },
   created: function() {
