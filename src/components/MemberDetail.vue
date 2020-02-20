@@ -51,11 +51,20 @@
                 </span>
                 </template>
               </div>
-              <div class="tdd-member-detail-header-sign">
-                {{ member.sign }}
+              <div class="tdd-member-detail-header-video-count-follower">
+                <a-icon type="video-camera" class="stat-item-icon" style="margin-right: 4px" />
+                {{ member.video_count }}
+                <a-icon type="team" class="stat-item-icon" style="margin-left: 12px; margin-right: 4px" />
+                {{ member.last_follower ? member.last_follower.follower : -1 }}
               </div>
             </div>
           </div>
+          <div style="margin-top: 8px">
+            {{ member.sign }}
+          </div>
+          <a-divider orientation="left">数据总计</a-divider>
+          <tdd-video-stat-bar :stat="member.last_total_stat" :mode="'vertical'" :show-name="true" />
+          *{{ $util.tsToDateString(member.last_total_stat.added) }}更新
         </div>
         <div class="section-separator"></div>
         <div class="section-block">
@@ -171,6 +180,7 @@
   import TddVideoList from "./common/TddVideoList";
   import MemberDetailFollowerHistoryLineChart from "./MemberDetailFollowerHistoryLineChart";
   import MemberDetailTotalStatHistoryLineChart from "./MemberDetailTotalStatHistoryLineChart";
+  import TddVideoStatBar from "./common/TddVideoStatBar";
 
   const IconFont = Icon.createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
@@ -200,7 +210,8 @@
       TddVideoList,
       IconFont,
       MemberDetailFollowerHistoryLineChart,
-      MemberDetailTotalStatHistoryLineChart
+      MemberDetailTotalStatHistoryLineChart,
+      TddVideoStatBar
     },
     computed: {
       mid: function () {
@@ -394,7 +405,7 @@
     margin-top: 4px;
     margin-left: 8px;
   }
-  .tdd-member-detail-header-sign {
+  .tdd-member-detail-header-video-count-follower {
     margin-top: 4px;
   }
 </style>
