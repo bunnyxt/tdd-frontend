@@ -113,14 +113,24 @@
               </a-alert>
             </div>
             <div v-else>
-              <a-divider orientation="left">历史趋势</a-divider>
-              <video-detail-history-line-chart :videoRecords="videoRecords" />
-              <a-divider orientation="left">详细数据</a-divider>
-              <video-detail-history-table :video-records="videoRecords" />
-              <a-divider orientation="left" style="margin-top: -16px">周刊算分</a-divider>
-              <tdd-video-record-zk-calc :video-records="videoRecords" :page="video ? video.videos : 1" :pubdate="video ? video.pubdate : null" />
-              <a-divider orientation="left">数据下载</a-divider>
-              <tdd-video-record-saver :video-records="videoRecords" />
+              <a-menu v-model="currentDataCategory" mode="horizontal" style="margin-bottom: 16px">
+                <a-menu-item key="recordChart"> <a-icon type="line-chart" />历史趋势 </a-menu-item>
+                <a-menu-item key="recordTable"> <a-icon type="table" />详细数据 </a-menu-item>
+                <a-menu-item key="zkCalc"> <a-icon type="calculator" />周刊算分 </a-menu-item>
+                <a-menu-item key="recordSaver"> <a-icon type="download" />数据下载 </a-menu-item>
+              </a-menu>
+              <div v-show="currentDataCategory.indexOf('recordChart') !== -1">
+                <video-detail-history-line-chart :videoRecords="videoRecords" />
+              </div>
+              <div v-show="currentDataCategory.indexOf('recordTable') !== -1">
+                <video-detail-history-table :video-records="videoRecords" />
+              </div>
+              <div v-show="currentDataCategory.indexOf('zkCalc') !== -1">
+                <tdd-video-record-zk-calc :video-records="videoRecords" :page="video ? video.videos : 1" :pubdate="video ? video.pubdate : null" />
+              </div>
+              <div v-show="currentDataCategory.indexOf('recordSaver') !== -1">
+                <tdd-video-record-saver :video-records="videoRecords" />
+              </div>
             </div>
           </div>
         </div>
@@ -152,7 +162,8 @@ export default {
       video: null,
       videoRecords: null,
       isLoadingVideo: false,
-      isLoadingVideoRecords: false
+      isLoadingVideoRecords: false,
+      currentDataCategory: ['recordChart']
     }
   },
   computed: {
