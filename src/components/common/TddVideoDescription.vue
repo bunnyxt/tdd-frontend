@@ -1,5 +1,5 @@
 <template>
-  <div style="position: relative">
+  <div class="tdd-video-description" style="position: relative">
     <div ref="text" :style="textStyle">
       <span v-html="descriptionHtml"></span>
     </div>
@@ -43,6 +43,10 @@
         if (this.textHeight > 100 && !this.showAll) {
           style.height = '100px';
         }
+        // style['transition:height'] = '2s';
+        // style['-moz-transition:height'] = '2s'; /* Firefox 4 */
+        // style['-webkit-transition:height'] = '2s'; /* Safari and Chrome */
+        // style['-o-transition:height'] = '2s'; /* Opera */
         return style;
       }
     },
@@ -58,6 +62,12 @@
 </script>
 
 <style scoped>
+  /*.tdd-video-description {*/
+  /*  transition:height 2s;*/
+  /*  -moz-transition:height 2s; !* Firefox 4 *!*/
+  /*  -webkit-transition:height 2s; !* Safari and Chrome *!*/
+  /*  -o-transition:height 2s; !* Opera *!*/
+  /*}*/
   .show-all {
     z-index: 2;
     position: absolute;
