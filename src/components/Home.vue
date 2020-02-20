@@ -144,6 +144,25 @@
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
+          <h1>UP主</h1>
+        </div>
+        <div style="float: right; margin-top: 8px">
+          <a-button size="small" @click="fetchRandomMemberList(6)"><a-icon type="reload" />{{ refreshString }}</a-button>
+          <a-button size="small" @click="() => this.$router.push('/member')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
+        </div>
+      </div>
+      <p>本站收录的所有视频的B站UP主和staff们。</p>
+      <a-spin :spinning="isLoadingRandomMemberList">
+        <tdd-member-list
+            :member-list="randomMemberList.slice(0, listColNum)"
+            @item-clicked="randomMemberListItemClickedHandler"
+        ></tdd-member-list>
+      </a-spin>
+    </div>
+    <div class="section-separator"></div>
+    <div class="section-block">
+      <div style="overflow: hidden">
+        <div style="float: left">
           <h1>传说助攻</h1>
         </div>
         <div style="float: right; margin-top: 8px">
@@ -193,13 +212,15 @@
 import G2 from '@antv/g2';
 import DataSet from '@antv/data-set';
 import TddVideoList from "./common/TddVideoList"
+import TddMemberList from "./common/TddMemberList";
 import logo_max from '../assets/img/logo_max.png'
 import qqgroup_qrcode from '../assets/img/qrcode_1580391374617.jpg'
 
 export default {
   name: "Home",
   components: {
-    TddVideoList
+    TddVideoList,
+    TddMemberList
   },
   data: function () {
     return {
@@ -215,6 +236,8 @@ export default {
       videoAidTitleList: [],
       isLoadingRandomVideoList: false,
       randomVideoList: [],
+      isLoadingRandomMemberList: false,
+      randomMemberList: [],
       isLoadingSprintVideoList: false,
       sprintVideoList: [],
       sprintVideoListFiltered: []
@@ -439,6 +462,21 @@ export default {
           that.isLoadingRandomVideoList = false;
         });
     },
+    fetchRandomMemberList: function (count) {
+      this.isLoadingRandomMemberList = true;
+      let url = '/member/random?count=' + count;
+      let that = this;
+      this.$axios.get(url)
+        .then(function (response) {
+          that.randomMemberList = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingRandomMemberList = false;
+        });
+    },
     fetchSprintVideoList: function () {
       let that = this;
       this.isLoadingSprintVideoList = true;
@@ -476,6 +514,9 @@ export default {
     randomVideoListItemClickedHandler: function (item) {
       this.$store.commit('setVideoDetailDrawerVideo', item);
       this.$store.commit('setVideoDetailDrawerVisibility', true);
+    },
+    randomMemberListItemClickedHandler: function (item) {
+      this.$router.push('member/' + item.mid);
     }
   },
   watch: {
@@ -493,6 +534,7 @@ export default {
     this.fetchStatDailyList();
     this.fetchUpdateLogList();
     this.fetchRandomVideoList(6);
+    this.fetchRandomMemberList(6);
     this.fetchSprintVideoList();
   }
 };
