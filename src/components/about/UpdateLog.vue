@@ -10,7 +10,7 @@
     <div class="section-block">
       <h1>更新动态</h1>
       <p>本页面记录本项目自创建开始以来的较大更新动态。记录项由站长手动维护，可能有一定的延迟。</p>
-      <p>欲知最新的项目动态，请加QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/><a target="_blank" href="https://img04.sogoucdn.com/app/a/100520146/8890ed5f23adc62b22a1033c403be444">二维码</a> 或移步本项目的 <a target="_blank" href="https://github.com/users/bunnyxt/projects/1">GitHub Project</a> 主页。</p>
+      <p>欲知最新的项目动态，请加QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/><a target="_blank" :href="qqgroup_qrcode">二维码</a> 或移步本项目的 <a target="_blank" href="https://github.com/users/bunnyxt/projects/1">GitHub Project</a> 主页。</p>
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
@@ -33,10 +33,13 @@
 </template>
 
 <script>
+import qqgroup_qrcode from '../../assets/img/qrcode_1580391374617.jpg'
+
 export default {
   name: 'UpdateLog',
   data: function () {
     return {
+      qqgroup_qrcode: qqgroup_qrcode,
       isLoadingUpdateLogList: false,
       updateLogList: []
     }
