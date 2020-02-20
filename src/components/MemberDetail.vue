@@ -59,6 +59,35 @@
         </div>
         <div class="section-separator"></div>
         <div class="section-block">
+          <a-menu v-model="currentDataCategory" mode="horizontal" style="margin-bottom: 16px">
+            <a-menu-item key="follower"> <a-icon type="team" />粉丝趋势 </a-menu-item>
+            <a-menu-item key="totalStat"> <a-icon type="line-chart" />数据总计趋势 </a-menu-item>
+          </a-menu>
+          <div v-show="currentDataCategory.indexOf('follower') !== -1">
+            <div v-if="isLoadingFollowerRecords">
+              <a-spin :spinning="true">
+                正在获取用户<a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>的历史粉丝数据
+              </a-spin>
+            </div>
+            <div v-else>
+              <member-detail-follower-history-line-chart :follower-records="followerRecords" />
+            </div>
+          </div>
+          <div v-show="currentDataCategory.indexOf('totalStat') !== -1">
+            <div v-if="isLoadingTotalStatRecords">
+              <a-spin :spinning="true">
+                正在获取用户<a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>的历史数据总计数据
+              </a-spin>
+            </div>
+            <div v-else>
+              <div v-if="totalStatCategoryEnterCount > 0">
+                <member-detail-total-stat-history-line-chart :total-stat-records="totalStatRecords" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="section-separator"></div>
+        <div class="section-block">
           <a-collapse :activeKey="[1]" style="margin-bottom: 8px">
             <a-collapse-panel header="筛选搜索" key="1">
               <table class="filter-table">
@@ -140,6 +169,8 @@
 <script>
   import { Icon } from 'ant-design-vue';
   import TddVideoList from "./common/TddVideoList";
+  import MemberDetailFollowerHistoryLineChart from "./MemberDetailFollowerHistoryLineChart";
+  import MemberDetailTotalStatHistoryLineChart from "./MemberDetailTotalStatHistoryLineChart";
 
   const IconFont = Icon.createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
@@ -156,12 +187,20 @@
         pagiCurrent: 1,
         memberVideoTotalCount: 0,
         orderValue: 1,
-        orderDescValue: 1
+        orderDescValue: 1,
+        followerRecords: [],
+        isLoadingFollowerRecords: false,
+        totalStatRecords: [],
+        isLoadingTotalStatRecords: false,
+        currentDataCategory: ['follower'],
+        totalStatCategoryEnterCount: 0
       }
     },
     components: {
       TddVideoList,
-      IconFont
+      IconFont,
+      MemberDetailFollowerHistoryLineChart,
+      MemberDetailTotalStatHistoryLineChart
     },
     computed: {
       mid: function () {
@@ -171,7 +210,14 @@
     watch: {
       mid: function () {
         this.getMemberInfo(this.mid, true);
+        this.getFollowerRecords(this.mid);
+        this.getTotalStatRecords(this.mid);
         this.fetchVideoList();
+      },
+      currentDataCategory: function () {
+        if (this.currentDataCategory.indexOf('totalStat') !== -1) {
+          this.totalStatCategoryEnterCount++;
+        }
       }
     },
     methods: {
@@ -202,6 +248,36 @@
               that.isLoadingMember = false;
             });
         }
+      },
+      getFollowerRecords: function (mid) {
+        this.isLoadingFollowerRecords = true;
+
+        let that = this;
+        this.$axios.get('member/' + mid + '/follower')
+          .then(function (response) {
+            that.followerRecords = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            that.isLoadingFollowerRecords = false;
+          });
+      },
+      getTotalStatRecords: function (mid) {
+        this.isLoadingTotalStatRecords = true;
+
+        let that = this;
+        this.$axios.get('member/' + mid + '/totalstat')
+          .then(function (response) {
+            that.totalStatRecords = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            that.isLoadingTotalStatRecords = false;
+          });
       },
       assemblyQuery: function () {
         let url = 'member/' + this.mid + '/video?';
@@ -281,6 +357,8 @@
     },
     created: function() {
       this.getMemberInfo(this.mid, true);
+      this.getFollowerRecords(this.mid);
+      this.getTotalStatRecords(this.mid);
       this.fetchVideoList();
     },
   }
@@ -304,7 +382,7 @@
   }
   .tdd-member-detail-header-content {
     float: left;
-    width: calc(100% - 116px);
+    width: calc(100% - 60px);
   }
   .tdd-member-detail-header-title {
     white-space: nowrap;
