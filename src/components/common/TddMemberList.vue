@@ -130,7 +130,9 @@
           <a-divider orientation="left" style="margin: 8px 0">最新投稿</a-divider>
           <a-tooltip>
             <template slot="title">
-              {{ item.last_video ? item.last_video.title : '' }}
+              {{ item.last_video ? item.last_video.title : '' }}<br>
+              <a-icon type="calendar" style="margin-right: 4px" />
+              {{ $util.tsToDateString(item.last_video ? item.last_video.pubdate : 0) }}
               <tdd-video-stat-bar :stat="item.last_video ? item.last_video.laststat : null" style="margin: 8px 0" />
               点击查看视频详情
             </template>
