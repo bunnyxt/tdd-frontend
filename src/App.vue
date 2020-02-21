@@ -6,7 +6,7 @@
       <tdd-video-detail-drawer />
       <a-layout>
         <tdd-header />
-        <a-layout-content :style="{padding: layoutPadding, marginTop: layoutMarginTop}">
+        <a-layout-content :style="{padding: layoutPadding, marginTop: layoutMarginTop, marginBottom: '-120px'}">
           <keep-alive>
             <router-view v-if="$route.meta.keepAlive" v-wechat-title="$route.meta.title"></router-view>
           </keep-alive>
