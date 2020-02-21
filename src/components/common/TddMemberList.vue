@@ -118,16 +118,14 @@
               </div>
             </div>
           </div>
-          <a-divider orientation="left" style="margin: 8px 0">数据总计</a-divider>
           <a-tooltip>
             <template slot="title">
               <tdd-video-stat-bar :stat="item.last_total_stat" />
             </template>
-            <div class="tdd-member-item-desktop-grid-stat-bar">
+            <div class="tdd-member-item-desktop-grid-stat-bar" style="margin-top: 8px">
               <tdd-video-stat-bar :stat="item.last_total_stat" />
             </div>
           </a-tooltip>
-          <a-divider orientation="left" style="margin: 8px 0">最新投稿</a-divider>
           <a-tooltip>
             <template slot="title">
               {{ item.last_video ? item.last_video.title : '' }}<br>
@@ -139,6 +137,7 @@
           <div
               class="tdd-member-item-desktop-grid-last-video"
               @click.stop="itemLastVideoClickHandler(item.last_video ? item.last_video.aid : -1)"
+              style="margin-top: 8px"
           >
             <img
                 class="tdd-member-item-desktop-grid-last-video-cover-pic"
