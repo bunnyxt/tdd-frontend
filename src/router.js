@@ -1,22 +1,22 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-const Home = () => import("./components/Home");
-const VideoHome = () => import("./components/VideoHome");
-const VideoDetail = () => import("./components/VideoDetail");
-const MemberHome = () => import("./components/MemberHome");
-const MemberDetail = () => import("./components/MemberDetail");
-const SprintHome = () => import("./components/SprintHome");
-const SprintVideoDetail = () => import("./components/SprintVideoDetail");
-const SprintDailyHome = () => import("./components/SprintDailyHome");
-const SprintDailyDetail = () => import("./components/SprintDailyDetail");
-const ToolHome = () => import("./components/tool/ToolHome");
-const DateCalc = () => import("./components/tool/DateCalc");
-const BiliApi = () => import("./components/tool/BiliApi");
-const ZkCalc = () => import("./components/tool/ZkCalc");
-const AboutHome = () => import("./components/about/AboutHome");
-const UpdateLog = () => import("./components/about/UpdateLog");
-const NotFound = () => import("./components/NotFound");
+const Home = () => import("./components/page/Home");
+const VideoHome = () => import("./components/page/video/VideoHome");
+const VideoDetail = () => import("./components/page/video/VideoDetail");
+const MemberHome = () => import("./components/page/member/MemberHome");
+const MemberDetail = () => import("./components/page/member/MemberDetail");
+const SprintHome = () => import("./components/page/sprint/SprintHome");
+const SprintVideoDetail = () => import("./components/page/sprint/SprintVideoDetail");
+const SprintDailyHome = () => import("./components/page/sprint/daily/SprintDailyHome");
+const SprintDailyDetail = () => import("./components/page/sprint/daily/SprintDailyDetail");
+const ToolHome = () => import("./components/page/tool/ToolHome");
+const DateCalc = () => import("./components/page/tool/DateCalc");
+const BiliApi = () => import("./components/page/tool/BiliApi");
+const ZkCalc = () => import("./components/page/tool/ZkCalc");
+const AboutHome = () => import("./components/page/about/AboutHome");
+const UpdateLog = () => import("./components/page/about/UpdateLog");
+const NotFound = () => import("./components/page/NotFound");
 
 Vue.use(VueRouter);
 

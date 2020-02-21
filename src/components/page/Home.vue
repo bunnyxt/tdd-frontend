@@ -211,10 +211,10 @@
 <script>
 import G2 from '@antv/g2';
 import DataSet from '@antv/data-set';
-import TddVideoList from "./common/TddVideoList"
-import TddMemberList from "./common/TddMemberList";
-import logo_max from '../assets/img/logo_max.png'
-import qqgroup_qrcode from '../assets/img/qrcode_1580391374617.jpg'
+import TddVideoList from "../common/TddVideoList"
+import TddMemberList from "../common/TddMemberList";
+import logo_max from '../../assets/img/logo_max.png'
+import qqgroup_qrcode from '../../assets/img/qrcode_1580391374617.jpg'
 
 export default {
   name: "Home",

@@ -118,7 +118,7 @@
 </template>
 
 <script>
-  import TddMemberList from "./common/TddMemberList";
+  import TddMemberList from "../../common/TddMemberList";
 
   export default {
     name: 'MemberHome',

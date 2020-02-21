@@ -142,10 +142,10 @@
 <script>
 import VideoDetailHistoryLineChart from "./VideoDetailHistoryLineChart";
 import VideoDetailHistoryTable from "./VideoDetailHistoryTable";
-import TddVideoRecordSaver from "./common/TddVideoRecordSaver";
-import TddVideoRecordZkCalc from "./common/TddVideoRecordZkCalc";
-import TddVideoDescription from "./common/TddVideoDescription";
-import TddVideoStatBar from "./common/TddVideoStatBar";
+import TddVideoRecordSaver from "../../common/TddVideoRecordSaver";
+import TddVideoRecordZkCalc from "../../common/TddVideoRecordZkCalc";
+import TddVideoDescription from "../../common/TddVideoDescription";
+import TddVideoStatBar from "../../common/TddVideoStatBar";
 
 export default {
   name: 'VideoDetail',

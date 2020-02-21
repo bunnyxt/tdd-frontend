@@ -51,8 +51,8 @@
 </template>
 
 <script>
-  import logo_max from '../../assets/img/logo_max.png'
-  import qqgroup_qrcode from '../../assets/img/qrcode_1580391374617.jpg'
+  import logo_max from '../../../assets/img/logo_max.png'
+  import qqgroup_qrcode from '../../../assets/img/qrcode_1580391374617.jpg'
 
   export default {
     name: 'AboutHome',

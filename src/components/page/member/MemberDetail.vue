@@ -177,10 +177,10 @@
 
 <script>
   import { Icon } from 'ant-design-vue';
-  import TddVideoList from "./common/TddVideoList";
+  import TddVideoList from "../../common/TddVideoList";
   import MemberDetailFollowerHistoryLineChart from "./MemberDetailFollowerHistoryLineChart";
   import MemberDetailTotalStatHistoryLineChart from "./MemberDetailTotalStatHistoryLineChart";
-  import TddVideoStatBar from "./common/TddVideoStatBar";
+  import TddVideoStatBar from "../../common/TddVideoStatBar";
 
   const IconFont = Icon.createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',

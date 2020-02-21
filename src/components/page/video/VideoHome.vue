@@ -210,7 +210,7 @@
 <script>
   import { Modal } from 'ant-design-vue';
   import moment from 'moment';
-  import TddVideoList from "./common/TddVideoList";
+  import TddVideoList from "../../common/TddVideoList";
 
   export default {
     name: "VideoHome",

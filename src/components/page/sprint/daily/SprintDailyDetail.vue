@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import SprintVideoBriefTable from "./SprintVideoBriefTable.vue"
+import SprintVideoBriefTable from "../SprintVideoBriefTable.vue"
 import SprintDailyDetailTable from "./SprintDailyDetailTable.vue"
 
 export default {
