@@ -351,7 +351,11 @@
             that.videoTotalCount = parseInt(response.headers['x-total-count']);
             that.lastLoadVideoListDate = new Date();
             // change mainProp
-            that.mainProp = that.orderValue;
+            if (that.orderValue === 'pubdate') {
+              that.mainProp = 'view';
+            } else {
+              that.mainProp = that.orderValue;
+            }
           })
           .catch(function (error) {
             let title = error.response.data.code + ' - ' + error.response.data.message;
