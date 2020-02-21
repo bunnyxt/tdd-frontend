@@ -1,5 +1,5 @@
 <template>
-  <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
+  <div>
     <div v-wechat-title="$route.meta.title='av'+this.$route.params.aid+' - 助攻详情 - 天钿Daily'"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>

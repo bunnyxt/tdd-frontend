@@ -1,5 +1,5 @@
 <template>
-  <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
+  <div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>

@@ -1,5 +1,5 @@
 <template>
-  <div style="height: auto !important;height: 100%; margin: 0 auto -120px;">
+  <div>
     <div class="section-block" :style="sectionBlockStyle">
       <h1>404 NOT FOUND</h1>
       <a-icon type="home" style="margin-right: 8px"/>
