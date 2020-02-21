@@ -325,33 +325,6 @@
           url += 'up='+ this.memberNameValue + '&';
         }
         // order_by
-        // switch (this.orderValue) {
-        //   case 2:
-        //     url += 'order_by=view&';
-        //     break;
-        //   case 3:
-        //     url += 'order_by=danmaku&';
-        //     break;
-        //   case 4:
-        //     url += 'order_by=reply&';
-        //     break;
-        //   case 5:
-        //     url += 'order_by=favorite&';
-        //     break;
-        //   case 6:
-        //     url += 'order_by=coin&';
-        //     break;
-        //   case 7:
-        //     url += 'order_by=share&';
-        //     break;
-        //   case 8:
-        //     url += 'order_by=like&';
-        //     break;
-        //   case 1:
-        //   default:
-        //     url += 'order_by=pubdate&';
-        //     break;
-        // }
         url += 'order_by=' + this.orderValue + '&';
         // desc
         if (this.orderDescValue === 0) {
