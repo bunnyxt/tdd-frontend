@@ -79,7 +79,9 @@
               </a-spin>
             </div>
             <div v-else>
-              <member-detail-follower-history-line-chart :follower-records="followerRecords" />
+              <div v-if="followerCategoryEnterCount > 0">
+                <member-detail-follower-history-line-chart :follower-records="followerRecords" />
+              </div>
             </div>
           </div>
           <div v-show="currentDataCategory.indexOf('totalStat') !== -1">
@@ -203,6 +205,7 @@
         totalStatRecords: [],
         isLoadingTotalStatRecords: false,
         currentDataCategory: ['follower'],
+        followerCategoryEnterCount: 1,
         totalStatCategoryEnterCount: 0
       }
     },
@@ -216,6 +219,9 @@
     computed: {
       mid: function () {
         return this.$route.params.mid;
+      },
+      _clientMode: function () {
+        return this.$store.getters.clientMode;
       }
     },
     watch: {
@@ -228,6 +234,17 @@
       currentDataCategory: function () {
         if (this.currentDataCategory.indexOf('totalStat') !== -1) {
           this.totalStatCategoryEnterCount++;
+        } else if (this.currentDataCategory.indexOf('follower') !== -1) {
+          this.followerCategoryEnterCount++;
+        }
+      },
+      _clientMode: function () {
+        this.totalStatCategoryEnterCount = 0;
+        this.followerCategoryEnterCount = 0;
+        if (this.currentDataCategory.indexOf('totalStat') !== -1) {
+          this.totalStatCategoryEnterCount++;
+        } else if (this.currentDataCategory.indexOf('follower') !== -1) {
+          this.followerCategoryEnterCount++;
         }
       }
     },

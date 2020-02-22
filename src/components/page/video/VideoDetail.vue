@@ -120,7 +120,9 @@
                 <a-menu-item key="recordSaver"> <a-icon type="download" />数据下载 </a-menu-item>
               </a-menu>
               <div v-show="currentDataCategory.indexOf('recordChart') !== -1">
-                <video-detail-history-line-chart :videoRecords="videoRecords" />
+                <template v-if="recordChartEnterCount">
+                  <video-detail-history-line-chart :videoRecords="videoRecords" />
+                </template>
               </div>
               <div v-show="currentDataCategory.indexOf('recordTable') !== -1">
                 <video-detail-history-table :video-records="videoRecords" />
@@ -163,7 +165,8 @@ export default {
       videoRecords: null,
       isLoadingVideo: false,
       isLoadingVideoRecords: false,
-      currentDataCategory: ['recordChart']
+      currentDataCategory: ['recordChart'],
+      recordChartEnterCount: 1
     }
   },
   computed: {
@@ -177,6 +180,9 @@ export default {
         style['width'] = 'calc(100% - 250px - 12px)';
       }
       return style;
+    },
+    _clientMode: function () {
+      return this.$store.getters.clientMode;
     }
   },
   watch: {
@@ -185,6 +191,17 @@ export default {
     },
     videoRecords: function() {
 
+    },
+    currentDataCategory: function () {
+      if (this.currentDataCategory.indexOf('recordChart') !== -1) {
+        this.recordChartEnterCount++;
+      }
+    },
+    _clientMode: function () {
+      this.recordChartEnterCount = 0;
+      if (this.currentDataCategory.indexOf('recordChart') !== -1) {
+        this.recordChartEnterCount++;
+      }
     }
   },
   methods: {
