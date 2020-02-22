@@ -95,6 +95,21 @@ export default {
     },
     initDv: function() {
       let that = this;
+
+      // add view_speed
+      if (this.videoRecords.length > 0) {
+        this.videoRecords[0].view_speed = 0;
+        for (let i = 1; i < this.videoRecords.length; i++) {
+          let view_diff = this.videoRecords[i].view - this.videoRecords[i - 1].view;
+          let added_diff = this.videoRecords[i].added - this.videoRecords[i - 1].added;
+          if (view_diff === 0) {
+            this.videoRecords[i].view_speed = this.videoRecords[i - 1].view_speed;
+          } else {
+            this.videoRecords[i].view_speed = Math.round(view_diff / added_diff * 60 * 60);
+          }
+        }
+      }
+
       this.dv = this.ds.createView()
         .source(this.videoRecords)
         .transform({
@@ -112,7 +127,8 @@ export default {
             favorite: '收藏',
             coin: '硬币',
             share: '分享',
-            like: '点赞'
+            like: '点赞',
+            view_speed: '播放瞬时增速/小时'
           }
         })
         .transform({
@@ -136,7 +152,7 @@ export default {
 
       this.setChartInteract();
       this.setChartStyle();
-      this.setChartGuide(true);
+      this.setChartGuide();
     },
     createChart: function() {
       this.chart = new G2.Chart({
@@ -202,6 +218,10 @@ export default {
         .line()
         .position('added*value')
         .color('prop');
+      this.chart
+        .area()
+        .position('added*播放瞬时增速/小时')
+        .color('rgba(255,0,0,0.2)');
     },
     setChartGuide: function () {
       if (this.videoRecords.length === 0) {
@@ -279,31 +299,29 @@ export default {
         });
       }
 
-      // rapid growth
-      let avgViewSpeed = (this.videoRecords[this.videoRecords.length - 1].view - this.videoRecords[0].view)
-        / (this.videoRecords[this.videoRecords.length - 1].added - this.videoRecords[0].added);
-
-      let rapidGrowthPeriods = [];
-      for (let i = 1; i < this.videoRecords.length; i++) {
-        let viewSpeed = (this.videoRecords[i].view - this.videoRecords[i - 1].view)
-          / (this.videoRecords[i].added - this.videoRecords[i - 1].added);
-        if (viewSpeed >= avgViewSpeed * 3) {
-          rapidGrowthPeriods.push([this.videoRecords[i - 1].added, this.videoRecords[i].added]);
-        }
-      }
-
-      for (let rapidGrowthPeriod of rapidGrowthPeriods) {
-        this.chart.guide().region({
-          start: [rapidGrowthPeriod[0] * 1000, 'min'],
-          end: [rapidGrowthPeriod[1] * 1000, 'max'],
-          style: {
-            fill: '#ff0000', // 辅助框填充的颜色
-            fillOpacity: 0.15, // 辅助框的背景透明度
-          }
-        });
-      }
-
-
+      // // rapid growth
+      // let avgViewSpeed = (this.videoRecords[this.videoRecords.length - 1].view - this.videoRecords[0].view)
+      //   / (this.videoRecords[this.videoRecords.length - 1].added - this.videoRecords[0].added);
+      //
+      // let rapidGrowthPeriods = [];
+      // for (let i = 1; i < this.videoRecords.length; i++) {
+      //   let viewSpeed = (this.videoRecords[i].view - this.videoRecords[i - 1].view)
+      //     / (this.videoRecords[i].added - this.videoRecords[i - 1].added);
+      //   if (viewSpeed >= avgViewSpeed * 3) {
+      //     rapidGrowthPeriods.push([this.videoRecords[i - 1].added, this.videoRecords[i].added]);
+      //   }
+      // }
+      //
+      // for (let rapidGrowthPeriod of rapidGrowthPeriods) {
+      //   this.chart.guide().region({
+      //     start: [rapidGrowthPeriod[0] * 1000, 'min'],
+      //     end: [rapidGrowthPeriod[1] * 1000, 'max'],
+      //     style: {
+      //       fill: '#ff0000', // 辅助框填充的颜色
+      //       fillOpacity: 0.15, // 辅助框的背景透明度
+      //     }
+      //   });
+      // }
     },
     onValueTypeSwitchChange: function (checked) {
       if (checked) {
