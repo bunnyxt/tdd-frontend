@@ -1,8 +1,13 @@
 <template>
   <div>
     <div id="video-detail-history-line-chart-toolbar" style="overflow: hidden">
-      <span>坐标系类型：</span>
-      <a-switch checkedChildren="对数" unCheckedChildren="线性" @change="onValueTypeSwitchChange" />
+      <a-popover title="图表设置" trigger="hover" placement="bottomLeft">
+        <div slot="content">
+          <p>坐标系类型：<a-switch checkedChildren="对数" unCheckedChildren="线性" @change="onValueTypeSwitchChange" /></p>
+          <p>特殊数据标记：<a-switch default-checked @change="onGuideSwitchChange" /></p>
+        </div>
+        <a-icon type="setting" /> 图表设置
+      </a-popover>
       <a-popover title="使用提示" trigger="hover" placement="bottomRight" style="float: right">
         <template slot="content">
           <ul style="padding: 0 0 0 12px">
@@ -31,7 +36,7 @@ export default {
       chart: null,
       ds: null,
       dv: null,
-      paddingDESKTOP: [ 20, 8, 95, 60 ],
+      paddingDESKTOP: [ 20, 8, 95, 68 ],
       paddingMOBILE: [ 20, 8, 95, 8 ],
       heightDESKTOP: 400,
       heightMOBILE: 300,
@@ -131,6 +136,7 @@ export default {
 
       this.setChartInteract();
       this.setChartStyle();
+      this.setChartGuide(true);
     },
     createChart: function() {
       this.chart = new G2.Chart({
@@ -197,11 +203,102 @@ export default {
         .position('added*value')
         .color('prop');
     },
+    setChartGuide: function () {
+      if (this.videoRecords.length === 0) {
+        return;
+      }
+
+      // view point
+      let minView = this.videoRecords[0].view;
+      let maxView = this.videoRecords[this.videoRecords.length - 1].view;
+      let viewPointTasks = [];
+      let currentViewTask = 10000;
+      let step = 90000;
+      while (currentViewTask <= maxView) {
+        // push current
+        if (currentViewTask >= minView) {
+          viewPointTasks.push(currentViewTask);
+        }
+        // go next
+        currentViewTask += step;
+        // change step
+        if (currentViewTask >= 100000 && currentViewTask < 1000000) {
+          step = 100000;
+        } else if (currentViewTask < 10000000) {
+          step = 1000000;
+        } else if (currentViewTask < 100000000) {
+          step = 10000000;
+        }
+      }
+
+      // get view points
+      let viewPoints = [];
+      for (let viewPointTask of viewPointTasks) {
+        let lo = 0;
+        let hi = this.videoRecords.length;
+        while (lo < hi) {
+          let mid = Math.floor(lo + (hi - lo) / 2);
+          if (this.videoRecords[mid].view < viewPointTask) {
+            lo = mid + 1;
+          } else {
+            hi = mid;
+          }
+        }
+        viewPoints.push({
+          viewPoint: this.videoRecords[lo],
+          viewPointTask: viewPointTask
+        });
+      }
+
+      // remove duplicate
+      let viewPointsTemp = [];
+      for (let i = 1; i < viewPoints.length; i++) {
+        if (viewPoints[i].viewPoint.view !== viewPoints[i - 1].viewPoint.view) {
+          viewPointsTemp.push(viewPoints[i - 1]);
+        }
+      }
+      if (viewPoints.length > 0) {
+        viewPointsTemp.push(viewPoints[viewPoints.length - 1]);
+      }
+      viewPoints = viewPointsTemp;
+
+      // add data maker
+      for (let { viewPoint, viewPointTask } of viewPoints) {
+        this.chart.guide().dataMarker({
+          top: true,
+          content: viewPointTask.toLocaleString() + '+',
+          position: [ viewPoint.added * 1000, viewPoint.view ],
+          style: {
+            text: {
+              fontSize: 13,
+              stroke: 'white',
+              lineWidth: 2
+            }
+          },
+          lineLength: 30
+        });
+      }
+
+      // rapid growth
+
+      // this.chart.guide().region({
+      //   start: [1582023896 * 1000, 'min'],
+      //   end: [(1582023896 + 100000) * 1000, 'max'],
+      // });
+    },
     onValueTypeSwitchChange: function (checked) {
       if (checked) {
         this.setChartSource('log');
       } else {
         this.setChartSource('linear');
+      }
+      this.chart.render();
+    },
+    onGuideSwitchChange: function (checked) {
+      if (checked) {
+        this.setChartGuide();
+      } else {
+        this.chart.guide().clear()
       }
       this.chart.render();
     }
