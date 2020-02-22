@@ -280,11 +280,30 @@ export default {
       }
 
       // rapid growth
+      let avgViewSpeed = (this.videoRecords[this.videoRecords.length - 1].view - this.videoRecords[0].view)
+        / (this.videoRecords[this.videoRecords.length - 1].added - this.videoRecords[0].added);
 
-      // this.chart.guide().region({
-      //   start: [1582023896 * 1000, 'min'],
-      //   end: [(1582023896 + 100000) * 1000, 'max'],
-      // });
+      let rapidGrowthPeriods = [];
+      for (let i = 1; i < this.videoRecords.length; i++) {
+        let viewSpeed = (this.videoRecords[i].view - this.videoRecords[i - 1].view)
+          / (this.videoRecords[i].added - this.videoRecords[i - 1].added);
+        if (viewSpeed >= avgViewSpeed * 3) {
+          rapidGrowthPeriods.push([this.videoRecords[i - 1].added, this.videoRecords[i].added]);
+        }
+      }
+
+      for (let rapidGrowthPeriod of rapidGrowthPeriods) {
+        this.chart.guide().region({
+          start: [rapidGrowthPeriod[0] * 1000, 'min'],
+          end: [rapidGrowthPeriod[1] * 1000, 'max'],
+          style: {
+            fill: '#ff0000', // 辅助框填充的颜色
+            fillOpacity: 0.15, // 辅助框的背景透明度
+          }
+        });
+      }
+
+
     },
     onValueTypeSwitchChange: function (checked) {
       if (checked) {
