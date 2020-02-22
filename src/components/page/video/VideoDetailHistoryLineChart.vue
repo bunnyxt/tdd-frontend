@@ -186,6 +186,9 @@ export default {
       this.chart.axis('value', {
         label: this.$store.getters.clientMode === 'MOBILE' ? null : {}
       });
+      this.chart.axis('播放瞬时增速/小时', {
+        grid: null
+      });
     },
     setChartInteract: function() {
       let that = this;
