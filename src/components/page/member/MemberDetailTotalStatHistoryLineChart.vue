@@ -1,8 +1,12 @@
 <template>
   <div>
     <div id="member-detail-total-stat-history-line-chart-toolbar" style="overflow: hidden">
-      <span>坐标系类型：</span>
-      <a-switch checkedChildren="对数" unCheckedChildren="线性" @change="onValueTypeSwitchChange" />
+      <a-popover title="图表设置" trigger="hover" placement="bottomLeft">
+        <div slot="content">
+          <p>坐标系类型：<a-switch checkedChildren="对数" unCheckedChildren="线性" @change="onValueTypeSwitchChange" /></p>
+        </div>
+        <a-icon type="setting" /> 图表设置
+      </a-popover>
       <a-popover title="使用提示" trigger="hover" placement="bottomRight" style="float: right">
         <template slot="content">
           <ul style="padding: 0 0 0 12px">
