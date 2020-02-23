@@ -90,6 +90,21 @@
       },
       initDv: function() {
         let that = this;
+
+        // add view_speed
+        if (this.totalStatRecords.length > 0) {
+          this.totalStatRecords[0].view_speed = 0;
+          for (let i = 1; i < this.totalStatRecords.length; i++) {
+            let view_diff = this.totalStatRecords[i].view - this.totalStatRecords[i - 1].view;
+            let added_diff = this.totalStatRecords[i].added - this.totalStatRecords[i - 1].added;
+            if (view_diff === 0) {
+              this.totalStatRecords[i].view_speed = this.totalStatRecords[i - 1].view_speed;
+            } else {
+              this.totalStatRecords[i].view_speed = Math.round(view_diff / added_diff * 24 * 60 * 60);
+            }
+          }
+        }
+
         this.dv = this.ds.createView()
           .source(this.totalStatRecords)
           .transform({
@@ -108,7 +123,8 @@
               coin: '硬币',
               share: '分享',
               like: '点赞',
-              video_count: '投稿'
+              video_count: '投稿',
+              view_speed: '播放瞬时增速/日'
             }
           })
           .transform({
@@ -165,6 +181,9 @@
         this.chart.axis('value', {
           label: this.$store.getters.clientMode === 'MOBILE' ? null : {}
         });
+        this.chart.axis('播放瞬时增速/日', {
+          grid: null
+        });
       },
       setChartInteract: function() {
         let that = this;
@@ -197,6 +216,10 @@
           .line()
           .position('added*value')
           .color('prop');
+        this.chart
+          .area()
+          .position('added*播放瞬时增速/日')
+          .color('rgba(255,0,0,0.2)');
       },
       onValueTypeSwitchChange: function (checked) {
         if (checked) {
