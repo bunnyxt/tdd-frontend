@@ -84,6 +84,21 @@
       },
       initDv: function() {
         let that = this;
+
+        // add view_speed
+        if (this.followerRecords.length > 0) {
+          this.followerRecords[0].follower_speed = 0;
+          for (let i = 1; i < this.followerRecords.length; i++) {
+            let follower_diff = this.followerRecords[i].follower - this.followerRecords[i - 1].follower;
+            let added_diff = this.followerRecords[i].added - this.followerRecords[i - 1].added;
+            if (follower_diff === 0) {
+              this.followerRecords[i].follower_speed = this.followerRecords[i - 1].follower_speed;
+            } else {
+              this.followerRecords[i].follower_speed = Math.round(follower_diff / added_diff * 24 * 60 * 60);
+            }
+          }
+        }
+
         this.dv = this.ds.createView()
           .source(this.followerRecords)
           .transform({
@@ -95,7 +110,8 @@
           .transform({
             type: 'rename',
             map: {
-              follower: '粉丝数'
+              follower: '粉丝数',
+              follower_speed: '粉丝瞬时增速/日'
             }
           })
           .transform({
@@ -153,6 +169,9 @@
             formatter: val => parseInt(val).toLocaleString()
           }
         });
+        this.chart.axis('粉丝瞬时增速/日', {
+          grid: null
+        });
       },
       setChartInteract: function() {
         let that = this;
@@ -185,6 +204,10 @@
           .line()
           .position('added*value')
           .color('prop');
+        this.chart
+          .area()
+          .position('added*粉丝瞬时增速/日')
+          .color('rgba(255,0,0,0.2)');
       }
     },
     mounted: function() {
