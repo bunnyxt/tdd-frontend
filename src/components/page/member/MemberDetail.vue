@@ -60,7 +60,8 @@
             </div>
           </div>
           <div style="margin-top: 8px">
-            {{ member.sign }}
+            <p>{{ member.sign }}</p>
+            <p><a-icon type="home" style="margin-right: 12px"/><a :href="'https://space.bilibili.com/'+member.mid" target="_blank">前往UP主B站个人空间</a></p>
           </div>
           <a-divider orientation="left">数据总计</a-divider>
           <tdd-video-stat-bar :stat="member.last_total_stat" :mode="'vertical'" :show-name="true" />
