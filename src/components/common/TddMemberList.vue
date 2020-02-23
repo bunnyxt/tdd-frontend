@@ -39,36 +39,36 @@
             <div class="tdd-member-item-mobile-right-content-footer">
               <div style="width: 40%">
                 <a-icon type="video-camera" class="stat-item-icon" />
-                {{ item.video_count }}
+                {{ item.video_count.toLocaleString() }}
               </div>
               <div style="width: 60%">
                 <template v-if="mainProp === 'sr_view'">
                   <a-icon type="play-circle" class="stat-item-icon" />
-                  {{ item.last_total_stat ? item.last_total_stat.view : -1 }}
+                  {{ item.last_total_stat ? item.last_total_stat.view.toLocaleString() : -1 }}
                 </template>
                 <template v-else-if="mainProp === 'sr_danmaku'">
                   <a-icon type="profile" class="stat-item-icon" />
-                  {{ item.last_total_stat ? item.last_total_stat.danmaku : -1 }}
+                  {{ item.last_total_stat ? item.last_total_stat.danmaku.toLocaleString() : -1 }}
                 </template>
                 <template v-else-if="mainProp === 'sr_reply'">
                   <a-icon type="message" class="stat-item-icon" />
-                  {{ item.last_total_stat ? item.last_total_stat.reply : -1 }}
+                  {{ item.last_total_stat ? item.last_total_stat.reply.toLocaleString() : -1 }}
                 </template>
                 <template v-else-if="mainProp === 'sr_favorite'">
                   <a-icon type="star" class="stat-item-icon" />
-                  {{ item.last_total_stat ? item.last_total_stat.favorite : -1 }}
+                  {{ item.last_total_stat ? item.last_total_stat.favorite.toLocaleString() : -1 }}
                 </template>
                 <template v-else-if="mainProp === 'sr_coin'">
                   <a-icon type="dollar" class="stat-item-icon" />
-                  {{ item.last_total_stat ? item.last_total_stat.coin : -1 }}
+                  {{ item.last_total_stat ? item.last_total_stat.coin.toLocaleString() : -1 }}
                 </template>
                 <template v-else-if="mainProp === 'sr_share'">
                   <a-icon type="share-alt" class="stat-item-icon" />
-                  {{ item.last_total_stat ? item.last_total_stat.share : -1 }}
+                  {{ item.last_total_stat ? item.last_total_stat.share.toLocaleString() : -1 }}
                 </template>
                 <template v-else-if="mainProp === 'sr_like'">
                   <a-icon type="like" class="stat-item-icon" />
-                  {{ item.last_total_stat ? item.last_total_stat.like : -1 }}
+                  {{ item.last_total_stat ? item.last_total_stat.like.toLocaleString() : -1 }}
                 </template>
                 <template v-else-if="mainProp === 'v_pubdate'">
                   <a-icon type="calendar" class="stat-item-icon" />
@@ -76,7 +76,7 @@
                 </template>
                 <template v-else-if="mainProp === 'fr_follower'">
                   <a-icon type="team" class="stat-item-icon" />
-                  {{ item.last_follower ? item.last_follower.follower : -1 }}
+                  {{ item.last_follower ? item.last_follower.follower.toLocaleString() : -1 }}
                 </template>
               </div>
             </div>
@@ -112,9 +112,9 @@
               </div>
               <div class="tdd-member-item-desktop-grid-follower">
                 <a-icon type="video-camera" class="stat-item-icon" />
-                {{ item.video_count }}
+                {{ item.video_count.toLocaleString() }}
                 <a-icon type="team" class="stat-item-icon" style="margin-left: 12px" />
-                {{ item.last_follower ? item.last_follower.follower : -1 }}
+                {{ item.last_follower ? item.last_follower.follower.toLocaleString() : -1 }}
               </div>
             </div>
           </div>

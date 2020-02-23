@@ -32,7 +32,7 @@
         chart: null,
         ds: null,
         dv: null,
-        paddingDESKTOP: [ 20, 8, 75, 60 ],
+        paddingDESKTOP: [ 20, 8, 75, 68 ],
         paddingMOBILE: [ 20, 8, 75, 8 ],
         heightDESKTOP: 400,
         heightMOBILE: 300,
@@ -149,7 +149,9 @@
           }
         });
         this.chart.axis('value', {
-          label: this.$store.getters.clientMode === 'MOBILE' ? null : {}
+          label: this.$store.getters.clientMode === 'MOBILE' ? null : {
+            formatter: val => parseInt(val).toLocaleString()
+          }
         });
       },
       setChartInteract: function() {

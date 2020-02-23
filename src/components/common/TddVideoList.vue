@@ -32,31 +32,31 @@
               <div v-if="showMobileView">
                 <template v-if="mainProp === 'view'">
                   <a-icon type="play-circle" class="stat-item-icon" />
-                  {{ item.laststat ? item.laststat.view : -1 }}
+                  {{ item.laststat ? item.laststat.view.toLocaleString() : -1 }}
                 </template>
                 <template v-else-if="mainProp === 'danmaku'">
                   <a-icon type="profile" class="stat-item-icon" />
-                  {{ item.laststat ? item.laststat.danmaku : -1 }}
+                  {{ item.laststat ? item.laststat.danmaku.toLocaleString() : -1 }}
                 </template>
                 <template v-else-if="mainProp === 'reply'">
                   <a-icon type="message" class="stat-item-icon" />
-                  {{ item.laststat ? item.laststat.reply : -1 }}
+                  {{ item.laststat ? item.laststat.reply.toLocaleString() : -1 }}
                 </template>
                 <template v-else-if="mainProp === 'favorite'">
                   <a-icon type="star" class="stat-item-icon" />
-                  {{ item.laststat ? item.laststat.favorite : -1 }}
+                  {{ item.laststat ? item.laststat.favorite.toLocaleString() : -1 }}
                 </template>
                 <template v-else-if="mainProp === 'coin'">
                   <a-icon type="dollar" class="stat-item-icon" />
-                  {{ item.laststat ? item.laststat.coin : -1 }}
+                  {{ item.laststat ? item.laststat.coin.toLocaleString() : -1 }}
                 </template>
                 <template v-else-if="mainProp === 'share'">
                   <a-icon type="share-alt" class="stat-item-icon" />
-                  {{ item.laststat ? item.laststat.share : -1 }}
+                  {{ item.laststat ? item.laststat.share.toLocaleString() : -1 }}
                 </template>
                 <template v-else-if="mainProp === 'like'">
                   <a-icon type="like" class="stat-item-icon" />
-                  {{ item.laststat ? item.laststat.like : -1 }}
+                  {{ item.laststat ? item.laststat.like.toLocaleString() : -1 }}
                 </template>
                 <template v-else-if="mainProp === 'pubdate'">
                   <a-icon type="calendar" class="stat-item-icon" />
@@ -71,10 +71,10 @@
             <div style="margin-top: 4px" v-if="showSprintBoard">
               <div style="overflow: hidden">
                 <div style="width: 50%; float: left">
-                  当前播放：{{ item.last_record ? item.last_record.view : -1 }}
+                  当前播放：{{ item.last_record ? item.last_record.view.toLocaleString() : -1 }}
                 </div>
                 <div style="width: 50%; float: left">
-                  昨日增加：{{ item.one_day_view ? item.one_day_view : -1}}
+                  昨日增加：{{ item.one_day_view ? item.one_day_view.toLocaleString() : -1}}
                 </div>
               </div>
               <div style="overflow: hidden">
@@ -162,10 +162,10 @@
               <div v-if="showSprintBoard">
                 <div style="overflow: hidden">
                   <div style="width: 140px; float: left">
-                    当前播放：{{ item.last_record ? item.last_record.view: -1 }}
+                    当前播放：{{ item.last_record ? item.last_record.view.toLocaleString() : -1 }}
                   </div>
                   <div style="width: 140px; float: left">
-                    昨日增加：{{ item.one_day_view ? item.one_day_view : -1}}
+                    昨日增加：{{ item.one_day_view ? item.one_day_view.toLocaleString() : -1}}
                   </div>
                 </div>
                 <div style="overflow: hidden">

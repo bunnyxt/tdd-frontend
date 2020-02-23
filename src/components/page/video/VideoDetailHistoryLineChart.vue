@@ -178,13 +178,16 @@ export default {
     setChartAxis: function() {
       this.chart.axis('added', {
         label: {
+          // TODO change formatter
           formatter: function (text) {
             return text.slice(5, 10);
           }
         }
       });
       this.chart.axis('value', {
-        label: this.$store.getters.clientMode === 'MOBILE' ? null : {}
+        label: this.$store.getters.clientMode === 'MOBILE' ? null : {
+          formatter: val => parseInt(val).toLocaleString()
+        }
       });
       this.chart.axis('播放瞬时增速/小时', {
         grid: null

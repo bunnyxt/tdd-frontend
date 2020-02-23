@@ -41,7 +41,7 @@
         chart: null,
         ds: null,
         dv: null,
-        paddingDESKTOP: [ 20, 8, 95, 70 ],
+        paddingDESKTOP: [ 20, 8, 95, 74 ],
         paddingMOBILE: [ 20, 8, 95, 8 ],
         heightDESKTOP: 400,
         heightMOBILE: 300,
@@ -183,7 +183,9 @@
           }
         });
         this.chart.axis('value', {
-          label: this.$store.getters.clientMode === 'MOBILE' ? null : {}
+          label: this.$store.getters.clientMode === 'MOBILE' ? null : {
+            formatter: val => parseInt(val).toLocaleString()
+          }
         });
         this.chart.axis('播放瞬时增速/日', {
           grid: null

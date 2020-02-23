@@ -66,6 +66,9 @@
             <template slot="added" slot-scope="added">
               {{ $util.tsToDateString(added) }}
             </template>
+            <template slot="value" slot-scope="value">
+              {{ value.toLocaleString() }}
+            </template>
             <template slot="action" slot-scope="obj">
               <a-button type="link" @click="toPreviousIndex(obj.added)" size="small" style="padding-left: 0">上一条</a-button>
               <a-button type="link" @click="toNextIndex(obj.added)" size="small">下一条</a-button>
@@ -143,15 +146,19 @@
           }, {
             title: '播放',
             dataIndex: 'view',
+            scopedSlots: { customRender: 'value' },
           }, {
             title: '评论',
             dataIndex: 'reply',
+            scopedSlots: { customRender: 'value' },
           }, {
             title: '弹幕',
             dataIndex: 'danmaku',
+            scopedSlots: { customRender: 'value' },
           }, {
             title: '收藏',
             dataIndex: 'favorite',
+            scopedSlots: { customRender: 'value' },
           }, {
             title: '选择',
             key: 'operation',

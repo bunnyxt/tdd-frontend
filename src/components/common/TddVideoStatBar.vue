@@ -47,7 +47,7 @@
         }
       },
       getStatDisplay: function (property) {
-        return this.getStatName(property) + this.getStatValue(property);
+        return this.getStatName(property) + this.getStatValue(property).toLocaleString();
       }
     },
     computed: {
