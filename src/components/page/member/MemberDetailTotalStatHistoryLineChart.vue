@@ -7,16 +7,32 @@
         </div>
         <a-icon type="setting" /> 图表设置
       </a-popover>
-      <a-popover title="使用提示" trigger="hover" placement="bottomRight" style="float: right">
+<!--      <a-popover title="使用提示" trigger="hover" placement="bottomRight" style="float: right">-->
+<!--        <template slot="content">-->
+<!--          <ul style="padding: 0 0 0 12px">-->
+<!--            <li><span style="color: red">对数坐标系</span>的纵轴成对数比例增长，适用于数值规模差距较大的属性对比。</li>-->
+<!--            <li><span style="color: red">线性坐标系</span>的纵轴成线性比例增长，适用于观察单个属性走势情况。</li>-->
+<!--            <li>点击图表下方图例隐藏/显示某属性。</li>-->
+<!--            <li>调整图表底端滑块调整显示的时间段。</li>-->
+<!--          </ul>-->
+<!--        </template>-->
+<!--        <span style="cursor: help">使用提示 <a-icon type="question-circle"/></span>-->
+<!--      </a-popover>-->
+      <a-popover title="数据范围" trigger="click" placement="bottomRight" style="float: right">
         <template slot="content">
-          <ul style="padding: 0 0 0 12px">
-            <li><span style="color: red">对数坐标系</span>的纵轴成对数比例增长，适用于数值规模差距较大的属性对比。</li>
-            <li><span style="color: red">线性坐标系</span>的纵轴成线性比例增长，适用于观察单个属性走势情况。</li>
-            <li>点击图表下方图例隐藏/显示某属性。</li>
-            <li>调整图表底端滑块调整显示的时间段。</li>
-          </ul>
+          <p>
+            <a-range-picker
+                showTime
+                v-model="addedRangeValue"
+                :ranges="addedRangeRanges"
+                :disabledDate="addedRangeDisabledDate"
+                @change="onAddedRangeChange"
+                style="width: 360px"
+            />
+          </p>
+          数据共计：{{ this.totalStatRecords.length }}条，当前展示：{{ this.data.length }}条。
         </template>
-        <span style="cursor: help">使用提示 <a-icon type="question-circle"/></span>
+        <span style="cursor: pointer">数据范围 <a-icon type="calendar" /></span>
       </a-popover>
     </div>
     <div id="member-detail-total-stat-history-line-chart"></div>
@@ -27,6 +43,7 @@
 <script>
   import G2 from '@antv/g2';
   import DataSet from '@antv/data-set';
+  import moment from 'moment';
 
   export default {
     name: 'MemberDetailTotalStatHistoryLineChart',
@@ -38,6 +55,7 @@
     },
     data: function () {
       return {
+        data: [],
         chart: null,
         ds: null,
         dv: null,
@@ -46,7 +64,14 @@
         heightDESKTOP: 400,
         heightMOBILE: 300,
         isInitialing: false,
-        tmpCount: 0
+        addedRangeValue: [],
+        addedRangeRanges: {
+          '1日': [moment().startOf('day'), moment()],
+          '7日': [moment().subtract(7, 'days').startOf('day'), moment()],
+          '30日': [moment().subtract(30, 'days').startOf('day'), moment()],
+          '180日': [moment().subtract(180, 'days').startOf('day'), moment()],
+        },
+        addedRangeDisabledDate: current => current > moment().endOf('day')
       }
     },
     computed: {
@@ -62,6 +87,7 @@
     },
     watch: {
       totalStatRecords: function() {
+        this.initAddedRange();
         this.init();
       },
       _storeClientMode: function() {
@@ -72,45 +98,75 @@
       }
     },
     methods: {
+      initAddedRange: function () {
+        let length = this.totalStatRecords.length;
+        let size = 200;
+        this.addedRangeValue[0] = moment(this.totalStatRecords[length - size < 0 ? 0 : length - size].added * 1000);
+        this.addedRangeValue[1] = moment(this.totalStatRecords[length - 1].added * 1000);
+
+        let minTs = this.totalStatRecords[0].added;
+        this.addedRangeDisabledDate = function (current) {
+          return current < moment(minTs * 1000) || current > moment().endOf('day')
+        }
+      },
       init: function() {
         if (this.isInitialing === true) {
           return;
         } else {
           this.isInitialing = true;
         }
+        this.initData();
         this.initDs();
         this.initDv();
         this.initChart();
         this.chart.render();
         this.isInitialing = false;
       },
+      initData: function () {
+        this.data = [];
+
+        // cut via range
+        if (this.addedRangeValue.length !== 2) {
+          // show all
+          this.data = [...this.totalStatRecords];
+        } else {
+          let startTs = Math.floor(this.addedRangeValue[0].valueOf() / 1000);
+          let endTs = Math.floor(this.addedRangeValue[1].valueOf() / 1000);
+          for (let i = 0; i < this.totalStatRecords.length; i++) {
+            let record = this.totalStatRecords[i];
+            if (record.added >= startTs && record.added <= endTs) {
+              this.data.push(record);
+            }
+          }
+        }
+
+        // add view_speed
+        if (this.data.length > 0) {
+          this.data[0].view_speed = 0;
+          for (let i = 1; i < this.data.length; i++) {
+            let view_diff = this.data[i].view - this.data[i - 1].view;
+            let added_diff = this.data[i].added - this.data[i - 1].added;
+            if (view_diff === 0) {
+              this.data[i].view_speed = this.data[i - 1].view_speed;
+            } else {
+              this.data[i].view_speed = parseFloat((view_diff / added_diff * 60 * 60).toFixed(2));
+            }
+          }
+        }
+      },
       initDs: function() {
         this.ds = new DataSet({
           state: {
-            start: this.totalStatRecords.length > 0 ? this.totalStatRecords[0].added : 0,
-            end: this.totalStatRecords.length > 0 ? this.totalStatRecords[this.totalStatRecords.length-1].added : 0
+            start: this.data.length > 0 ? this.data[0].added : 0,
+            end: this.data.length > 0 ? this.data[this.data.length-1].added : 0
           }
         });
       },
       initDv: function() {
         let that = this;
 
-        // add view_speed
-        if (this.totalStatRecords.length > 0) {
-          this.totalStatRecords[0].view_speed = 0;
-          for (let i = 1; i < this.totalStatRecords.length; i++) {
-            let view_diff = this.totalStatRecords[i].view - this.totalStatRecords[i - 1].view;
-            let added_diff = this.totalStatRecords[i].added - this.totalStatRecords[i - 1].added;
-            if (view_diff === 0) {
-              this.totalStatRecords[i].view_speed = this.totalStatRecords[i - 1].view_speed;
-            } else {
-              this.totalStatRecords[i].view_speed = Math.round(view_diff / added_diff * 24 * 60 * 60);
-            }
-          }
-        }
-
         this.dv = this.ds.createView()
-          .source(this.totalStatRecords)
+          .source(this.data)
           .transform({
             type: 'filter',
             callback(row) {
@@ -194,7 +250,7 @@
       setChartInteract: function() {
         let that = this;
         let dv_slider = this.ds.createView()
-          .source(this.totalStatRecords)
+          .source(this.data)
           .transform({
             type: 'map',
             callback(row) {
@@ -234,10 +290,16 @@
           this.setChartSource('linear');
         }
         this.chart.render();
+      },
+      onAddedRangeChange: function () {
+        this.chart.destroy();
+        document.getElementById('member-detail-total-stat-history-line-chart-slider').innerHTML = ''; // destroy slider
+        this.init();
       }
     },
     mounted: function() {
       if (typeof(this.totalStatRecords) === typeof([]) && this.totalStatRecords.length > 0) {
+        this.initAddedRange();
         this.init();
       }
     }
