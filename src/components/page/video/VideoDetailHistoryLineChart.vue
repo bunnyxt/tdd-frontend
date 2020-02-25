@@ -1,23 +1,39 @@
 <template>
   <div>
     <div id="video-detail-history-line-chart-toolbar" style="overflow: hidden">
-      <a-popover title="图表设置" trigger="hover" placement="bottomLeft">
+      <a-popover title="图表设置" trigger="click" placement="bottomLeft">
         <div slot="content">
           <p>坐标系类型：<a-switch checkedChildren="对数" unCheckedChildren="线性" @change="onValueTypeSwitchChange" /></p>
           <p>特殊数据标记：<a-switch default-checked @change="onGuideSwitchChange" /></p>
         </div>
-        <a-icon type="setting" /> 图表设置
+        <span style="cursor: pointer"><a-icon type="setting" /> 图表设置</span>
       </a-popover>
-      <a-popover title="使用提示" trigger="hover" placement="bottomRight" style="float: right">
+<!--      <a-popover title="使用提示" trigger="hover" placement="bottomRight" style="float: right">-->
+<!--        <template slot="content">-->
+<!--          <ul style="padding: 0 0 0 12px">-->
+<!--            <li><span style="color: red">对数坐标系</span>的纵轴成对数比例增长，适用于数值规模差距较大的属性对比。</li>-->
+<!--            <li><span style="color: red">线性坐标系</span>的纵轴成线性比例增长，适用于观察单个属性走势情况。</li>-->
+<!--            <li>点击图表下方图例隐藏/显示某属性。</li>-->
+<!--            <li>调整图表底端滑块调整显示的时间段。</li>-->
+<!--          </ul>-->
+<!--        </template>-->
+<!--        <span style="cursor: help">使用提示 <a-icon type="question-circle"/></span>-->
+<!--      </a-popover>-->
+      <a-popover title="数据范围" trigger="click" placement="bottomRight" style="float: right">
         <template slot="content">
-          <ul style="padding: 0 0 0 12px">
-            <li><span style="color: red">对数坐标系</span>的纵轴成对数比例增长，适用于数值规模差距较大的属性对比。</li>
-            <li><span style="color: red">线性坐标系</span>的纵轴成线性比例增长，适用于观察单个属性走势情况。</li>
-            <li>点击图表下方图例隐藏/显示某属性。</li>
-            <li>调整图表底端滑块调整显示的时间段。</li>
-          </ul>
+          <p>
+            <a-range-picker
+                showTime
+                v-model="addedRangeValue"
+                :ranges="addedRangeRanges"
+                :disabledDate="addedRangeDisabledDate"
+                @change="onAddedRangeChange"
+                style="width: 360px"
+            />
+          </p>
+          数据共计：{{ this.videoRecords.length }}条，当前展示：{{ this.data.length }}条。
         </template>
-        <span style="cursor: help">使用提示 <a-icon type="question-circle"/></span>
+        <span style="cursor: pointer">数据范围 <a-icon type="calendar" /></span>
       </a-popover>
     </div>
     <div id="video-detail-history-line-chart"></div>
@@ -28,11 +44,13 @@
 <script>
 import G2 from '@antv/g2';
 import DataSet from '@antv/data-set';
+import moment from 'moment';
 
 export default {
   name: 'VideoDetailHistoryLineChart',
   data: function() {
     return {
+      data: [],
       chart: null,
       ds: null,
       dv: null,
@@ -40,7 +58,15 @@ export default {
       paddingMOBILE: [ 20, 8, 95, 8 ],
       heightDESKTOP: 400,
       heightMOBILE: 300,
-      isInitialing: false
+      isInitialing: false,
+      addedRangeValue: [],
+      addedRangeRanges: {
+        '1日': [moment().startOf('day'), moment()],
+        '7日': [moment().subtract(7, 'days').startOf('day'), moment()],
+        '30日': [moment().subtract(30, 'days').startOf('day'), moment()],
+        '180日': [moment().subtract(180, 'days').startOf('day'), moment()],
+      },
+      addedRangeDisabledDate: current => current > moment().endOf('day')
     }
   },
   props: {
@@ -62,6 +88,7 @@ export default {
   },
   watch: {
     videoRecords: function() {
+      this.initAddedRange();
       this.init();
     },
     _storeClientMode: function() {
@@ -72,46 +99,76 @@ export default {
     }
   },
   methods: {
+    initAddedRange: function () {
+      let length = this.videoRecords.length;
+      let size = 200;
+      this.addedRangeValue[0] = moment(this.videoRecords[length - size < 0 ? 0 : length - size].added * 1000);
+      this.addedRangeValue[1] = moment(this.videoRecords[length - 1].added * 1000);
+
+      let minTs = this.videoRecords[0].added;
+      this.addedRangeDisabledDate = function (current) {
+        return current < moment(minTs * 1000) || current > moment().endOf('day')
+      }
+    },
     init: function() {
       if (this.isInitialing === true) {
         return;
       } else {
         this.isInitialing = true;
       }
+      this.initData();
       this.initDs();
       this.initDv();
       this.initChart();
       this.chart.render();
       this.isInitialing = false;
     },
-    initDs: function() {
-      this.ds = new DataSet({
-        state: {
-          start: this.videoRecords.length > 0 ? this.videoRecords[0].added : 0,
-          end: this.videoRecords.length > 0 ? this.videoRecords[this.videoRecords.length-1].added : 0,
-          valueType: 'linear'
-        }
-      });
-    },
-    initDv: function() {
-      let that = this;
+    initData: function () {
+      this.data = [];
 
-      // add view_speed
-      if (this.videoRecords.length > 0) {
-        this.videoRecords[0].view_speed = 0;
-        for (let i = 1; i < this.videoRecords.length; i++) {
-          let view_diff = this.videoRecords[i].view - this.videoRecords[i - 1].view;
-          let added_diff = this.videoRecords[i].added - this.videoRecords[i - 1].added;
-          if (view_diff === 0) {
-            this.videoRecords[i].view_speed = this.videoRecords[i - 1].view_speed;
-          } else {
-            this.videoRecords[i].view_speed = Math.round(view_diff / added_diff * 60 * 60);
+      // cut via range
+      if (this.addedRangeValue.length !== 2) {
+        // show all
+        this.data = [...this.videoRecords];
+      } else {
+        let startTs = Math.floor(this.addedRangeValue[0].valueOf() / 1000);
+        let endTs = Math.floor(this.addedRangeValue[1].valueOf() / 1000);
+        for (let i = 0; i < this.videoRecords.length; i++) {
+          let record = this.videoRecords[i];
+          if (record.added >= startTs && record.added <= endTs) {
+            this.data.push(record);
           }
         }
       }
 
+      // add view_speed
+      if (this.data.length > 0) {
+        this.data[0].view_speed = 0;
+        for (let i = 1; i < this.data.length; i++) {
+          let view_diff = this.data[i].view - this.data[i - 1].view;
+          let added_diff = this.data[i].added - this.data[i - 1].added;
+          if (view_diff === 0) {
+            this.data[i].view_speed = this.data[i - 1].view_speed;
+          } else {
+            this.data[i].view_speed = Math.round(view_diff / added_diff * 60 * 60);
+          }
+        }
+      }
+    },
+    initDs: function () {
+      this.ds = new DataSet({
+        state: {
+          start: this.data.length > 0 ? this.data[0].added : 0,
+          end: this.data.length > 0 ? this.data[this.data.length-1].added : 0,
+          valueType: 'linear'
+        }
+      });
+    },
+    initDv: function () {
+      let that = this;
+
       this.dv = this.ds.createView()
-        .source(this.videoRecords)
+        .source(this.data)
         .transform({
           type: 'filter',
           callback(row) {
@@ -196,7 +253,7 @@ export default {
     setChartInteract: function() {
       let that = this;
       let dv_slider = this.ds.createView()
-        .source(this.videoRecords)
+        .source(this.data)
         .transform({
           type: 'map',
           callback(row) {
@@ -230,13 +287,13 @@ export default {
         .color('rgba(255,0,0,0.2)');
     },
     setChartGuide: function () {
-      if (this.videoRecords.length === 0) {
+      if (this.data.length === 0) {
         return;
       }
 
       // view point
-      let minView = this.videoRecords[0].view;
-      let maxView = this.videoRecords[this.videoRecords.length - 1].view;
+      let minView = this.data[0].view;
+      let maxView = this.data[this.data.length - 1].view;
       let viewPointTasks = [];
       let currentViewTask = 10000;
       let step = 90000;
@@ -261,17 +318,17 @@ export default {
       let viewPoints = [];
       for (let viewPointTask of viewPointTasks) {
         let lo = 0;
-        let hi = this.videoRecords.length;
+        let hi = this.data.length;
         while (lo < hi) {
           let mid = Math.floor(lo + (hi - lo) / 2);
-          if (this.videoRecords[mid].view < viewPointTask) {
+          if (this.data[mid].view < viewPointTask) {
             lo = mid + 1;
           } else {
             hi = mid;
           }
         }
         viewPoints.push({
-          viewPoint: this.videoRecords[lo],
+          viewPoint: this.data[lo],
           viewPointTask: viewPointTask
         });
       }
@@ -304,30 +361,6 @@ export default {
           lineLength: 30
         });
       }
-
-      // // rapid growth
-      // let avgViewSpeed = (this.videoRecords[this.videoRecords.length - 1].view - this.videoRecords[0].view)
-      //   / (this.videoRecords[this.videoRecords.length - 1].added - this.videoRecords[0].added);
-      //
-      // let rapidGrowthPeriods = [];
-      // for (let i = 1; i < this.videoRecords.length; i++) {
-      //   let viewSpeed = (this.videoRecords[i].view - this.videoRecords[i - 1].view)
-      //     / (this.videoRecords[i].added - this.videoRecords[i - 1].added);
-      //   if (viewSpeed >= avgViewSpeed * 3) {
-      //     rapidGrowthPeriods.push([this.videoRecords[i - 1].added, this.videoRecords[i].added]);
-      //   }
-      // }
-      //
-      // for (let rapidGrowthPeriod of rapidGrowthPeriods) {
-      //   this.chart.guide().region({
-      //     start: [rapidGrowthPeriod[0] * 1000, 'min'],
-      //     end: [rapidGrowthPeriod[1] * 1000, 'max'],
-      //     style: {
-      //       fill: '#ff0000', // 辅助框填充的颜色
-      //       fillOpacity: 0.15, // 辅助框的背景透明度
-      //     }
-      //   });
-      // }
     },
     onValueTypeSwitchChange: function (checked) {
       if (checked) {
@@ -344,10 +377,16 @@ export default {
         this.chart.guide().clear()
       }
       this.chart.render();
+    },
+    onAddedRangeChange: function () {
+      this.chart.destroy();
+      document.getElementById('video-detail-history-line-chart-slider').innerHTML = ''; // destroy slider
+      this.init();
     }
   },
   mounted: function() {
     if (typeof(this.videoRecords) === typeof([]) && this.videoRecords.length > 0) {
+      this.initAddedRange();
       this.init();
     }
   }
