@@ -150,7 +150,7 @@ export default {
           if (view_diff === 0) {
             this.data[i].view_speed = this.data[i - 1].view_speed;
           } else {
-            this.data[i].view_speed = Math.round(view_diff / added_diff * 60 * 60);
+            this.data[i].view_speed = parseFloat((view_diff / added_diff * 60 * 60).toFixed(2));
           }
         }
       }
