@@ -53,9 +53,9 @@
               </div>
               <div class="tdd-member-detail-header-video-count-follower">
                 <a-icon type="video-camera" class="stat-item-icon" style="margin-right: 4px" />
-                {{ member.video_count }}
+                {{ member.video_count.toLocaleString() }}
                 <a-icon type="team" class="stat-item-icon" style="margin-left: 12px; margin-right: 4px" />
-                {{ member.last_follower ? member.last_follower.follower : -1 }}
+                {{ member.last_follower ? member.last_follower.follower.toLocaleString() : -1 }}
               </div>
             </div>
           </div>
