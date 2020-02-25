@@ -19,22 +19,65 @@
 <!--        </template>-->
 <!--        <span style="cursor: help">使用提示 <a-icon type="question-circle"/></span>-->
 <!--      </a-popover>-->
-      <a-popover title="数据范围" trigger="click" placement="bottomRight" style="float: right">
-        <template slot="content">
+      <div v-if="$store.getters.clientMode === 'MOBILE'" style="float: right" @click="onAddedRangeMobileClick">
+        <span style="cursor: pointer">时间范围 <a-icon type="calendar" /></span>
+        <a-modal title="时间范围" v-model="addedRangeMobileVisibility">
+          <template slot="footer">
+            <a-button type="primary" @click="onAddedRangeMobileClick">确定</a-button>
+          </template>
           <p>
-            <a-range-picker
+            开始：
+            <a-date-picker
                 showTime
-                v-model="addedRangeValue"
-                :ranges="addedRangeRanges"
-                :disabledDate="addedRangeDisabledDate"
-                @change="onAddedRangeChange"
-                style="width: 360px"
-            />
+                format="YYYY-MM-DD HH:mm:ss"
+                placeholder="开始"
+                v-model="addedRangeValueStart"
+                @change="onAddedRangeValueStartChange"
+            ></a-date-picker>
           </p>
-          数据共计：{{ this.videoRecords.length }}条，当前展示：{{ this.data.length }}条。
-        </template>
-        <span style="cursor: pointer">数据范围 <a-icon type="calendar" /></span>
-      </a-popover>
+          <p>
+            结束：
+            <a-date-picker
+                showTime
+                format="YYYY-MM-DD HH:mm:ss"
+                placeholder="结束"
+                v-model="addedRangeValueEnd"
+                @change="onAddedRangeValueEndChange"
+            ></a-date-picker>
+          </p>
+          <p>
+            <a-button size="small" @click="setAddedRangeMobile(1)" style="margin-right: 4px">1日</a-button>
+            <a-button size="small" @click="setAddedRangeMobile(7)" style="margin-right: 4px">7日</a-button>
+            <a-button size="small" @click="setAddedRangeMobile(30)" style="margin-right: 4px">30日</a-button>
+            <a-button size="small" @click="setAddedRangeMobile(180)">180日</a-button>
+          </p>
+          <p>数据共计：{{ this.videoRecords.length }}条，当前展示：{{ this.data.length }}条。</p>
+          <a-alert v-if="data.length > 200" message="当前显示数据较多，可能会出现图表卡顿，如欲提高响应速度，请酌情缩小时间范围。" banner />
+        </a-modal>
+      </div>
+      <template v-else>
+        <a-popover title="时间范围" trigger="click" placement="bottomRight" style="float: right">
+          <template slot="content">
+            <p>
+              <a-range-picker
+                  showTime
+                  v-model="addedRangeValue"
+                  :ranges="addedRangeRanges"
+                  :disabledDate="addedRangeDisabledDate"
+                  @change="onAddedRangeChange"
+                  style="width: 360px"
+              />
+            </p>
+            <p>数据共计：{{ this.videoRecords.length }}条，当前展示：{{ this.data.length }}条。</p>
+            <a-alert v-if="data.length > 200" banner>
+              <template slot="message">
+                当前显示数据较多，可能会出现图表卡顿，<br>如欲提高响应速度，请酌情缩小时间范围。
+              </template>
+            </a-alert>
+          </template>
+          <span style="cursor: pointer">时间范围 <a-icon type="calendar" /></span>
+        </a-popover>
+      </template>
     </div>
     <div id="video-detail-history-line-chart"></div>
     <div id="video-detail-history-line-chart-slider"></div>
@@ -61,12 +104,15 @@ export default {
       isInitialing: false,
       addedRangeValue: [],
       addedRangeRanges: {
-        '1日': [moment().startOf('day'), moment()],
-        '7日': [moment().subtract(7, 'days').startOf('day'), moment()],
-        '30日': [moment().subtract(30, 'days').startOf('day'), moment()],
-        '180日': [moment().subtract(180, 'days').startOf('day'), moment()],
+        '1日': [moment().subtract(1, 'days'), moment()],
+        '7日': [moment().subtract(7, 'days'), moment()],
+        '30日': [moment().subtract(30, 'days'), moment()],
+        '180日': [moment().subtract(180, 'days'), moment()],
       },
-      addedRangeDisabledDate: current => current > moment().endOf('day')
+      addedRangeDisabledDate: current => current > moment().endOf('day'),
+      addedRangeMobileVisibility: false,
+      addedRangeValueStart: null,
+      addedRangeValueEnd: null
     }
   },
   props: {
@@ -91,6 +137,15 @@ export default {
       this.initAddedRange();
       this.init();
     },
+    addedRangeValue: function () {
+      if (this.addedRangeValue.length === 2) {
+        this.addedRangeValueStart = this.addedRangeValue[0];
+        this.addedRangeValueEnd = this.addedRangeValue[1];
+      } else {
+        this.addedRangeValueStart = null;
+        this.addedRangeValueEnd = null;
+      }
+    },
     _storeClientMode: function() {
       this.chart.destroy();
       document.getElementById('video-detail-history-line-chart-slider').innerHTML = ''; // destroy slider
@@ -102,8 +157,9 @@ export default {
     initAddedRange: function () {
       let length = this.videoRecords.length;
       let size = 200;
-      this.addedRangeValue[0] = moment(this.videoRecords[length - size < 0 ? 0 : length - size].added * 1000);
-      this.addedRangeValue[1] = moment(this.videoRecords[length - 1].added * 1000);
+      let start = moment(this.videoRecords[length - size < 0 ? 0 : length - size].added * 1000);
+      let end = moment(this.videoRecords[length - 1].added * 1000);
+      this.addedRangeValue = [start, end];
 
       let minTs = this.videoRecords[0].added;
       this.addedRangeDisabledDate = function (current) {
@@ -382,6 +438,43 @@ export default {
       this.chart.destroy();
       document.getElementById('video-detail-history-line-chart-slider').innerHTML = ''; // destroy slider
       this.init();
+    },
+    onAddedRangeMobileClick: function () {
+      this.addedRangeMobileVisibility = !this.addedRangeMobileVisibility;
+    },
+    onAddedRangeValueStartChange: function () {
+      if (this.addedRangeValueStart === null) {
+        this.addedRangeValueEnd = null;
+        this.addedRangeValue = [];
+      } else {
+        if (this.addedRangeValue.length !== 2) {
+          this.addedRangeValueEnd = moment();
+          this.addedRangeValue = [this.addedRangeValueStart, moment()];
+        } else {
+          this.addedRangeValue = [this.addedRangeValueStart, this.addedRangeValue[1]];
+        }
+      }
+      this.onAddedRangeChange();
+    },
+    onAddedRangeValueEndChange: function () {
+      if (this.addedRangeValueEnd === null) {
+        this.addedRangeValueStart = null;
+        this.addedRangeValue = [];
+      } else {
+        if (this.addedRangeValue.length !== 2) {
+          this.addedRangeValueStart = moment(0);
+          this.addedRangeValue = [moment(0), this.addedRangeValueEnd];
+        } else {
+          this.addedRangeValue = [this.addedRangeValue[0], this.addedRangeValueEnd];
+        }
+      }
+      this.onAddedRangeChange();
+    },
+    setAddedRangeMobile: function (day) {
+      this.addedRangeValueStart = moment().subtract(day, 'days');
+      this.addedRangeValueEnd = moment();
+      this.addedRangeValue = [this.addedRangeValueStart, this.addedRangeValueEnd];
+      this.onAddedRangeChange();
     }
   },
   mounted: function() {
