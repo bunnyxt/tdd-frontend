@@ -5,6 +5,7 @@
         <div slot="content">
           <p>坐标系类型：<a-switch checkedChildren="对数" unCheckedChildren="线性" @change="onValueTypeSwitchChange" /></p>
           <p>特殊数据标记：<a-switch default-checked @change="onGuideSwitchChange" /></p>
+          <p>数据原点显示：<a-switch @change="onBasePointSwitchChange" /></p>
         </div>
         <span style="cursor: pointer"><a-icon type="setting" /> 图表设置</span>
       </a-popover>
@@ -112,13 +113,17 @@ export default {
       addedRangeDisabledDate: current => current > moment().endOf('day'),
       addedRangeMobileVisibility: false,
       addedRangeValueStart: null,
-      addedRangeValueEnd: null
+      addedRangeValueEnd: null,
+      showBasePoint: false
     }
   },
   props: {
     videoRecords: {
       type: Array,
       required: true
+    },
+    pubdate: {
+      type: Number
     }
   },
   computed: {
@@ -181,6 +186,21 @@ export default {
     },
     initData: function () {
       this.data = [];
+
+      // add base point
+      if (this.showBasePoint) {
+        this.data.push({
+          id: 0,
+          added: this.pubdate,
+          view: 0,
+          danmaku: 0,
+          reply: 0,
+          favorite: 0,
+          coin: 0,
+          share: 0,
+          like: 0
+        });
+      }
 
       // cut via range
       if (this.addedRangeValue.length !== 2) {
@@ -430,9 +450,15 @@ export default {
       if (checked) {
         this.setChartGuide();
       } else {
-        this.chart.guide().clear()
+        this.chart.guide().clear();
       }
       this.chart.render();
+    },
+    onBasePointSwitchChange: function (checked) {
+      this.showBasePoint = checked;
+      this.chart.destroy();
+      document.getElementById('video-detail-history-line-chart-slider').innerHTML = ''; // destroy slider
+      this.init();
     },
     onAddedRangeChange: function () {
       this.chart.destroy();

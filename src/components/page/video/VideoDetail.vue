@@ -121,7 +121,7 @@
               </a-menu>
               <div v-show="currentDataCategory.indexOf('recordChart') !== -1">
                 <template v-if="recordChartEnterCount">
-                  <video-detail-history-line-chart :videoRecords="videoRecords" />
+                  <video-detail-history-line-chart :videoRecords="videoRecords" :pubdate="video ? video.pubdate : 0" />
                 </template>
               </div>
               <div v-show="currentDataCategory.indexOf('recordTable') !== -1">
