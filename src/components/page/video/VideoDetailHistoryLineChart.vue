@@ -203,7 +203,7 @@ export default {
         for (let i = 1; i < this.data.length; i++) {
           let view_diff = this.data[i].view - this.data[i - 1].view;
           let added_diff = this.data[i].added - this.data[i - 1].added;
-          if (view_diff === 0) {
+          if (view_diff === 0 && added_diff <= 75) {
             this.data[i].view_speed = this.data[i - 1].view_speed;
           } else {
             this.data[i].view_speed = parseFloat((view_diff / added_diff * 60 * 60).toFixed(2));
