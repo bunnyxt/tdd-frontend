@@ -114,5 +114,45 @@ export default {
       }
     }
     return tagList;
+  },
+  checkRoles: function (rolesAcquired, rolesRequired) {
+    // no roles required
+    if (!rolesRequired || rolesAcquired === []) {
+      return true;
+    }
+
+    // no roles acquired
+    if (!rolesAcquired || rolesAcquired === []) {
+      return false;
+    }
+
+    if (rolesRequired.includes('ROLE_dba')) {
+      if (rolesAcquired.includes('ROLE_dba')) {
+        return true;
+      }
+    }
+
+    if (rolesRequired.includes('ROLE_admin')) {
+      if (rolesAcquired.includes('ROLE_dba')) {
+        return true;
+      }
+      if (rolesAcquired.includes('ROLE_admin')) {
+        return true;
+      }
+    }
+
+    if (rolesRequired.includes('ROLE_user')) {
+      if (rolesAcquired.includes('ROLE_dba')) {
+        return true;
+      }
+      if (rolesAcquired.includes('ROLE_admin')) {
+        return true;
+      }
+      if (rolesAcquired.includes('ROLE_user')) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }
