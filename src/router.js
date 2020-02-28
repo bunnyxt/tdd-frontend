@@ -16,6 +16,8 @@ const BiliApi = () => import("./components/page/tool/BiliApi");
 const ZkCalc = () => import("./components/page/tool/ZkCalc");
 const AboutHome = () => import("./components/page/about/AboutHome");
 const UpdateLog = () => import("./components/page/about/UpdateLog");
+const MeHome = () => import("./components/page/me/MeHome");
+const MeSetting = () => import("./components/page/me/MeSetting");
 const NotFound = () => import("./components/page/NotFound");
 
 Vue.use(VueRouter);
@@ -122,6 +124,20 @@ export default new VueRouter({
       component: UpdateLog,
       meta: {
         title: '更新日志 - ' + SITE_NAME
+      }
+    }, {
+      path: "/me",
+      component: MeHome,
+      meta: {
+        title: '个人中心 - ' + SITE_NAME,
+        roles: ['ROLE_user']
+      }
+    }, {
+      path: "/me/setting",
+      component: MeSetting,
+      meta: {
+        title: '设置 - ' + SITE_NAME,
+        roles: ['ROLE_user']
       }
     }, {
       path: "*",
