@@ -26,7 +26,7 @@
           reply: '评论',
           favorite: '收藏',
           coin: '硬币',
-          share: '收藏',
+          share: '分享',
           like: '点赞'
         }
       }
