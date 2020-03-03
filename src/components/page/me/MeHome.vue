@@ -243,7 +243,8 @@
               that.$message.info(`连续签到${resp.detail.consecutive_days}天，积分+${resp.detail.point}，经验+${resp.detail.exp}`);
 
               // update info
-              that.fetchUserInfo();
+              that.user.point += resp.detail.point;
+              that.user.exp += resp.detail.exp;
               that.fetchUserSignInList();
               that.fetchUserSignInOverview();
             } else if (resp.status === 'fail') {
