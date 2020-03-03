@@ -79,7 +79,7 @@ export default {
     switch (video.isvc) {
       case 1:
       case 2:
-        tagList.push({ title: 'VC', color: '#f99ee8' });
+        tagList.push({ title: 'VC', color: '#f5aeee' });
         break;
       default:
         break;
