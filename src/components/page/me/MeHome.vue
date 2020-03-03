@@ -13,10 +13,7 @@
         </a-spin>
       </div>
       <div v-else>
-        <div v-if="$store.getters.clientMode === 'MOBILE'">
-
-        </div>
-        <div v-else>
+        <div>
           <div style="overflow: hidden">
             <a-avatar
                 :src="avatarUrl"
@@ -37,7 +34,8 @@
                 <a-icon type="rocket" style="margin-left: 12px; margin-right: 4px" /> 经验：{{ user.exp.toLocaleString() }}
               </div>
             </div>
-            <div style="float: right">
+            <div v-if="$store.getters.clientMode !== 'MOBILE'" style="float: right">
+              <a-button @click="() => $router.push('me/setting')" style="margin-right: 8px">设置</a-button>
               <a-tooltip placement="bottomRight">
                 <template slot="title">
 <!--                  <span>TODO 加个日历  可以查</span>-->
@@ -50,6 +48,7 @@
                   </div>
                 </template>
                 <a-button
+                    type="primary"
                     @click="goSignIn"
                     :disabled="userSignInStatusToday"
                 >{{ userSignInStatusToday ? '已签到' : '签到' }}</a-button>
@@ -57,16 +56,52 @@
             </div>
           </div>
         </div>
+        <div v-if="$store.getters.clientMode === 'MOBILE'" style="width: 100%; margin-top: 8px; overflow: hidden">
+          <div style="float: left; width: 47%; margin-right: 6%">
+            <a-button @click="() => $router.push('me/setting')" block>设置</a-button>
+          </div>
+          <div style="float: left; width: 47%">
+            <a-tooltip placement="bottomRight" style="width: 100%">
+              <template slot="title">
+                <!--                  <span>TODO 加个日历  可以查</span>-->
+                <div v-if="isLoadingUserSignInOverview || isLoadingUserSignInList">
+                  <a-spin />
+                </div>
+                <div v-else>
+                  {{ '历史签到' + userSignInOverview.total + '天' }}<br>
+                  {{ tmpSignInTooltipStr }}
+                </div>
+              </template>
+              <a-button
+                  type="primary"
+                  @click="goSignIn"
+                  :disabled="userSignInStatusToday"
+                  block
+              >{{ userSignInStatusToday ? '已签到' : '签到' }}</a-button>
+            </a-tooltip>
+          </div>
 
+        </div>
       </div>
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
-      关注的视频
+      <div style="overflow: hidden">
+        <div style="float: left">
+          <h1>关注视频</h1>
+        </div>
+        <div style="float: right; margin-top: 8px">
+          <a-button size="small" @click="() => this.$router.push('/me/favorite/video')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
+        </div>
+      </div>
+      <tdd-video-list
+          :video-list="userFavoriteVideoList.slice(0, listColNum)"
+          :mode="'grid'"
+          @item-clicked="userFavoriteVideoListItemClickedHandler" />
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
-      关注的P主
+      TODO  关注的P主
     </div>
     <div class="section-separator"></div>
   </div>
@@ -75,9 +110,13 @@
 <script>
   import md5 from 'js-md5';
   import moment from 'moment';
+  import TddVideoList from "../../common/TddVideoList";
 
   export default {
     name: 'MeHome',
+    components: {
+      TddVideoList
+    },
     data: function () {
       return {
         isLoadingUserInfo: false,
@@ -86,6 +125,8 @@
         userSignInList: [],
         isLoadingUserSignInOverview: false,
         userSignInOverview: {},
+        isLoadingUserFavoriteVideoList: false,
+        userFavoriteVideoList: [],
         isGoingSignIn: false
       }
     },
@@ -119,6 +160,30 @@
           str += '今日未签到';
         }
         return str;
+      },
+      moreString: function () {
+        if (this.$store.getters.clientMode === 'MOBILE') {
+          return '';
+        } else {
+          return '更多';
+        }
+      },
+      listColNum: function () {
+        let width = this.$store.state.clientWidth; // TODO bug here, in chrome this will cut scrollbar width, about 15px
+        if (width < 576) {
+          // return 1;
+          return 3;
+        } else if (width < 768) {
+          return 2;
+        } else if (width < 992) {
+          return 3;
+        } else if (width < 1200) {
+          return 3;
+        } else if (width < 1600) {
+          return 4;
+        } else {
+          return 6;
+        }
       }
     },
     methods: {
@@ -232,6 +297,47 @@
             that.isLoadingUserSignInOverview = false;
           });
       },
+      fetchUserFavoriteVideoList: function () {
+        this.isLoadingUserFavoriteVideoList = true;
+
+        let that = this;
+        this.$axios.get('/user/favorite/video/me')
+          .then(function (response) {
+            that.userFavoriteVideoList = [];
+            let oriList = response.data;
+            for (let item of oriList) {
+              let obj = item.video;
+              obj.favorite_added = item.added;
+              that.userFavoriteVideoList.push(obj);
+            }
+          })
+          .catch(function (error) {
+            if (error.response) {
+              if (error.response.data.code === 40102) {
+                // user not logged in
+
+                // clear local storage
+                localStorage.removeItem('tddUserDetail');
+
+                // set status
+                that.$store.commit('setUserLoginStatus', false);
+                that.$store.commit('setUserDetail', null);
+
+                that.$message.warn('用户登录失效，请重新登录');
+
+                // go to home page
+                that.$router.push('/');
+              } else {
+                console.log(error.response);
+              }
+            } else {
+              console.log(error);
+            }
+          })
+          .finally(function () {
+            that.isLoadingUserFavoriteVideoList = false;
+          });
+      },
       goSignIn: function () {
         this.isGoingSignIn = true;
         let that = this;
@@ -300,12 +406,17 @@
             break;
         }
         return color;
+      },
+      userFavoriteVideoListItemClickedHandler: function (item) {
+        this.$store.commit('setVideoDetailDrawerVideo', item);
+        this.$store.commit('setVideoDetailDrawerVisibility', true);
       }
     },
     created() {
       this.fetchUserInfo();
       this.fetchUserSignInList();
       this.fetchUserSignInOverview();
+      this.fetchUserFavoriteVideoList();
     }
   }
 </script>
