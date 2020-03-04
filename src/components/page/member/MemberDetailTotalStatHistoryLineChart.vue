@@ -205,7 +205,7 @@
             if (view_diff === 0 && added_diff <= 75) { // assume update interval 75s
               this.data[i].view_speed = this.data[i - 1].view_speed;
             } else {
-              this.data[i].view_speed = parseFloat((view_diff / added_diff * 60 * 60).toFixed(2));
+              this.data[i].view_speed = parseFloat((view_diff / added_diff * 24 * 60 * 60).toFixed(2));
             }
           }
         }
