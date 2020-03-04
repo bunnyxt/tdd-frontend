@@ -187,45 +187,52 @@
       }
     },
     methods: {
-      // TODO use promise to rewrite
       fetchUserInfo: function () {
+        let that = this;
         this.isLoadingUserInfo = true;
 
-        let that = this;
-        this.$axios.get('/user/me')
-          .then(function (response) {
-            that.user = response.data;
+        return new Promise(function (resolve, reject) {
+          that.$axios.get('/user/me')
+            .then(function (response) {
+              that.user = response.data;
 
-            // update store and local storage
-            that.$store.commit('setUserDetail', that.user);
-            localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                // user not logged in
+              // update store and local storage
+              that.$store.commit('setUserDetail', that.user);
+              localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
 
-                // clear local storage
-                localStorage.removeItem('tddUserDetail');
+              // promise
+              resolve();
+            })
+            .catch(function (error) {
+              if (error.response) {
+                if (error.response.data.code === 40102) {
+                  // user not logged in
 
-                // set status
-                that.$store.commit('setUserLoginStatus', false);
-                that.$store.commit('setUserDetail', null);
+                  // clear local storage
+                  localStorage.removeItem('tddUserDetail');
 
-                that.$message.warn('用户登录失效，请重新登录');
+                  // set status
+                  that.$store.commit('setUserLoginStatus', false);
+                  that.$store.commit('setUserDetail', null);
 
-                // go to home page
-                that.$router.push('/');
+                  that.$message.warn('用户登录失效，请重新登录');
+
+                  // go to home page
+                  that.$router.push('/');
+                } else {
+                  console.log(error.response);
+                }
               } else {
-                console.log(error.response);
+                console.log(error);
               }
-            } else {
-              console.log(error);
-            }
-          })
-          .finally(function () {
-            that.isLoadingUserInfo = false;
-          });
+
+              // promise
+              reject(error);
+            })
+            .finally(function () {
+              that.isLoadingUserInfo = false;
+            });
+        });
       },
       fetchUserSignInList: function () {
         this.isLoadingUserSignInList = true;
@@ -413,10 +420,13 @@
       }
     },
     created() {
-      this.fetchUserInfo();
-      this.fetchUserSignInList();
-      this.fetchUserSignInOverview();
-      this.fetchUserFavoriteVideoList();
+      let that = this;
+      this.fetchUserInfo()
+        .then(function () {
+          that.fetchUserSignInList();
+          that.fetchUserSignInOverview();
+          that.fetchUserFavoriteVideoList();
+        });
     }
   }
 </script>
