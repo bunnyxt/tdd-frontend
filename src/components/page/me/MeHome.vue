@@ -86,7 +86,7 @@
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
-      <div style="overflow: hidden">
+      <div style="display: flex">
         <a-menu
             class="me-favorite-menu"
             v-model="favoriteCurrent"
@@ -96,7 +96,7 @@
           <a-menu-item key="video"><a-icon type="video-camera" />关注视频</a-menu-item>
           <a-menu-item key="member"><a-icon type="user" />关注UP主</a-menu-item>
         </a-menu>
-        <div style="float: right; margin-top: 8px">
+        <div style="margin-top: 8px">
           <a-button
               size="small"
               @click="() => this.$router.push('/me/favorite/' + this.favoriteCurrent[0])"
@@ -208,10 +208,7 @@
       },
       meFavoriteMenuStyle: function () {
         let style = {};
-        if (this.$store.getters.clientMode === 'MOBILE') {
-          style.width = 'calc(100% - 36px)';
-        } else {
-          style.width = 'calc(100% - 72px)';
+        if (this.$store.getters.clientMode !== 'MOBILE') {
           style['margin-bottom'] = '12px';
         }
         return style;
@@ -464,6 +461,6 @@
 
 <style scoped>
   .me-favorite-menu {
-    float: left;
+    flex-grow: 1;
   }
 </style>
