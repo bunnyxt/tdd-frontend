@@ -87,21 +87,41 @@
     <div class="section-separator"></div>
     <div class="section-block">
       <div style="overflow: hidden">
-        <div style="float: left">
-          <h1>关注视频</h1>
-        </div>
+        <a-menu
+            class="me-favorite-menu"
+            v-model="favoriteCurrent"
+            mode="horizontal"
+            :style="meFavoriteMenuStyle"
+        >
+          <a-menu-item key="video"><a-icon type="video-camera" />关注视频</a-menu-item>
+          <a-menu-item key="member"><a-icon type="user" />关注UP主</a-menu-item>
+        </a-menu>
         <div style="float: right; margin-top: 8px">
-          <a-button size="small" @click="() => this.$router.push('/me/favorite/video')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
+          <a-button
+              size="small"
+              @click="() => this.$router.push('/me/favorite/' + this.favoriteCurrent[0])"
+              style="margin-top: 4px"
+          >{{ moreString }}<a-icon type="arrow-right" /></a-button>
         </div>
       </div>
-      <tdd-video-list
-          :video-list="userFavoriteVideoList.slice(0, listColNum)"
-          :mode="'grid'"
-          @item-clicked="userFavoriteVideoListItemClickedHandler" />
+      <template v-if="favoriteCurrent.includes('video')">
+        <a-spin v-if="isLoadingUserFavoriteVideoList" :spinning="true">
+          正在获取用户关注视频列表
+        </a-spin>
+        <tdd-video-list
+            v-else
+            :video-list="userFavoriteVideoList.slice(0, listColNum)"
+            :mode="'grid'"
+            @item-clicked="userFavoriteVideoListItemClickedHandler"
+        />
+      </template>
+      <template v-if="favoriteCurrent.includes('member')">
+
+      </template>
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
-      TODO  关注的P主
+      什么什么什么
     </div>
     <div class="section-separator"></div>
   </div>
@@ -127,7 +147,8 @@
         userSignInOverview: {},
         isLoadingUserFavoriteVideoList: false,
         userFavoriteVideoList: [],
-        isGoingSignIn: false
+        isGoingSignIn: false,
+        favoriteCurrent: ['video']
       }
     },
     computed: {
@@ -184,6 +205,16 @@
         } else {
           return 6;
         }
+      },
+      meFavoriteMenuStyle: function () {
+        let style = {};
+        if (this.$store.getters.clientMode === 'MOBILE') {
+          style.width = 'calc(100% - 36px)';
+        } else {
+          style.width = 'calc(100% - 72px)';
+          style['margin-bottom'] = '12px';
+        }
+        return style;
       }
     },
     methods: {
@@ -430,3 +461,9 @@
     }
   }
 </script>
+
+<style scoped>
+  .me-favorite-menu {
+    float: left;
+  }
+</style>
