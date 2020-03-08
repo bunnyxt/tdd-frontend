@@ -24,6 +24,9 @@ const store = new Vuex.Store({
     changeLoginSliderVisibility(state) {
       state.isLoginSliderVisible = !state.isLoginSliderVisible;
     },
+    setLoginSliderVisibility(state, visibility) {
+      state.isLoginSliderVisible = visibility;
+    },
     changeVideoDetailDrawerVisibility(state) {
       state.isVideoDetailDrawerVisible = !state.isVideoDetailDrawerVisible;
     },
