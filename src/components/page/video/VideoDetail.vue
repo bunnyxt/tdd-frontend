@@ -73,7 +73,27 @@
             </div>
             <p><a-icon type="calendar" style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
             <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
-            <p><a-icon type="play-circle" style="margin-right: 12px"/><a :href="'https://www.bilibili.com/video/av'+video.aid" target="_blank">去B站观看</a></p>
+            <div :style="actionBarStyle">
+              <a-button
+                  style="float: left; width: 31%"
+                  @click="goToBiliAv(video.aid)"
+              >
+                <a-icon type="like" /> {{ videoLikeCount }}
+              </a-button>
+              <a-button
+                  style="float: left; width: 31%; margin: 0 8px"
+                  :loading="isPostingVideoFavorite || isDeletingVideoFavorite"
+                  @click="videoFavoriteButtonClickHandler(video.aid)"
+              >
+                <span :style="videoFavoriteDisplayStyle"><a-icon type="plus" /> {{ videoFavoriteCount }}</span>
+              </a-button>
+              <a-button
+                  style="float: left; width: 31%"
+                  @click="goToBiliAv(video.aid)"
+              >
+                <a-icon type="play-circle" />
+              </a-button>
+            </div>
             <div style="margin-bottom: 12px">
               <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
             </div>
@@ -166,7 +186,17 @@ export default {
       isLoadingVideo: false,
       isLoadingVideoRecords: false,
       currentDataCategory: ['recordChart'],
-      recordChartEnterCount: 1
+      recordChartEnterCount: 1,
+      isLoadingVideoFavoriteCount: false,
+      videoFavoriteCount: 0,
+      isLoadingVideoFavoriteUserStatus: false,
+      isPostingVideoFavorite: false,
+      isDeletingVideoFavorite: false,
+      videoFavoriteUserStatus: false,
+      isLoadingVideoLikeCount: false,
+      videoLikeCount: 0,
+      isLoadingVideoLikeUserStatus: false,
+      videoLikeUserStatus: false
     }
   },
   computed: {
@@ -183,11 +213,31 @@ export default {
     },
     _clientMode: function () {
       return this.$store.getters.clientMode;
+    },
+    actionBarStyle: function () {
+      let style = {overflow: 'hidden', ['margin-top']: '8px', ['margin-bottom']: '12px'};
+      if (this.$store.getters.clientMode !== 'MOBILE') {
+        style['max-width'] = '320px';
+      } else {
+        style['width'] = '100%';
+      }
+      return style;
+    },
+    videoFavoriteDisplayStyle: function () {
+      let style = {};
+      if (this.$store.state.isUserLoggedIn && this.videoFavoriteUserStatus) {
+        style.color = '#1890ff';
+      }
+      return style;
     }
   },
   watch: {
     aid: function(newAid) {
       this.getVideoInfo(newAid);
+      this.getVideoFavoriteCount(newAid);
+      if (this.$store.state.isUserLoggedIn) {
+        this.getVideoFavoriteUserStatus(newAid);
+      }
     },
     videoRecords: function() {
 
@@ -281,10 +331,139 @@ export default {
     },
     videoMemberNameClickHandler: function (mid) {
       this.$router.push('/member/' + mid);
+    },
+    videoFavoriteButtonClickHandler: function (aid) {
+      if (this.$store.state.isUserLoggedIn) {
+        if (this.videoFavoriteUserStatus) {
+          this.deleteVideoFavorite(aid);
+        } else {
+          this.postVideoFavorite(aid);
+        }
+      } else {
+        this.$message.warn('用户未登录，请登录后再操作~');
+        this.$store.commit('setLoginSliderVisibility', true);
+      }
+    },
+    postVideoFavorite: function (aid) {
+      this.isPostingVideoFavorite = true;
+
+      let that = this;
+      this.$axios.post('user/favorite/video/' + aid)
+        .then(function (response) {
+          const resp = response.data;
+          if (resp.status === 'success') {
+            that.$message.info('关注成功！');
+            that.videoFavoriteUserStatus = true;
+            that.videoFavoriteCount++;
+          } else {
+            that.$message.error('关注失败！' + resp.message);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              // user not logged in
+
+              // clear local storage
+              localStorage.removeItem('tddUserDetail');
+
+              // set status
+              that.$store.commit('setUserLoginStatus', false);
+              that.$store.commit('setUserDetail', null);
+
+              that.$message.warn('用户登录失效，请重新登录');
+              that.$store.commit('setLoginSliderVisibility', true);
+            } else {
+              console.log(error.response);
+            }
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isPostingVideoFavorite = false;
+        });
+    },
+    deleteVideoFavorite: function (aid) {
+      this.isDeletingVideoFavorite = true;
+
+      let that = this;
+      this.$axios.delete('user/favorite/video/' + aid)
+        .then(function (response) {
+          const resp = response.data;
+          if (resp.status === 'success') {
+            that.$message.info('取消关注成功！');
+            that.videoFavoriteUserStatus = false;
+            that.videoFavoriteCount--;
+          } else {
+            that.$message.error('取消关注失败！' + resp.message);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              // user not logged in
+
+              // clear local storage
+              localStorage.removeItem('tddUserDetail');
+
+              // set status
+              that.$store.commit('setUserLoginStatus', false);
+              that.$store.commit('setUserDetail', null);
+
+              that.$message.warn('用户登录失效，请重新登录');
+              that.$store.commit('setLoginSliderVisibility', true);
+            } else {
+              console.log(error.response);
+            }
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isDeletingVideoFavorite = false;
+        });
+    },
+    goToBiliAv: function (aid) {
+      window.open('https://www.bilibili.com/video/av'+aid);
+    },
+    getVideoFavoriteCount: function (aid) {
+      this.isLoadingVideoFavoriteCount = true;
+
+      let that = this;
+      this.$axios.get('video/' + aid + '/favorite')
+        .then(function (response) {
+          that.videoFavoriteCount = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingVideoFavoriteCount = false;
+        });
+    },
+    getVideoFavoriteUserStatus: function (aid) {
+      this.isLoadingVideoFavoriteUserStatus = true;
+
+      let that = this;
+      this.$axios.get('/user/favorite/video/' + aid)
+        .then(function (response) {
+          that.videoFavoriteUserStatus = Object.keys(response.data).length > 0;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingVideoFavoriteUserStatus = false;
+        });
     }
   },
   created: function() {
     this.getVideoInfo(this.aid, true);
+    this.getVideoFavoriteCount(this.aid);
+    if (this.$store.state.isUserLoggedIn) {
+      this.getVideoFavoriteUserStatus(this.aid);
+    }
   },
   mounted: function () {
 
