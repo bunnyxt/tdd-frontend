@@ -234,19 +234,7 @@
             .catch(function (error) {
               if (error.response) {
                 if (error.response.data.code === 40102) {
-                  // user not logged in
-
-                  // clear local storage
-                  localStorage.removeItem('tddUserDetail');
-
-                  // set status
-                  that.$store.commit('setUserLoginStatus', false);
-                  that.$store.commit('setUserDetail', null);
-
-                  that.$message.warn('用户登录失效，请重新登录');
-
-                  // go to home page
-                  that.$router.push('/');
+                  that.$util.tddErrorHandler40102(that, true);
                 } else {
                   console.log(error.response);
                 }
@@ -273,19 +261,7 @@
           .catch(function (error) {
             if (error.response) {
               if (error.response.data.code === 40102) {
-                // user not logged in
-
-                // clear local storage
-                localStorage.removeItem('tddUserDetail');
-
-                // set status
-                that.$store.commit('setUserLoginStatus', false);
-                that.$store.commit('setUserDetail', null);
-
-                that.$message.warn('用户登录失效，请重新登录');
-
-                // go to home page
-                that.$router.push('/');
+                that.$util.tddErrorHandler40102(that, true);
               } else {
                 console.log(error.response);
               }
@@ -308,19 +284,7 @@
           .catch(function (error) {
             if (error.response) {
               if (error.response.data.code === 40102) {
-                // user not logged in
-
-                // clear local storage
-                localStorage.removeItem('tddUserDetail');
-
-                // set status
-                that.$store.commit('setUserLoginStatus', false);
-                that.$store.commit('setUserDetail', null);
-
-                that.$message.warn('用户登录失效，请重新登录');
-
-                // go to home page
-                that.$router.push('/');
+                that.$util.tddErrorHandler40102(that, true);
               } else {
                 console.log(error.response);
               }
@@ -349,19 +313,7 @@
           .catch(function (error) {
             if (error.response) {
               if (error.response.data.code === 40102) {
-                // user not logged in
-
-                // clear local storage
-                localStorage.removeItem('tddUserDetail');
-
-                // set status
-                that.$store.commit('setUserLoginStatus', false);
-                that.$store.commit('setUserDetail', null);
-
-                that.$message.warn('用户登录失效，请重新登录');
-
-                // go to home page
-                that.$router.push('/');
+                that.$util.tddErrorHandler40102(that, true);
               } else {
                 console.log(error.response);
               }
@@ -403,19 +355,7 @@
           .catch(function (error) {
             if (error.response) {
               if (error.response.data.code === 40102) {
-                // user not logged in
-
-                // clear local storage
-                localStorage.removeItem('tddUserDetail');
-
-                // set status
-                that.$store.commit('setUserLoginStatus', false);
-                that.$store.commit('setUserDetail', null);
-
-                that.$message.warn('用户登录失效，请重新登录');
-
-                // go to home page
-                that.$router.push('/');
+                that.$util.tddErrorHandler40102(that, true);
               } else {
                 console.log(error.response);
               }

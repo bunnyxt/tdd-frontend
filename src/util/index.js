@@ -154,5 +154,23 @@ export default {
     }
 
     return false;
+  },
+  tddErrorHandler40102: function (that, redirect) {
+    // user not logged in
+
+    // clear local storage
+    localStorage.removeItem('tddUserDetail');
+
+    // set status
+    that.$store.commit('setUserLoginStatus', false);
+    that.$store.commit('setUserDetail', null);
+
+    that.$message.warn('用户登录失效，请重新登录');
+
+    if (redirect) {
+      that.$router.push('/');
+    }
+
+    that.$store.commit('setLoginSliderVisibility', true);
   }
 }

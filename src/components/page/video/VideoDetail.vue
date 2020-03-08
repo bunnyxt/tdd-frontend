@@ -362,17 +362,7 @@ export default {
         .catch(function (error) {
           if (error.response) {
             if (error.response.data.code === 40102) {
-              // user not logged in
-
-              // clear local storage
-              localStorage.removeItem('tddUserDetail');
-
-              // set status
-              that.$store.commit('setUserLoginStatus', false);
-              that.$store.commit('setUserDetail', null);
-
-              that.$message.warn('用户登录失效，请重新登录');
-              that.$store.commit('setLoginSliderVisibility', true);
+              that.$util.tddErrorHandler40102(that, false);
             } else {
               console.log(error.response);
             }
@@ -402,17 +392,7 @@ export default {
         .catch(function (error) {
           if (error.response) {
             if (error.response.data.code === 40102) {
-              // user not logged in
-
-              // clear local storage
-              localStorage.removeItem('tddUserDetail');
-
-              // set status
-              that.$store.commit('setUserLoginStatus', false);
-              that.$store.commit('setUserDetail', null);
-
-              that.$message.warn('用户登录失效，请重新登录');
-              that.$store.commit('setLoginSliderVisibility', true);
+              that.$util.tddErrorHandler40102(that, false);
             } else {
               console.log(error.response);
             }
@@ -451,7 +431,15 @@ export default {
           that.videoFavoriteUserStatus = Object.keys(response.data).length > 0;
         })
         .catch(function (error) {
-          console.log(error);
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
+            } else {
+              console.log(error.response);
+            }
+          } else {
+            console.log(error);
+          }
         })
         .finally(function () {
           that.isLoadingVideoFavoriteUserStatus = false;
