@@ -88,7 +88,7 @@ export default {
     getCreatedTs: function() {
       this.isGettingCreatedTs = true
       this.createdTimeMessage = "正在获取视频投稿时间..."
-      fetch("http://api.bunnyxt.com/tdd/bapi_view.php?aid=" + this.aidString)
+      fetch("https://api.bunnyxt.com/tdd/bapi_view.php?aid=" + this.aidString)
         .then(response => response.json())
         .then(json => {
           let date
