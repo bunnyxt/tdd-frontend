@@ -202,7 +202,7 @@
         }
       },
       handleReloadButtonClick: function() {
-        this.sexValue = 0;
+        this.sexValue = '不限';
         this.nameValue = '';
       },
       onPagiChange: function (pagiClick) {

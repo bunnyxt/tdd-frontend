@@ -354,7 +354,7 @@
         }
       },
       handleReloadButtonClick: function() {
-        this.orderValue = 1;
+        this.orderValue = 'pubdate';
         this.orderDescValue = 1;
       }
     },
