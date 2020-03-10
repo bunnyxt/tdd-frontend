@@ -76,9 +76,10 @@
             <div :style="actionBarStyle">
               <a-button
                   style="float: left; width: 31%"
-                  @click="goToBiliAv(video.aid)"
+                  :loading="isPostingVideoLike || isDeletingVideoLike"
+                  @click="videoLikeButtonClickHandler(video.aid)"
               >
-                <a-icon type="like" /> {{ videoLikeCount }}
+                <span :style="videoLikeDisplayStyle"><a-icon type="like" /> {{ videoLikeCount }}</span>
               </a-button>
               <a-button
                   style="float: left; width: 31%; margin: 0 8px"
@@ -187,15 +188,19 @@ export default {
       isLoadingVideoRecords: false,
       currentDataCategory: ['recordChart'],
       recordChartEnterCount: 1,
+
       isLoadingVideoFavoriteCount: false,
       videoFavoriteCount: 0,
       isLoadingVideoFavoriteUserStatus: false,
       isPostingVideoFavorite: false,
       isDeletingVideoFavorite: false,
       videoFavoriteUserStatus: false,
+
       isLoadingVideoLikeCount: false,
       videoLikeCount: 0,
       isLoadingVideoLikeUserStatus: false,
+      isPostingVideoLike: false,
+      isDeletingVideoLike: false,
       videoLikeUserStatus: false
     }
   },
@@ -214,12 +219,22 @@ export default {
     _clientMode: function () {
       return this.$store.getters.clientMode;
     },
+    _isUserLoggedIn: function () {
+      return this.$store.state.isUserLoggedIn;
+    },
     actionBarStyle: function () {
       let style = {overflow: 'hidden', ['margin-top']: '8px', ['margin-bottom']: '12px'};
       if (this.$store.getters.clientMode !== 'MOBILE') {
         style['max-width'] = '320px';
       } else {
         style['width'] = '100%';
+      }
+      return style;
+    },
+    videoLikeDisplayStyle: function () {
+      let style = {};
+      if (this.$store.state.isUserLoggedIn && this.videoLikeUserStatus) {
+        style.color = '#1890ff';
       }
       return style;
     },
@@ -234,8 +249,10 @@ export default {
   watch: {
     aid: function(newAid) {
       this.getVideoInfo(newAid);
+      this.getVideoLikeCount(newAid);
       this.getVideoFavoriteCount(newAid);
       if (this.$store.state.isUserLoggedIn) {
+        this.getVideoLikeUserStatus(newAid);
         this.getVideoFavoriteUserStatus(newAid);
       }
     },
@@ -251,6 +268,12 @@ export default {
       this.recordChartEnterCount = 0;
       if (this.currentDataCategory.indexOf('recordChart') !== -1) {
         this.recordChartEnterCount++;
+      }
+    },
+    _isUserLoggedIn: function () {
+      if (this.$store.state.isUserLoggedIn) {
+        this.getVideoLikeUserStatus(this.aid);
+        this.getVideoFavoriteUserStatus(this.aid);
       }
     }
   },
@@ -332,6 +355,18 @@ export default {
     videoMemberNameClickHandler: function (mid) {
       this.$router.push('/member/' + mid);
     },
+    videoLikeButtonClickHandler: function (aid) {
+      if (this.$store.state.isUserLoggedIn) {
+        if (this.videoLikeUserStatus) {
+          this.deleteVideoLike(aid);
+        } else {
+          this.postVideoLike(aid);
+        }
+      } else {
+        this.$message.warn('用户未登录，请登录后再操作~');
+        this.$store.commit('setLoginSliderVisibility', true);
+      }
+    },
     videoFavoriteButtonClickHandler: function (aid) {
       if (this.$store.state.isUserLoggedIn) {
         if (this.videoFavoriteUserStatus) {
@@ -343,6 +378,66 @@ export default {
         this.$message.warn('用户未登录，请登录后再操作~');
         this.$store.commit('setLoginSliderVisibility', true);
       }
+    },
+    postVideoLike: function (aid) {
+      this.isPostingVideoLike = true;
+
+      let that = this;
+      this.$axios.post('user/like/video/' + aid)
+        .then(function (response) {
+          const resp = response.data;
+          if (resp.status === 'success') {
+            // that.$message.info('点赞成功！');
+            that.videoLikeUserStatus = true;
+            that.videoLikeCount++;
+          } else {
+            // that.$message.error('点赞失败！' + resp.message);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
+            } else {
+              console.log(error.response);
+            }
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isPostingVideoLike = false;
+        });
+    },
+    deleteVideoLike: function (aid) {
+      this.isDeletingVideoLike = true;
+
+      let that = this;
+      this.$axios.delete('user/like/video/' + aid)
+        .then(function (response) {
+          const resp = response.data;
+          if (resp.status === 'success') {
+            // that.$message.info('取消点赞成功！');
+            that.videoLikeUserStatus = false;
+            that.videoLikeCount--;
+          } else {
+            // that.$message.error('取消点赞失败！' + resp.message);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
+            } else {
+              console.log(error.response);
+            }
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isDeletingVideoLike = false;
+        });
     },
     postVideoFavorite: function (aid) {
       this.isPostingVideoFavorite = true;
@@ -407,6 +502,44 @@ export default {
     goToBiliAv: function (aid) {
       window.open('https://www.bilibili.com/video/av'+aid);
     },
+    getVideoLikeCount: function (aid) {
+      this.isLoadingVideoLikeCount = true;
+
+      let that = this;
+      this.$axios.get('video/' + aid + '/like')
+        .then(function (response) {
+          that.videoLikeCount = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingVideoLikeCount = false;
+        });
+    },
+    getVideoLikeUserStatus: function (aid) {
+      this.isLoadingVideoLikeUserStatus = true;
+
+      let that = this;
+      this.$axios.get('/user/like/video/' + aid)
+        .then(function (response) {
+          that.videoLikeUserStatus = Object.keys(response.data).length > 0;
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
+            } else {
+              console.log(error.response);
+            }
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isLoadingVideoLikeUserStatus = false;
+        });
+    },
     getVideoFavoriteCount: function (aid) {
       this.isLoadingVideoFavoriteCount = true;
 
@@ -448,9 +581,11 @@ export default {
   },
   created: function() {
     this.getVideoInfo(this.aid, true);
+    this.getVideoLikeCount(this.aid);
     this.getVideoFavoriteCount(this.aid);
     if (this.$store.state.isUserLoggedIn) {
       this.getVideoFavoriteUserStatus(this.aid);
+      this.getVideoLikeUserStatus(this.aid);
     }
   },
   mounted: function () {
