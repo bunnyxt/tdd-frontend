@@ -75,14 +75,9 @@
         <a-alert type="error" message="暂无数据" />
       </div>
       <div class="drawer-fake-footer"></div>
-      <div class="drawer-footer">
-        <div @click="videoDetailClickHandler(video.aid)"
-             :style="{ width: videoDetailDrawerWidth / 2 + 'px'}">
+      <div class="drawer-footer" :style="{ width: videoDetailDrawerWidth + 'px', zIndex: 10 }">
+        <div @click="videoDetailClickHandler(video.aid)">
           <a-icon type="line-chart" title="详细数据" style="margin-right: 8px"/>详细数据
-        </div>
-        <div @click="videoViewClickHandler(video.aid)"
-             :style="{ width: videoDetailDrawerWidth / 2 + 'px'}">
-          <a-icon type="play-circle" title="观看视频" style="margin-right: 8px"/>观看视频
         </div>
       </div>
     </a-drawer>
@@ -125,9 +120,6 @@
         this.$store.commit('setVideoDetailVideo', this.video);
         this.$store.commit('setVideoDetailDrawerVisibility', false);
         this.$router.push('/video/av' + aid);
-      },
-      videoViewClickHandler: function(aid) {
-        window.open('https://www.bilibili.com/video/av' + aid);
       },
       getStaffTitleColor: function (title) {
         let color = '';
@@ -174,14 +166,13 @@
     position: fixed;
     bottom: 0;
     background: #fafafa;
-    width: 100%;
     margin-left: -24px;
     border-top: 1px solid #e8e8e8;
     cursor: pointer;
   }
   .drawer-footer div {
     float: left;
-    width: 50%;
+    width: 100%;
     height: 48px;
     text-align: center;
     border-left: 1px solid #e8e8e8;
