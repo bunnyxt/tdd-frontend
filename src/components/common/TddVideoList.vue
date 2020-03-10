@@ -17,7 +17,7 @@
 <!--          </div>-->
           <img class="tdd-video-item-mobile-cover-pic" width="108px" height="65px" alt="pic" :src="item.pic"/>
           <div class="tdd-video-item-mobile-right-content">
-            <div class="tdd-video-item-mobile-title">
+            <div class="tdd-video-item-mobile-title" :title="item.title">
               {{ item.title }}
             </div>
             <div class="tdd-video-item-mobile-right-content-footer">
@@ -96,7 +96,7 @@
               <tdd-video-cover :src="item.pic" :video="item" />
             </a-col>
             <a-col :xs="24" :sm="16" :md="18" :lg="19" :xl="20" style="padding-left: 12px">
-              <h3 class="tdd-video-item-desktop-list-title">{{ item.title }}</h3>
+              <h3 class="tdd-video-item-desktop-list-title" :title="item.title">{{ item.title }}</h3>
               <div>
                 <a-avatar
                     :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
@@ -135,7 +135,7 @@
           <div class="tdd-video-item-desktop-grid-card">
             <tdd-video-cover :src="item.pic" :video="item" />
             <div style="padding: 12px">
-              <h3 class="tdd-video-item-desktop-grid-title">{{ item.title }}</h3>
+              <h3 class="tdd-video-item-desktop-grid-title" :title="item.title">{{ item.title }}</h3>
               <div>
                 <a-avatar
                     :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"

@@ -18,7 +18,7 @@
               :size="48"
           />
           <div class="tdd-member-item-mobile-content">
-            <div class="tdd-member-item-mobile-title">
+            <div class="tdd-member-item-mobile-title" :title="item.name">
               <span style="color: rgba(0, 0, 0, 0.85); margin-right: 8px">{{ item.name }}</span>
               <template v-if="item.sex === '男'">
                 <span style="color: #00b5f6">
@@ -92,7 +92,7 @@
                 :size="48"
             />
             <div class="tdd-member-item-desktop-grid-content">
-              <div class="tdd-member-item-desktop-grid-title">
+              <div class="tdd-member-item-desktop-grid-title" :title="item.name">
                 <span style="font-size: 1.17em; color: rgba(0, 0, 0, 0.85); font-weight: 500">{{ item.name }}</span>
                 <template v-if="item.sex === '男'">
                 <span class="tdd-member-item-desktop-grid-title-sex" style="color: #00b5f6">

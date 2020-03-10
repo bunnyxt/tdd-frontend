@@ -1,6 +1,7 @@
 <template>
   <div class="video-action-bar" :style="actionBarStyle">
     <a-button
+        title="点赞"
         :style="videoLikeButtonStyle"
         :loading="isPostingVideoLike || isDeletingVideoLike"
         @click="videoLikeButtonClickHandler(aid)"
@@ -8,6 +9,7 @@
       <span :style="videoLikeDisplayStyle"><a-icon type="like" /> {{ videoLikeCount }}</span>
     </a-button>
     <a-button
+        title="关注"
         :style="videoFavoriteButtonStyle"
         :loading="isPostingVideoFavorite || isDeletingVideoFavorite"
         @click="videoFavoriteButtonClickHandler(aid)"
@@ -15,6 +17,7 @@
       <span :style="videoFavoriteDisplayStyle"><a-icon type="plus" /> {{ videoFavoriteCount }}</span>
     </a-button>
     <a-button
+        title="去B站观看"
         :style="videoPlayButtonStyle"
         @click="goToBiliAv(aid)"
     >
