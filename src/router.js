@@ -18,6 +18,8 @@ const AboutHome = () => import("./components/page/about/AboutHome");
 const UpdateLog = () => import("./components/page/about/UpdateLog");
 const MeHome = () => import("./components/page/me/MeHome");
 const MeSetting = () => import("./components/page/me/MeSetting");
+const MeFavoriteVideo = () => import("./components/page/me/MeFavoriteVideo");
+const MeFavoriteMember = () => import("./components/page/me/MeFavoriteMember");
 const NotFound = () => import("./components/page/NotFound");
 
 Vue.use(VueRouter);
@@ -130,6 +132,20 @@ export default new VueRouter({
       component: MeHome,
       meta: {
         title: '个人中心 - ' + SITE_NAME,
+        roles: ['ROLE_user']
+      }
+    }, {
+      path: "/me/favorite/video",
+      component: MeFavoriteVideo,
+      meta: {
+        title: '关注视频 - ' + SITE_NAME,
+        roles: ['ROLE_user']
+      }
+    }, {
+      path: "/me/favorite/member",
+      component: MeFavoriteMember,
+      meta: {
+        title: '关注UP主 - ' + SITE_NAME,
         roles: ['ROLE_user']
       }
     }, {
