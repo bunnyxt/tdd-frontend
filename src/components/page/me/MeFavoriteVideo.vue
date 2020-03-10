@@ -66,11 +66,7 @@
         </a-collapse-panel>
       </a-collapse>
       <a-spin :spinning="isLoadingUserFavoriteVideoList">
-        <tdd-video-list
-            :video-list="userFavoriteVideoList"
-            :mode="'grid'"
-            @item-clicked="userFavoriteVideoListItemClickedHandler"
-        />
+        <tdd-video-table :video-list="userFavoriteVideoList" />
         <a-pagination
             showQuickJumper
             v-model="pagiCurrent"
@@ -86,12 +82,12 @@
 </template>
 
 <script>
-  import TddVideoList from "../../common/TddVideoList";
+  import TddVideoTable from "../../common/TddVideoTable";
 
   export default {
     name: 'MeFavoriteVideo',
     components: {
-      TddVideoList
+      TddVideoTable
     },
     data: function () {
       return {
