@@ -48,6 +48,7 @@
       </div>
       <p><a-icon type="calendar" style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
       <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
+      <tdd-video-action-bar :aid="video.aid" :small="$store.state.clientWidth < 420" />
       <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
       <a-divider orientation="left">简介</a-divider>
       <tdd-video-description :description="video.desc" :key="video.aid" />
@@ -91,12 +92,14 @@
 <script>
   import TddVideoStatBar from "./TddVideoStatBar";
   import TddVideoDescription from "./TddVideoDescription";
+  import TddVideoActionBar from "./TddVideoActionBar";
 
   export default {
     name: 'TddVideoDetailDrawer',
     components: {
       TddVideoStatBar,
-      TddVideoDescription
+      TddVideoDescription,
+      TddVideoActionBar
     },
     data: function () {
       return {
