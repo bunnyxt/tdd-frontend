@@ -3,7 +3,7 @@
       placement="right"
       :closable="true"
       :visible="this.$store.state.isLoginSliderVisible"
-      :width="this.$store.state.clientWidth > 320 ? '320px' : this.$store.state.clientWidth + 'px'"
+      :width="this.$store.state.clientWidth > 352 ? '352px' : this.$store.state.clientWidth + 'px'"
       @close="drawerCloseHandler"
   >
     <div>
@@ -31,9 +31,16 @@
               style="margin-bottom: 12px"
               @blur="firstEnterLoginPassword = false"
           />
-          <div v-if="showLoginPrompt" style="margin-bottom: 12px">
+          <div v-if="loginPrompt.length > 0" style="margin-bottom: 12px">
             <span style="color: red">{{loginPrompt}}</span>
           </div>
+          <vue-grecaptcha
+              ref="recaptcha"
+              @verify="recaptchaVerifyCallback"
+              @expired="recaptchaExpiredCallback"
+              sitekey="yoursitekey"
+              style="margin-bottom: 12px"
+          ></vue-grecaptcha>
           <div style="overflow: hidden">
             <a-button
                 type="primary"
@@ -55,6 +62,8 @@
 </template>
 
 <script>
+  import VueGrecaptcha from 'vue-recaptcha'
+
   export default {
     name: 'TddLoginSlider',
     data: function () {
@@ -62,11 +71,15 @@
         currentKeys: ['login'],
         firstEnterLoginUsername: true,
         firstEnterLoginPassword: true,
-        loginPrompt: '',
         loginUsername: '',
         loginPassword: '',
+        loginRecaptchaStatus: false,
+        loginRecaptchaResponse: '',
         isLoginIn: false
       }
+    },
+    components: {
+      VueGrecaptcha
     },
     computed: {
       loginUsernameString: function () {
@@ -90,44 +103,58 @@
         return 'ok';
       },
       canGoLogin: function () {
-        return this.loginUsernameValidity === 'ok' && this.loginPasswordValidity === 'ok';
+        return this.loginUsernameValidity === 'ok' && this.loginPasswordValidity === 'ok' && this.loginRecaptchaStatus;
       },
-      showLoginPrompt: function () {
-        if (!this.firstEnterLoginUsername || !this.firstEnterLoginPassword) {
-          if (!this.canGoLogin) {
-            let prompt = '';
-            if (!this.firstEnterLoginUsername && this.loginUsernameValidity !== 'ok') {
-              prompt += this.loginUsernameValidity + '，';
-            }
-            if (!this.firstEnterLoginPassword && this.loginPasswordValidity !== 'ok') {
-              prompt += this.loginPasswordValidity + '，';
-            }
-            // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-            this.loginPrompt = prompt.slice(0, prompt.length - 1);
-            return true;
-          }
+      loginPrompt: function () {
+        let prompt = '';
+        if (!this.firstEnterLoginUsername && this.loginUsernameValidity !== 'ok') {
+          prompt += this.loginUsernameValidity + '，';
         }
-        return false;
+        if (!this.firstEnterLoginPassword && this.loginPasswordValidity !== 'ok') {
+          prompt += this.loginPasswordValidity + '，';
+        }
+        return prompt.slice(0, prompt.length - 1);
       }
     },
     methods: {
       drawerCloseHandler: function() {
         this.$store.commit('changeLoginSliderVisibility');
       },
+      recaptchaVerifyCallback: function (response) {
+        this.loginRecaptchaStatus = true;
+        this.loginRecaptchaResponse = response;
+      },
+      recaptchaExpiredCallback: function () {
+        this.loginRecaptchaStatus = false;
+        this.loginRecaptchaResponse = '';
+      },
       onLoginButtonClick: function () {
         // go request
         this.isLoginIn = true;
         let that = this;
+        // this.$axios({
+        //   method: 'post',
+        //   url: '/login',
+        //   headers: {
+        //     'Content-Type': 'application/x-www-form-urlencoded'
+        //   },
+        //   data: this.$qs.stringify({
+        //     username: this.loginUsernameString,
+        //     password: this.loginPasswordString,
+        //     recaptcha: this.loginRecaptchaResponse
+        //   })
+        // })
         this.$axios({
           method: 'post',
           url: '/login',
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
+            'Content-Type': 'application/json'
           },
-          data: this.$qs.stringify({
+          data: {
             username: this.loginUsernameString,
-            password: this.loginPasswordString
-          })
+            password: this.loginPasswordString,
+            recaptcha: this.loginRecaptchaResponse
+          }
         })
           .then(function (response) {
             if (response.data.code === 20001) {
@@ -148,6 +175,9 @@
               // clear status
               that.firstEnterLoginUsername = true;
               that.firstEnterLoginPassword = true;
+              that.loginRecaptchaStatus = false;
+              that.loginRecaptchaResponse = '';
+              that.$refs.recaptcha.reset();
 
               // close slider
               that.$store.commit('changeLoginSliderVisibility');
@@ -160,16 +190,19 @@
             if (error.response) {
               if (error.response.data.code === 40101) {
                 that.$message.error('登录失败！请检查用户名与密码是否正确！');
+                if (JSON.stringify(error.response.data.detail).length > 0) {
+                  that.$message.error(JSON.stringify(error.response.data.detail));
+                }
               } else {
                 that.$message.error('登录失败！服务器返回出错');
-                that.$message.error(error.response);
+                console.log(JSON.stringify(error.response));
               }
             } else if (error.request) {
-              that.$message.error('登录失败！客户端请求');
-              that.$message.error(error.request);
+              that.$message.error('登录失败！客户端请求出错');
+              console.log(JSON.stringify(error.request));
             } else {
               that.$message.error('登录失败！');
-              that.$message.error(error);
+              console.log(JSON.stringify(error));
             }
           })
           .finally(function () {
