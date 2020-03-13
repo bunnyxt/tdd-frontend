@@ -188,6 +188,7 @@ export default {
   watch: {
     aid: function(newAid) {
       this.getVideoInfo(newAid);
+      this.postVisitVideoRecord(newAid);
     },
     videoRecords: function() {
 
@@ -205,6 +206,21 @@ export default {
     }
   },
   methods: {
+    postVisitVideoRecord: function (aid) {
+      // let that = this;
+      this.$axios.post('task/visit/video/' + aid + '/record')
+        .then(function (response) {
+          if (!response) {
+            console.log(response);
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+
+        });
+    },
     getVideoInfo: function(aid, checkVideoFromStore=false) {
       this.isLoadingVideo = true;
       this.isLoadingVideoRecords = true;
@@ -285,6 +301,7 @@ export default {
   },
   created: function() {
     this.getVideoInfo(this.aid, true);
+    this.postVisitVideoRecord(this.aid);
   },
   mounted: function () {
 
