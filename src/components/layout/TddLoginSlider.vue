@@ -18,14 +18,28 @@
       <div v-show="currentKeys.indexOf('login') !== -1">
         <div style="margin-top: 16px">
           <div style="margin-bottom: 8px">用户名：</div>
-          <a-input placeholder="用户名" v-model="loginUsername" style="margin-bottom: 8px"/>
+          <a-input
+              placeholder="用户名"
+              v-model="loginUsername"
+              style="margin-bottom: 8px"
+              @blur="firstEnterLoginUsername = false"
+          />
           <div style="margin-bottom: 8px">密码：</div>
-          <a-input-password placeholder="密码" v-model="loginPassword" style="margin-bottom: 12px"/>
+          <a-input-password
+              placeholder="密码"
+              v-model="loginPassword"
+              style="margin-bottom: 12px"
+              @blur="firstEnterLoginPassword = false"
+          />
+          <div v-if="showLoginPrompt" style="margin-bottom: 12px">
+            <span style="color: red">{{loginPrompt}}</span>
+          </div>
           <div style="overflow: hidden">
             <a-button
                 type="primary"
                 style="float: left"
                 :loading="isLoginIn"
+                :disabled="!canGoLogin"
                 @click="onLoginButtonClick"
             >登录</a-button>
 <!--            <a-button style="float: left; margin-left: 12px">忘记密码</a-button>-->
@@ -46,6 +60,9 @@
     data: function () {
       return {
         currentKeys: ['login'],
+        firstEnterLoginUsername: true,
+        firstEnterLoginPassword: true,
+        loginPrompt: '',
         loginUsername: '',
         loginPassword: '',
         isLoginIn: false
@@ -71,38 +88,33 @@
           return '密码长度应大于等于4、小于等于16';
         }
         return 'ok';
+      },
+      canGoLogin: function () {
+        return this.loginUsernameValidity === 'ok' && this.loginPasswordValidity === 'ok';
+      },
+      showLoginPrompt: function () {
+        if (!this.firstEnterLoginUsername || !this.firstEnterLoginPassword) {
+          if (!this.canGoLogin) {
+            let prompt = '';
+            if (!this.firstEnterLoginUsername && this.loginUsernameValidity !== 'ok') {
+              prompt += this.loginUsernameValidity + '，';
+            }
+            if (!this.firstEnterLoginPassword && this.loginPasswordValidity !== 'ok') {
+              prompt += this.loginPasswordValidity + '，';
+            }
+            // eslint-disable-next-line vue/no-side-effects-in-computed-properties
+            this.loginPrompt = prompt.slice(0, prompt.length - 1);
+            return true;
+          }
+        }
+        return false;
       }
     },
     methods: {
       drawerCloseHandler: function() {
         this.$store.commit('changeLoginSliderVisibility');
       },
-      checkUsernameValidity: function (username) {
-        if (username.length < 4 || username > 16) {
-          return '用户名长度应大于等于4、小于等于16';
-        }
-        return 'ok';
-      },
-      checkPasswordValidity: function (password) {
-        if (password.length < 4 || password > 16) {
-          return '密码长度应大于等于4、小于等于16';
-        }
-        return 'ok';
-      },
       onLoginButtonClick: function () {
-        // check validity of username and password
-        const usernameValidity = this.checkUsernameValidity(this.loginUsername);
-        if (usernameValidity !== 'ok') {
-          this.$message.error('用户名有误！' + usernameValidity);
-          return;
-        }
-
-        const passwordValidity = this.checkPasswordValidity(this.loginPassword);
-        if (passwordValidity !== 'ok') {
-          this.$message.error('密码有误！' + usernameValidity);
-          return;
-        }
-
         // go request
         this.isLoginIn = true;
         let that = this;
@@ -132,6 +144,10 @@
               // clear username and password
               that.loginUsername = '';
               that.loginPassword = '';
+
+              // clear status
+              that.firstEnterLoginUsername = true;
+              that.firstEnterLoginPassword = true;
 
               // close slider
               that.$store.commit('changeLoginSliderVisibility');
