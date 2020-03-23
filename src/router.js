@@ -14,6 +14,7 @@ const ToolHome = () => import("./components/page/tool/ToolHome");
 const DateCalc = () => import("./components/page/tool/DateCalc");
 const BiliApi = () => import("./components/page/tool/BiliApi");
 const ZkCalc = () => import("./components/page/tool/ZkCalc");
+const AidBvidConvert = () => import("./components/page/tool/AidBvidConvert");
 const AboutHome = () => import("./components/page/about/AboutHome");
 const UpdateLog = () => import("./components/page/about/UpdateLog");
 const NotFound = () => import("./components/page/NotFound");
@@ -110,6 +111,12 @@ export default new VueRouter({
       component: ZkCalc,
       meta: {
         title: '周刊算分 - ' + SITE_NAME
+      }
+    }, {
+      path: "/tool/abid",
+      component: AidBvidConvert,
+      meta: {
+        title: 'av号/bv号转换 - ' + SITE_NAME
       }
     }, {
       path: "/about",

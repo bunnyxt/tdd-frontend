@@ -19,6 +19,9 @@
         <li>
           <router-link to="/tool/zkcalc">周刊算分</router-link>：周刊VOCALOID中文排行榜计分规则计算器。
         </li>
+        <li>
+          <router-link to="/tool/abid">av号/bv号转换</router-link>：Bilibili av号/bv号转换工具。
+        </li>
       </ul>
     </div>
   </div>
