@@ -42,7 +42,7 @@
         <a :href="'https://api.bilibili.com/x/web-interface/view?'+queryKey+'='+queryValue" target="_blank">
           {{ 'https://api.bilibili.com/x/web-interface/view?'+queryKey+'='+queryValue }}
         </a><br>
-        算法转换采用知乎用户<a href="https://www.zhihu.com/people/-._.-" target="_blank">mcfx</a>在<a href="https://www.zhihu.com/people/-._.-" target="_blank">这篇回答</a>中给出的算法进行转换
+        算法转换采用知乎用户<a href="https://www.zhihu.com/people/-._.-" target="_blank">mcfx</a>在<a href="https://www.zhihu.com/question/381784377/answer/1099438784" target="_blank">这篇回答</a>中给出的算法进行转换
       </div>
     </div>
   </div>
