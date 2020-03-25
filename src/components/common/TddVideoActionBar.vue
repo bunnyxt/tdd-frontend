@@ -3,7 +3,7 @@
     <a-button
         title="点赞"
         :style="videoLikeButtonStyle"
-        :loading="isPostingVideoLike || isDeletingVideoLike"
+        :loading="isLoadingVideoLikeCount || isPostingVideoLike || isDeletingVideoLike"
         @click="videoLikeButtonClickHandler(aid)"
     >
       <span :style="videoLikeDisplayStyle"><a-icon type="like" /> {{ videoLikeCount }}</span>
@@ -11,7 +11,7 @@
     <a-button
         title="关注"
         :style="videoFavoriteButtonStyle"
-        :loading="isPostingVideoFavorite || isDeletingVideoFavorite"
+        :loading="isLoadingVideoFavoriteCount || isPostingVideoFavorite || isDeletingVideoFavorite"
         @click="videoFavoriteButtonClickHandler(aid)"
     >
       <span :style="videoFavoriteDisplayStyle"><a-icon type="plus" /> {{ videoFavoriteCount }}</span>

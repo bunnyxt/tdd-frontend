@@ -3,7 +3,7 @@
     <a-button
         title="点赞"
         :style="memberLikeButtonStyle"
-        :loading="isPostingMemberLike || isDeletingMemberLike"
+        :loading="isLoadingMemberLikeCount || isPostingMemberLike || isDeletingMemberLike"
         @click="memberLikeButtonClickHandler(mid)"
     >
       <span :style="memberLikeDisplayStyle"><a-icon type="like" /> {{ memberLikeCount }}</span>
@@ -11,7 +11,7 @@
     <a-button
         title="关注"
         :style="memberFavoriteButtonStyle"
-        :loading="isPostingMemberFavorite || isDeletingMemberFavorite"
+        :loading="isLoadingMemberFavoriteCount || isPostingMemberFavorite || isDeletingMemberFavorite"
         @click="memberFavoriteButtonClickHandler(mid)"
     >
       <span :style="memberFavoriteDisplayStyle"><a-icon type="plus" /> {{ memberFavoriteCount }}</span>
