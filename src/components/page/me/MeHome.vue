@@ -116,7 +116,14 @@
         />
       </template>
       <template v-if="favoriteCurrent.includes('member')">
-
+        <a-spin v-if="isLoadingUserFavoriteMemberList" :spinning="true">
+          正在获取用户关注P主列表
+        </a-spin>
+        <tdd-member-list
+            v-else
+            :member-list="userFavoriteMemberList.slice(0, listColNum)"
+            @item-clicked="userFavoriteMemberListItemClickedHandler"
+        />
       </template>
     </div>
     <div class="section-separator"></div>
@@ -131,11 +138,13 @@
   import md5 from 'js-md5';
   import moment from 'moment';
   import TddVideoList from "../../common/TddVideoList";
+  import TddMemberList from "../../common/TddMemberList";
 
   export default {
     name: 'MeHome',
     components: {
-      TddVideoList
+      TddVideoList,
+      TddMemberList
     },
     data: function () {
       return {
@@ -147,6 +156,8 @@
         userSignInOverview: {},
         isLoadingUserFavoriteVideoList: false,
         userFavoriteVideoList: [],
+        isLoadingUserFavoriteMemberList: false,
+        userFavoriteMemberList: [],
         isGoingSignIn: false,
         favoriteCurrent: ['video']
       }
@@ -325,6 +336,35 @@
             that.isLoadingUserFavoriteVideoList = false;
           });
       },
+      fetchUserFavoriteMemberList: function () {
+        this.isLoadingUserFavoriteMemberList = true;
+
+        let that = this;
+        this.$axios.get('/user/favorite/member/me')
+          .then(function (response) {
+            that.userFavoriteMemberList = [];
+            let oriList = response.data;
+            for (let item of oriList) {
+              let obj = item.member;
+              obj.favorite_added = item.added;
+              that.userFavoriteMemberList.push(obj);
+            }
+          })
+          .catch(function (error) {
+            if (error.response) {
+              if (error.response.data.code === 40102) {
+                that.$util.tddErrorHandler40102(that, true);
+              } else {
+                console.log(error.response);
+              }
+            } else {
+              console.log(error);
+            }
+          })
+          .finally(function () {
+            that.isLoadingUserFavoriteMemberList = false;
+          });
+      },
       goSignIn: function () {
         this.isGoingSignIn = true;
         let that = this;
@@ -385,6 +425,10 @@
       userFavoriteVideoListItemClickedHandler: function (item) {
         this.$store.commit('setVideoDetailDrawerVideo', item);
         this.$store.commit('setVideoDetailDrawerVisibility', true);
+      },
+      userFavoriteMemberListItemClickedHandler: function (item) {
+        this.$store.commit('setMemberDetailMember', item);
+        this.$router.push('member/' + item.mid);
       }
     },
     created() {
@@ -394,6 +438,7 @@
           that.fetchUserSignInList();
           that.fetchUserSignInOverview();
           that.fetchUserFavoriteVideoList();
+          that.fetchUserFavoriteMemberList();
         });
     }
   }
