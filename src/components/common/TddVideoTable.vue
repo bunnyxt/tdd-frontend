@@ -1,7 +1,7 @@
 <template>
   <a-table
       :columns="columns"
-      :rowKey="record => record.added"
+      :rowKey="video => video.id"
       :dataSource="videoList"
       :pagination="false"
       :scroll="{ x: 700 }"
@@ -64,11 +64,6 @@
             scopedSlots: { customRender: 'added' },
             width: '108px',
           }, {
-            title: '关注时间',
-            dataIndex: 'favorite_added',
-            scopedSlots: { customRender: 'added' },
-            width: '108px',
-          }, {
             title: '播放',
             dataIndex: 'laststat.view',
             scopedSlots: { customRender: 'value' },
@@ -96,6 +91,11 @@
             title: '点赞',
             dataIndex: 'laststat.like',
             scopedSlots: { customRender: 'value' },
+          }, {
+            title: '关注时间',
+            dataIndex: 'favorite_added',
+            scopedSlots: { customRender: 'added' },
+            width: '108px',
           }
         ]
       }
