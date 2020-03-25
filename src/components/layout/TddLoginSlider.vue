@@ -390,7 +390,6 @@
               that.firstEnterLoginPassword = true;
               that.loginRecaptchaStatus = false;
               that.loginRecaptchaResponse = '';
-              that.$refs.recaptcha.reset();
 
               // close slider
               that.$store.commit('changeLoginSliderVisibility');
@@ -420,6 +419,7 @@
           })
           .finally(function () {
             that.isLoginIn = false;
+            that.$refs.loginRecaptcha.reset();
           });
       },
       onRegisterSendCodeButtonClick: function () {
