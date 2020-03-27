@@ -106,9 +106,11 @@
           ></vue-grecaptcha>
           <a-button
               type="primary"
-              :disabled="!canGoSendCodeButton"
+              :disabled="!(canGoSendCodeButton && codeSendingCd === 0)"
+              :loading="isSendingCode"
               @click="onRegisterSendCodeButtonClick"
           >{{ registerSendCodeButtonString }}</a-button>
+          <span v-if="codeSendingCd > 0" style="margin-left: 8px">没收到验证码？{{ codeSendingCd }}秒后重新获取</span>
           <div style="margin-bottom: 8px; margin-top: 12px">验证码：</div>
           <a-input
               placeholder="验证码"
@@ -157,11 +159,21 @@
         registerValidation: '',
         registerCode: '',
         registerRecaptchaStatus: false,
-        registerRecaptchaResponse: ''
+        registerRecaptchaResponse: '',
+        isSendingCode: false,
+        codeSendingCd: 0,
+        regkey: '',
+        regExpired: 0,
+        isSendingReg: false
       }
     },
     components: {
       VueGrecaptcha
+    },
+    watch: {
+      registerRecaptchaResponse: function () {
+        console.log(this.registerRecaptchaResponse);
+      }
     },
     computed: {
       loginUsernameString: function () {
@@ -175,12 +187,22 @@
         if (username.length < 4 || username.length > 16) {
           return '用户名长度应大于等于4、小于等于16';
         }
+        // eslint-disable-next-line no-useless-escape
+        let regex = /^[A-Za-z0-9_\-]+$/ig;
+        if (!regex.test(username)) {
+          return '用户名只能包含大小写字母、数字、下划线(_)和连字符(-)';
+        }
         return 'ok';
       },
       loginPasswordValidity: function () {
         const password = this.loginPasswordString;
         if (password.length < 6 || password.length > 16) {
           return '密码长度应大于等于6、小于等于16';
+        }
+        // eslint-disable-next-line no-useless-escape
+        let regex = /^[A-Za-z0-9!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]+$/g;
+        if (!regex.test(password)) {
+          return '密码中包含不支持的字符';
         }
         return 'ok';
       },
@@ -234,6 +256,9 @@
         let regex = /^[A-Za-z0-9!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]+$/g;
         if (!regex.test(password)) {
           return '密码中包含不支持的字符';
+        }
+        if (this.registerPasswordStrongLevel === '弱') {
+          return '密码强度太弱';
         }
         return 'ok';
       },
@@ -293,6 +318,9 @@
           if (!regex.test(email)) {
             return '邮箱地址不合法，请检查输入';
           }
+          if (email.length > 200) {
+            return '邮箱地址过长，请检查输入';
+          }
           return 'ok';
         } else {
          return '未知验证方式';
@@ -315,10 +343,14 @@
         return prompt.slice(0, prompt.length - 1);
       },
       registerSendCodeButtonString: function () {
-        return '获取验证码';
+        if (this.codeSendingCd === 0) {
+          return '获取验证码';
+        } else {
+          return '已发送';
+        }
       },
       canGoSendRegButton: function () {
-        return false;
+        return this.regkey.length > 0 && this.registerCode.length === 6;
       }
     },
     methods: {
@@ -345,18 +377,6 @@
         // go request
         this.isLoginIn = true;
         let that = this;
-        // this.$axios({
-        //   method: 'post',
-        //   url: '/login',
-        //   headers: {
-        //     'Content-Type': 'application/x-www-form-urlencoded'
-        //   },
-        //   data: this.$qs.stringify({
-        //     username: this.loginUsernameString,
-        //     password: this.loginPasswordString,
-        //     recaptcha: this.loginRecaptchaResponse
-        //   })
-        // })
         this.$axios({
           method: 'post',
           url: '/login',
@@ -372,7 +392,7 @@
           .then(function (response) {
             if (response.data.code === 20001) {
               let data = response.data;
-              that.$message.info(`登录成功！欢迎回来，${data.detail.nickname}！`);
+              that.$message.info(`登录成功！欢迎回来，${data.detail.nickname ? data.detail.nickname : 'tdduser'+data.detail.id}！`);
 
               // set local storage
               localStorage.setItem('tddUserDetail', JSON.stringify(data.detail));
@@ -423,10 +443,164 @@
           });
       },
       onRegisterSendCodeButtonClick: function () {
-        
+        this.isSendingCode = true;
+        let that = this;
+        this.$axios({
+          method: 'post',
+          url: '/register/code',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: {
+            method: this.registerValidationMethod,
+            validation: this.registerValidation,
+            username: this.registerUsernameString,
+            password: this.registerPasswordString,
+            recaptcha: this.registerRecaptchaResponse
+          }
+        })
+          .then(function (response) {
+            if (response.data.status === 'success') {
+              let data = response.data;
+
+              that.regkey = data.detail.regkey;
+              that.regExpired = data.detail.expired;
+
+              that.$message.info('已发送验证码！请查收并填写');
+
+              that.codeSendingCd = 60;
+              let cdInterval = setInterval(function () {
+                that.codeSendingCd--;
+                if (that.codeSendingCd === 0) {
+                  clearInterval(cdInterval);
+                }
+              }, 1000);
+
+            } else {
+              that.$message.error('获取验证码失败！');
+              switch (response.data.message) {
+                case 'fail to validate recaptcha':
+                  that.$message.error('recaptcha人机身份验证未通过');
+                  break;
+                case 'username already used':
+                  that.$message.error('用户名已被占用');
+                  break;
+                case 'email already used':
+                  that.$message.error('邮箱已被绑定');
+                  break;
+                case 'phone already used':
+                  that.$message.error('手机号已被绑定');
+                  break;
+                default:
+                  that.$message.error(response.data.message);
+              }
+              that.$message.error(JSON.stringify(response.data.detail));
+            }
+          })
+          .catch(function (error) {
+            if (error.response) {
+              if (error.response.data.code === 40001) {
+                that.$message.error('获取验证码失败！请检查参数是否正确');
+                if (JSON.stringify(error.response.data.detail).length > 0) {
+                  that.$message.error(JSON.stringify(error.response.data.detail));
+                }
+              } else {
+                that.$message.error('获取验证码失败！服务器返回出错');
+                console.log(JSON.stringify(error.response));
+              }
+            } else if (error.request) {
+              that.$message.error('获取验证码失败！客户端请求出错');
+              console.log(JSON.stringify(error.request));
+            } else {
+              that.$message.error('获取验证码失败！');
+              console.log(JSON.stringify(error));
+            }
+          })
+          .finally(function () {
+            that.isSendingCode = false;
+            that.$refs.registerRecaptcha.reset();
+          });
       },
       onRegisterSendRegButtonClick: function () {
+        if ((new Date()).valueOf() < this.regExpired) {
+          this.$message.error('验证码已过期，请重新获取');
+          this.registerCode = '';
+          return
+        }
+        this.isSendingReg = true;
+        let that = this;
+        this.$axios({
+          method: 'post',
+          url: '/register/reg',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: {
+            code: this.registerCode,
+            regkey: this.regkey
+          }
+        })
+          .then(function (response) {
+            if (response.data.status === 'success') {
+              that.$message.success('注册成功！请使用该账号登录');
 
+              // clear register input
+              that.registerUsername = '';
+              that.registerPassword = '';
+              that.registerValidation = '';
+              that.registerValidationMethod = 'email';
+              that.registerCode = '';
+              that.regkey = '';
+              that.regExpired = 0;
+
+              // change to login panel
+              that.currentKeys = ['login'];
+            } else {
+              that.$message.error('注册失败！');
+              if (response.data.message.startsWith('no register task found with regkey')) {
+                that.$message.error('未找到相应的注册任务');
+              }
+              switch (response.data.message) {
+                case 'fail to validate recaptcha':
+                  that.$message.error('recaptcha人机身份验证未通过');
+                  break;
+                case 'username already used':
+                  that.$message.error('用户名已被占用');
+                  break;
+                case 'email already used':
+                  that.$message.error('邮箱已被绑定');
+                  break;
+                case 'phone already used':
+                  that.$message.error('手机号已被绑定');
+                  break;
+                default:
+                  that.$message.error(response.data.message);
+              }
+              that.$message.error(JSON.stringify(response.data.detail));
+            }
+          })
+          .catch(function (error) {
+            if (error.response) {
+              if (error.response.data.code === 40001) {
+                that.$message.error('注册失败！请检查参数是否正确');
+                if (JSON.stringify(error.response.data.detail).length > 0) {
+                  that.$message.error(JSON.stringify(error.response.data.detail));
+                }
+              } else {
+                that.$message.error('注册失败！服务器返回出错');
+                console.log(JSON.stringify(error.response));
+              }
+            } else if (error.request) {
+              that.$message.error('注册失败！客户端请求出错');
+              console.log(JSON.stringify(error.request));
+            } else {
+              that.$message.error('注册失败！');
+              console.log(JSON.stringify(error));
+            }
+          })
+          .finally(function () {
+            that.isSendingReg = false;
+          });
       }
     }
   }
