@@ -178,5 +178,4 @@
     width: 80px;
     white-space: nowrap;
   }
-
 </style>
