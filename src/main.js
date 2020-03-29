@@ -39,6 +39,7 @@ import { Timeline } from "ant-design-vue"
 import { InputNumber } from "ant-design-vue";
 import { AutoComplete } from "ant-design-vue";
 import { Dropdown } from "ant-design-vue";
+import { Form } from "ant-design-vue";
 
 import { message } from "ant-design-vue"
 Vue.prototype.$message = message;
@@ -95,6 +96,7 @@ Vue.use(Timeline)
 Vue.use(InputNumber)
 Vue.use(AutoComplete)
 Vue.use(Dropdown)
+Vue.use(Form)
 
 // apex chart
 Vue.use(VueApexCharts)
