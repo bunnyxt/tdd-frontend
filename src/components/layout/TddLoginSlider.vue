@@ -171,9 +171,9 @@
       VueGrecaptcha
     },
     watch: {
-      registerRecaptchaResponse: function () {
-        console.log(this.registerRecaptchaResponse);
-      }
+      // registerRecaptchaResponse: function () {
+      //   console.log(this.registerRecaptchaResponse);
+      // }
     },
     computed: {
       loginUsernameString: function () {
