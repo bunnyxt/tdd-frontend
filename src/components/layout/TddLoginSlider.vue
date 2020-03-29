@@ -557,21 +557,21 @@
               that.currentKeys = ['login'];
             } else {
               that.$message.error('注册失败！');
-              if (response.data.message.startsWith('no register task found with regkey')) {
-                that.$message.error('未找到相应的注册任务');
-              }
               switch (response.data.message) {
+                case 'no register task found':
+                  that.$message.error('未找到相应的注册任务！');
+                  break;
                 case 'fail to validate recaptcha':
-                  that.$message.error('recaptcha人机身份验证未通过');
+                  that.$message.error('recaptcha人机身份验证未通过！');
                   break;
                 case 'username already used':
-                  that.$message.error('用户名已被占用');
+                  that.$message.error('用户名已被占用！');
                   break;
                 case 'email already used':
-                  that.$message.error('邮箱已被绑定');
+                  that.$message.error('邮箱已被绑定！');
                   break;
                 case 'phone already used':
-                  that.$message.error('手机号已被绑定');
+                  that.$message.error('手机号已被绑定！');
                   break;
                 default:
                   that.$message.error(response.data.message);
