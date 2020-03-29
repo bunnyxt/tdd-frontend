@@ -522,7 +522,7 @@
           });
       },
       onRegisterSendRegButtonClick: function () {
-        if ((new Date()).valueOf() < this.regExpired) {
+        if ((new Date()).valueOf() > this.regExpired * 1000) {
           this.$message.error('验证码已过期，请重新获取');
           this.registerCode = '';
           return
