@@ -77,7 +77,6 @@
           <a-avatar
               class="desktop-header-user-avatar"
               :src="avatarUrl"
-              @click="() => $router.push('/me')"
           />
           <a-menu slot="overlay" style="margin-top: 4px">
             <a-menu-item>
