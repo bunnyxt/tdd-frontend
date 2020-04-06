@@ -432,7 +432,7 @@
       },
       handleReloadButtonClick: function() {
         this.isvcValue = 2;
-        this.orderValue = 1;
+        this.orderValue = 'pubdate';
         this.orderDescValue = 1;
         this.pubdateStartValue = null;
         this.pubdateEndValue = null;

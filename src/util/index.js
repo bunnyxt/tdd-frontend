@@ -79,7 +79,7 @@ export default {
     switch (video.isvc) {
       case 1:
       case 2:
-        tagList.push({ title: 'VC', color: '#f99ee8' });
+        tagList.push({ title: 'VC', color: '#f5aeee' });
         break;
       default:
         break;
@@ -114,5 +114,63 @@ export default {
       }
     }
     return tagList;
+  },
+  checkRoles: function (rolesAcquired, rolesRequired) {
+    // no roles required
+    if (!rolesRequired || rolesAcquired === []) {
+      return true;
+    }
+
+    // no roles acquired
+    if (!rolesAcquired || rolesAcquired === []) {
+      return false;
+    }
+
+    if (rolesRequired.includes('ROLE_dba')) {
+      if (rolesAcquired.includes('ROLE_dba')) {
+        return true;
+      }
+    }
+
+    if (rolesRequired.includes('ROLE_admin')) {
+      if (rolesAcquired.includes('ROLE_dba')) {
+        return true;
+      }
+      if (rolesAcquired.includes('ROLE_admin')) {
+        return true;
+      }
+    }
+
+    if (rolesRequired.includes('ROLE_user')) {
+      if (rolesAcquired.includes('ROLE_dba')) {
+        return true;
+      }
+      if (rolesAcquired.includes('ROLE_admin')) {
+        return true;
+      }
+      if (rolesAcquired.includes('ROLE_user')) {
+        return true;
+      }
+    }
+
+    return false;
+  },
+  tddErrorHandler40102: function (that, redirect) {
+    // user not logged in
+
+    // clear local storage
+    localStorage.removeItem('tddUserDetail');
+
+    // set status
+    that.$store.commit('setUserLoginStatus', false);
+    that.$store.commit('setUserDetail', null);
+
+    that.$message.warn('用户登录失效，请重新登录');
+
+    if (redirect) {
+      that.$router.push('/');
+    }
+
+    that.$store.commit('setLoginSliderVisibility', true);
   }
 }

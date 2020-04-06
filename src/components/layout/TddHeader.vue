@@ -22,12 +22,23 @@
         />
       </div>
       <div v-else>
-        <a-avatar
-            class="mobile-header-user-avatar"
-            :size="24"
-            icon="user"
-            @click="openUserPanel()"
-        />
+        <a-dropdown key="mobile">
+          <a-avatar
+              class="mobile-header-user-avatar"
+              :src="avatarUrl"
+          />
+          <a-menu slot="overlay" style="margin-top: 4px">
+            <a-menu-item>
+              <router-link to="/me"><a-icon type="home" style="margin-right: 8px" />个人中心</router-link>
+            </a-menu-item>
+            <a-menu-item>
+              <router-link to="/me/setting"><a-icon type="setting" style="margin-right: 8px" />设置</router-link>
+            </a-menu-item>
+            <a-menu-item>
+              <a href="javascript:;" @click="handleLogoutClick"><a-icon type="logout" style="margin-right: 8px" />退出</a>
+            </a-menu-item>
+          </a-menu>
+        </a-dropdown>
       </div>
     </a-layout-header>
   </div>
@@ -62,12 +73,23 @@
         </a-button>
       </div>
       <div v-else>
-        <a-avatar
-            class="mobile-header-user-avatar"
-            :size="24"
-            icon="user"
-            @click="openUserPanel()"
-        />
+        <a-dropdown key="desktop">
+          <a-avatar
+              class="desktop-header-user-avatar"
+              :src="avatarUrl"
+          />
+          <a-menu slot="overlay" style="margin-top: 4px">
+            <a-menu-item>
+              <router-link to="/me"><a-icon type="home" style="margin-right: 8px" />个人中心</router-link>
+            </a-menu-item>
+            <a-menu-item>
+              <router-link to="/me/setting"><a-icon type="setting" style="margin-right: 8px" />设置</router-link>
+            </a-menu-item>
+            <a-menu-item>
+              <a href="javascript:;" @click="handleLogoutClick"><a-icon type="logout" style="margin-right: 8px" />退出</a>
+            </a-menu-item>
+          </a-menu>
+        </a-dropdown>
       </div>
     </a-layout-header>
   </div>
@@ -75,6 +97,8 @@
 
 <script>
   import logo_small from '../../assets/img/logo_32S.png'
+  import md5 from 'js-md5';
+
   export default {
     name: 'TddHeader',
     data: function () {
@@ -103,12 +127,21 @@
           keys = ['about'];
         }
         return keys;
+      },
+      avatarUrl: function () {
+        if (this.$store.state.isUserLoggedIn === true) {
+          const email = this.$store.state.userDetail.email;
+          if (email) {
+            return 'https://www.gravatar.com/avatar/' + md5(email) + '?d=identicon';
+          } else {
+            return 'https://www.gravatar.com/avatar/' + md5('tdduser' + this.$store.state.userDetail.id + '@tdd.bunnyxt.com') + '?d=identicon';
+          }
+        } else {
+          return 'https://www.gravatar.com/avatar/' + md5('anonymous@tdd.bunnyxt.com') + '?d=identicon';
+        }
       }
     },
     methods: {
-      openUserPanel: function () {
-        // TODO
-      },
       handleMenuClick(e) {
         switch (e.key) {
           case "home":
@@ -132,6 +165,33 @@
           default:
             break;
         }
+      },
+      handleLogoutClick: function () {
+        let that = this;
+        this.$axios({
+          method: 'post',
+          url: '/logout'
+        })
+          .then(function (response) {
+            if (response.data.code === 20002) {
+              // clear local storage
+              localStorage.removeItem('tddUserDetail');
+
+              // set status
+              that.$store.commit('setUserLoginStatus', false);
+              that.$store.commit('setUserDetail', null);
+
+              that.$message.info('您已成功退出登录！');
+
+              // go to home page
+              that.$router.push('/');
+            } else {
+              console.log(response.data);
+            }
+          })
+          .catch(function (error) {
+            that.$message.error(error.response.data);
+          })
       }
     }
   }
@@ -158,6 +218,8 @@
   .mobile-header-user-avatar {
     float: right;
     color: #fff;
+    width: 24px;
+    height: 24px;
     font-size: 24px;
     margin-right: 20px;
     margin-top: 20px;
@@ -175,6 +237,15 @@
     margin-top: 16px;
     color: rgba(255, 255, 255, 0.65);
     border-color: rgba(255, 255, 255, 0.65);
+  }
+  .desktop-header-user-avatar {
+    float: right;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    margin-top: 16px;
+    cursor: pointer;
   }
   .ant-menu-item {
     padding: 0 12px;

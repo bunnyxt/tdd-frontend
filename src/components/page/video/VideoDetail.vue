@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div v-wechat-title="$route.meta.title='av'+aid+' - 视频详情 - 天钿Daily'"></div>
+    <div v-wechat-title="$route.meta.title='av'+this.$route.params.aid+' - 视频详情 - 天钿Daily'"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
         <a-breadcrumb-item><router-link to="/video">视频</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>av{{ aid }}</a-breadcrumb-item>
+        <a-breadcrumb-item>av{{ this.$route.params.aid }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div v-if="isLoadingVideo">
@@ -73,7 +73,7 @@
             </div>
             <p><a-icon type="calendar" style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
             <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
-            <p><a-icon type="play-circle" style="margin-right: 12px"/><a :href="'https://www.bilibili.com/video/av'+video.aid" target="_blank">去B站观看</a></p>
+            <tdd-video-action-bar :aid="aid" />
             <div style="margin-bottom: 12px">
               <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
             </div>
@@ -148,6 +148,7 @@ import TddVideoRecordSaver from "../../common/TddVideoRecordSaver";
 import TddVideoRecordZkCalc from "../../common/TddVideoRecordZkCalc";
 import TddVideoDescription from "../../common/TddVideoDescription";
 import TddVideoStatBar from "../../common/TddVideoStatBar";
+import TddVideoActionBar from "../../common/TddVideoActionBar";
 
 export default {
   name: 'VideoDetail',
@@ -157,7 +158,8 @@ export default {
     TddVideoRecordSaver,
     TddVideoRecordZkCalc,
     TddVideoDescription,
-    TddVideoStatBar
+    TddVideoStatBar,
+    TddVideoActionBar
   },
   data: function() {
     return {
@@ -166,12 +168,12 @@ export default {
       isLoadingVideo: false,
       isLoadingVideoRecords: false,
       currentDataCategory: ['recordChart'],
-      recordChartEnterCount: 1
+      recordChartEnterCount: 1,
     }
   },
   computed: {
     aid: function() {
-     return this.$route.params.aid;
+     return parseInt(this.$route.params.aid);
     },
     titleDivStyle: function () {
       let style = {};

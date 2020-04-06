@@ -3,15 +3,10 @@
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>UP主</a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/me">个人中心</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>关注UP主</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
-    <div class="section-block">
-      <h1>UP主</h1>
-      <p>天钿Daily收录的所有视频的B站UP主和staff们。</p>
-      <a-alert style="margin-bottom: 8px" message="UP主信息、粉丝数、数据总计等并非实时，最低每24小时更新一次" banner />
-    </div>
-    <div class="section-separator"></div>
     <div class="section-block">
       <a-collapse :activeKey="[1]" style="margin-bottom: 8px">
         <a-collapse-panel header="筛选搜索" key="1">
@@ -22,6 +17,7 @@
               </td>
               <td>
                 <a-radio-group name="orderSelector" v-model="orderValue">
+                  <a-radio :value="'added'">关注时间</a-radio>
                   <a-radio :value="'mid'">用户mid</a-radio>
                   <a-radio :value="'video_count'">投稿总数</a-radio>
                   <a-radio :value="'v_pubdate'">最近投稿</a-radio>
@@ -76,7 +72,7 @@
           <a-button
               type="primary"
               icon="search"
-              :loading="isLoadingMemberList"
+              :loading="isLoadingUserFavoriteMemberList"
               @click="handleSearchButtonClick"
               style="margin-top: 8px"
           >
@@ -97,16 +93,12 @@
           </a-popconfirm>
         </a-collapse-panel>
       </a-collapse>
-      <a-spin :spinning="isLoadingMemberList">
-        <tdd-member-list
-            :member-list="memberList"
-            :main-prop="mainProp"
-            @item-clicked="memberListItemClickedHandler"
-        />
+      <a-spin :spinning="isLoadingUserFavoriteMemberList">
+        <tdd-member-table :member-list="userFavoriteMemberList" />
         <a-pagination
             showQuickJumper
             v-model="pagiCurrent"
-            :total="memberTotalCount"
+            :total="userFavoriteMemberTotalCount"
             :showTotal="total => `共 ${total} 位UP主`"
             :pageSize="20"
             style="margin-top: 8px"
@@ -118,33 +110,37 @@
 </template>
 
 <script>
-  import TddMemberList from "../../common/TddMemberList";
+  import TddMemberTable from "../../common/TddMemberTable";
 
   export default {
-    name: 'MemberHome',
+    name: 'MeFavoriteMember',
     components: {
-      TddMemberList
+      TddMemberTable
     },
     data: function () {
       return {
-        memberList: [],
-        memberTotalCount: 0,
-        pagiCurrent: 1,
-        orderValue: 'sr_view',
+        userFavoriteMemberList: [],
+        isLoadingUserFavoriteMemberList: false,
+        orderValue: 'added',
         orderDescValue: 1,
         sexValue: '不限',
         nameValue: '',
-        isLoadingMemberList: false,
-        mainProp: 'sr_view'
+        pagiCurrent: 1,
+        userFavoriteMemberTotalCount: 0,
       }
     },
     methods: {
-      checkParams: function () {
-        // TODO
-        return true;
-      },
-      assembleQueryUrl: function () {
-        let url = 'member?';
+      assemblyQuery: function () {
+        let url = '/user/favorite/member/me?';
+
+        // name
+        if (this.nameValue) {
+          url += 'name='+ this.nameValue + '&';
+        }
+        // sex
+        if (['男', '女', '保密'].indexOf(this.sexValue) >= 0) {
+          url += 'sex=' + this.sexValue + '&';
+        }
         // order_by
         url += 'order_by=' + this.orderValue + '&';
         // desc
@@ -153,69 +149,62 @@
         } else {
           url += 'desc=1&';
         }
-        // sex
-        if (['男', '女', '保密'].indexOf(this.sexValue) >= 0) {
-          url += 'sex=' + this.sexValue + '&';
-        }
-        // name
-        if (this.nameValue) {
-          url += 'name='+ this.nameValue + '&';
-        }
         // pn
         url += 'pn=' + this.pagiCurrent;
         return url;
       },
-      fetchMemberList: function () {
-        this.isLoadingMemberList = true;
-        if (!this.checkParams()) {
-          this.isLoadingMemberList = false;
-          return;
-        }
+      fetchUserFavoriteMemberList: function () {
+        this.isLoadingUserFavoriteMemberList = true;
 
-        let url = this.assembleQueryUrl();
         let that = this;
+        const url = this.assemblyQuery();
         this.$axios.get(url)
           .then(function (response) {
-            that.memberList = response.data;
-            that.memberTotalCount = parseInt(response.headers['x-total-count']);
-            // change mainProp
-            if (that.orderValue.startsWith('sr_')) {
-              that.mainProp = that.orderValue;
-            } else if (that.orderValue === 'fr_follower') {
-              that.mainProp = 'fr_follower';
-            } else if (that.orderValue === 'v_pubdate') {
-              that.mainProp = 'v_pubdate';
-            } else {
-              that.mainProp = 'sr_view';
+            that.userFavoriteMemberList = [];
+            let oriList = response.data;
+            for (let item of oriList) {
+              let obj = item.member;
+              obj.favorite_added = item.added;
+              that.userFavoriteMemberList.push(obj);
             }
+            that.userFavoriteMemberTotalCount = parseInt(response.headers['x-total-count']);
           })
           .catch(function (error) {
-            console.log(error);
+            if (error.response) {
+              if (error.response.data.code === 40102) {
+                that.$util.tddErrorHandler40102(that, true);
+              } else {
+                console.log(error.response);
+              }
+            } else {
+              console.log(error);
+            }
           })
           .finally(function () {
-            that.isLoadingMemberList = false;
+            that.isLoadingUserFavoriteMemberList = false;
           });
       },
-      handleSearchButtonClick: function () {
-        if (!this.isLoadingMemberList) {
-          this.fetchMemberList();
-        }
-      },
-      handleReloadButtonClick: function() {
-        this.sexValue = '不限';
-        this.nameValue = '';
+      userFavoriteMemberListItemClickedHandler: function (item) {
+        this.$store.commit('setMemberDetailMember', item);
+        this.$router.push('member/' + item.mid);
       },
       onPagiChange: function (pagiClick) {
         this.pagiCurrent = pagiClick;
-        this.fetchMemberList();
+        this.fetchUserFavoriteMemberList();
       },
-      memberListItemClickedHandler: function (item) {
-        this.$store.commit('setMemberDetailMember', item);
-        this.$router.push('member/' + item.mid);
+      handleSearchButtonClick: function () {
+        if (!this.isLoadingUserFavoriteVideoList) {
+          this.pagiCurrent = 1;
+          this.fetchUserFavoriteMemberList();
+        }
+      },
+      handleReloadButtonClick: function() {
+        this.orderValue = 'added';
+        this.orderDescValue = 1;
       }
     },
-    created() {
-      this.fetchMemberList();
+    created: function () {
+      this.fetchUserFavoriteMemberList();
     }
   }
 </script>

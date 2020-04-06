@@ -13,8 +13,9 @@ const store = new Vuex.Store({
     videoDetailDrawerVideo: null,
     videoDetailVideo: null,
     memberDetailMember: null,
+    clientWidth: 0,
     isUserLoggedIn: false,
-    clientWidth: 0
+    userDetail: null
   },
   mutations: {
     changeMenuSliderVisibility(state) {
@@ -22,6 +23,9 @@ const store = new Vuex.Store({
     },
     changeLoginSliderVisibility(state) {
       state.isLoginSliderVisible = !state.isLoginSliderVisible;
+    },
+    setLoginSliderVisibility(state, visibility) {
+      state.isLoginSliderVisible = visibility;
     },
     changeVideoDetailDrawerVisibility(state) {
       state.isVideoDetailDrawerVisible = !state.isVideoDetailDrawerVisible;
@@ -41,6 +45,12 @@ const store = new Vuex.Store({
     setClientWidth(state, clientWidth) {
       state.clientWidth = clientWidth;
     },
+    setUserLoginStatus(state, status) {
+      state.isUserLoggedIn = status;
+    },
+    setUserDetail(state, detail) {
+      state.userDetail = detail;
+    }
   },
   getters: {
     clientMode: state => {
