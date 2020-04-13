@@ -89,10 +89,12 @@
       },
       queryClickHandler() {
         if (this.method === 'api') {
-          this.$axios.get('https://api.bunnyxt.com/tdd/bapi_aid_bvid.php?'+this.queryKey+'='+this.queryValue)
-            .then((response) => {
-              this.queryResultObj = response.data;
-              if (response.data.status === 'success') {
+          // must use fetch, not axios, due to axios withCredentials setting
+          fetch('https://api.bunnyxt.com/tdd/bapi_aid_bvid.php?'+this.queryKey+'='+this.queryValue)
+            .then(response => response.json())
+            .then((json) => {
+              this.queryResultObj = json;
+              if (json.status === 'success') {
                 this.$message.success('转换成功');
               } else {
                 this.$message.error('转换出错');
