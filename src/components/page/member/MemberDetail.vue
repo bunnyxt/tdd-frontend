@@ -63,9 +63,24 @@
             <p>{{ member.sign }}</p>
             <tdd-member-action-bar :mid="mid" />
           </div>
-          <a-divider orientation="left">数据总计</a-divider>
-          <tdd-video-stat-bar :stat="member.last_total_stat" :mode="'vertical'" :show-name="true" />
-          *{{ $util.tsToDateString(member.last_total_stat.added) }}更新
+          <a-menu v-model="currentInfoCategory" mode="horizontal" style="margin-bottom: 16px">
+            <a-menu-item key="overview"> <a-icon type="line-chart" />数据总计 </a-menu-item>
+            <a-menu-item key="history"> <a-icon type="history" />信息变更 </a-menu-item>
+          </a-menu>
+          <div v-show="currentInfoCategory.indexOf('overview') !== -1">
+            <tdd-video-stat-bar :stat="member.last_total_stat" :mode="'vertical'" :show-name="true" />
+            *{{ $util.tsToDateString(member.last_total_stat.added) }}更新
+          </div>
+          <div v-show="currentInfoCategory.indexOf('history') !== -1">
+            <div v-if="isLoadingMemberLogs">
+              <a-spin :spinning="true">
+                正在获取用户<a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>的个人信息变更历史数据
+              </a-spin>
+            </div>
+            <div v-else>
+              <tdd-member-log-table :member-logs="memberLogs" />
+            </div>
+          </div>
         </div>
         <div class="section-separator"></div>
         <div class="section-block">
@@ -185,6 +200,7 @@
   import MemberDetailTotalStatHistoryLineChart from "./MemberDetailTotalStatHistoryLineChart";
   import TddVideoStatBar from "../../common/TddVideoStatBar";
   import TddMemberActionBar from "../../common/TddMemberActionBar";
+  import TddMemberLogTable from "../../common/TddMemberLogTable";
 
   const IconFont = Icon.createFromIconfontCN({
     scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
@@ -206,6 +222,9 @@
         isLoadingFollowerRecords: false,
         totalStatRecords: [],
         isLoadingTotalStatRecords: false,
+        currentInfoCategory: ['overview'],
+        isLoadingMemberLogs: false,
+        memberLogs: [],
         currentDataCategory: ['follower'],
         followerCategoryEnterCount: 1,
         totalStatCategoryEnterCount: 0
@@ -217,7 +236,8 @@
       MemberDetailFollowerHistoryLineChart,
       MemberDetailTotalStatHistoryLineChart,
       TddVideoStatBar,
-      TddMemberActionBar
+      TddMemberActionBar,
+      TddMemberLogTable
     },
     computed: {
       mid: function () {
@@ -230,6 +250,7 @@
     watch: {
       mid: function () {
         this.getMemberInfo(this.mid, true);
+        this.getMemberLogs(this.mid);
         this.getFollowerRecords(this.mid);
         this.getTotalStatRecords(this.mid);
         this.fetchVideoList();
@@ -310,6 +331,36 @@
             that.isLoadingTotalStatRecords = false;
           });
       },
+      getMemberLogs: function (mid) {
+        this.isLoadingMemberLogs = true;
+
+        let that = this;
+        this.$axios.get('member/log?mid=' + mid)
+          .then(function (response) {
+            let logs = response.data;
+            let logs_filtered = [];
+            for (let log of logs) {
+              if (log.attr === 'sign' && log.oldval === '' && log.newval !== '') {
+                continue;
+              }
+              if (log.attr === 'face') {
+                const oldval = log.oldval.slice(log.oldval.lastIndexOf('/') + 1);
+                const newval = log.newval.slice(log.newval.lastIndexOf('/') + 1);
+                if (oldval === newval) {
+                  continue;
+                }
+              }
+              logs_filtered.push(log);
+            }
+            that.memberLogs = logs_filtered.reverse();
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            that.isLoadingMemberLogs = false;
+          });
+      },
       assemblyQuery: function () {
         let url = 'member/' + this.mid + '/video?';
         // order_by
@@ -362,6 +413,7 @@
     },
     created: function() {
       this.getMemberInfo(this.mid, true);
+      this.getMemberLogs(this.mid);
       this.getFollowerRecords(this.mid);
       this.getTotalStatRecords(this.mid);
       this.fetchVideoList();
