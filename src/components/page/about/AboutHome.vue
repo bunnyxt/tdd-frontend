@@ -17,6 +17,9 @@
         QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/><a target="_blank" :href="qqgroup_qrcode">二维码</a><br/>
         个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
       </p>
+      <p>
+        <a href="https://afdian.net/@bunnyxt" target="_blank">资助本站</a> or <router-link to="/about/contactus">联系我们</router-link>
+      </p>
     </div>
 <!--    <div class="section-separator"></div>-->
 <!--    <div class="section-block">-->
