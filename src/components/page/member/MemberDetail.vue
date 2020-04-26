@@ -78,7 +78,21 @@
               </a-spin>
             </div>
             <div v-else>
-              <tdd-member-log-table :member-logs="memberLogs" />
+              <template v-if="$store.state.isUserLoggedIn">
+                <a-alert type="warning" banner closable style="margin-bottom: 16px">
+                  <template slot="message">
+                    UP主信息每天更新一次；若您是本UP主且不希望自己的历史信息变更记录被公开，请<router-link to="/about/contactus">联系站长</router-link>
+                  </template>
+                </a-alert>
+                <tdd-member-log-table :member-logs="memberLogs" />
+              </template>
+              <template v-else>
+                <a-alert type="error" banner>
+                  <template slot="message">
+                    历史信息变更记录仅<a @click="() => this.$store.commit('changeLoginSliderVisibility')">登录</a>后可见哦~
+                  </template>
+                </a-alert>
+              </template>
             </div>
           </div>
         </div>
@@ -332,6 +346,11 @@
           });
       },
       getMemberLogs: function (mid) {
+        if (this.$store.state.isUserLoggedIn === false) {
+          // only get log when user logged in
+          this.memberLogs = [];
+          return;
+        }
         this.isLoadingMemberLogs = true;
 
         let that = this;
