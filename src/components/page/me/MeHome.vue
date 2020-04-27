@@ -18,8 +18,23 @@
             <a-avatar
                 :src="avatarUrl"
                 :size="48"
-                style="float: left"
+                class="me-header-avatar"
+                @click="() => avatarSettingPrompt = true"
             />
+            <a-modal title="设置头像" v-model="avatarSettingPrompt">
+              <template slot="footer">
+                <a-button type="primary" @click="() => avatarSettingPrompt = false">了解</a-button>
+              </template>
+              <a-avatar
+                  :src="avatarUrl"
+                  :size="64"
+                  style="float: right; margin: 0 8px 16px 16px"
+              />
+              <p>天钿Daily用户头像用Gravatar头像服务，在Gravatar里使用同一个邮箱注册账号，上传头像，这里就能看到自定义头像了~</p>
+              <p>第一步：前往<router-link to="/me/setting">设置</router-link>，绑定邮箱</p>
+              <p>第二步：前往<a href="http://cn.gravatar.com" target="_blank">Gravatar</a>，使用第一步绑定的邮箱注册账号，上传头像</p>
+              <p>第三步：刷新网页，即可显示自定义头像。如果没有显示的话请清空浏览器缓存重试</p>
+            </a-modal>
             <div style="float: left; margin-left: 12px">
               <div style="overflow: hidden">
                 <div style="font-size: 1.17em; color: rgba(0, 0, 0, 0.85); font-weight: 500; float: left">{{ user.nickname }}</div>
@@ -159,7 +174,8 @@
         isLoadingUserFavoriteMemberList: false,
         userFavoriteMemberList: [],
         isGoingSignIn: false,
-        favoriteCurrent: ['video']
+        favoriteCurrent: ['video'],
+        avatarSettingPrompt: false,
       }
     },
     computed: {
@@ -447,5 +463,17 @@
 <style scoped>
   .me-favorite-menu {
     flex-grow: 1;
+  }
+  .me-header-avatar {
+    float: left;
+    cursor: pointer;
+    /* TODO why transition not works? */
+    /*transition: all .2s ease-out;*/
+    /*-moz-transition: all .2s ease-out;*/
+    /*-webkit-transition: all .2s ease-out;*/
+    /*-o-transition: all .2s ease-out;*/
+  }
+  .me-header-avatar :hover {
+    opacity: 0.6;
   }
 </style>
