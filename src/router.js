@@ -16,6 +16,7 @@ const BiliApi = () => import("./components/page/tool/BiliApi");
 const ZkCalc = () => import("./components/page/tool/ZkCalc");
 const AidBvidConvert = () => import("./components/page/tool/AidBvidConvert");
 const AboutHome = () => import("./components/page/about/AboutHome");
+const ContactUs = () => import("./components/page/about/ContactUs");
 const UpdateLog = () => import("./components/page/about/UpdateLog");
 const MeHome = () => import("./components/page/me/MeHome");
 const MeSetting = () => import("./components/page/me/MeSetting");
@@ -133,6 +134,12 @@ export default new VueRouter({
       component: UpdateLog,
       meta: {
         title: '更新日志 - ' + SITE_NAME
+      }
+    }, {
+      path: "/about/contactus",
+      component: ContactUs,
+      meta: {
+        title: '联系我们 - ' + SITE_NAME
       }
     }, {
       path: "/me",
