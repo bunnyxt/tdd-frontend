@@ -76,9 +76,11 @@
       </div>
       <div class="drawer-fake-footer"></div>
       <div class="drawer-footer" :style="{ width: videoDetailDrawerWidth + 'px', zIndex: 10 }">
-        <div @click="videoDetailClickHandler(video.aid)">
-          <a-icon type="line-chart" title="详细数据" style="margin-right: 8px"/>详细数据
-        </div>
+        <router-link :to="'/video/av'+video.aid">
+          <div @click="videoDetailClickHandler">
+            <a-icon type="line-chart" title="详细数据" style="margin-right: 8px"/>详细数据
+          </div>
+        </router-link>
       </div>
     </a-drawer>
   </div>
@@ -98,7 +100,7 @@
     },
     data: function () {
       return {
-        
+
       }
     },
     computed: {
@@ -116,10 +118,9 @@
         this.$router.push('/member/' + mid);
         this.$store.commit('setVideoDetailDrawerVisibility', false);
       },
-      videoDetailClickHandler: function (aid) {
+      videoDetailClickHandler: function () {
         this.$store.commit('setVideoDetailVideo', this.video);
         this.$store.commit('setVideoDetailDrawerVisibility', false);
-        this.$router.push('/video/av' + aid);
       },
       getStaffTitleColor: function (title) {
         let color = '';
@@ -177,8 +178,14 @@
     text-align: center;
     border-left: 1px solid #e8e8e8;
     padding-top: 14px;
+    color: rgba(0, 0, 0, 0.65);
+    transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -webkit-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
   }
   .drawer-footer div:hover {
     background: #e8e8e8;
+    color: #1890FF;
   }
 </style>
