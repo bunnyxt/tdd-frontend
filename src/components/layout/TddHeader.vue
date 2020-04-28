@@ -54,14 +54,13 @@
           mode="horizontal"
           :selectedKeys="selectedKeys"
           :style="{ lineHeight: '64px', float: 'left' }"
-          @click="handleMenuClick"
       >
-        <a-menu-item key="home">首页</a-menu-item>
-        <a-menu-item key="video">视频</a-menu-item>
-        <a-menu-item key="member">UP主</a-menu-item>
-        <a-menu-item key="sprint">传说助攻</a-menu-item>
-        <a-menu-item key="tool">辅助工具</a-menu-item>
-        <a-menu-item key="about">关于</a-menu-item>
+        <a-menu-item key="home"><router-link to="/">首页</router-link></a-menu-item>
+        <a-menu-item key="video"><router-link to="/video">视频</router-link></a-menu-item>
+        <a-menu-item key="member"><router-link to="/member">UP主</router-link></a-menu-item>
+        <a-menu-item key="sprint"><router-link to="/sprint">传说助攻</router-link></a-menu-item>
+        <a-menu-item key="tool"><router-link to="/tool">辅助工具</router-link></a-menu-item>
+        <a-menu-item key="about"><router-link to="/about">关于</router-link></a-menu-item>
       </a-menu>
       <div v-if="!this.$store.state.isUserLoggedIn">
         <a-button
@@ -142,30 +141,6 @@
       }
     },
     methods: {
-      handleMenuClick(e) {
-        switch (e.key) {
-          case "home":
-            this.$router.push("/");
-            break;
-          case "video":
-            this.$router.push("/video");
-            break;
-          case "member":
-            this.$router.push("/member");
-            break;
-          case "sprint":
-            this.$router.push("/sprint");
-            break;
-          case "tool":
-            this.$router.push("/tool");
-            break;
-          case "about":
-            this.$router.push("/about");
-            break;
-          default:
-            break;
-        }
-      },
       handleLogoutClick: function () {
         let that = this;
         this.$axios({
