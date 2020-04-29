@@ -311,6 +311,55 @@
               </a-modal>
             </div>
           </a-form-item>
+          <a-form-item label="密码">
+            <a-button size="small" @click="() => changePasswordModalVisibility = true">修改密码</a-button>
+            <a-modal title="修改密码" v-model="changePasswordModalVisibility">
+              <template slot="footer">
+                <a-button type="primary" @click="() => changePasswordModalVisibility = false">完成</a-button>
+              </template>
+              <a-form :form="changePasswordForm">
+                <a-form-item
+                    label="新密码"
+                >
+                  <a-input-password
+                      v-decorator="[
+                          'password',
+                          {
+                            rules: [
+                                { required: true, message: '请填写新密码' },
+                                { validator: passwordValidator },
+                              ]
+                          },
+                        ]"
+                      placeholder="请填写新密码"
+                  />
+                </a-form-item>
+                <a-form-item
+                    label="确认新密码"
+                >
+                  <a-input-password
+                      v-decorator="[
+                          'password2',
+                          {
+                            rules: [
+                                { required: true, message: '请再输入一遍新密码' },
+                              ]
+                          },
+                        ]"
+                      placeholder="请再输入一遍新密码"
+                  />
+                </a-form-item>
+                <a-form-item>
+                  <a-button
+                      type="primary"
+                      @click="changePassword"
+                      :loading="isChangingPassword"
+                      :disabled="isChangingPassword"
+                  >更改密码</a-button>
+                </a-form-item>
+              </a-form>
+            </a-modal>
+          </a-form-item>
         </a-form>
       </div>
     </div>
@@ -358,7 +407,11 @@
         isSendingBindPhoneCode: false,
         isSendingBindPhoneValidation: false,
         // unbind phone
-        isUnbindingPhone: false
+        isUnbindingPhone: false,
+        // change password
+        changePasswordModalVisibility: false,
+        changePasswordForm: this.$form.createForm(this, { name: 'changePasswordForm' }),
+        isChangingPassword: false,
       }
     },
     components: {
@@ -536,6 +589,44 @@
         }
         callback();
       },
+      passwordValidator: (rule, value, callback) => {
+        if (!value) {
+          callback();
+        }
+        if (value.length < 6) {
+          callback('密码太短');
+        }
+        if (value.length > 16) {
+          callback('密码太长');
+        }
+        let regex = /^[A-Za-z0-9!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]+$/g;
+        if (!regex.test(value)) {
+          callback('密码中包含不支持的字符');
+        }
+        // eslint-disable-next-line no-useless-escape
+        const regexList = [
+          /[A-Z]/g,
+          /[a-z]/g,
+          /[0-9]/g,
+          /[!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]/g
+        ];
+        let strongValue = 0;
+        for (let regex of regexList) {
+          if (regex.test(value)) {
+            strongValue++;
+          }
+        }
+        if (value.length > 10) {
+          strongValue++;
+        }
+        if (strongValue < 2) {
+          callback('密码强度太弱');
+        }
+        callback();
+      },
+      // password2Validator: (rule, value, callback) => {
+      //   callback();
+      // },
       bindEmailRecaptchaVerifyCallback: function (response) {
         this.bindEmailRecaptchaPassed = true;
         this.bindEmailRecaptchaResponse = response;
@@ -975,6 +1066,77 @@
           })
           .finally(function () {
             that.isSettingNickname = false;
+          })
+      },
+      changePassword: function () {
+        const { getFieldValue, getFieldError } = this.changePasswordForm;
+        if (getFieldValue('password') !== getFieldValue('password2')) {
+          this.$message.warn('两次填写的密码不一致');
+          return;
+        }
+
+        if (!(
+          getFieldValue('password') !== undefined &&
+          getFieldError('password') === undefined &&
+          getFieldValue('password2') !== undefined &&
+          getFieldError('password2') === undefined
+        )) {
+          this.$message.warn('请先正确填写参数');
+          return;
+        } // TODO refactor, if these not satisfied, button should not be able to click
+
+        this.isChangingPassword = true;
+        let that = this;
+
+        this.$axios({
+          method: 'post',
+          url: '/user/change/password',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          data: {
+            password: getFieldValue('password'),
+          }
+        })
+          .then(function (response) {
+            let data = response.data;
+            if (data.status === 'success') {
+              that.$message.success('修改密码成功！');
+              that.changePasswordModalVisibility = false;
+
+              // clear local storage
+              localStorage.removeItem('tddUserDetail');
+
+              // set status
+              that.$store.commit('setUserLoginStatus', false);
+              that.$store.commit('setUserDetail', null);
+
+              that.$message.info('请使用新密码重新登录！');
+
+              // go to home page
+              that.$router.push('/');
+            } else {
+              that.$message.error('修改密码失败！');
+              that.$message.error(data.message);
+            }
+          })
+          .catch(function (error) {
+            that.$message.error('修改密码失败！');
+            if (error.response) {
+              if (error.response.data.code === 40102) {
+                that.$util.tddErrorHandler40102(that, true);
+              } else if (error.response.data.code === 40001) {
+                that.$message.error('参数错误！');
+                that.$message.error(error.response.data.message);
+              } else {
+                console.log(error.response);
+              }
+            } else {
+              console.log(error);
+            }
+          })
+          .finally(function () {
+            that.isChangingPassword = false;
           })
       }
     },
