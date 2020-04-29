@@ -141,11 +141,20 @@ export default {
       }
     }
 
+    if (rolesRequired.includes('ROLE_premium_user')) {
+      if (rolesAcquired.includes('ROLE_premium_user')) {
+        return true;
+      }
+    }
+
     if (rolesRequired.includes('ROLE_user')) {
       if (rolesAcquired.includes('ROLE_dba')) {
         return true;
       }
       if (rolesAcquired.includes('ROLE_admin')) {
+        return true;
+      }
+      if (rolesAcquired.includes('ROLE_premium_user')) {
         return true;
       }
       if (rolesAcquired.includes('ROLE_user')) {
