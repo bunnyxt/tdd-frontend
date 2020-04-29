@@ -6,6 +6,32 @@
         <a-breadcrumb-item>个人中心</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
+    <div v-if="!isLoadingUserInfo && !isPremiumUser">
+      <a-alert banner closable>
+        <a-popover placement="bottom" slot="message">
+          <div slot="content">
+            您可以通过<b>累计<a href="https://afdian.net/@bunnyxt" target="_blank">资助本站</a>达到50RMB</b>解锁永久高级用户权限！<br>
+            作为高级用户，您将得到以下特权：<br>
+            <ul style="margin-bottom: 0px">
+              <li>
+                独特的<span style="color: #722ED1">紫色</span>昵称显示
+              </li>
+              <li>
+                更多的积分与经验收益
+              </li>
+              <li>
+                更多的积分花销折扣
+              </li>
+              <li>
+                在未来可能还会有实体小礼品哦
+              </li>
+            </ul>
+            资助后请及时<router-link to="/about/contactus">联系我们</router-link>，我们将在第一时间为您解锁高级用户权限~
+          </div>
+          资助本站成为<a>高级会员</a>
+        </a-popover>
+      </a-alert>
+    </div>
     <div class="section-block">
       <div v-if="isLoadingUserInfo">
         <a-spin :spinning="true">
@@ -37,10 +63,18 @@
             </a-modal>
             <div style="float: left; margin-left: 12px">
               <div style="overflow: hidden">
-                <div style="font-size: 1.17em; color: rgba(0, 0, 0, 0.85); font-weight: 500; float: left">{{ user.nickname }}</div>
-                <div style="float: left">
-                  <a-tag v-for="role in user.roles" :key="role.id" :color="getRoleTitleColor(role.title)" style="margin-left: 8px">
-                    {{ role.title }}
+                <div style="font-size: 1.17em; color: rgba(0, 0, 0, 0.85); font-weight: 500; float: left">
+                  <span v-if="isPremiumUser" style="color: #722ED1">{{ user.nickname }}</span>
+                  <span v-else>{{ user.nickname }}</span>
+                </div>
+                <div style="float: left; margin-left: 8px">
+                  <a-tag v-for="role in user.roles" :key="role.id" :color="getRoleTitleColor(role.title)">
+                    <a-popover placement="bottom">
+                      <div slot="content">
+                        {{ getRoleTitleDescription(role.title) }}
+                      </div>
+                      {{ role.title }}
+                    </a-popover>
                   </a-tag>
                 </div>
               </div>
@@ -95,7 +129,6 @@
               >{{ userSignInStatusToday ? '已签到' : '签到' }}</a-button>
             </a-tooltip>
           </div>
-
         </div>
       </div>
     </div>
@@ -239,6 +272,17 @@
           style['margin-bottom'] = '12px';
         }
         return style;
+      },
+      isPremiumUser: function () {
+        if (!this.user) {
+          return false;
+        }
+        for (let role of this.user.roles) {
+          if (role.title === '高级用户') {
+            return true;
+          }
+        }
+        return false;
       }
     },
     methods: {
@@ -435,8 +479,29 @@
           case '普通用户':
             color = 'blue';
             break;
+          case '高级用户':
+            color = 'purple';
+            break;
         }
         return color;
+      },
+      getRoleTitleDescription: function (title) {
+        let description = '';
+        switch (title) {
+          case 'DBA':
+            description = '作为数据库管理员，您拥有系统的全部权限，请谨慎使用';
+            break;
+          case '管理员':
+            description = '作为管理员，您可以进入后台管理系统，查看系统数据';
+            break;
+          case '普通用户':
+            description = '作为普通用户，您可以关注视频/UP主，参与视频标签修改矫正，甚至自定义监测视频数据';
+            break;
+          case '高级用户':
+            description = '感谢您对本平台的资助！作为高级用户，您将拥有更多的积分与经验收益，更多的积分花销折扣，在未来可能还会有实体小礼品哦~';
+            break;
+        }
+        return description;
       },
       userFavoriteVideoListItemClickedHandler: function (item) {
         this.$store.commit('setVideoDetailDrawerVideo', item);
