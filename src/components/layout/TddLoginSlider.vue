@@ -140,7 +140,7 @@
     name: 'TddLoginSlider',
     data: function () {
       return {
-        recaptchaSiteKey: 'yoursitekey',  // set your recaptcha site key here
+        recaptchaSiteKey: this.$config.recaptchaSiteKey,
         currentKeys: ['login'],
         firstEnterLoginUsername: true,
         firstEnterLoginPassword: true,

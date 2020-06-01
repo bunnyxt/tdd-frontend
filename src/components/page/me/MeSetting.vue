@@ -373,7 +373,7 @@
     name: 'MeSetting',
     data: function () {
       return {
-        recaptchaSiteKey: 'yoursitekey',  // set your recaptcha site key here
+        recaptchaSiteKey: this.$config.recaptchaSiteKey,
         isLoadingUserInfo: false,
         user: {},
         formLayout: 'horizontal',

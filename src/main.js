@@ -117,6 +117,10 @@ Vue.prototype.$qs = qs;
 import util from './util/index'
 Vue.prototype.$util = util;
 
+// config
+import config from './config/index'
+Vue.prototype.$config = config;
+
 // moment
 import moment from 'moment';
 import 'moment/locale/zh-cn';
