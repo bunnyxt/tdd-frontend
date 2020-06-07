@@ -58,6 +58,7 @@
         <a-menu-item key="home"><router-link to="/">首页</router-link></a-menu-item>
         <a-menu-item key="video"><router-link to="/video">视频</router-link></a-menu-item>
         <a-menu-item key="member"><router-link to="/member">UP主</router-link></a-menu-item>
+        <a-menu-item key="rank"><router-link to="/rank">排行</router-link></a-menu-item>
         <a-menu-item key="sprint"><router-link to="/sprint">传说助攻</router-link></a-menu-item>
         <a-menu-item key="tool"><router-link to="/tool">辅助工具</router-link></a-menu-item>
         <a-menu-item key="about"><router-link to="/about">关于</router-link></a-menu-item>
@@ -118,6 +119,8 @@
           keys = ['video'];
         } else if (path.startsWith('/member')) {
           keys = ['member'];
+        } else if (path.startsWith('/rank')) {
+          keys = ['rank'];
         } else if (path.startsWith('/sprint')) {
           keys = ['sprint'];
         } else if (path.startsWith('/tool')) {
