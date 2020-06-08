@@ -21,8 +21,8 @@
             showQuickJumper
             v-model="pagiCurrent"
             :total="rankCurrentTotalCount"
-            :showTotal="total => `共 ${total} 个视频`"
-            :pageSize="20"
+            :showTotal="getPagiTotalPrompt"
+            :pageSize="30"
             style="margin-top: 8px"
             @change="onPagiChange"
         />
@@ -78,6 +78,14 @@
         this.pagiCurrent = pagiClick;
         this.fetchRankCurrentList();
       },
+      getPagiTotalPrompt: function () {
+        let from = 30 * (this.pagiCurrent - 1) + 1;
+        let to = from + 30 - 1;
+        if (to > 10000) {
+          to = 10000;
+        }
+        return `第${from}名 - 第${to}名`;
+      }
     },
     mounted() {
       this.fetchRankCurrentList();
