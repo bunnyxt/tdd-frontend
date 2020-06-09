@@ -17,13 +17,18 @@
           style="cursor: pointer"
       />
     </template>
-    <template slot="videoTitle" slot-scope="item">
+    <template slot="videoTitleMember" slot-scope="item">
       <div class="video-title">
         <a @click="videoTitleClickHandler(item.video.aid)">{{ item.video.title }}</a>
       </div>
-    </template>
-    <template slot="member" slot-scope="item">
-      <a @click="memberNameClickHandler(item.video.mid)">{{ item.video.member ? item.video.member.name : '' }}</a>
+      <div class="video-title-member">
+        <a-avatar
+            :src="item.video.member ? item.video.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+            :size="16"
+            style="margin-right: 4px"
+        />
+        <a @click="memberNameClickHandler(item.video.mid)">{{ item.video.member ? item.video.member.name : '' }}</a>
+      </div>
     </template>
     <template slot="added" slot-scope="added">
       {{ $util.tsToDateString(added) }}
@@ -86,10 +91,7 @@
             width: '112px',
           }, {
             title: '标题',
-            scopedSlots: { customRender: 'videoTitle' },
-          }, {
-            title: 'UP主',
-            scopedSlots: { customRender: 'member' },
+            scopedSlots: { customRender: 'videoTitleMember' },
           }, {
             title: '投稿时间',
             dataIndex: 'video.pubdate',
@@ -150,12 +152,17 @@
 
 <style scoped>
   .video-title {
-    height: 65px;
+    height: 42px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
+  }
+  .video-title-member {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-top: 4px;
   }
   a {
     color: rgba(0, 0, 0, 0.65);
