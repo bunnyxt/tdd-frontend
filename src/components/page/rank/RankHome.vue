@@ -16,7 +16,11 @@
         <a-menu-item key="yearly" disabled>年榜</a-menu-item>
       </a-menu>
       <a-spin :spinning="isLoadingRankCurrentList">
-        <tdd-rank-current-table :rank-current-list="rankCurrentList" style="margin-top: 16px"></tdd-rank-current-table>
+        <tdd-rank-current-table
+            :rank-current-list="rankCurrentList"
+            :rank-current-color="rankCurrentColor"
+            style="margin-top: 16px"
+        ></tdd-rank-current-table>
         <a-pagination
             showQuickJumper
             v-model="pagiCurrent"
@@ -25,7 +29,7 @@
             :pageSize="30"
             style="margin-top: 8px"
             @change="onPagiChange"
-        />
+        ></a-pagination>
       </a-spin>
 <!--      <keep-alive>-->
 <!--        <router-view v-if="$route.meta.keepAlive" v-wechat-title="$route.meta.title"></router-view>-->
@@ -46,6 +50,7 @@
         rankCurrentList: [],
         rankCurrentTotalCount: 0,
         isLoadingRankCurrentList: false,
+        rankCurrentColor: {},
         pagiCurrent: 1,
       }
     },
@@ -62,11 +67,18 @@
         this.isLoadingRankCurrentList = true;
         let url = `/video/record/rank/${this.category[0]}/current?pn=${this.pagiCurrent}`;
         let that = this;
-        this.$axios.get(url)
-          .then(function (response) {
-            that.rankCurrentList = response.data;
-            that.rankCurrentTotalCount = parseInt(response.headers['x-total-count']);
-          })
+        let getRankCurrentList = function () {
+          return that.$axios.get(url);
+        };
+        let getRankCurrentColor = function () {
+          return that.$axios.get(`/video/record/rank/${that.category[0]}/current/color`);
+        };
+        this.$axios.all([getRankCurrentList(), getRankCurrentColor()])
+          .then(that.$axios.spread( function (rankCurrentListResponse, rankCurrentColorResponse) {
+            that.rankCurrentList = rankCurrentListResponse.data;
+            that.rankCurrentTotalCount = parseInt(rankCurrentListResponse.headers['x-total-count']);
+            that.rankCurrentColor = rankCurrentColorResponse.data;
+          }))
           .catch(function (error) {
             console.log(error);
           })
