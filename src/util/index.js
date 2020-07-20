@@ -35,17 +35,17 @@ export default {
   dateStringToTs: function (dateString, pattern='yyyy-MM-dd HH:mm:ss') {
     let date = new Date(0);
     let pos_yyyy = pattern.indexOf('yyyy');
-    pos_yyyy > -1 ? date.setFullYear(parseInt(pattern.substring(pos_yyyy, pos_yyyy + 4))) : undefined;
+    pos_yyyy > -1 ? date.setFullYear(parseInt(dateString.substring(pos_yyyy, pos_yyyy + 4))) : undefined;
     let pos_MM = pattern.indexOf('MM');
-    pos_MM > -1 ? date.setMonth(parseInt(pattern.substring(pos_MM, pos_MM + 2)) - 1) : undefined;
+    pos_MM > -1 ? date.setMonth(parseInt(dateString.substring(pos_MM, pos_MM + 2)) - 1) : undefined;
     let pos_dd = pattern.indexOf('dd');
-    pos_dd > -1 ? date.setDate(parseInt(pattern.substring(pos_dd, pos_dd + 2)) - 1) : undefined;
+    pos_dd > -1 ? date.setDate(parseInt(dateString.substring(pos_dd, pos_dd + 2)) - 1) : undefined;
     let pos_HH = pattern.indexOf('HH');
-    pos_HH > -1 ? date.setHours(parseInt(pattern.substring(pos_HH, pos_HH + 2))) : undefined;
+    pos_HH > -1 ? date.setHours(parseInt(dateString.substring(pos_HH, pos_HH + 2))) : undefined;
     let pos_mm = pattern.indexOf('mm');
-    pos_mm > -1 ? date.setMinutes(parseInt(pattern.substring(pos_mm, pos_mm + 2))) : undefined;
+    pos_mm > -1 ? date.setMinutes(parseInt(dateString.substring(pos_mm, pos_mm + 2))) : undefined;
     let pos_ss = pattern.indexOf('ss');
-    pos_ss > -1 ? date.setSeconds(parseInt(pattern.substring(pos_ss, pos_ss + 2))) : undefined;
+    pos_ss > -1 ? date.setSeconds(parseInt(dateString.substring(pos_ss, pos_ss + 2))) : undefined;
     return Math.floor(date.valueOf() / 1000);
   },
   zkCalc: function (view, reply, danmaku, favorite, page) {
