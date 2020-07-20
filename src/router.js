@@ -16,6 +16,7 @@ const DateCalc = () => import("./components/page/tool/DateCalc");
 const BiliApi = () => import("./components/page/tool/BiliApi");
 const ZkCalc = () => import("./components/page/tool/ZkCalc");
 const AidBvidConvert = () => import("./components/page/tool/AidBvidConvert");
+const TsConvert = () => import("./components/page/tool/TsConvert");
 const AboutHome = () => import("./components/page/about/AboutHome");
 const ContactUs = () => import("./components/page/about/ContactUs");
 const UpdateLog = () => import("./components/page/about/UpdateLog");
@@ -134,6 +135,12 @@ export default new VueRouter({
       component: AidBvidConvert,
       meta: {
         title: 'av号/bv号转换 - ' + SITE_NAME
+      }
+    }, {
+      path: "/tool/ts",
+      component: TsConvert,
+      meta: {
+        title: '时间戳转换 - ' + SITE_NAME
       }
     }, {
       path: "/about",

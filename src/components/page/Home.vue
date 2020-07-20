@@ -206,6 +206,9 @@
         <li>
           <router-link to="/tool/abid">av号/bv号转换</router-link>：Bilibili av号/bv号转换工具。
         </li>
+        <li>
+          <router-link to="/tool/ts">时间戳转换</router-link>：时间戳与时间字符串转换工具。
+        </li>
       </ul>
     </div>
   </div>
