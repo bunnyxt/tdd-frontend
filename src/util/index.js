@@ -39,7 +39,7 @@ export default {
     let pos_MM = pattern.indexOf('MM');
     pos_MM > -1 ? date.setMonth(parseInt(dateString.substring(pos_MM, pos_MM + 2)) - 1) : undefined;
     let pos_dd = pattern.indexOf('dd');
-    pos_dd > -1 ? date.setDate(parseInt(dateString.substring(pos_dd, pos_dd + 2)) - 1) : undefined;
+    pos_dd > -1 ? date.setDate(parseInt(dateString.substring(pos_dd, pos_dd + 2))) : undefined;
     let pos_HH = pattern.indexOf('HH');
     pos_HH > -1 ? date.setHours(parseInt(dateString.substring(pos_HH, pos_HH + 2))) : undefined;
     let pos_mm = pattern.indexOf('mm');
