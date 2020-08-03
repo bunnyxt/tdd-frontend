@@ -181,5 +181,20 @@ export default {
     }
 
     that.$store.commit('setLoginSliderVisibility', true);
+  },
+  copyToClipboard: function (value, that) {
+    if (document.execCommand('copy')) {
+      let tmpElement = document.createElement('textarea');
+      document.body.appendChild(tmpElement);
+      tmpElement.value = value;
+      tmpElement.focus();
+      tmpElement.select();
+      document.execCommand('copy');
+      tmpElement.blur();
+      document.body.removeChild(tmpElement);
+      that && that.$message.success('复制成功');
+    } else {
+      that && that.$message.warning('您的浏览器不支持复制！请手动复制');
+    }
   }
 }
