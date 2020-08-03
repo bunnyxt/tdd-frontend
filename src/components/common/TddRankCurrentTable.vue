@@ -71,153 +71,152 @@
 </template>
 
 <script>
-  export default {
-    name: 'TddRankCurrentTable',
-    props: {
-      rankCurrentList: {
-        type: Array,
-        required: true
-      },
-      rankCurrentColor: {
-        type: Object,
-        required: true
-      }
+export default {
+  name: 'TddRankCurrentTable',
+  props: {
+    rankCurrentList: {
+      type: Array,
+      required: true
     },
-    data: function () {
-      return {
-        columns: [
-          {
-            title: '排名',
-            dataIndex: 'rank',
-            scopedSlots: { customRender: 'value' },
-            fixed: 'left',
-          }, {
-            title: '封面',
-            scopedSlots: { customRender: 'pic' },
-            width: '112px',
-          }, {
-            title: '标题',
-            scopedSlots: { customRender: 'videoTitleMember' },
-          },
-          // {
-          //   title: '投稿时间',
-          //   dataIndex: 'video.pubdate',
-          //   scopedSlots: { customRender: 'added' },
-          //   width: '108px',
-          // },
-          {
-            title: '播放',
-            scopedSlots: { customRender: 'view_value' },
-          }, {
-            title: '弹幕',
-            scopedSlots: { customRender: 'danmaku_value' },
-          }, {
-            title: '评论',
-            scopedSlots: { customRender: 'reply_value' },
-          }, {
-            title: '收藏',
-            scopedSlots: { customRender: 'favorite_value' },
-          }, {
-            title: '硬币',
-            scopedSlots: { customRender: 'coin_value' },
-          }, {
-            title: '分享',
-            scopedSlots: { customRender: 'share_value' },
-          }, {
-            title: '点赞',
-            scopedSlots: { customRender: 'like_value' },
-          }, {
-            title: '得分',
-            dataIndex: 'point',
-            scopedSlots: { customRender: 'value' },
-          }, {
-            title: '修正A',
-            dataIndex: 'xiua',
-            scopedSlots: { customRender: 'value' },
-            width: '64px',
-          }, {
-            title: '修正B',
-            dataIndex: 'xiub',
-            scopedSlots: { customRender: 'value' },
-            width: '64px',
-          },
-          // {
-          //   title: '更多',
-          //   scopedSlots: { customRender: 'more' },
-          //   width: '64px',
-          // }
-        ]
-      }
+    rankCurrentColor: {
+      type: Object,
+      required: true
+    }
+  },
+  data: function () {
+    return {
+      columns: [
+        {
+          title: '排名',
+          dataIndex: 'rank',
+          scopedSlots: { customRender: 'value' },
+          fixed: 'left',
+        }, {
+          title: '封面',
+          scopedSlots: { customRender: 'pic' },
+          width: '112px',
+        }, {
+          title: '标题',
+          scopedSlots: { customRender: 'videoTitleMember' },
+        },
+        // {
+        //   title: '投稿时间',
+        //   dataIndex: 'video.pubdate',
+        //   scopedSlots: { customRender: 'added' },
+        //   width: '108px',
+        // },
+        {
+          title: '播放',
+          scopedSlots: { customRender: 'view_value' },
+        }, {
+          title: '弹幕',
+          scopedSlots: { customRender: 'danmaku_value' },
+        }, {
+          title: '评论',
+          scopedSlots: { customRender: 'reply_value' },
+        }, {
+          title: '收藏',
+          scopedSlots: { customRender: 'favorite_value' },
+        }, {
+          title: '硬币',
+          scopedSlots: { customRender: 'coin_value' },
+        }, {
+          title: '分享',
+          scopedSlots: { customRender: 'share_value' },
+        }, {
+          title: '点赞',
+          scopedSlots: { customRender: 'like_value' },
+        }, {
+          title: '得分',
+          dataIndex: 'point',
+          scopedSlots: { customRender: 'value' },
+        }, {
+          title: '修正A',
+          dataIndex: 'xiua',
+          scopedSlots: { customRender: 'value' },
+          width: '64px',
+        }, {
+          title: '修正B',
+          dataIndex: 'xiub',
+          scopedSlots: { customRender: 'value' },
+          width: '64px',
+        },
+        // {
+        //   title: '更多',
+        //   scopedSlots: { customRender: 'more' },
+        //   width: '64px',
+        // }
+      ]
+    }
+  },
+  methods: {
+    videoPicClickHandler: function (aid) {
+      window.open('/video/av' + aid);
     },
-    methods: {
-      videoPicClickHandler: function (aid) {
-        window.open('/video/av' + aid);
-      },
-      videoTitleClickHandler: function (aid) {
-        window.open('/video/av' + aid);
-      },
-      memberNameClickHandler: function (mid) {
-        window.open('/member/' + mid);
-      },
-      getColorClass: function (property, value) {
-        let abcd = this.rankCurrentColor[property];
-        if (!abcd) {
-          return 'color-0';
+    videoTitleClickHandler: function (aid) {
+      window.open('/video/av' + aid);
+    },
+    memberNameClickHandler: function (mid) {
+      window.open('/member/' + mid);
+    },
+    getColorClass: function (property, value) {
+      let abcd = this.rankCurrentColor[property];
+      if (!abcd) {
+        return 'color-0';
+      } else {
+        if (value <= abcd.a) {
+          return 'color-1';
+        } else if (value <= abcd.b) {
+          return 'color-2';
+        } else if (value <= abcd.c) {
+          return 'color-3';
+        } else if (value <= abcd.d) {
+          return 'color-4';
         } else {
-          if (value <= abcd.a) {
-            return 'color-1';
-          } else if (value <= abcd.b) {
-            return 'color-2';
-          } else if (value <= abcd.c) {
-            return 'color-3';
-          } else if (value <= abcd.d) {
-            return 'color-4';
-          } else {
-            return 'color-5';
-          }
+          return 'color-5';
         }
       }
     }
   }
+}
 </script>
 
 <style scoped>
-  .video-title {
-    height: 42px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-  .video-title-member {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-top: 4px;
-  }
-  a {
-    color: rgba(0, 0, 0, 0.65);
-  }
-  a:hover {
-    color: #1890ff
-  }
-  .color-0 {
-    color: rgba(0, 0, 0, 0.65);
-  }
-  .color-1 {
-    color: #d32f2f;
-  }
-  .color-2 {
-    color: #f57c00;
-  }
-  .color-3 {
-    color: #388e3c;
-  }
-  .color-4 {
-    color: #1976d2;
-  }
-  .color-5 {
-    color: #7b1fa2
-  ;
-  }
+.video-title {
+  height: 42px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.video-title-member {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 4px;
+}
+a {
+  color: rgba(0, 0, 0, 0.65);
+}
+a:hover {
+  color: #1890ff
+}
+.color-0 {
+  color: rgba(0, 0, 0, 0.65);
+}
+.color-1 {
+  color: #d32f2f;
+}
+.color-2 {
+  color: #f57c00;
+}
+.color-3 {
+  color: #388e3c;
+}
+.color-4 {
+  color: #1976d2;
+}
+.color-5 {
+  color: #7b1fa2;
+}
 </style>

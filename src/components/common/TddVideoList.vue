@@ -186,148 +186,148 @@
 </template>
 
 <script>
-  import TddVideoStatBar from "./TddVideoStatBar.vue";
-  import TddVideoCover from "./TddVideoCover";
+import TddVideoStatBar from "./TddVideoStatBar.vue";
+import TddVideoCover from "./TddVideoCover";
 
-  export default {
-    name: 'TddVideoList',
-    props: {
-      videoList: {
-        type: Array,
-        required: true
-      },
-      mode: {
-        type: String,
-        default: 'list'
-      },
-      mainProp: {
-        type: String,
-        default: function () {
-          return 'view';
-        }
-      },
-      showStatBar: {
-        type: Boolean,
-        default: true
-      },
-      showMobileView: {
-        type: Boolean,
-        default: true
-      },
-      showSprintBoard: {
-        type: Boolean,
-        default: false
+export default {
+  name: 'TddVideoList',
+  props: {
+    videoList: {
+      type: Array,
+      required: true
+    },
+    mode: {
+      type: String,
+      default: 'list'
+    },
+    mainProp: {
+      type: String,
+      default: function () {
+        return 'view';
       }
     },
-    components: {
-      TddVideoStatBar,
-      TddVideoCover
+    showStatBar: {
+      type: Boolean,
+      default: true
     },
-    data: function () {
-      return {
+    showMobileView: {
+      type: Boolean,
+      default: true
+    },
+    showSprintBoard: {
+      type: Boolean,
+      default: false
+    }
+  },
+  components: {
+    TddVideoStatBar,
+    TddVideoCover
+  },
+  data: function () {
+    return {
 
-      }
-    },
-    methods: {
-      calcTimeSpanString: function (ts) {
-        if (ts < 60) {
-          return ts + '秒';
-        } else if (ts < 60 * 60) {
-          return Math.floor(ts / 60) + '分';
-        } else if (ts < 60 * 60 * 24) {
-          return Math.floor(ts / 60 / 60) + '时';
-        } else {
-          return Math.floor(ts / 60 / 60 / 24) + '日';
-        }
+    }
+  },
+  methods: {
+    calcTimeSpanString: function (ts) {
+      if (ts < 60) {
+        return ts + '秒';
+      } else if (ts < 60 * 60) {
+        return Math.floor(ts / 60) + '分';
+      } else if (ts < 60 * 60 * 24) {
+        return Math.floor(ts / 60 / 60) + '时';
+      } else {
+        return Math.floor(ts / 60 / 60 / 24) + '日';
       }
     }
   }
+}
 </script>
 
 <style scoped>
-  .tdd-video-item-mobile {
-    overflow: hidden;
-    width: 100%;
-  }
-  .tdd-video-item-mobile-cover-pic {
-    float: left;
-    margin-right: 8px;
-  }
-  .tdd-video-item-mobile-right-content {
-    float: left;
-    width: calc(100% - 116px);
-  }
-  .tdd-video-item-mobile-title {
-    height: 40px;
-    width: 100%;
-    margin-bottom: 4px;
-    color: rgba(0, 0, 0, 0.85);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-  .tdd-video-item-mobile-right-content-footer {
-    overflow: hidden;
-    width: 100%;
-  }
-  .tdd-video-item-mobile-right-content-footer > div {
-    float: left;
-    width: 50%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    padding-right: 4px;
-  }
+.tdd-video-item-mobile {
+  overflow: hidden;
+  width: 100%;
+}
+.tdd-video-item-mobile-cover-pic {
+  float: left;
+  margin-right: 8px;
+}
+.tdd-video-item-mobile-right-content {
+  float: left;
+  width: calc(100% - 116px);
+}
+.tdd-video-item-mobile-title {
+  height: 40px;
+  width: 100%;
+  margin-bottom: 4px;
+  color: rgba(0, 0, 0, 0.85);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.tdd-video-item-mobile-right-content-footer {
+  overflow: hidden;
+  width: 100%;
+}
+.tdd-video-item-mobile-right-content-footer > div {
+  float: left;
+  width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding-right: 4px;
+}
 
-  .tdd-video-item-desktop-list-title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+.tdd-video-item-desktop-list-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-  .tdd-video-item-desktop-grid-card {
-    transition: all .2s;
-    border: 1px solid #e8e8e8;
-  }
-  .tdd-video-item-desktop-grid-card:hover {
-    cursor: pointer;
-    -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    -moz-box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    border-color: rgba(0,0,0,.09);
-  }
-  .tdd-video-item-desktop-grid-title {
-    height: 48px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-  .tdd-video-item-desktop-grid-video-stat-bar {
-    height: 42px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-  .stat-item-icon {
-    margin-right: 4px;
-  }
+.tdd-video-item-desktop-grid-card {
+  transition: all .2s;
+  border: 1px solid #e8e8e8;
+}
+.tdd-video-item-desktop-grid-card:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  -moz-box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  border-color: rgba(0,0,0,.09);
+}
+.tdd-video-item-desktop-grid-title {
+  height: 48px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.tdd-video-item-desktop-grid-video-stat-bar {
+  height: 42px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.stat-item-icon {
+  margin-right: 4px;
+}
 
-  /* overwrite ant design style */
-  /* add list item hover shadow */
-  .ant-list-item {
-    transition: all .2s;
-  }
-  .ant-list-item:hover {
-    cursor: pointer;
-    -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    -moz-box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    border-color: rgba(0,0,0,.09);
-  }
+/* overwrite ant design style */
+/* add list item hover shadow */
+.ant-list-item {
+  transition: all .2s;
+}
+.ant-list-item:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  -moz-box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  border-color: rgba(0,0,0,.09);
+}
 </style>

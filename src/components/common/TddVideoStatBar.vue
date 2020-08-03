@@ -11,92 +11,92 @@
 </template>
 
 <script>
-  export default {
-    name: 'TddVideoStatBar',
-    props: {
-      stat: Object,
-      mode: String,
-      showName: Boolean
-    },
-    data: function () {
-      return {
-        nameDict: {
-          view: '播放',
-          danmaku: '弹幕',
-          reply: '评论',
-          favorite: '收藏',
-          coin: '硬币',
-          share: '分享',
-          like: '点赞'
-        }
+export default {
+  name: 'TddVideoStatBar',
+  props: {
+    stat: Object,
+    mode: String,
+    showName: Boolean
+  },
+  data: function () {
+    return {
+      nameDict: {
+        view: '播放',
+        danmaku: '弹幕',
+        reply: '评论',
+        favorite: '收藏',
+        coin: '硬币',
+        share: '分享',
+        like: '点赞'
+      }
+    }
+  },
+  methods: {
+    getStatValue: function (property) {
+      if (this.stat && this.stat[property] !== undefined) {
+        return this.stat[property];
+      } else {
+        return -1;
       }
     },
-    methods: {
-      getStatValue: function (property) {
-        if (this.stat && this.stat[property] !== undefined) {
-          return this.stat[property];
-        } else {
-          return -1;
-        }
-      },
-      getStatName: function (property) {
-        if (this.showName) {
-          return this.nameDict[property] + '：';
-        } else {
-          return '';
-        }
-      },
-      getStatDisplay: function (property) {
-        return this.getStatName(property) + this.getStatValue(property).toLocaleString();
+    getStatName: function (property) {
+      if (this.showName) {
+        return this.nameDict[property] + '：';
+      } else {
+        return '';
       }
     },
-    computed: {
-      displayMode: function () {
-        if (this.mode === 'vertical') {
-          return 'vertical';
-        } else {
-          return 'bar';
-        }
-      },
-      view: function () {
-        return this.getStatDisplay('view');
-      },
-      danmaku: function () {
-        return this.getStatDisplay('danmaku');
-      },
-      reply: function () {
-        return this.getStatDisplay('reply');
-      },
-      favorite: function () {
-        return this.getStatDisplay('favorite');
-      },
-      coin: function () {
-        return this.getStatDisplay('coin');
-      },
-      share: function () {
-        return this.getStatDisplay('share');
-      },
-      like: function () {
-        return this.getStatDisplay('like');
-      },
-      separator: function () {
-        if (this.displayMode === 'vertical') {
-          return '<br>';
-        } else if (this.displayMode === 'bar') {
-          return '<span style="color: #e8e8e8; margin: 0 8px">|</span>';
-        } else {
-          return '';
-        }
+    getStatDisplay: function (property) {
+      return this.getStatName(property) + this.getStatValue(property).toLocaleString();
+    }
+  },
+  computed: {
+    displayMode: function () {
+      if (this.mode === 'vertical') {
+        return 'vertical';
+      } else {
+        return 'bar';
+      }
+    },
+    view: function () {
+      return this.getStatDisplay('view');
+    },
+    danmaku: function () {
+      return this.getStatDisplay('danmaku');
+    },
+    reply: function () {
+      return this.getStatDisplay('reply');
+    },
+    favorite: function () {
+      return this.getStatDisplay('favorite');
+    },
+    coin: function () {
+      return this.getStatDisplay('coin');
+    },
+    share: function () {
+      return this.getStatDisplay('share');
+    },
+    like: function () {
+      return this.getStatDisplay('like');
+    },
+    separator: function () {
+      if (this.displayMode === 'vertical') {
+        return '<br>';
+      } else if (this.displayMode === 'bar') {
+        return '<span style="color: #e8e8e8; margin: 0 8px">|</span>';
+      } else {
+        return '';
       }
     }
   }
+}
 </script>
 
 <style scoped>
-  .stat-item {
-    white-space: nowrap;
-  }
-  .stat-item-icon {
-    margin-right: 8px;
-  }
+.stat-item {
+  white-space: nowrap;
+}
+.stat-item-icon {
+  margin-right: 8px;
+}
 </style>

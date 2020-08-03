@@ -95,19 +95,19 @@
               <div class="tdd-member-item-desktop-grid-title" :title="item.name">
                 <span style="font-size: 1.17em; color: rgba(0, 0, 0, 0.85); font-weight: 500">{{ item.name }}</span>
                 <template v-if="item.sex === '男'">
-                <span class="tdd-member-item-desktop-grid-title-sex" style="color: #00b5f6">
-                  <icon-font type="icon-xingbie-nan" />
-                </span>
+                  <span class="tdd-member-item-desktop-grid-title-sex" style="color: #00b5f6">
+                    <icon-font type="icon-xingbie-nan" />
+                  </span>
                 </template>
                 <template v-else-if="item.sex === '女'">
-                <span class="tdd-member-item-desktop-grid-title-sex" style="color: #f9a9f8">
-                  <icon-font type="icon-xingbie-nv" />
-                </span>
+                  <span class="tdd-member-item-desktop-grid-title-sex" style="color: #f9a9f8">
+                    <icon-font type="icon-xingbie-nv" />
+                  </span>
                 </template>
                 <template v-else-if="item.sex === '保密'">
-                <span class="tdd-member-item-desktop-grid-title-sex" style="color: rgba(183,183,183,0.95)">
-                  <icon-font type="icon-xingbie-weizhi" />
-                </span>
+                  <span class="tdd-member-item-desktop-grid-title-sex" style="color: rgba(183,183,183,0.95)">
+                    <icon-font type="icon-xingbie-weizhi" />
+                  </span>
                 </template>
               </div>
               <div class="tdd-member-item-desktop-grid-follower">
@@ -134,25 +134,25 @@
               <tdd-video-stat-bar :stat="item.last_video ? item.last_video.laststat : null" style="margin: 8px 0" />
               点击查看视频详情
             </template>
-          <div
-              class="tdd-member-item-desktop-grid-last-video"
-              @click.stop="itemLastVideoClickHandler(item.last_video ? item.last_video.aid : -1)"
-              style="margin-top: 8px"
-          >
-            <img
-                class="tdd-member-item-desktop-grid-last-video-cover-pic"
-                width="108px" height="65px" alt="pic" :src="item.last_video ? item.last_video.pic : ''"
-            />
-            <div class="tdd-member-item-desktop-grid-last-video-right-content">
-              <div class="tdd-member-item-desktop-grid-last-video-title">
-                {{ item.last_video ? item.last_video.title : null }}
-              </div>
-              <div class="tdd-member-item-desktop-grid-last-video-pubdate">
-                <a-icon type="calendar" style="margin-right: 4px" />
-                {{ $util.tsToDateString(item.last_video ? item.last_video.pubdate : 0) }}
+            <div
+                class="tdd-member-item-desktop-grid-last-video"
+                @click.stop="itemLastVideoClickHandler(item.last_video ? item.last_video.aid : -1)"
+                style="margin-top: 8px"
+            >
+              <img
+                  class="tdd-member-item-desktop-grid-last-video-cover-pic"
+                  width="108px" height="65px" alt="pic" :src="item.last_video ? item.last_video.pic : ''"
+              />
+              <div class="tdd-member-item-desktop-grid-last-video-right-content">
+                <div class="tdd-member-item-desktop-grid-last-video-title">
+                  {{ item.last_video ? item.last_video.title : null }}
+                </div>
+                <div class="tdd-member-item-desktop-grid-last-video-pubdate">
+                  <a-icon type="calendar" style="margin-right: 4px" />
+                  {{ $util.tsToDateString(item.last_video ? item.last_video.pubdate : 0) }}
+                </div>
               </div>
             </div>
-          </div>
           </a-tooltip>
         </div>
       </template>
@@ -161,169 +161,169 @@
 </template>
 
 <script>
-  import { Icon } from 'ant-design-vue';
-  import TddVideoStatBar from "./TddVideoStatBar";
+import { Icon } from 'ant-design-vue';
+import TddVideoStatBar from "./TddVideoStatBar";
 
-  const IconFont = Icon.createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
-  });
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
+});
 
-  export default {
-    name: 'TddMemberList',
-    props: {
-      memberList: {
-        type: Array,
-        required: true
-      },
-      mainProp: {
-        type: String,
-        default: function () {
-          return 'sr_view';
-        }
-      }
+export default {
+  name: 'TddMemberList',
+  props: {
+    memberList: {
+      type: Array,
+      required: true
     },
-    components: {
-      IconFont,
-      TddVideoStatBar
-    },
-    data: function () {
-      return {
-
-      }
-    },
-    methods: {
-      itemLastVideoClickHandler: function (aid) {
-        this.$router.push('video/av' + aid);
+    mainProp: {
+      type: String,
+      default: function () {
+        return 'sr_view';
       }
     }
+  },
+  components: {
+    IconFont,
+    TddVideoStatBar
+  },
+  data: function () {
+    return {
+
+    }
+  },
+  methods: {
+    itemLastVideoClickHandler: function (aid) {
+      this.$router.push('video/av' + aid);
+    }
   }
+}
 </script>
 
 <style scoped>
-  .tdd-member-item-mobile {
-    width: 100%;
-    overflow: hidden;
-  }
-  .tdd-member-item-mobile-avatar {
-    float: left;
-    margin-right: 12px;
-  }
-  .tdd-member-item-mobile-content {
-    float: left;
-    width: calc(100% - 60px);
-    overflow: hidden;
-  }
-  .tdd-member-item-mobile-title {
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .tdd-member-item-mobile-right-content-footer {
-    margin-top: 6px;
-    overflow: hidden;
-  }
-  .tdd-member-item-mobile-right-content-footer div {
-    float: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .stat-item-icon {
-    margin-right: 4px;
-  }
+.tdd-member-item-mobile {
+  width: 100%;
+  overflow: hidden;
+}
+.tdd-member-item-mobile-avatar {
+  float: left;
+  margin-right: 12px;
+}
+.tdd-member-item-mobile-content {
+  float: left;
+  width: calc(100% - 60px);
+  overflow: hidden;
+}
+.tdd-member-item-mobile-title {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tdd-member-item-mobile-right-content-footer {
+  margin-top: 6px;
+  overflow: hidden;
+}
+.tdd-member-item-mobile-right-content-footer div {
+  float: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.stat-item-icon {
+  margin-right: 4px;
+}
 
-  .tdd-member-item-desktop-grid-card {
-    transition: all .2s;
-    border: 1px solid #e8e8e8;
-    padding: 12px;
-  }
-  .tdd-member-item-desktop-grid-card:hover {
-    cursor: pointer;
-    -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    -moz-box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    border-color: rgba(0,0,0,.09);
-  }
-  .tdd-member-item-desktop-grid-header {
-    overflow: hidden;
-  }
-  .tdd-member-item-desktop-grid-avatar {
-    float: left;
-    margin-right: 12px;
-  }
-  .tdd-member-item-desktop-grid-content {
-    float: left;
-    width: calc(100% - 60px);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .tdd-member-item-desktop-grid-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .tdd-member-item-desktop-grid-title-sex {
-    font-size: 1.17em;
-    margin-top: 4px;
-    margin-left: 8px;
-  }
-  .tdd-member-item-desktop-grid-follower {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .tdd-member-item-desktop-grid-stat-bar {
-    height: 63px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-  }
-  .tdd-member-item-desktop-grid-last-video {
-    overflow: hidden;
-  }
-  .tdd-member-item-desktop-grid-last-video-cover-pic {
-    float: left;
-    margin-right: 8px;
-  }
-  .tdd-member-item-desktop-grid-last-video-right-content {
-    float: left;
-    width: calc(100% - 116px);
-  }
-  .tdd-member-item-desktop-grid-last-video-title {
-    height: 40px;
-    width: 100%;
-    margin-bottom: 4px;
-    color: rgba(0, 0, 0, 0.85);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-  .tdd-member-item-desktop-grid-last-video-pubdate {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+.tdd-member-item-desktop-grid-card {
+  transition: all .2s;
+  border: 1px solid #e8e8e8;
+  padding: 12px;
+}
+.tdd-member-item-desktop-grid-card:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  -moz-box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  border-color: rgba(0,0,0,.09);
+}
+.tdd-member-item-desktop-grid-header {
+  overflow: hidden;
+}
+.tdd-member-item-desktop-grid-avatar {
+  float: left;
+  margin-right: 12px;
+}
+.tdd-member-item-desktop-grid-content {
+  float: left;
+  width: calc(100% - 60px);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tdd-member-item-desktop-grid-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tdd-member-item-desktop-grid-title-sex {
+  font-size: 1.17em;
+  margin-top: 4px;
+  margin-left: 8px;
+}
+.tdd-member-item-desktop-grid-follower {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tdd-member-item-desktop-grid-stat-bar {
+  height: 63px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+.tdd-member-item-desktop-grid-last-video {
+  overflow: hidden;
+}
+.tdd-member-item-desktop-grid-last-video-cover-pic {
+  float: left;
+  margin-right: 8px;
+}
+.tdd-member-item-desktop-grid-last-video-right-content {
+  float: left;
+  width: calc(100% - 116px);
+}
+.tdd-member-item-desktop-grid-last-video-title {
+  height: 40px;
+  width: 100%;
+  margin-bottom: 4px;
+  color: rgba(0, 0, 0, 0.85);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.tdd-member-item-desktop-grid-last-video-pubdate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  /* overwrite ant design style */
-  /* add list item hover shadow */
-  .ant-list-item {
-    transition: all .2s;
-  }
-  .ant-list-item:hover {
-    cursor: pointer;
-    -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    -moz-box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    box-shadow: 0 2px 8px rgba(0,0,0,.09);
-    border-color: rgba(0,0,0,.09);
-  }
-  .ant-divider-inner-text {
-    font-size: 12px;
-    color: rgba(0, 0, 0, 0.65);
-  }
+/* overwrite ant design style */
+/* add list item hover shadow */
+.ant-list-item {
+  transition: all .2s;
+}
+.ant-list-item:hover {
+  cursor: pointer;
+  -webkit-box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  -moz-box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  box-shadow: 0 2px 8px rgba(0,0,0,.09);
+  border-color: rgba(0,0,0,.09);
+}
+.ant-divider-inner-text {
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.65);
+}
 </style>

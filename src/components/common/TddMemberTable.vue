@@ -66,106 +66,106 @@
 </template>
 
 <script>
-  import { Icon } from 'ant-design-vue';
-  import TddVideoStatBar from "./TddVideoStatBar";
+import { Icon } from 'ant-design-vue';
+import TddVideoStatBar from "./TddVideoStatBar";
 
-  const IconFont = Icon.createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
-  });
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
+});
 
-  export default {
-    name: 'TddMemberTable',
-    props: {
-      memberList: {
-        type: Array,
-        required: true
-      }
-    },
-    components: {
-      IconFont,
-      TddVideoStatBar
-    },
-    data: function () {
-      return {
-        columns: [
-          {
-            title: '头像',
-            scopedSlots: { customRender: 'face' },
-            width: '68px',
-            fixed: 'left',
-          }, {
-            title: '昵称',
-            scopedSlots: { customRender: 'name' },
-          }, {
-            title: '粉丝数',
-            dataIndex: 'last_follower.follower',
-            scopedSlots: { customRender: 'value' },
-          }, {
-            title: '总投稿数',
-            dataIndex: 'video_count',
-            scopedSlots: { customRender: 'value' },
-          }, {
-            title: '总播放',
-            dataIndex: 'last_total_stat.view',
-            scopedSlots: { customRender: 'value' },
-          }, {
-            title: '总弹幕',
-            dataIndex: 'last_total_stat.danmaku',
-            scopedSlots: { customRender: 'value' },
-          }, {
-            title: '总评论',
-            dataIndex: 'last_total_stat.reply',
-            scopedSlots: { customRender: 'value' },
-          }, {
-            title: '总收藏',
-            dataIndex: 'last_total_stat.favorite',
-            scopedSlots: { customRender: 'value' },
-          }, {
-            title: '总硬币',
-            dataIndex: 'last_total_stat.coin',
-            scopedSlots: { customRender: 'value' },
-          }, {
-            title: '总分享',
-            dataIndex: 'last_total_stat.share',
-            scopedSlots: { customRender: 'value' },
-          }, {
-            title: '总点赞',
-            dataIndex: 'last_total_stat.like',
-            scopedSlots: { customRender: 'value' },
-          }, {
-            title: '最新投稿',
-            dataIndex: 'last_video',
-            scopedSlots: { customRender: 'lastVideo' },
-            width: '108px',
-          }, {
-            title: '关注时间',
-            dataIndex: 'favorite_added',
-            scopedSlots: { customRender: 'added' },
-            width: '108px',
-          }
-        ]
-      }
-    },
-    methods: {
-      videoPicClickHandler: function (item) {
-        this.$store.commit('setVideoDetailDrawerVideo', item);
-        this.$store.commit('setVideoDetailDrawerVisibility', true);
-      }
+export default {
+  name: 'TddMemberTable',
+  props: {
+    memberList: {
+      type: Array,
+      required: true
+    }
+  },
+  components: {
+    IconFont,
+    TddVideoStatBar
+  },
+  data: function () {
+    return {
+      columns: [
+        {
+          title: '头像',
+          scopedSlots: { customRender: 'face' },
+          width: '68px',
+          fixed: 'left',
+        }, {
+          title: '昵称',
+          scopedSlots: { customRender: 'name' },
+        }, {
+          title: '粉丝数',
+          dataIndex: 'last_follower.follower',
+          scopedSlots: { customRender: 'value' },
+        }, {
+          title: '总投稿数',
+          dataIndex: 'video_count',
+          scopedSlots: { customRender: 'value' },
+        }, {
+          title: '总播放',
+          dataIndex: 'last_total_stat.view',
+          scopedSlots: { customRender: 'value' },
+        }, {
+          title: '总弹幕',
+          dataIndex: 'last_total_stat.danmaku',
+          scopedSlots: { customRender: 'value' },
+        }, {
+          title: '总评论',
+          dataIndex: 'last_total_stat.reply',
+          scopedSlots: { customRender: 'value' },
+        }, {
+          title: '总收藏',
+          dataIndex: 'last_total_stat.favorite',
+          scopedSlots: { customRender: 'value' },
+        }, {
+          title: '总硬币',
+          dataIndex: 'last_total_stat.coin',
+          scopedSlots: { customRender: 'value' },
+        }, {
+          title: '总分享',
+          dataIndex: 'last_total_stat.share',
+          scopedSlots: { customRender: 'value' },
+        }, {
+          title: '总点赞',
+          dataIndex: 'last_total_stat.like',
+          scopedSlots: { customRender: 'value' },
+        }, {
+          title: '最新投稿',
+          dataIndex: 'last_video',
+          scopedSlots: { customRender: 'lastVideo' },
+          width: '108px',
+        }, {
+          title: '关注时间',
+          dataIndex: 'favorite_added',
+          scopedSlots: { customRender: 'added' },
+          width: '108px',
+        }
+      ]
+    }
+  },
+  methods: {
+    videoPicClickHandler: function (item) {
+      this.$store.commit('setVideoDetailDrawerVideo', item);
+      this.$store.commit('setVideoDetailDrawerVisibility', true);
     }
   }
+}
 </script>
 
 <style scoped>
-  .tdd-member-table-title {
-    min-width: 100px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-  .tdd-member-table-title-sex {
-    margin-top: 4px;
-    margin-left: 4px;
-  }
+.tdd-member-table-title {
+  min-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.tdd-member-table-title-sex {
+  margin-top: 4px;
+  margin-left: 4px;
+}
 </style>

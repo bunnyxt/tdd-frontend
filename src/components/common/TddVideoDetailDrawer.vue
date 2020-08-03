@@ -87,105 +87,105 @@
 </template>
 
 <script>
-  import TddVideoStatBar from "./TddVideoStatBar";
-  import TddVideoDescription from "./TddVideoDescription";
-  import TddVideoActionBar from "./TddVideoActionBar";
+import TddVideoStatBar from "./TddVideoStatBar";
+import TddVideoDescription from "./TddVideoDescription";
+import TddVideoActionBar from "./TddVideoActionBar";
 
-  export default {
-    name: 'TddVideoDetailDrawer',
-    components: {
-      TddVideoStatBar,
-      TddVideoDescription,
-      TddVideoActionBar
-    },
-    data: function () {
-      return {
+export default {
+  name: 'TddVideoDetailDrawer',
+  components: {
+    TddVideoStatBar,
+    TddVideoDescription,
+    TddVideoActionBar
+  },
+  data: function () {
+    return {
 
+    }
+  },
+  computed: {
+    video: {
+      get() {
+        return this.$store.state.videoDetailDrawerVideo;
       }
     },
-    computed: {
-      video: {
-        get() {
-          return this.$store.state.videoDetailDrawerVideo;
-        }
-      },
-      videoDetailDrawerWidth: function() {
-        return Math.min(this.$store.state.clientWidth * 0.7, 512);
-      }
+    videoDetailDrawerWidth: function() {
+      return Math.min(this.$store.state.clientWidth * 0.7, 512);
+    }
+  },
+  methods: {
+    videoMemberNameClickHandler: function (mid) {
+      this.$router.push('/member/' + mid);
+      this.$store.commit('setVideoDetailDrawerVisibility', false);
     },
-    methods: {
-      videoMemberNameClickHandler: function (mid) {
-        this.$router.push('/member/' + mid);
-        this.$store.commit('setVideoDetailDrawerVisibility', false);
-      },
-      videoDetailClickHandler: function () {
-        this.$store.commit('setVideoDetailVideo', this.video);
-        this.$store.commit('setVideoDetailDrawerVisibility', false);
-      },
-      getStaffTitleColor: function (title) {
-        let color = '';
-        switch (title) {
-          case 'UP主':
-            color = 'red';
-            break;
-          case '作词':
-          case '填词':
-            color = 'pink';
-            break;
-          case '作曲':
-          case '编曲':
-            color = 'orange';
-            break;
-          case '调校':
-          case '调教':
-          case '调音':
-            color = 'green';
-            break;
-          case '曲绘':
-            color = 'cyan';
-            break;
-          case '策划':
-            color = 'blue';
-            break;
-          case '视频制作':
-          case '剪辑':
-          case '字幕':
-            color = 'purple';
-            break;
-        }
-        return color;
+    videoDetailClickHandler: function () {
+      this.$store.commit('setVideoDetailVideo', this.video);
+      this.$store.commit('setVideoDetailDrawerVisibility', false);
+    },
+    getStaffTitleColor: function (title) {
+      let color = '';
+      switch (title) {
+        case 'UP主':
+          color = 'red';
+          break;
+        case '作词':
+        case '填词':
+          color = 'pink';
+          break;
+        case '作曲':
+        case '编曲':
+          color = 'orange';
+          break;
+        case '调校':
+        case '调教':
+        case '调音':
+          color = 'green';
+          break;
+        case '曲绘':
+          color = 'cyan';
+          break;
+        case '策划':
+          color = 'blue';
+          break;
+        case '视频制作':
+        case '剪辑':
+        case '字幕':
+          color = 'purple';
+          break;
       }
+      return color;
     }
   }
+}
 </script>
 
 <style scoped>
-  .drawer-fake-footer {
-    height: 48px;
-  }
-  .drawer-footer {
-    position: fixed;
-    bottom: 0;
-    background: #fafafa;
-    margin-left: -24px;
-    border-top: 1px solid #e8e8e8;
-    cursor: pointer;
-  }
-  .drawer-footer div {
-    float: left;
-    width: 100%;
-    height: 48px;
-    text-align: center;
-    border-left: 1px solid #e8e8e8;
-    padding-top: 14px;
-    color: rgba(0, 0, 0, 0.65);
-    transition: all .2s ease-out;
-    -moz-transition: all .2s ease-out;
-    -webkit-transition: all .2s ease-out;
-    -o-transition: all .2s ease-out;
-  }
-  .drawer-footer div:hover {
-    background: #e8e8e8;
-    color: #1890FF;
-  }
+.drawer-fake-footer {
+  height: 48px;
+}
+.drawer-footer {
+  position: fixed;
+  bottom: 0;
+  background: #fafafa;
+  margin-left: -24px;
+  border-top: 1px solid #e8e8e8;
+  cursor: pointer;
+}
+.drawer-footer div {
+  float: left;
+  width: 100%;
+  height: 48px;
+  text-align: center;
+  border-left: 1px solid #e8e8e8;
+  padding-top: 14px;
+  color: rgba(0, 0, 0, 0.65);
+  transition: all .2s ease-out;
+  -moz-transition: all .2s ease-out;
+  -webkit-transition: all .2s ease-out;
+  -o-transition: all .2s ease-out;
+}
+.drawer-footer div:hover {
+  background: #e8e8e8;
+  color: #1890FF;
+}
 </style>
