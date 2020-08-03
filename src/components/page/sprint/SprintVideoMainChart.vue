@@ -3,28 +3,28 @@
     <h3>播放数增长曲线</h3>
     <div class="toolbar">
       <a-button
-        @click="updateData('one_day')"
-        id="one_day"
-        :class="{active: selection==='one_day'}"
-        style="margin-right:8px"
+          @click="updateData('one_day')"
+          id="one_day"
+          :class="{active: selection==='one_day'}"
+          style="margin-right:8px"
       >天</a-button>
       <a-button
-        @click="updateData('one_week')"
-        id="one_week"
-        :class="{active: selection==='one_week'}"
-        style="margin-right:8px"
+          @click="updateData('one_week')"
+          id="one_week"
+          :class="{active: selection==='one_week'}"
+          style="margin-right:8px"
       >周</a-button>
       <a-button
-        @click="updateData('one_month')"
-        id="one_month"
-        :class="{active: selection==='one_month'}"
-        style="margin-right:8px"
+          @click="updateData('one_month')"
+          id="one_month"
+          :class="{active: selection==='one_month'}"
+          style="margin-right:8px"
       >月</a-button>
-      <a-button 
-        @click="updateData('all')" 
-        id="all" 
-        :class="{active: selection==='all'}"
-        style="margin-right:8px"
+      <a-button
+          @click="updateData('all')"
+          id="all"
+          :class="{active: selection==='all'}"
+          style="margin-right:8px"
       >全部</a-button>
     </div>
     <apexchart type="area" height="350" :options="chartOptions" :series="series"/>
@@ -42,12 +42,12 @@ export default {
       selection: "all",
       latest_time: 0,
       series: [
-      {
-        name: "播放",
-        data: [
-          [0, 0]
-        ]
-      }
+        {
+          name: "播放",
+          data: [
+            [0, 0]
+          ]
+        }
       ],
       chartOptions: {
         chart: {
@@ -154,39 +154,43 @@ export default {
   mounted: function () {
     if (document.body.clientWidth <= 576){
       this.chartOptions = {...this.chartOptions, ...{
-        yaxis: {
-          labels: {
-            show : false
-          }
-        }
-      }}
-    } else {
-      this.chartOptions = {...this.chartOptions, ...{
-        yaxis: {
-          labels: {
-            show : true
-          }
-        }
-      }}
-    }
-    let that = this;
-    window.addEventListener('resize',() => {
-      if (document.body.clientWidth <= 576){
-        that.chartOptions = {...this.chartOptions, ...{
           yaxis: {
             labels: {
               show : false
             }
           }
-        }}
-      } else {
-        that.chartOptions = {...this.chartOptions, ...{
+        }
+      }
+    } else {
+      this.chartOptions = {...this.chartOptions, ...{
           yaxis: {
             labels: {
               show : true
             }
           }
-        }}
+        }
+      }
+    }
+    let that = this;
+    window.addEventListener('resize',() => {
+      if (document.body.clientWidth <= 576){
+        that.chartOptions = {...this.chartOptions, ...{
+            yaxis: {
+              labels: {
+                show : false
+              }
+            }
+          }
+        }
+      } else {
+        that.chartOptions = {...this.chartOptions, ...{
+            yaxis: {
+              labels: {
+                show : true
+              }
+            }
+          }
+        }
       }
     },false);
   },

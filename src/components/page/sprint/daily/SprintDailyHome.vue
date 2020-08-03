@@ -12,16 +12,17 @@
       <p>
         基于<router-link to="/sprint">传说助攻</router-link>的数据，以<strong>UTC+8 06:00至次日06:00</strong>为统计区间，每日刊发一期的助攻日报，记录当日各冲刺视频播放数及播放数变化情况。
       </p>
-      <p>数据交流与系统反馈
-        <ul>
-          <li>
-            QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>
-          </li>
-          <li>
-            个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
-          </li>
-        </ul>
+      <p>
+        数据交流与系统反馈
       </p>
+      <ul>
+        <li>
+          QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>
+        </li>
+        <li>
+          个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
+        </li>
+      </ul>
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
@@ -59,10 +60,10 @@ export default {
   created: function() {
     this.isLoadingDaily = true
     fetch(this.$store.state.apiBase + "sprint_daily.php")
-      .then(response => response.json())
-      .then(json => this.sprintDailyList = json.data)
-      .then(() => this.sprintDailyList = this.sprintDailyList.reverse()) // reverse here
-      .then(() => this.isLoadingDaily = false)
+        .then(response => response.json())
+        .then(json => this.sprintDailyList = json.data)
+        .then(() => this.sprintDailyList = this.sprintDailyList.reverse()) // reverse here
+        .then(() => this.isLoadingDaily = false)
   },
 }
 </script>

@@ -208,102 +208,102 @@
 </template>
 
 <script>
-  import { Icon } from 'ant-design-vue';
-  import TddVideoList from "../../common/TddVideoList";
-  import MemberDetailFollowerHistoryLineChart from "./MemberDetailFollowerHistoryLineChart";
-  import MemberDetailTotalStatHistoryLineChart from "./MemberDetailTotalStatHistoryLineChart";
-  import TddVideoStatBar from "../../common/TddVideoStatBar";
-  import TddMemberActionBar from "../../common/TddMemberActionBar";
-  import TddMemberLogTable from "../../common/TddMemberLogTable";
+import { Icon } from 'ant-design-vue';
+import TddVideoList from "../../common/TddVideoList";
+import MemberDetailFollowerHistoryLineChart from "./MemberDetailFollowerHistoryLineChart";
+import MemberDetailTotalStatHistoryLineChart from "./MemberDetailTotalStatHistoryLineChart";
+import TddVideoStatBar from "../../common/TddVideoStatBar";
+import TddMemberActionBar from "../../common/TddMemberActionBar";
+import TddMemberLogTable from "../../common/TddMemberLogTable";
 
-  const IconFont = Icon.createFromIconfontCN({
-    scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
-  });
+const IconFont = Icon.createFromIconfontCN({
+  scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
+});
 
-  export default {
-    name: 'MemberDetail',
-    data: function () {
-      return {
-        member: null,
-        memberVideoList: [],
-        isLoadingMember: false,
-        isLoadingMemberVideos: false,
-        pagiCurrent: 1,
-        memberVideoTotalCount: 0,
-        orderValue: 'pubdate',
-        orderDescValue: 1,
-        followerRecords: [],
-        isLoadingFollowerRecords: false,
-        totalStatRecords: [],
-        isLoadingTotalStatRecords: false,
-        currentInfoCategory: ['overview'],
-        isLoadingMemberLogs: false,
-        memberLogs: [],
-        currentDataCategory: ['follower'],
-        followerCategoryEnterCount: 1,
-        totalStatCategoryEnterCount: 0
+export default {
+  name: 'MemberDetail',
+  data: function () {
+    return {
+      member: null,
+      memberVideoList: [],
+      isLoadingMember: false,
+      isLoadingMemberVideos: false,
+      pagiCurrent: 1,
+      memberVideoTotalCount: 0,
+      orderValue: 'pubdate',
+      orderDescValue: 1,
+      followerRecords: [],
+      isLoadingFollowerRecords: false,
+      totalStatRecords: [],
+      isLoadingTotalStatRecords: false,
+      currentInfoCategory: ['overview'],
+      isLoadingMemberLogs: false,
+      memberLogs: [],
+      currentDataCategory: ['follower'],
+      followerCategoryEnterCount: 1,
+      totalStatCategoryEnterCount: 0
+    }
+  },
+  components: {
+    TddVideoList,
+    IconFont,
+    MemberDetailFollowerHistoryLineChart,
+    MemberDetailTotalStatHistoryLineChart,
+    TddVideoStatBar,
+    TddMemberActionBar,
+    TddMemberLogTable
+  },
+  computed: {
+    mid: function () {
+      return parseInt(this.$route.params.mid);
+    },
+    _clientMode: function () {
+      return this.$store.getters.clientMode;
+    }
+  },
+  watch: {
+    mid: function () {
+      this.getMemberInfo(this.mid, true);
+      this.getMemberLogs(this.mid);
+      this.getFollowerRecords(this.mid);
+      this.getTotalStatRecords(this.mid);
+      this.fetchVideoList();
+    },
+    currentDataCategory: function () {
+      if (this.currentDataCategory.indexOf('totalStat') !== -1) {
+        this.totalStatCategoryEnterCount++;
+      } else if (this.currentDataCategory.indexOf('follower') !== -1) {
+        this.followerCategoryEnterCount++;
       }
     },
-    components: {
-      TddVideoList,
-      IconFont,
-      MemberDetailFollowerHistoryLineChart,
-      MemberDetailTotalStatHistoryLineChart,
-      TddVideoStatBar,
-      TddMemberActionBar,
-      TddMemberLogTable
-    },
-    computed: {
-      mid: function () {
-        return parseInt(this.$route.params.mid);
-      },
-      _clientMode: function () {
-        return this.$store.getters.clientMode;
+    _clientMode: function () {
+      this.totalStatCategoryEnterCount = 0;
+      this.followerCategoryEnterCount = 0;
+      if (this.currentDataCategory.indexOf('totalStat') !== -1) {
+        this.totalStatCategoryEnterCount++;
+      } else if (this.currentDataCategory.indexOf('follower') !== -1) {
+        this.followerCategoryEnterCount++;
       }
-    },
-    watch: {
-      mid: function () {
-        this.getMemberInfo(this.mid, true);
-        this.getMemberLogs(this.mid);
-        this.getFollowerRecords(this.mid);
-        this.getTotalStatRecords(this.mid);
-        this.fetchVideoList();
-      },
-      currentDataCategory: function () {
-        if (this.currentDataCategory.indexOf('totalStat') !== -1) {
-          this.totalStatCategoryEnterCount++;
-        } else if (this.currentDataCategory.indexOf('follower') !== -1) {
-          this.followerCategoryEnterCount++;
-        }
-      },
-      _clientMode: function () {
-        this.totalStatCategoryEnterCount = 0;
-        this.followerCategoryEnterCount = 0;
-        if (this.currentDataCategory.indexOf('totalStat') !== -1) {
-          this.totalStatCategoryEnterCount++;
-        } else if (this.currentDataCategory.indexOf('follower') !== -1) {
-          this.followerCategoryEnterCount++;
+    }
+  },
+  methods: {
+    getMemberInfo: function(mid, checkMemberFromStore=false) {
+      this.isLoadingMember = true;
+
+      // check video from store
+      let memberLoadedFromStore = false;
+      if (checkMemberFromStore) {
+        let member = this.$store.state.memberDetailMember;
+        if (member && member.mid === mid) {
+          this.member = member;
+          memberLoadedFromStore = true;
+          this.isLoadingMember = false;
         }
       }
-    },
-    methods: {
-      getMemberInfo: function(mid, checkMemberFromStore=false) {
-        this.isLoadingMember = true;
 
-        // check video from store
-        let memberLoadedFromStore = false;
-        if (checkMemberFromStore) {
-          let member = this.$store.state.memberDetailMember;
-          if (member && member.mid === mid) {
-            this.member = member;
-            memberLoadedFromStore = true;
-            this.isLoadingMember = false;
-          }
-        }
-
-        let that = this;
-        if (!memberLoadedFromStore) {
-          this.$axios.get('member/' + mid)
+      let that = this;
+      if (!memberLoadedFromStore) {
+        this.$axios.get('member/' + mid)
             .then(function (response) {
               that.member = response.data;
             })
@@ -313,13 +313,13 @@
             .finally(function () {
               that.isLoadingMember = false;
             });
-        }
-      },
-      getFollowerRecords: function (mid) {
-        this.isLoadingFollowerRecords = true;
+      }
+    },
+    getFollowerRecords: function (mid) {
+      this.isLoadingFollowerRecords = true;
 
-        let that = this;
-        this.$axios.get('member/' + mid + '/follower')
+      let that = this;
+      this.$axios.get('member/' + mid + '/follower')
           .then(function (response) {
             that.followerRecords = response.data;
           })
@@ -329,12 +329,12 @@
           .finally(function () {
             that.isLoadingFollowerRecords = false;
           });
-      },
-      getTotalStatRecords: function (mid) {
-        this.isLoadingTotalStatRecords = true;
+    },
+    getTotalStatRecords: function (mid) {
+      this.isLoadingTotalStatRecords = true;
 
-        let that = this;
-        this.$axios.get('member/' + mid + '/totalstat')
+      let that = this;
+      this.$axios.get('member/' + mid + '/totalstat')
           .then(function (response) {
             that.totalStatRecords = response.data;
           })
@@ -344,17 +344,17 @@
           .finally(function () {
             that.isLoadingTotalStatRecords = false;
           });
-      },
-      getMemberLogs: function (mid) {
-        if (this.$store.state.isUserLoggedIn === false) {
-          // only get log when user logged in
-          this.memberLogs = [];
-          return;
-        }
-        this.isLoadingMemberLogs = true;
+    },
+    getMemberLogs: function (mid) {
+      if (this.$store.state.isUserLoggedIn === false) {
+        // only get log when user logged in
+        this.memberLogs = [];
+        return;
+      }
+      this.isLoadingMemberLogs = true;
 
-        let that = this;
-        this.$axios.get('member/log?mid=' + mid)
+      let that = this;
+      this.$axios.get('member/log?mid=' + mid)
           .then(function (response) {
             let logs = response.data;
             let logs_filtered = [];
@@ -379,27 +379,27 @@
           .finally(function () {
             that.isLoadingMemberLogs = false;
           });
-      },
-      assemblyQuery: function () {
-        let url = 'member/' + this.mid + '/video?';
-        // order_by
-        url += 'order_by=' + this.orderValue + '&';
-        // desc
-        if (this.orderDescValue === 0) {
-          url += 'desc=0&';
-        } else {
-          url += 'desc=1&';
-        }
-        // pn
-        url += 'pn=' + this.pagiCurrent;
-        return url;
-      },
-      fetchVideoList: function () {
-        this.isLoadingMemberVideos = true;
+    },
+    assemblyQuery: function () {
+      let url = 'member/' + this.mid + '/video?';
+      // order_by
+      url += 'order_by=' + this.orderValue + '&';
+      // desc
+      if (this.orderDescValue === 0) {
+        url += 'desc=0&';
+      } else {
+        url += 'desc=1&';
+      }
+      // pn
+      url += 'pn=' + this.pagiCurrent;
+      return url;
+    },
+    fetchVideoList: function () {
+      this.isLoadingMemberVideos = true;
 
-        let that = this;
-        let url = this.assemblyQuery();
-        this.$axios.get(url)
+      let that = this;
+      let url = this.assemblyQuery();
+      this.$axios.get(url)
           .then(function (response) {
             that.memberVideoList = response.data;
             that.memberVideoTotalCount = parseInt(response.headers['x-total-count']);
@@ -410,67 +410,67 @@
           .finally(function () {
             that.isLoadingMemberVideos = false;
           });
-      },
-      videoListItemClickedHandler: function (item) {
-        this.$store.commit('setVideoDetailDrawerVideo', item);
-        this.$store.commit('setVideoDetailDrawerVisibility', true);
-      },
-      onPagiChange: function (pagiClick) {
-        this.pagiCurrent = pagiClick;
-        this.fetchVideoList();
-      },
-      handleSearchButtonClick: function () {
-        if (!this.isLoadingMemberVideos) {
-          this.pagiCurrent = 1;
-          this.fetchVideoList();
-        }
-      },
-      handleReloadButtonClick: function() {
-        this.orderValue = 'pubdate';
-        this.orderDescValue = 1;
-      }
     },
-    created: function() {
-      this.getMemberInfo(this.mid, true);
-      this.getMemberLogs(this.mid);
-      this.getFollowerRecords(this.mid);
-      this.getTotalStatRecords(this.mid);
+    videoListItemClickedHandler: function (item) {
+      this.$store.commit('setVideoDetailDrawerVideo', item);
+      this.$store.commit('setVideoDetailDrawerVisibility', true);
+    },
+    onPagiChange: function (pagiClick) {
+      this.pagiCurrent = pagiClick;
       this.fetchVideoList();
     },
-  }
+    handleSearchButtonClick: function () {
+      if (!this.isLoadingMemberVideos) {
+        this.pagiCurrent = 1;
+        this.fetchVideoList();
+      }
+    },
+    handleReloadButtonClick: function() {
+      this.orderValue = 'pubdate';
+      this.orderDescValue = 1;
+    }
+  },
+  created: function() {
+    this.getMemberInfo(this.mid, true);
+    this.getMemberLogs(this.mid);
+    this.getFollowerRecords(this.mid);
+    this.getTotalStatRecords(this.mid);
+    this.fetchVideoList();
+  },
+}
 </script>
 
 <style scoped>
-  .filter-table td {
-    height: 40px;
-  }
-  .filter-table-label {
-    width: 80px;
-    white-space: nowrap;
-  }
+.filter-table td {
+  height: 40px;
+}
+.filter-table-label {
+  width: 80px;
+  white-space: nowrap;
+}
 
-  .tdd-member-detail-header {
-    overflow: hidden;
-  }
-  .tdd-member-detail-header-avatar {
-    float: left;
-    margin-right: 12px;
-  }
-  .tdd-member-detail-header-content {
-    float: left;
-    width: calc(100% - 60px);
-  }
-  .tdd-member-detail-header-title {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .tdd-member-detail-header-title-sex {
-    font-size: 1.17em;
-    margin-top: 4px;
-    margin-left: 8px;
-  }
-  .tdd-member-detail-header-video-count-follower {
-    margin-top: 4px;
-  }
+.tdd-member-detail-header {
+  overflow: hidden;
+}
+.tdd-member-detail-header-avatar {
+  float: left;
+  margin-right: 12px;
+}
+.tdd-member-detail-header-content {
+  float: left;
+  width: calc(100% - 60px);
+}
+.tdd-member-detail-header-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tdd-member-detail-header-title-sex {
+  font-size: 1.17em;
+  margin-top: 4px;
+  margin-left: 8px;
+}
+.tdd-member-detail-header-video-count-follower {
+  margin-top: 4px;
+}
 </style>

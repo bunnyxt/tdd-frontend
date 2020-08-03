@@ -10,7 +10,7 @@
 export default {
   name: "SprintVideoHeatMapChart",
   props: {
-      records: Array
+    records: Array
   },
   data: function() {
     return {
@@ -232,12 +232,12 @@ export default {
 
       return seriesList
     },
-   formatDate: function(ts) {
+    formatDate: function(ts) {
       let date = new Date(ts * 1000)
       return (
-        date.getFullYear() + "-" + 
-        (date.getMonth()+1) + "-" + 
-        date.getDate()
+          date.getFullYear() + "-" +
+          (date.getMonth()+1) + "-" +
+          date.getDate()
       )
     }
   },

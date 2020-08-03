@@ -40,40 +40,40 @@
 </template>
 
 <script>
-  import TddRankCurrentTable from "../../common/TddRankCurrentTable";
+import TddRankCurrentTable from "../../common/TddRankCurrentTable";
 
-  export default {
-    name: 'RankHome',
-    data: function () {
-      return {
-        category: ['weekly'],
-        rankCurrentList: [],
-        rankCurrentTotalCount: 0,
-        isLoadingRankCurrentList: false,
-        rankCurrentColor: {},
-        pagiCurrent: 1,
-      }
-    },
-    components: {
-      TddRankCurrentTable
-    },
-    watch: {
-      // category: function () {
-      //   this.$router.push('/rank/' + this.category[0])
-      // }
-    },
-    methods: {
-      fetchRankCurrentList: function () {
-        this.isLoadingRankCurrentList = true;
-        let url = `/video/record/rank/${this.category[0]}/current?pn=${this.pagiCurrent}`;
-        let that = this;
-        let getRankCurrentList = function () {
-          return that.$axios.get(url);
-        };
-        let getRankCurrentColor = function () {
-          return that.$axios.get(`/video/record/rank/${that.category[0]}/current/color`);
-        };
-        this.$axios.all([getRankCurrentList(), getRankCurrentColor()])
+export default {
+  name: 'RankHome',
+  data: function () {
+    return {
+      category: ['weekly'],
+      rankCurrentList: [],
+      rankCurrentTotalCount: 0,
+      isLoadingRankCurrentList: false,
+      rankCurrentColor: {},
+      pagiCurrent: 1,
+    }
+  },
+  components: {
+    TddRankCurrentTable
+  },
+  watch: {
+    // category: function () {
+    //   this.$router.push('/rank/' + this.category[0])
+    // }
+  },
+  methods: {
+    fetchRankCurrentList: function () {
+      this.isLoadingRankCurrentList = true;
+      let url = `/video/record/rank/${this.category[0]}/current?pn=${this.pagiCurrent}`;
+      let that = this;
+      let getRankCurrentList = function () {
+        return that.$axios.get(url);
+      };
+      let getRankCurrentColor = function () {
+        return that.$axios.get(`/video/record/rank/${that.category[0]}/current/color`);
+      };
+      this.$axios.all([getRankCurrentList(), getRankCurrentColor()])
           .then(that.$axios.spread( function (rankCurrentListResponse, rankCurrentColorResponse) {
             that.rankCurrentList = rankCurrentListResponse.data;
             that.rankCurrentTotalCount = parseInt(rankCurrentListResponse.headers['x-total-count']);
@@ -85,24 +85,24 @@
           .finally(function () {
             that.isLoadingRankCurrentList = false;
           });
-      },
-      onPagiChange: function (pagiClick) {
-        this.pagiCurrent = pagiClick;
-        this.fetchRankCurrentList();
-      },
-      getPagiTotalPrompt: function () {
-        let from = 30 * (this.pagiCurrent - 1) + 1;
-        let to = from + 30 - 1;
-        if (to > 10000) {
-          to = 10000;
-        }
-        return `第${from}名 - 第${to}名`;
-      }
     },
-    mounted() {
+    onPagiChange: function (pagiClick) {
+      this.pagiCurrent = pagiClick;
       this.fetchRankCurrentList();
+    },
+    getPagiTotalPrompt: function () {
+      let from = 30 * (this.pagiCurrent - 1) + 1;
+      let to = from + 30 - 1;
+      if (to > 10000) {
+        to = 10000;
+      }
+      return `第${from}名 - 第${to}名`;
     }
+  },
+  mounted() {
+    this.fetchRankCurrentList();
   }
+}
 </script>
 
 <style scoped>

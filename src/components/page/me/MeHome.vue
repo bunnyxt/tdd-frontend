@@ -183,115 +183,115 @@
 </template>
 
 <script>
-  import md5 from 'js-md5';
+import md5 from 'js-md5';
   import moment from 'moment';
   import TddVideoList from "../../common/TddVideoList";
   import TddMemberList from "../../common/TddMemberList";
 
-  export default {
-    name: 'MeHome',
-    components: {
-      TddVideoList,
-      TddMemberList
-    },
-    data: function () {
-      return {
-        isLoadingUserInfo: false,
-        user: {},
-        isLoadingUserSignInList: false,
-        userSignInList: [],
-        isLoadingUserSignInOverview: false,
-        userSignInOverview: {},
-        isLoadingUserFavoriteVideoList: false,
-        userFavoriteVideoList: [],
-        isLoadingUserFavoriteMemberList: false,
-        userFavoriteMemberList: [],
-        isGoingSignIn: false,
-        favoriteCurrent: ['video'],
-        avatarSettingPrompt: false,
+export default {
+  name: 'MeHome',
+  components: {
+    TddVideoList,
+    TddMemberList
+  },
+  data: function () {
+    return {
+      isLoadingUserInfo: false,
+      user: {},
+      isLoadingUserSignInList: false,
+      userSignInList: [],
+      isLoadingUserSignInOverview: false,
+      userSignInOverview: {},
+      isLoadingUserFavoriteVideoList: false,
+      userFavoriteVideoList: [],
+      isLoadingUserFavoriteMemberList: false,
+      userFavoriteMemberList: [],
+      isGoingSignIn: false,
+      favoriteCurrent: ['video'],
+      avatarSettingPrompt: false,
+    }
+  },
+  computed: {
+    avatarUrl: function () {
+      if (this.$store.state.isUserLoggedIn === true) {
+        const email = this.user.email;
+        if (email) {
+          return 'https://www.gravatar.com/avatar/' + md5(email) + '?d=identicon';
+        } else {
+          return 'https://www.gravatar.com/avatar/' + md5('tdduser' + this.$store.state.userDetail.id + '@tdd.bunnyxt.com') + '?d=identicon';
+        }
+      } else {
+        return 'https://www.gravatar.com/avatar/' + md5('anonymous@tdd.bunnyxt.com') + '?d=identicon';
       }
     },
-    computed: {
-      avatarUrl: function () {
-        if (this.$store.state.isUserLoggedIn === true) {
-          const email = this.user.email;
-          if (email) {
-            return 'https://www.gravatar.com/avatar/' + md5(email) + '?d=identicon';
-          } else {
-            return 'https://www.gravatar.com/avatar/' + md5('tdduser' + this.$store.state.userDetail.id + '@tdd.bunnyxt.com') + '?d=identicon';
-          }
-        } else {
-          return 'https://www.gravatar.com/avatar/' + md5('anonymous@tdd.bunnyxt.com') + '?d=identicon';
+    userSignInStatusToday: function () {
+      if (this.userSignInOverview) {
+        if (this.userSignInOverview.last_added >= Math.floor(moment().startOf('day').valueOf() / 1000)) {
+          return true;
         }
-      },
-      userSignInStatusToday: function () {
-        if (this.userSignInOverview) {
-          if (this.userSignInOverview.last_added >= Math.floor(moment().startOf('day').valueOf() / 1000)) {
-            return true;
-          }
-        }
-        return false;
-      },
-      tmpSignInTooltipStr: function () {
-        let str = '';
-        if (this.userSignInStatusToday) {
-          let totaySignIn = this.userSignInList[this.userSignInList.length - 1];
-          str += '今日已签到，第' + totaySignIn.rank + '名';
-        } else {
-          str += '今日未签到';
-        }
-        return str;
-      },
-      moreString: function () {
-        if (this.$store.getters.clientMode === 'MOBILE') {
-          return '';
-        } else {
-          return '更多';
-        }
-      },
-      listColNum: function () {
-        let width = this.$store.state.clientWidth; // TODO bug here, in chrome this will cut scrollbar width, about 15px
-        if (width < 576) {
-          // return 1;
-          return 3;
-        } else if (width < 768) {
-          return 2;
-        } else if (width < 992) {
-          return 3;
-        } else if (width < 1200) {
-          return 3;
-        } else if (width < 1600) {
-          return 4;
-        } else {
-          return 6;
-        }
-      },
-      meFavoriteMenuStyle: function () {
-        let style = {};
-        if (this.$store.getters.clientMode !== 'MOBILE') {
-          style['margin-bottom'] = '12px';
-        }
-        return style;
-      },
-      isPremiumUser: function () {
-        if (!this.user) {
-          return false;
-        }
-        for (let role of this.user.roles) {
-          if (role.title === '高级用户') {
-            return true;
-          }
-        }
-        return false;
+      }
+      return false;
+    },
+    tmpSignInTooltipStr: function () {
+      let str = '';
+      if (this.userSignInStatusToday) {
+        let totaySignIn = this.userSignInList[this.userSignInList.length - 1];
+        str += '今日已签到，第' + totaySignIn.rank + '名';
+      } else {
+        str += '今日未签到';
+      }
+      return str;
+    },
+    moreString: function () {
+      if (this.$store.getters.clientMode === 'MOBILE') {
+        return '';
+      } else {
+        return '更多';
       }
     },
-    methods: {
-      fetchUserInfo: function () {
-        let that = this;
-        this.isLoadingUserInfo = true;
+    listColNum: function () {
+      let width = this.$store.state.clientWidth; // TODO bug here, in chrome this will cut scrollbar width, about 15px
+      if (width < 576) {
+        // return 1;
+        return 3;
+      } else if (width < 768) {
+        return 2;
+      } else if (width < 992) {
+        return 3;
+      } else if (width < 1200) {
+        return 3;
+      } else if (width < 1600) {
+        return 4;
+      } else {
+        return 6;
+      }
+    },
+    meFavoriteMenuStyle: function () {
+      let style = {};
+      if (this.$store.getters.clientMode !== 'MOBILE') {
+        style['margin-bottom'] = '12px';
+      }
+      return style;
+    },
+    isPremiumUser: function () {
+      if (!this.user) {
+        return false;
+      }
+      for (let role of this.user.roles) {
+        if (role.title === '高级用户') {
+          return true;
+        }
+      }
+      return false;
+    }
+  },
+  methods: {
+    fetchUserInfo: function () {
+      let that = this;
+      this.isLoadingUserInfo = true;
 
-        return new Promise(function (resolve, reject) {
-          that.$axios.get('/user/me')
+      return new Promise(function (resolve, reject) {
+        that.$axios.get('/user/me')
             .then(function (response) {
               that.user = response.data;
 
@@ -319,13 +319,13 @@
             .finally(function () {
               that.isLoadingUserInfo = false;
             });
-        });
-      },
-      fetchUserSignInList: function () {
-        this.isLoadingUserSignInList = true;
+      });
+    },
+    fetchUserSignInList: function () {
+      this.isLoadingUserSignInList = true;
 
-        let that = this;
-        this.$axios.get('/user/signin/me')
+      let that = this;
+      this.$axios.get('/user/signin/me')
           .then(function (response) {
             that.userSignInList = response.data;
           })
@@ -343,12 +343,12 @@
           .finally(function () {
             that.isLoadingUserSignInList = false;
           });
-      },
-      fetchUserSignInOverview: function () {
-        this.isLoadingUserSignInOverview = true;
+    },
+    fetchUserSignInOverview: function () {
+      this.isLoadingUserSignInOverview = true;
 
-        let that = this;
-        this.$axios.get('/user/signin/overview/me')
+      let that = this;
+      this.$axios.get('/user/signin/overview/me')
           .then(function (response) {
             that.userSignInOverview = response.data;
           })
@@ -366,12 +366,12 @@
           .finally(function () {
             that.isLoadingUserSignInOverview = false;
           });
-      },
-      fetchUserFavoriteVideoList: function () {
-        this.isLoadingUserFavoriteVideoList = true;
+    },
+    fetchUserFavoriteVideoList: function () {
+      this.isLoadingUserFavoriteVideoList = true;
 
-        let that = this;
-        this.$axios.get('/user/favorite/video/me')
+      let that = this;
+      this.$axios.get('/user/favorite/video/me')
           .then(function (response) {
             that.userFavoriteVideoList = [];
             let oriList = response.data;
@@ -395,12 +395,12 @@
           .finally(function () {
             that.isLoadingUserFavoriteVideoList = false;
           });
-      },
-      fetchUserFavoriteMemberList: function () {
-        this.isLoadingUserFavoriteMemberList = true;
+    },
+    fetchUserFavoriteMemberList: function () {
+      this.isLoadingUserFavoriteMemberList = true;
 
-        let that = this;
-        this.$axios.get('/user/favorite/member/me')
+      let that = this;
+      this.$axios.get('/user/favorite/member/me')
           .then(function (response) {
             that.userFavoriteMemberList = [];
             let oriList = response.data;
@@ -424,11 +424,11 @@
           .finally(function () {
             that.isLoadingUserFavoriteMemberList = false;
           });
-      },
-      goSignIn: function () {
-        this.isGoingSignIn = true;
-        let that = this;
-        this.$axios.post('/user/signin')
+    },
+    goSignIn: function () {
+      this.isGoingSignIn = true;
+      let that = this;
+      this.$axios.post('/user/signin')
           .then(function (response) {
             const resp = response.data;
             if (resp.status === 'success') {
@@ -466,79 +466,79 @@
           .finally(function () {
             that.isGoingSignIn = false;
           });
-      },
-      getRoleTitleColor: function (title) {
-        let color = '';
-        switch (title) {
-          case 'DBA':
-            color = 'pink';
-            break;
-          case '管理员':
-            color = 'red';
-            break;
-          case '普通用户':
-            color = 'blue';
-            break;
-          case '高级用户':
-            color = 'purple';
-            break;
-        }
-        return color;
-      },
-      getRoleTitleDescription: function (title) {
-        let description = '';
-        switch (title) {
-          case 'DBA':
-            description = '作为数据库管理员，您拥有系统的全部权限，请谨慎使用';
-            break;
-          case '管理员':
-            description = '作为管理员，您可以进入后台管理系统，查看系统数据';
-            break;
-          case '普通用户':
-            description = '作为普通用户，您可以关注视频/UP主，参与视频标签修改矫正，甚至自定义监测视频数据';
-            break;
-          case '高级用户':
-            description = '感谢您对本平台的资助！作为高级用户，您将拥有更多的积分与经验收益，更多的积分花销折扣，在未来可能还会有实体小礼品哦~';
-            break;
-        }
-        return description;
-      },
-      userFavoriteVideoListItemClickedHandler: function (item) {
-        this.$store.commit('setVideoDetailDrawerVideo', item);
-        this.$store.commit('setVideoDetailDrawerVisibility', true);
-      },
-      userFavoriteMemberListItemClickedHandler: function (item) {
-        this.$store.commit('setMemberDetailMember', item);
-        this.$router.push('member/' + item.mid);
-      }
     },
-    created() {
-      let that = this;
-      this.fetchUserInfo()
+    getRoleTitleColor: function (title) {
+      let color = '';
+      switch (title) {
+        case 'DBA':
+          color = 'pink';
+          break;
+        case '管理员':
+          color = 'red';
+          break;
+        case '普通用户':
+          color = 'blue';
+          break;
+        case '高级用户':
+          color = 'purple';
+          break;
+      }
+      return color;
+    },
+    getRoleTitleDescription: function (title) {
+      let description = '';
+      switch (title) {
+        case 'DBA':
+          description = '作为数据库管理员，您拥有系统的全部权限，请谨慎使用';
+          break;
+        case '管理员':
+          description = '作为管理员，您可以进入后台管理系统，查看系统数据';
+          break;
+        case '普通用户':
+          description = '作为普通用户，您可以关注视频/UP主，参与视频标签修改矫正，甚至自定义监测视频数据';
+          break;
+        case '高级用户':
+          description = '感谢您对本平台的资助！作为高级用户，您将拥有更多的积分与经验收益，更多的积分花销折扣，在未来可能还会有实体小礼品哦~';
+          break;
+      }
+      return description;
+    },
+    userFavoriteVideoListItemClickedHandler: function (item) {
+      this.$store.commit('setVideoDetailDrawerVideo', item);
+      this.$store.commit('setVideoDetailDrawerVisibility', true);
+    },
+    userFavoriteMemberListItemClickedHandler: function (item) {
+      this.$store.commit('setMemberDetailMember', item);
+      this.$router.push('member/' + item.mid);
+    }
+  },
+  created() {
+    let that = this;
+    this.fetchUserInfo()
         .then(function () {
           that.fetchUserSignInList();
           that.fetchUserSignInOverview();
           that.fetchUserFavoriteVideoList();
           that.fetchUserFavoriteMemberList();
         });
-    }
   }
+}
 </script>
 
 <style scoped>
-  .me-favorite-menu {
-    flex-grow: 1;
-  }
-  .me-header-avatar {
-    float: left;
-    cursor: pointer;
-    /* TODO why transition not works? */
-    /*transition: all .2s ease-out;*/
-    /*-moz-transition: all .2s ease-out;*/
-    /*-webkit-transition: all .2s ease-out;*/
-    /*-o-transition: all .2s ease-out;*/
-  }
-  .me-header-avatar :hover {
-    opacity: 0.6;
-  }
+.me-favorite-menu {
+  flex-grow: 1;
+}
+.me-header-avatar {
+  float: left;
+  cursor: pointer;
+  /* TODO why transition not works? */
+  /*transition: all .2s ease-out;*/
+  /*-moz-transition: all .2s ease-out;*/
+  /*-webkit-transition: all .2s ease-out;*/
+  /*-o-transition: all .2s ease-out;*/
+}
+.me-header-avatar :hover {
+  opacity: 0.6;
+}
 </style>

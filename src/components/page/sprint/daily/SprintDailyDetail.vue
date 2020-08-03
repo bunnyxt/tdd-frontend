@@ -35,7 +35,7 @@
           <div class="section-block">
             <h2>本期有<strong>{{ daily.newvids.length }}</strong>首新曲</h2>
             <a-spin :spinning="isLoadingNewVids">
-             <SprintVideoBriefTable :videos="newvidsList"/>
+              <SprintVideoBriefTable :videos="newvidsList"/>
             </a-spin>
           </div>
           <div class="section-separator"></div>
@@ -158,13 +158,13 @@ export default {
   },
   watch: {
     daily: function() {
-      // TODO async error may occor here
+      // TODO async error may occur here
       this.isLoadingNewVids = true
       let nList = new Array()
       for (let i = 0; i < this.daily.newvids.length; i++) {
         fetch(this.$store.state.apiBase + "sprint_video.php?aid="+this.daily.newvids[i])
-          .then(response => response.json())
-          .then(json => nList.push(json.data[0]))
+            .then(response => response.json())
+            .then(json => nList.push(json.data[0]))
       }
       this.newvidsList = nList
       this.isLoadingNewVids = false
@@ -173,8 +173,8 @@ export default {
       let mList = new Array()
       for (let i = 0; i < this.daily.millvids.length; i++) {
         fetch(this.$store.state.apiBase + "sprint_video.php?aid="+this.daily.millvids[i])
-          .then(response => response.json())
-          .then(json => mList.push(json.data[0]))
+            .then(response => response.json())
+            .then(json => mList.push(json.data[0]))
       }
       this.millvidsList = mList
       this.isLoadingMillVids = false
@@ -185,24 +185,24 @@ export default {
     this.isLoadingDaily = true
     this.isLoadingRecords = true
     fetch(this.$store.state.apiBase + "sprint_daily.php?date="+this.$route.params.date)
-      .then(response => response.json())
-      .then(json => {
-        if (json.data[0]) {
-          this.daily = json.data[0]
-        }
-      })
-      .then(() => this.isLoadingDaily = false)
+        .then(response => response.json())
+        .then(json => {
+          if (json.data[0]) {
+            this.daily = json.data[0]
+          }
+        })
+        .then(() => this.isLoadingDaily = false)
     fetch(this.$store.state.apiBase + "sprint_daily_record.php?date="+this.$route.params.date)
-      .then(response => response.json())
-      .then(json => {
-        if (json.data) {
-          this.sprintDailyRecordList = json.data
-          this.sprintDailyRecordList.sort(
-            (o1, o2) => o2.view - o1.view
-          )
-        }
-      })
-      .then(() => this.isLoadingRecords = false)
+        .then(response => response.json())
+        .then(json => {
+          if (json.data) {
+            this.sprintDailyRecordList = json.data
+            this.sprintDailyRecordList.sort(
+                (o1, o2) => o2.view - o1.view
+            )
+          }
+        })
+        .then(() => this.isLoadingRecords = false)
   }
 }
 </script>

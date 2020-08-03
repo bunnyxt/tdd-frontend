@@ -24,7 +24,7 @@
       <p>所耗时长：
         <a-input v-model="timePassed" style="width: 180px"></a-input>
       </p>
-    </div> 
+    </div>
   </div>
 </template>
 
@@ -89,21 +89,21 @@ export default {
       this.isGettingCreatedTs = true
       this.createdTimeMessage = "正在获取视频投稿时间..."
       fetch("https://api.bunnyxt.com/tdd/bapi_view.php?aid=" + this.aidString)
-        .then(response => response.json())
-        .then(json => {
-          let date
-          switch (json.code) {
-            case 0:
-              date = new Date()
-              date.setTime(json.data.pubdate * 1000)
-              this.startTimeString = this.formatDate(date)
-              this.createdTimeMessage = json.data.title
-              break;
-            default:
-              this.createdTimeMessage = json.message
-              break;
-          }
-        })
+          .then(response => response.json())
+          .then(json => {
+            let date
+            switch (json.code) {
+              case 0:
+                date = new Date()
+                date.setTime(json.data.pubdate * 1000)
+                this.startTimeString = this.formatDate(date)
+                this.createdTimeMessage = json.data.title
+                break;
+              default:
+                this.createdTimeMessage = json.message
+                break;
+            }
+          })
       this.isGettingCreatedTs = false
     },
     onAutoRefreshSwitchChange: function() {

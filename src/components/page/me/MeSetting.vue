@@ -367,69 +367,69 @@
 </template>
 
 <script>
-  import VueGrecaptcha from 'vue-recaptcha'
+import VueGrecaptcha from 'vue-recaptcha'
 
-  export default {
-    name: 'MeSetting',
-    data: function () {
-      return {
-        recaptchaSiteKey: this.$config.recaptchaSiteKey,
-        isLoadingUserInfo: false,
-        user: {},
-        formLayout: 'horizontal',
-        form: this.$form.createForm(this, { name: 'meSetting' }),
-        // set nickname
-        setNicknameModalVisibility: false,
-        setNicknameForm: this.$form.createForm(this, { name: 'setNicknameForm' }),
-        isSettingNickname: false,
-        // bind email
-        bindEmailModalVisibility: false,
-        bindEmailForm: this.$form.createForm(this, { name: 'bindEmailForm' }),
-        bindEmailRecaptchaPassed: false,
-        bindEmailRecaptchaResponse: '',
-        bindEmailBindKey: '',
-        bindEmailExpired: 0,
-        bindEmailCodeSendingCd: 0,
-        bindEmailCodeSendRequested: false,
-        isSendingBindEmailCode: false,
-        isSendingBindEmailValidation: false,
-        // unbind email
-        isUnbindingEmail: false,
-        // bind phone
-        bindPhoneModalVisibility: false,
-        bindPhoneForm: this.$form.createForm(this, { name: 'bindPhoneForm' }),
-        bindPhoneRecaptchaPassed: false,
-        bindPhoneRecaptchaResponse: '',
-        bindPhoneBindKey: '',
-        bindPhoneExpired: 0,
-        bindPhoneCodeSendingCd: 0,
-        bindPhoneCodeSendRequested: false,
-        isSendingBindPhoneCode: false,
-        isSendingBindPhoneValidation: false,
-        // unbind phone
-        isUnbindingPhone: false,
-        // change password
-        changePasswordModalVisibility: false,
-        changePasswordForm: this.$form.createForm(this, { name: 'changePasswordForm' }),
-        isChangingPassword: false,
-      }
-    },
-    components: {
-      VueGrecaptcha
-    },
-    watch: {
+export default {
+  name: 'MeSetting',
+  data: function () {
+    return {
+      recaptchaSiteKey: this.$config.recaptchaSiteKey,
+      isLoadingUserInfo: false,
+      user: {},
+      formLayout: 'horizontal',
+      form: this.$form.createForm(this, { name: 'meSetting' }),
+      // set nickname
+      setNicknameModalVisibility: false,
+      setNicknameForm: this.$form.createForm(this, { name: 'setNicknameForm' }),
+      isSettingNickname: false,
+      // bind email
+      bindEmailModalVisibility: false,
+      bindEmailForm: this.$form.createForm(this, { name: 'bindEmailForm' }),
+      bindEmailRecaptchaPassed: false,
+      bindEmailRecaptchaResponse: '',
+      bindEmailBindKey: '',
+      bindEmailExpired: 0,
+      bindEmailCodeSendingCd: 0,
+      bindEmailCodeSendRequested: false,
+      isSendingBindEmailCode: false,
+      isSendingBindEmailValidation: false,
+      // unbind email
+      isUnbindingEmail: false,
+      // bind phone
+      bindPhoneModalVisibility: false,
+      bindPhoneForm: this.$form.createForm(this, { name: 'bindPhoneForm' }),
+      bindPhoneRecaptchaPassed: false,
+      bindPhoneRecaptchaResponse: '',
+      bindPhoneBindKey: '',
+      bindPhoneExpired: 0,
+      bindPhoneCodeSendingCd: 0,
+      bindPhoneCodeSendRequested: false,
+      isSendingBindPhoneCode: false,
+      isSendingBindPhoneValidation: false,
+      // unbind phone
+      isUnbindingPhone: false,
+      // change password
+      changePasswordModalVisibility: false,
+      changePasswordForm: this.$form.createForm(this, { name: 'changePasswordForm' }),
+      isChangingPassword: false,
+    }
+  },
+  components: {
+    VueGrecaptcha
+  },
+  watch: {
 
-    },
-    computed: {
+  },
+  computed: {
 
-    },
-    methods: {
-      fetchUserInfo: function () {
-        let that = this;
-        this.isLoadingUserInfo = true;
+  },
+  methods: {
+    fetchUserInfo: function () {
+      let that = this;
+      this.isLoadingUserInfo = true;
 
-        return new Promise(function (resolve, reject) {
-          that.$axios.get('/user/me')
+      return new Promise(function (resolve, reject) {
+        that.$axios.get('/user/me')
             .then(function (response) {
               that.user = response.data;
 
@@ -457,13 +457,13 @@
             .finally(function () {
               that.isLoadingUserInfo = false;
             });
-        });
-      },
-      unbindEmail: function () {
-        let that = this;
-        this.isUnbindingEmail = true;
+      });
+    },
+    unbindEmail: function () {
+      let that = this;
+      this.isUnbindingEmail = true;
 
-        that.$axios.delete('/user/bind/email')
+      that.$axios.delete('/user/bind/email')
           .then(function (response) {
             let data = response.data;
             if (data.status === 'success') {
@@ -502,12 +502,12 @@
           .finally(function () {
             that.isUnbindingEmail = false;
           })
-      },
-      unbindPhone: function () {
-        let that = this;
-        this.isUnbindingPhone = true;
+    },
+    unbindPhone: function () {
+      let that = this;
+      this.isUnbindingPhone = true;
 
-        that.$axios.delete('/user/bind/phone')
+      that.$axios.delete('/user/bind/phone')
           .then(function (response) {
             let data = response.data;
             if (data.status === 'success') {
@@ -546,128 +546,128 @@
           .finally(function () {
             that.isUnbindingPhone = false;
           })
-      },
-      emailValidator: (rule, value, callback) => {
-        let regex = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
-        if (!regex.test(value)) {
-          callback('邮箱地址不合法');
-        }
-        if (value.length > 200) {
-          callback('邮箱地址过长');
-        }
+    },
+    emailValidator: (rule, value, callback) => {
+      let regex = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
+      if (!regex.test(value)) {
+        callback('邮箱地址不合法');
+      }
+      if (value.length > 200) {
+        callback('邮箱地址过长');
+      }
+      callback();
+    },
+    phoneValidator: (rule, value, callback) => {
+      let regex = /^1[3456789]\d{9}$/;
+      if (!regex.test(value)) {
+        callback('手机号不合法');
+      }
+      callback();
+    },
+    codeValidator: (rule, value, callback) => {
+      let regex = /^[0-9]+$/;
+      if (!regex.test(value)) {
+        callback('验证码只能包含数字');
+      }
+      if (value.length !== 6) {
+        callback('验证码长度不符');
+      }
+      callback();
+    },
+    nicknameValidator: (rule, value, callback) => {
+      if (value.length < 2) {
+        callback('昵称太短');
+      }
+      if (value.length > 18) {
+        callback('昵称太长');
+      }
+      if (value.startsWith('tdduser')) {
+        callback('不能设置tdduser开头的昵称');
+      }
+      if (value === this.user.nickname) {
+        callback('不能设置与之前相同的昵称');
+      }
+      callback();
+    },
+    passwordValidator: (rule, value, callback) => {
+      if (!value) {
         callback();
-      },
-      phoneValidator: (rule, value, callback) => {
-        let regex = /^1[3456789]\d{9}$/;
-        if (!regex.test(value)) {
-          callback('手机号不合法');
-        }
-        callback();
-      },
-      codeValidator: (rule, value, callback) => {
-        let regex = /^[0-9]+$/;
-        if (!regex.test(value)) {
-          callback('验证码只能包含数字');
-        }
-        if (value.length !== 6) {
-          callback('验证码长度不符');
-        }
-        callback();
-      },
-      nicknameValidator: (rule, value, callback) => {
-        if (value.length < 2) {
-          callback('昵称太短');
-        }
-        if (value.length > 18) {
-          callback('昵称太长');
-        }
-        if (value.startsWith('tdduser')) {
-          callback('不能设置tdduser开头的昵称');
-        }
-        if (value === this.user.nickname) {
-          callback('不能设置与之前相同的昵称');
-        }
-        callback();
-      },
-      passwordValidator: (rule, value, callback) => {
-        if (!value) {
-          callback();
-        }
-        if (value.length < 6) {
-          callback('密码太短');
-        }
-        if (value.length > 16) {
-          callback('密码太长');
-        }
-        let regex = /^[A-Za-z0-9!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]+$/g;
-        if (!regex.test(value)) {
-          callback('密码中包含不支持的字符');
-        }
-        // eslint-disable-next-line no-useless-escape
-        const regexList = [
-          /[A-Z]/g,
-          /[a-z]/g,
-          /[0-9]/g,
-          /[!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]/g
-        ];
-        let strongValue = 0;
-        for (let regex of regexList) {
-          if (regex.test(value)) {
-            strongValue++;
-          }
-        }
-        if (value.length > 10) {
+      }
+      if (value.length < 6) {
+        callback('密码太短');
+      }
+      if (value.length > 16) {
+        callback('密码太长');
+      }
+      let regex = /^[A-Za-z0-9!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]+$/g;
+      if (!regex.test(value)) {
+        callback('密码中包含不支持的字符');
+      }
+      // eslint-disable-next-line no-useless-escape
+      const regexList = [
+        /[A-Z]/g,
+        /[a-z]/g,
+        /[0-9]/g,
+        /[!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]/g
+      ];
+      let strongValue = 0;
+      for (let regex of regexList) {
+        if (regex.test(value)) {
           strongValue++;
         }
-        if (strongValue < 2) {
-          callback('密码强度太弱');
-        }
-        callback();
-      },
-      // password2Validator: (rule, value, callback) => {
-      //   callback();
-      // },
-      bindEmailRecaptchaVerifyCallback: function (response) {
-        this.bindEmailRecaptchaPassed = true;
-        this.bindEmailRecaptchaResponse = response;
-      },
-      bindEmailRecaptchaExpiredCallback: function () {
-        this.bindEmailRecaptchaPassed = false;
-        this.bindEmailRecaptchaResponse = '';
-      },
-      bindEmailSendCode: function () {
-        const { getFieldValue, getFieldError } = this.bindEmailForm;
-        if (!(
+      }
+      if (value.length > 10) {
+        strongValue++;
+      }
+      if (strongValue < 2) {
+        callback('密码强度太弱');
+      }
+      callback();
+    },
+    // password2Validator: (rule, value, callback) => {
+    //   callback();
+    // },
+    bindEmailRecaptchaVerifyCallback: function (response) {
+      this.bindEmailRecaptchaPassed = true;
+      this.bindEmailRecaptchaResponse = response;
+    },
+    bindEmailRecaptchaExpiredCallback: function () {
+      this.bindEmailRecaptchaPassed = false;
+      this.bindEmailRecaptchaResponse = '';
+    },
+    bindEmailSendCode: function () {
+      const { getFieldValue, getFieldError } = this.bindEmailForm;
+      if (!(
           getFieldValue('email') !== undefined &&
           getFieldError('email') === undefined &&
           this.bindEmailRecaptchaPassed
-        )) {
-          this.$message.warn('请先正确填写参数');
-          return;
-        } // TODO refactor, if these not satisfied, button should not be able to click
+      )) {
+        this.$message.warn('请先正确填写参数');
+        return;
+      } // TODO refactor, if these not satisfied, button should not be able to click
 
-        // need do recaptcha again
-        if (this.bindEmailCodeSendRequested) {
-          this.$message.warn('请重新进行人机验证');
-          this.bindEmailRecaptchaPassed = false;
-          this.bindEmailCodeSendRequested = false;
-          return;
+      // need do recaptcha again
+      if (this.bindEmailCodeSendRequested) {
+        this.$message.warn('请重新进行人机验证');
+        this.bindEmailRecaptchaPassed = false;
+        this.bindEmailCodeSendRequested = false;
+        return;
+      }
+
+      this.isSendingBindEmailCode = true;
+      let that = this;
+
+      this.$axios({
+        method: 'post',
+        url: '/user/bind/email/code',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          email: getFieldValue('email'),
+          recaptcha: this.bindEmailRecaptchaResponse
         }
-
-        this.isSendingBindEmailCode = true;
-        let that = this;
-
-        this.$axios({
-          method: 'post',
-          url: '/user/bind/email/code',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: {
-            email: getFieldValue('email'),
-            recaptcha: this.bindEmailRecaptchaResponse
-          }
-        })
+      })
           .then(function (response) {
             let data = response.data;
             if (data.status === 'success') {
@@ -719,43 +719,43 @@
             that.isSendingBindEmailCode = false;
             that.bindEmailCodeSendRequested = true;
           })
-      },
-      bindEmailSendValidation: function () {
-        const { getFieldValue, getFieldError } = this.bindEmailForm;
-        if (!(
+    },
+    bindEmailSendValidation: function () {
+      const { getFieldValue, getFieldError } = this.bindEmailForm;
+      if (!(
           getFieldValue('code') !== undefined &&
           getFieldError('code') === undefined &&
           this.bindEmailBindKey.length > 0
-        )) {
-          this.$message.warn('请先正确填写参数');
-          return;
-        } // TODO refactor, if these not satisfied, button should not be able to click
+      )) {
+        this.$message.warn('请先正确填写参数');
+        return;
+      } // TODO refactor, if these not satisfied, button should not be able to click
 
-        // check expired
-        if ((new Date()).valueOf() > this.bindEmailExpired * 1000) {
-          this.$message.warn('验证码过期，请重新获取');
-          this.bindEmailRecaptchaPassed = false;
-          this.bindEmailRecaptchaResponse = '';
-          if (this.$refs.bindEmailRecaptcha) {
-            this.$refs.bindEmailRecaptcha.reset();
-          }
-          return
+      // check expired
+      if ((new Date()).valueOf() > this.bindEmailExpired * 1000) {
+        this.$message.warn('验证码过期，请重新获取');
+        this.bindEmailRecaptchaPassed = false;
+        this.bindEmailRecaptchaResponse = '';
+        if (this.$refs.bindEmailRecaptcha) {
+          this.$refs.bindEmailRecaptcha.reset();
         }
+        return
+      }
 
-        this.isSendingBindEmailValidation = true;
-        let that = this;
+      this.isSendingBindEmailValidation = true;
+      let that = this;
 
-        this.$axios({
-          method: 'post',
-          url: '/user/bind/email/validation',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: {
-            bindkey: this.bindEmailBindKey,
-            code: getFieldValue('code'),
-          }
-        })
+      this.$axios({
+        method: 'post',
+        url: '/user/bind/email/validation',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          bindkey: this.bindEmailBindKey,
+          code: getFieldValue('code'),
+        }
+      })
           .then(function (response) {
             let data = response.data;
             if (data.status === 'success') {
@@ -809,48 +809,48 @@
           .finally(function () {
             that.isSendingBindEmailValidation = false;
           })
-      },
-      bindPhoneRecaptchaVerifyCallback: function (response) {
-        this.bindPhoneRecaptchaPassed = true;
-        this.bindPhoneRecaptchaResponse = response;
-      },
-      bindPhoneRecaptchaExpiredCallback: function () {
-        this.bindPhoneRecaptchaPassed = false;
-        this.bindPhoneRecaptchaResponse = '';
-      },
-      bindPhoneSendCode: function () {
-        const { getFieldValue, getFieldError } = this.bindPhoneForm;
-        if (!(
+    },
+    bindPhoneRecaptchaVerifyCallback: function (response) {
+      this.bindPhoneRecaptchaPassed = true;
+      this.bindPhoneRecaptchaResponse = response;
+    },
+    bindPhoneRecaptchaExpiredCallback: function () {
+      this.bindPhoneRecaptchaPassed = false;
+      this.bindPhoneRecaptchaResponse = '';
+    },
+    bindPhoneSendCode: function () {
+      const { getFieldValue, getFieldError } = this.bindPhoneForm;
+      if (!(
           getFieldValue('phone') !== undefined &&
           getFieldError('phone') === undefined &&
           this.bindPhoneRecaptchaPassed
-        )) {
-          this.$message.warn('请先正确填写参数');
-          return;
-        } // TODO refactor, if these not satisfied, button should not be able to click
+      )) {
+        this.$message.warn('请先正确填写参数');
+        return;
+      } // TODO refactor, if these not satisfied, button should not be able to click
 
-        // need do recaptcha again
-        if (this.bindPhoneCodeSendRequested) {
-          this.$message.warn('请重新进行人机验证');
-          this.bindPhoneRecaptchaPassed = false;
-          this.bindPhoneCodeSendRequested = false;
-          return;
+      // need do recaptcha again
+      if (this.bindPhoneCodeSendRequested) {
+        this.$message.warn('请重新进行人机验证');
+        this.bindPhoneRecaptchaPassed = false;
+        this.bindPhoneCodeSendRequested = false;
+        return;
+      }
+
+      this.isSendingBindPhoneCode = true;
+      let that = this;
+
+      this.$axios({
+        method: 'post',
+        url: '/user/bind/phone/code',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          phone: getFieldValue('phone'),
+          recaptcha: this.bindPhoneRecaptchaResponse
         }
-
-        this.isSendingBindPhoneCode = true;
-        let that = this;
-
-        this.$axios({
-          method: 'post',
-          url: '/user/bind/phone/code',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: {
-            phone: getFieldValue('phone'),
-            recaptcha: this.bindPhoneRecaptchaResponse
-          }
-        })
+      })
           .then(function (response) {
             let data = response.data;
             if (data.status === 'success') {
@@ -902,43 +902,43 @@
             that.isSendingBindPhoneCode = false;
             that.bindPhoneCodeSendRequested = true;
           })
-      },
-      bindPhoneSendValidation: function () {
-        const { getFieldValue, getFieldError } = this.bindPhoneForm;
-        if (!(
+    },
+    bindPhoneSendValidation: function () {
+      const { getFieldValue, getFieldError } = this.bindPhoneForm;
+      if (!(
           getFieldValue('code') !== undefined &&
           getFieldError('code') === undefined &&
           this.bindPhoneBindKey.length > 0
-        )) {
-          this.$message.warn('请先正确填写参数');
-          return;
-        } // TODO refactor, if these not satisfied, button should not be able to click
+      )) {
+        this.$message.warn('请先正确填写参数');
+        return;
+      } // TODO refactor, if these not satisfied, button should not be able to click
 
-        // check expired
-        if ((new Date()).valueOf() > this.bindPhoneExpired * 1000) {
-          this.$message.warn('验证码过期，请重新获取');
-          this.bindPhoneRecaptchaPassed = false;
-          this.bindPhoneRecaptchaResponse = '';
-          if (this.$refs.bindPhoneRecaptcha) {
-            this.$refs.bindPhoneRecaptcha.reset();
-          }
-          return
+      // check expired
+      if ((new Date()).valueOf() > this.bindPhoneExpired * 1000) {
+        this.$message.warn('验证码过期，请重新获取');
+        this.bindPhoneRecaptchaPassed = false;
+        this.bindPhoneRecaptchaResponse = '';
+        if (this.$refs.bindPhoneRecaptcha) {
+          this.$refs.bindPhoneRecaptcha.reset();
         }
+        return
+      }
 
-        this.isSendingBindPhoneValidation = true;
-        let that = this;
+      this.isSendingBindPhoneValidation = true;
+      let that = this;
 
-        this.$axios({
-          method: 'post',
-          url: '/user/bind/phone/validation',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: {
-            bindkey: this.bindPhoneBindKey,
-            code: getFieldValue('code'),
-          }
-        })
+      this.$axios({
+        method: 'post',
+        url: '/user/bind/phone/validation',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          bindkey: this.bindPhoneBindKey,
+          code: getFieldValue('code'),
+        }
+      })
           .then(function (response) {
             let data = response.data;
             if (data.status === 'success') {
@@ -992,30 +992,30 @@
           .finally(function () {
             that.isSendingBindPhoneValidation = false;
           })
-      },
-      setNickname: function () {
-        const { getFieldValue, getFieldError } = this.setNicknameForm;
-        if (!(
+    },
+    setNickname: function () {
+      const { getFieldValue, getFieldError } = this.setNicknameForm;
+      if (!(
           getFieldValue('nickname') !== undefined &&
           getFieldError('nickname') === undefined
-        )) {
-          this.$message.warn('请先正确填写参数');
-          return;
-        } // TODO refactor, if these not satisfied, button should not be able to click
+      )) {
+        this.$message.warn('请先正确填写参数');
+        return;
+      } // TODO refactor, if these not satisfied, button should not be able to click
 
-        this.isSettingNickname = true;
-        let that = this;
+      this.isSettingNickname = true;
+      let that = this;
 
-        this.$axios({
-          method: 'post',
-          url: '/user/set/nickname',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: {
-            nickname: getFieldValue('nickname'),
-          }
-        })
+      this.$axios({
+        method: 'post',
+        url: '/user/set/nickname',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          nickname: getFieldValue('nickname'),
+        }
+      })
           .then(function (response) {
             let data = response.data;
             if (data.status === 'success') {
@@ -1067,37 +1067,37 @@
           .finally(function () {
             that.isSettingNickname = false;
           })
-      },
-      changePassword: function () {
-        const { getFieldValue, getFieldError } = this.changePasswordForm;
-        if (getFieldValue('password') !== getFieldValue('password2')) {
-          this.$message.warn('两次填写的密码不一致');
-          return;
-        }
+    },
+    changePassword: function () {
+      const { getFieldValue, getFieldError } = this.changePasswordForm;
+      if (getFieldValue('password') !== getFieldValue('password2')) {
+        this.$message.warn('两次填写的密码不一致');
+        return;
+      }
 
-        if (!(
+      if (!(
           getFieldValue('password') !== undefined &&
           getFieldError('password') === undefined &&
           getFieldValue('password2') !== undefined &&
           getFieldError('password2') === undefined
-        )) {
-          this.$message.warn('请先正确填写参数');
-          return;
-        } // TODO refactor, if these not satisfied, button should not be able to click
+      )) {
+        this.$message.warn('请先正确填写参数');
+        return;
+      } // TODO refactor, if these not satisfied, button should not be able to click
 
-        this.isChangingPassword = true;
-        let that = this;
+      this.isChangingPassword = true;
+      let that = this;
 
-        this.$axios({
-          method: 'post',
-          url: '/user/change/password',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: {
-            password: getFieldValue('password'),
-          }
-        })
+      this.$axios({
+        method: 'post',
+        url: '/user/change/password',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          password: getFieldValue('password'),
+        }
+      })
           .then(function (response) {
             let data = response.data;
             if (data.status === 'success') {
@@ -1138,21 +1138,21 @@
           .finally(function () {
             that.isChangingPassword = false;
           })
-      }
-    },
-    created() {
-      this.fetchUserInfo();
     }
+  },
+  created() {
+    this.fetchUserInfo();
   }
+}
 </script>
 
 <style scoped>
-  .ant-form-item {
-    margin-bottom: 8px;
+.ant-form-item {
+  margin-bottom: 8px;
+}
+@media (max-width: 575px)  {
+  .ant-form-item-label {
+    padding: 0;
   }
-  @media (max-width: 575px)  {
-    .ant-form-item-label {
-      padding: 0;
-    }
-  }
+}
 </style>

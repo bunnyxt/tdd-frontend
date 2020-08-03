@@ -118,63 +118,63 @@
 </template>
 
 <script>
-  import TddMemberList from "../../common/TddMemberList";
+import TddMemberList from "../../common/TddMemberList";
 
-  export default {
-    name: 'MemberHome',
-    components: {
-      TddMemberList
+export default {
+  name: 'MemberHome',
+  components: {
+    TddMemberList
+  },
+  data: function () {
+    return {
+      memberList: [],
+      memberTotalCount: 0,
+      pagiCurrent: 1,
+      orderValue: 'sr_view',
+      orderDescValue: 1,
+      sexValue: '不限',
+      nameValue: '',
+      isLoadingMemberList: false,
+      mainProp: 'sr_view'
+    }
+  },
+  methods: {
+    checkParams: function () {
+      // TODO
+      return true;
     },
-    data: function () {
-      return {
-        memberList: [],
-        memberTotalCount: 0,
-        pagiCurrent: 1,
-        orderValue: 'sr_view',
-        orderDescValue: 1,
-        sexValue: '不限',
-        nameValue: '',
-        isLoadingMemberList: false,
-        mainProp: 'sr_view'
+    assembleQueryUrl: function () {
+      let url = 'member?';
+      // order_by
+      url += 'order_by=' + this.orderValue + '&';
+      // desc
+      if (this.orderDescValue === 0) {
+        url += 'desc=0&';
+      } else {
+        url += 'desc=1&';
       }
+      // sex
+      if (['男', '女', '保密'].indexOf(this.sexValue) >= 0) {
+        url += 'sex=' + this.sexValue + '&';
+      }
+      // name
+      if (this.nameValue) {
+        url += 'name='+ this.nameValue + '&';
+      }
+      // pn
+      url += 'pn=' + this.pagiCurrent;
+      return url;
     },
-    methods: {
-      checkParams: function () {
-        // TODO
-        return true;
-      },
-      assembleQueryUrl: function () {
-        let url = 'member?';
-        // order_by
-        url += 'order_by=' + this.orderValue + '&';
-        // desc
-        if (this.orderDescValue === 0) {
-          url += 'desc=0&';
-        } else {
-          url += 'desc=1&';
-        }
-        // sex
-        if (['男', '女', '保密'].indexOf(this.sexValue) >= 0) {
-          url += 'sex=' + this.sexValue + '&';
-        }
-        // name
-        if (this.nameValue) {
-          url += 'name='+ this.nameValue + '&';
-        }
-        // pn
-        url += 'pn=' + this.pagiCurrent;
-        return url;
-      },
-      fetchMemberList: function () {
-        this.isLoadingMemberList = true;
-        if (!this.checkParams()) {
-          this.isLoadingMemberList = false;
-          return;
-        }
+    fetchMemberList: function () {
+      this.isLoadingMemberList = true;
+      if (!this.checkParams()) {
+        this.isLoadingMemberList = false;
+        return;
+      }
 
-        let url = this.assembleQueryUrl();
-        let that = this;
-        this.$axios.get(url)
+      let url = this.assembleQueryUrl();
+      let that = this;
+      this.$axios.get(url)
           .then(function (response) {
             that.memberList = response.data;
             that.memberTotalCount = parseInt(response.headers['x-total-count']);
@@ -195,37 +195,37 @@
           .finally(function () {
             that.isLoadingMemberList = false;
           });
-      },
-      handleSearchButtonClick: function () {
-        if (!this.isLoadingMemberList) {
-          this.fetchMemberList();
-        }
-      },
-      handleReloadButtonClick: function() {
-        this.sexValue = '不限';
-        this.nameValue = '';
-      },
-      onPagiChange: function (pagiClick) {
-        this.pagiCurrent = pagiClick;
+    },
+    handleSearchButtonClick: function () {
+      if (!this.isLoadingMemberList) {
         this.fetchMemberList();
-      },
-      memberListItemClickedHandler: function (item) {
-        this.$store.commit('setMemberDetailMember', item);
-        this.$router.push('member/' + item.mid);
       }
     },
-    created() {
+    handleReloadButtonClick: function() {
+      this.sexValue = '不限';
+      this.nameValue = '';
+    },
+    onPagiChange: function (pagiClick) {
+      this.pagiCurrent = pagiClick;
       this.fetchMemberList();
+    },
+    memberListItemClickedHandler: function (item) {
+      this.$store.commit('setMemberDetailMember', item);
+      this.$router.push('member/' + item.mid);
     }
+  },
+  created() {
+    this.fetchMemberList();
   }
+}
 </script>
 
 <style scoped>
-  .filter-table td {
-    height: 40px;
-  }
-  .filter-table-label {
-    width: 80px;
-    white-space: nowrap;
-  }
+.filter-table td {
+  height: 40px;
+}
+.filter-table-label {
+  width: 80px;
+  white-space: nowrap;
+}
 </style>

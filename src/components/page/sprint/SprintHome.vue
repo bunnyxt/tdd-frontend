@@ -16,16 +16,17 @@
             点击<a-icon type="play-circle" title="立刻助攻"/>跳转至B站视频页进行助攻<br/>
             点击<a-icon type="line-chart" title="查看详情"/>查看本站记录的冲刺数据详情
           </p>
-          <p>数据交流与系统反馈
-            <ul>
-              <li>
-                QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>
-              </li>
-              <li>
-                个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
-              </li>
-            </ul>
+          <p>
+            数据交流与系统反馈
           </p>
+          <ul>
+            <li>
+              QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>
+            </li>
+            <li>
+              个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
+            </li>
+          </ul>
           <div class="SlickDotsSpace">
           </div>
         </div>
@@ -99,15 +100,15 @@
           </a-collapse-panel>
         </a-collapse>
         <a-list
-          :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
-          :dataSource="sprintVideoListFiltered"
+            :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
+            :dataSource="sprintVideoListFiltered"
         >
           <a-list-item class="sprint-video-item" slot="renderItem" slot-scope="item">
-              <SprintVideoBrief 
+            <SprintVideoBrief
                 :key="item.id"
                 :video="item"
                 :imgHeight="sprintVideoImgHeight"
-              ></SprintVideoBrief>
+            ></SprintVideoBrief>
           </a-list-item>
         </a-list>
       </a-spin>
@@ -118,14 +119,14 @@
       <p>*展示已达成传说的，本系统曾经记录过的历史助攻曲目视频</p>
       <a-spin :spinning="isLoadingFinishedVideo">
         <a-list
-          :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
-          :dataSource="sprintFinishedVideoList"
+            :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
+            :dataSource="sprintFinishedVideoList"
         >
           <a-list-item class="sprint-video-item" slot="renderItem" slot-scope="item">
-            <SprintVideoBrief 
-              :key="item.id"
-              :video="item"
-              :imgHeight="sprintVideoImgHeight"
+            <SprintVideoBrief
+                :key="item.id"
+                :video="item"
+                :imgHeight="sprintVideoImgHeight"
             ></SprintVideoBrief>
           </a-list-item>
         </a-list>
@@ -193,22 +194,22 @@ export default {
         case 1:
           if (this.sortOrderValue == 1) {
             list.sort(
-              (o1, o2) => o1.last_record.view - o2.last_record.view
+                (o1, o2) => o1.last_record.view - o2.last_record.view
             )
           } else if (this.sortOrderValue == 2) {
             list.sort(
-              (o1, o2) => o2.last_record.view - o1.last_record.view
+                (o1, o2) => o2.last_record.view - o1.last_record.view
             )
           }
           break;
         case 2:
           if (this.sortOrderValue == 1) {
             list.sort(
-              (o1, o2) => o1.created - o2.created
+                (o1, o2) => o1.created - o2.created
             )
           } else if (this.sortOrderValue == 2) {
             list.sort(
-              (o1, o2) => o2.created - o1.created
+                (o1, o2) => o2.created - o1.created
             )
           }
           break;
@@ -312,30 +313,30 @@ export default {
     this.isLoadingFinishedVideo = true
     this.isLoadingDaily = true
     fetch(this.$store.state.apiBase + "sprint_video.php?status=processing")
-      .then(response => response.json())
-      .then(json => this.sprintVideoList = json.data)
-      .then(
-        () => {
-          this.singerOptions = []
-          for (let i = 0; i < this.sprintVideoList.length; i++) {
-            for (let j = 0; j < this.sprintVideoList[i].singer.length; j++) {
-              if (this.singerOptions.indexOf(this.sprintVideoList[i].singer[j]) == -1) {
-                this.singerOptions.push(this.sprintVideoList[i].singer[j])
+        .then(response => response.json())
+        .then(json => this.sprintVideoList = json.data)
+        .then(
+          () => {
+            this.singerOptions = []
+            for (let i = 0; i < this.sprintVideoList.length; i++) {
+              for (let j = 0; j < this.sprintVideoList[i].singer.length; j++) {
+                if (this.singerOptions.indexOf(this.sprintVideoList[i].singer[j]) == -1) {
+                  this.singerOptions.push(this.sprintVideoList[i].singer[j])
+                }
               }
             }
+            this.singerValues = this.singerOptions
           }
-          this.singerValues = this.singerOptions
-        }
-      )
-      .then(() => this.isLoadingVideo = false)
+        )
+        .then(() => this.isLoadingVideo = false)
     fetch(this.$store.state.apiBase + "sprint_video.php?status=finished")
-      .then(response => response.json())
-      .then(json => this.sprintFinishedVideoList = json.data)
-      .then(() => this.isLoadingFinishedVideo = false)
+        .then(response => response.json())
+        .then(json => this.sprintFinishedVideoList = json.data)
+        .then(() => this.isLoadingFinishedVideo = false)
     fetch(this.$store.state.apiBase + "sprint_daily.php?limit=1")
-      .then(response => response.json())
-      .then(json => this.sprintDaily = json.data[0])
-      .then(() => this.isLoadingDaily = false)
+        .then(response => response.json())
+        .then(json => this.sprintDaily = json.data[0])
+        .then(() => this.isLoadingDaily = false)
   },
   mounted: function(){
     let that = this;

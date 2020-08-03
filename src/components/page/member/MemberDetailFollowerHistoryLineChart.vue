@@ -75,144 +75,144 @@
 </template>
 
 <script>
-  import G2 from '@antv/g2';
-  import DataSet from '@antv/data-set';
-  import moment from 'moment';
+import G2 from '@antv/g2';
+import DataSet from '@antv/data-set';
+import moment from 'moment';
 
-  export default {
-    name: 'MemberDetailFollowerHistoryLineChart',
-    props: {
-      followerRecords: {
-        type: Array,
-        required: true
+export default {
+  name: 'MemberDetailFollowerHistoryLineChart',
+  props: {
+    followerRecords: {
+      type: Array,
+      required: true
+    }
+  },
+  data: function () {
+    return {
+      data: [],
+      chart: null,
+      ds: null,
+      dv: null,
+      paddingDESKTOP: [ 20, 8, 75, 68 ],
+      paddingMOBILE: [ 20, 8, 75, 8 ],
+      heightDESKTOP: 400,
+      heightMOBILE: 300,
+      isInitialing: false,
+      addedRangeValue: [],
+      addedRangeRanges: {
+        '1日': [moment().subtract(1, 'days'), moment()],
+        '7日': [moment().subtract(7, 'days'), moment()],
+        '30日': [moment().subtract(30, 'days'), moment()],
+        '180日': [moment().subtract(180, 'days'), moment()],
+      },
+      addedRangeDisabledDate: current => current > moment().endOf('day'),
+      addedRangeMobileVisibility: false,
+      addedRangeValueStart: null,
+      addedRangeValueEnd: null
+    }
+  },
+  computed: {
+    _storeClientMode: function() {
+      return this.$store.getters.clientMode;
+    },
+    padding: function() {
+      return this.$store.getters.clientMode === 'MOBILE' ? this.paddingMOBILE : this.paddingDESKTOP;
+    },
+    height: function() {
+      return this.$store.getters.clientMode === 'MOBILE' ? this.heightMOBILE : this.heightDESKTOP;
+    }
+  },
+  watch: {
+    followerRecords: function() {
+      this.initAddedRange();
+      this.init();
+    },
+    addedRangeValue: function () {
+      if (this.addedRangeValue.length === 2) {
+        this.addedRangeValueStart = this.addedRangeValue[0];
+        this.addedRangeValueEnd = this.addedRangeValue[1];
+      } else {
+        this.addedRangeValueStart = null;
+        this.addedRangeValueEnd = null;
       }
     },
-    data: function () {
-      return {
-        data: [],
-        chart: null,
-        ds: null,
-        dv: null,
-        paddingDESKTOP: [ 20, 8, 75, 68 ],
-        paddingMOBILE: [ 20, 8, 75, 8 ],
-        heightDESKTOP: 400,
-        heightMOBILE: 300,
-        isInitialing: false,
-        addedRangeValue: [],
-        addedRangeRanges: {
-          '1日': [moment().subtract(1, 'days'), moment()],
-          '7日': [moment().subtract(7, 'days'), moment()],
-          '30日': [moment().subtract(30, 'days'), moment()],
-          '180日': [moment().subtract(180, 'days'), moment()],
-        },
-        addedRangeDisabledDate: current => current > moment().endOf('day'),
-        addedRangeMobileVisibility: false,
-        addedRangeValueStart: null,
-        addedRangeValueEnd: null
-      }
-    },
-    computed: {
-      _storeClientMode: function() {
-        return this.$store.getters.clientMode;
-      },
-      padding: function() {
-        return this.$store.getters.clientMode === 'MOBILE' ? this.paddingMOBILE : this.paddingDESKTOP;
-      },
-      height: function() {
-        return this.$store.getters.clientMode === 'MOBILE' ? this.heightMOBILE : this.heightDESKTOP;
-      }
-    },
-    watch: {
-      followerRecords: function() {
-        this.initAddedRange();
-        this.init();
-      },
-      addedRangeValue: function () {
-        if (this.addedRangeValue.length === 2) {
-          this.addedRangeValueStart = this.addedRangeValue[0];
-          this.addedRangeValueEnd = this.addedRangeValue[1];
-        } else {
-          this.addedRangeValueStart = null;
-          this.addedRangeValueEnd = null;
-        }
-      },
-      _storeClientMode: function() {
-        this.chart.destroy();
-        document.getElementById('member-detail-follower-history-line-chart-slider').innerHTML = ''; // destroy slider
-        this.initChart();
-        this.chart.render();
-      }
-    },
-    methods: {
-      initAddedRange: function () {
-        let length = this.followerRecords.length;
-        let size = 200;
-        let start = moment(this.followerRecords[length - size < 0 ? 0 : length - size].added * 1000);
-        let end = moment(this.followerRecords[length - 1].added * 1000);
-        this.addedRangeValue = [start, end];
+    _storeClientMode: function() {
+      this.chart.destroy();
+      document.getElementById('member-detail-follower-history-line-chart-slider').innerHTML = ''; // destroy slider
+      this.initChart();
+      this.chart.render();
+    }
+  },
+  methods: {
+    initAddedRange: function () {
+      let length = this.followerRecords.length;
+      let size = 200;
+      let start = moment(this.followerRecords[length - size < 0 ? 0 : length - size].added * 1000);
+      let end = moment(this.followerRecords[length - 1].added * 1000);
+      this.addedRangeValue = [start, end];
 
-        let minTs = this.followerRecords[0].added;
-        this.addedRangeDisabledDate = function (current) {
-          return current < moment(minTs * 1000) || current > moment().endOf('day')
-        }
-      },
-      init: function() {
-        if (this.isInitialing === true) {
-          return;
-        } else {
-          this.isInitialing = true;
-        }
-        this.initData();
-        this.initDs();
-        this.initDv();
-        this.initChart();
-        this.chart.render();
-        this.isInitialing = false;
-      },
-      initData: function () {
-        this.data = [];
+      let minTs = this.followerRecords[0].added;
+      this.addedRangeDisabledDate = function (current) {
+        return current < moment(minTs * 1000) || current > moment().endOf('day')
+      }
+    },
+    init: function() {
+      if (this.isInitialing === true) {
+        return;
+      } else {
+        this.isInitialing = true;
+      }
+      this.initData();
+      this.initDs();
+      this.initDv();
+      this.initChart();
+      this.chart.render();
+      this.isInitialing = false;
+    },
+    initData: function () {
+      this.data = [];
 
-        // cut via range
-        if (this.addedRangeValue.length !== 2) {
-          // show all
-          this.data = [...this.followerRecords];
-        } else {
-          let startTs = Math.floor(this.addedRangeValue[0].valueOf() / 1000);
-          let endTs = Math.floor(this.addedRangeValue[1].valueOf() / 1000);
-          for (let i = 0; i < this.followerRecords.length; i++) {
-            let record = this.followerRecords[i];
-            if (record.added >= startTs && record.added <= endTs) {
-              this.data.push(record);
-            }
+      // cut via range
+      if (this.addedRangeValue.length !== 2) {
+        // show all
+        this.data = [...this.followerRecords];
+      } else {
+        let startTs = Math.floor(this.addedRangeValue[0].valueOf() / 1000);
+        let endTs = Math.floor(this.addedRangeValue[1].valueOf() / 1000);
+        for (let i = 0; i < this.followerRecords.length; i++) {
+          let record = this.followerRecords[i];
+          if (record.added >= startTs && record.added <= endTs) {
+            this.data.push(record);
           }
         }
+      }
 
-        // add follower_speed
-        if (this.data.length > 0) {
-          this.data[0].follower_speed = 0;
-          for (let i = 1; i < this.data.length; i++) {
-            let follower_diff = this.data[i].follower - this.data[i - 1].follower;
-            let added_diff = this.data[i].added - this.data[i - 1].added;
-            if (follower_diff === 0 && added_diff <= 75) { // assume update interval 75s
-              this.data[i].follower_speed = this.data[i - 1].view_speed;
-            } else {
-              this.data[i].follower_speed = parseFloat((follower_diff / added_diff * 24 * 60 * 60).toFixed(2));
-            }
+      // add follower_speed
+      if (this.data.length > 0) {
+        this.data[0].follower_speed = 0;
+        for (let i = 1; i < this.data.length; i++) {
+          let follower_diff = this.data[i].follower - this.data[i - 1].follower;
+          let added_diff = this.data[i].added - this.data[i - 1].added;
+          if (follower_diff === 0 && added_diff <= 75) { // assume update interval 75s
+            this.data[i].follower_speed = this.data[i - 1].view_speed;
+          } else {
+            this.data[i].follower_speed = parseFloat((follower_diff / added_diff * 24 * 60 * 60).toFixed(2));
           }
         }
-      },
-      initDs: function() {
-        this.ds = new DataSet({
-          state: {
-            start: this.data.length > 0 ? this.data[0].added : 0,
-            end: this.data.length > 0 ? this.data[this.data.length-1].added : 0
-          }
-        });
-      },
-      initDv: function() {
-        let that = this;
+      }
+    },
+    initDs: function() {
+      this.ds = new DataSet({
+        state: {
+          start: this.data.length > 0 ? this.data[0].added : 0,
+          end: this.data.length > 0 ? this.data[this.data.length-1].added : 0
+        }
+      });
+    },
+    initDv: function() {
+      let that = this;
 
-        this.dv = this.ds.createView()
+      this.dv = this.ds.createView()
           .source(this.data)
           .transform({
             type: 'filter',
@@ -240,55 +240,55 @@
               return row;
             }
           });
-      },
-      initChart: function() {
-        this.createChart();
-        this.setChartAxis();
-        this.setChartSource();
+    },
+    initChart: function() {
+      this.createChart();
+      this.setChartAxis();
+      this.setChartSource();
 
-        this.setChartInteract();
-        this.setChartStyle();
-      },
-      createChart: function() {
-        this.chart = new G2.Chart({
-          container: 'member-detail-follower-history-line-chart',
-          forceFit: true,
-          height : this.height,
-          padding: this.padding
-        });
-      },
-      setChartSource: function() {
-        this.chart.source(this.dv, {
-          added: {
-            type: 'time',
-            mask: 'YYYY-MM-DD HH:mm:ss'
-          },
-          value: {
-            type: 'linear',
-            nice: false
+      this.setChartInteract();
+      this.setChartStyle();
+    },
+    createChart: function() {
+      this.chart = new G2.Chart({
+        container: 'member-detail-follower-history-line-chart',
+        forceFit: true,
+        height : this.height,
+        padding: this.padding
+      });
+    },
+    setChartSource: function() {
+      this.chart.source(this.dv, {
+        added: {
+          type: 'time',
+          mask: 'YYYY-MM-DD HH:mm:ss'
+        },
+        value: {
+          type: 'linear',
+          nice: false
+        }
+      });
+    },
+    setChartAxis: function() {
+      this.chart.axis('added', {
+        label: {
+          formatter: function (text) {
+            return text.slice(5, 10);
           }
-        });
-      },
-      setChartAxis: function() {
-        this.chart.axis('added', {
-          label: {
-            formatter: function (text) {
-              return text.slice(5, 10);
-            }
-          }
-        });
-        this.chart.axis('value', {
-          label: this.$store.getters.clientMode === 'MOBILE' ? null : {
-            formatter: val => parseInt(val).toLocaleString()
-          }
-        });
-        this.chart.axis('粉丝瞬时增速/日', {
-          grid: null
-        });
-      },
-      setChartInteract: function() {
-        let that = this;
-        let dv_slider = this.ds.createView()
+        }
+      });
+      this.chart.axis('value', {
+        label: this.$store.getters.clientMode === 'MOBILE' ? null : {
+          formatter: val => parseInt(val).toLocaleString()
+        }
+      });
+      this.chart.axis('粉丝瞬时增速/日', {
+        grid: null
+      });
+    },
+    setChartInteract: function() {
+      let that = this;
+      let dv_slider = this.ds.createView()
           .source(this.data)
           .transform({
             type: 'map',
@@ -297,79 +297,79 @@
               return row;
             }
           });
-        this.chart.interact('slider', {
-          container: 'member-detail-follower-history-line-chart-slider',
-          data: dv_slider,
-          xAxis: 'added',
-          yAxis: 'follower',
-          padding: this.padding,
-          onChange: ({ startValue, endValue }) => {
-            that.ds.setState('start', Math.floor(startValue / 1000));
-            that.ds.setState('end', Math.floor(endValue / 1000));
-            setTimeout(() => {
-              that.chart.render();
-            }, 32);
-          }
-        });
-      },
-      setChartStyle: function() {
-        this.chart
+      this.chart.interact('slider', {
+        container: 'member-detail-follower-history-line-chart-slider',
+        data: dv_slider,
+        xAxis: 'added',
+        yAxis: 'follower',
+        padding: this.padding,
+        onChange: ({ startValue, endValue }) => {
+          that.ds.setState('start', Math.floor(startValue / 1000));
+          that.ds.setState('end', Math.floor(endValue / 1000));
+          setTimeout(() => {
+            that.chart.render();
+          }, 32);
+        }
+      });
+    },
+    setChartStyle: function() {
+      this.chart
           .line()
           .position('added*value')
           .color('prop');
-        this.chart
+      this.chart
           .area()
           .position('added*粉丝瞬时增速/日')
           .color('rgba(255,0,0,0.2)');
-      },
-      onAddedRangeChange: function () {
-        this.chart.destroy();
-        document.getElementById('member-detail-follower-history-line-chart-slider').innerHTML = ''; // destroy slider
-        this.init();
-      },
-      onAddedRangeMobileClick: function () {
-        this.addedRangeMobileVisibility = !this.addedRangeMobileVisibility;
-      },
-      onAddedRangeValueStartChange: function () {
-        if (this.addedRangeValueStart === null) {
-          this.addedRangeValueEnd = null;
-          this.addedRangeValue = [];
-        } else {
-          if (this.addedRangeValue.length !== 2) {
-            this.addedRangeValueEnd = moment();
-            this.addedRangeValue = [this.addedRangeValueStart, moment()];
-          } else {
-            this.addedRangeValue = [this.addedRangeValueStart, this.addedRangeValue[1]];
-          }
-        }
-        this.onAddedRangeChange();
-      },
-      onAddedRangeValueEndChange: function () {
-        if (this.addedRangeValueEnd === null) {
-          this.addedRangeValueStart = null;
-          this.addedRangeValue = [];
-        } else {
-          if (this.addedRangeValue.length !== 2) {
-            this.addedRangeValueStart = moment(0);
-            this.addedRangeValue = [moment(0), this.addedRangeValueEnd];
-          } else {
-            this.addedRangeValue = [this.addedRangeValue[0], this.addedRangeValueEnd];
-          }
-        }
-        this.onAddedRangeChange();
-      },
-      setAddedRangeMobile: function (day) {
-        this.addedRangeValueStart = moment().subtract(day, 'days');
-        this.addedRangeValueEnd = moment();
-        this.addedRangeValue = [this.addedRangeValueStart, this.addedRangeValueEnd];
-        this.onAddedRangeChange();
-      }
     },
-    mounted: function() {
-      if (typeof(this.followerRecords) === typeof([]) && this.followerRecords.length > 0) {
-        this.initAddedRange();
-        this.init();
+    onAddedRangeChange: function () {
+      this.chart.destroy();
+      document.getElementById('member-detail-follower-history-line-chart-slider').innerHTML = ''; // destroy slider
+      this.init();
+    },
+    onAddedRangeMobileClick: function () {
+      this.addedRangeMobileVisibility = !this.addedRangeMobileVisibility;
+    },
+    onAddedRangeValueStartChange: function () {
+      if (this.addedRangeValueStart === null) {
+        this.addedRangeValueEnd = null;
+        this.addedRangeValue = [];
+      } else {
+        if (this.addedRangeValue.length !== 2) {
+          this.addedRangeValueEnd = moment();
+          this.addedRangeValue = [this.addedRangeValueStart, moment()];
+        } else {
+          this.addedRangeValue = [this.addedRangeValueStart, this.addedRangeValue[1]];
+        }
       }
+      this.onAddedRangeChange();
+    },
+    onAddedRangeValueEndChange: function () {
+      if (this.addedRangeValueEnd === null) {
+        this.addedRangeValueStart = null;
+        this.addedRangeValue = [];
+      } else {
+        if (this.addedRangeValue.length !== 2) {
+          this.addedRangeValueStart = moment(0);
+          this.addedRangeValue = [moment(0), this.addedRangeValueEnd];
+        } else {
+          this.addedRangeValue = [this.addedRangeValue[0], this.addedRangeValueEnd];
+        }
+      }
+      this.onAddedRangeChange();
+    },
+    setAddedRangeMobile: function (day) {
+      this.addedRangeValueStart = moment().subtract(day, 'days');
+      this.addedRangeValueEnd = moment();
+      this.addedRangeValue = [this.addedRangeValueStart, this.addedRangeValueEnd];
+      this.onAddedRangeChange();
+    }
+  },
+  mounted: function() {
+    if (typeof(this.followerRecords) === typeof([]) && this.followerRecords.length > 0) {
+      this.initAddedRange();
+      this.init();
     }
   }
+}
 </script>

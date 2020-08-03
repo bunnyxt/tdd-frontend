@@ -82,44 +82,44 @@
 </template>
 
 <script>
-  import TddVideoTable from "../../common/TddVideoTable";
+import TddVideoTable from "../../common/TddVideoTable";
 
-  export default {
-    name: 'MeFavoriteVideo',
-    components: {
-      TddVideoTable
-    },
-    data: function () {
-      return {
-        userFavoriteVideoList: [],
-        isLoadingUserFavoriteVideoList: false,
-        orderValue: 'added',
-        orderDescValue: 1,
-        pagiCurrent: 1,
-        userFavoriteVideoTotalCount: 0,
+export default {
+  name: 'MeFavoriteVideo',
+  components: {
+    TddVideoTable
+  },
+  data: function () {
+    return {
+      userFavoriteVideoList: [],
+      isLoadingUserFavoriteVideoList: false,
+      orderValue: 'added',
+      orderDescValue: 1,
+      pagiCurrent: 1,
+      userFavoriteVideoTotalCount: 0,
+    }
+  },
+  methods: {
+    assemblyQuery: function () {
+      let url = '/user/favorite/video/me?';
+      // order_by
+      url += 'order_by=' + this.orderValue + '&';
+      // desc
+      if (this.orderDescValue === 0) {
+        url += 'desc=0&';
+      } else {
+        url += 'desc=1&';
       }
+      // pn
+      url += 'pn=' + this.pagiCurrent;
+      return url;
     },
-    methods: {
-      assemblyQuery: function () {
-        let url = '/user/favorite/video/me?';
-        // order_by
-        url += 'order_by=' + this.orderValue + '&';
-        // desc
-        if (this.orderDescValue === 0) {
-          url += 'desc=0&';
-        } else {
-          url += 'desc=1&';
-        }
-        // pn
-        url += 'pn=' + this.pagiCurrent;
-        return url;
-      },
-      fetchUserFavoriteVideoList: function () {
-        this.isLoadingUserFavoriteVideoList = true;
+    fetchUserFavoriteVideoList: function () {
+      this.isLoadingUserFavoriteVideoList = true;
 
-        let that = this;
-        const url = this.assemblyQuery();
-        this.$axios.get(url)
+      let that = this;
+      const url = this.assemblyQuery();
+      this.$axios.get(url)
           .then(function (response) {
             that.userFavoriteVideoList = [];
             let oriList = response.data;
@@ -144,38 +144,38 @@
           .finally(function () {
             that.isLoadingUserFavoriteVideoList = false;
           });
-      },
-      userFavoriteVideoListItemClickedHandler: function (item) {
-        this.$store.commit('setVideoDetailDrawerVideo', item);
-        this.$store.commit('setVideoDetailDrawerVisibility', true);
-      },
-      onPagiChange: function (pagiClick) {
-        this.pagiCurrent = pagiClick;
+    },
+    userFavoriteVideoListItemClickedHandler: function (item) {
+      this.$store.commit('setVideoDetailDrawerVideo', item);
+      this.$store.commit('setVideoDetailDrawerVisibility', true);
+    },
+    onPagiChange: function (pagiClick) {
+      this.pagiCurrent = pagiClick;
+      this.fetchUserFavoriteVideoList();
+    },
+    handleSearchButtonClick: function () {
+      if (!this.isLoadingUserFavoriteVideoList) {
+        this.pagiCurrent = 1;
         this.fetchUserFavoriteVideoList();
-      },
-      handleSearchButtonClick: function () {
-        if (!this.isLoadingUserFavoriteVideoList) {
-          this.pagiCurrent = 1;
-          this.fetchUserFavoriteVideoList();
-        }
-      },
-      handleReloadButtonClick: function() {
-        this.orderValue = 'added';
-        this.orderDescValue = 1;
       }
     },
-    created: function () {
-      this.fetchUserFavoriteVideoList();
+    handleReloadButtonClick: function() {
+      this.orderValue = 'added';
+      this.orderDescValue = 1;
     }
+  },
+  created: function () {
+    this.fetchUserFavoriteVideoList();
   }
+}
 </script>
 
 <style scoped>
-  .filter-table td {
-    height: 40px;
-  }
-  .filter-table-label {
-    width: 80px;
-    white-space: nowrap;
-  }
+.filter-table td {
+  height: 40px;
+}
+.filter-table-label {
+  width: 80px;
+  white-space: nowrap;
+}
 </style>

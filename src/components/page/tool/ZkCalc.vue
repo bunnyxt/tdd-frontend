@@ -99,73 +99,73 @@
 </template>
 
 <script>
-  export default {
-    name: 'ZkCalc',
-    data: function () {
-      return {
-        view: '405143',
-        reply: '4388',
-        danmaku: '6498',
-        favorite: '38963',
-        page: '1',
-        aidInputValue: '78977256'
-      }
+export default {
+  name: 'ZkCalc',
+  data: function () {
+    return {
+      view: '405143',
+      reply: '4388',
+      danmaku: '6498',
+      favorite: '38963',
+      page: '1',
+      aidInputValue: '78977256'
+    }
+  },
+  computed: {
+    zkCalcResult: function () {
+      return this.$util.zkCalc(this.view, this.reply, this.danmaku, this.favorite, this.page);
     },
-    computed: {
-      zkCalcResult: function () {
-        return this.$util.zkCalc(this.view, this.reply, this.danmaku, this.favorite, this.page);
+    point: {
+      get: function () {
+        return this.zkCalcResult.point;
       },
-      point: {
-        get: function () {
-          return this.zkCalcResult.point;
-        },
-        set: () => {}
-      },
-      xiua: {
-        get: function () {
-          return this.zkCalcResult.xiua;
-        },
-        set: () => {}
-      },
-      xiub: {
-        get: function () {
-          return this.zkCalcResult.xiub;
-        },
-        set: () => {}
-      },
-      tableStyle: function () {
-        let style = { float: 'left' };
-        if (this.$store.getters.clientMode === 'MOBILE') {
-          style.width = '100%';
-        } else {
-          style.width = '200px';
-        }
-        return style;
-      },
-      dividerStyle: function () {
-        let style = {
-          float: 'left',
-          backgroundColor: '#e8e8e8'
-        };
-        if (this.$store.getters.clientMode === 'MOBILE') {
-          style.width = '100%';
-          style.height = '2px';
-          style.margin = '12px 0';
-        } else {
-          style.padding = '100px 1px';
-          style.margin = '0 20px 0 16px';
-        }
-        return style;
-      }
+      set: () => {}
     },
-    methods: {
-      aidInputChangeHandler: function () {
-        if (this.aidInputValue && this.aidInputValue.toLowerCase().startsWith('av')) {
-          this.aidInputValue = this.aidInputValue.slice(2);
-        }
+    xiua: {
+      get: function () {
+        return this.zkCalcResult.xiua;
+      },
+      set: () => {}
+    },
+    xiub: {
+      get: function () {
+        return this.zkCalcResult.xiub;
+      },
+      set: () => {}
+    },
+    tableStyle: function () {
+      let style = { float: 'left' };
+      if (this.$store.getters.clientMode === 'MOBILE') {
+        style.width = '100%';
+      } else {
+        style.width = '200px';
+      }
+      return style;
+    },
+    dividerStyle: function () {
+      let style = {
+        float: 'left',
+        backgroundColor: '#e8e8e8'
+      };
+      if (this.$store.getters.clientMode === 'MOBILE') {
+        style.width = '100%';
+        style.height = '2px';
+        style.margin = '12px 0';
+      } else {
+        style.padding = '100px 1px';
+        style.margin = '0 20px 0 16px';
+      }
+      return style;
+    }
+  },
+  methods: {
+    aidInputChangeHandler: function () {
+      if (this.aidInputValue && this.aidInputValue.toLowerCase().startsWith('av')) {
+        this.aidInputValue = this.aidInputValue.slice(2);
       }
     }
   }
+}
 </script>
 
 <style scoped>

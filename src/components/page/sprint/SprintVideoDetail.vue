@@ -24,30 +24,30 @@
           </a-spin>
         </div>
         <transition name="fade">
-        <div v-if="isLoadAllRecordsShow">
-          <div class="section-separator"></div>
-          <a-spin :spinning="isLoadingRecords">
-            <div class="section-block">
-              <a-alert message="提示" type="info">
-                <div slot="description">
-                  <p>
-                    为提高响应速度，当前仅加载最近一周内的数据。如需查看全部数据，请点击"获取全部数据"。<br>
-                    注意：这将耗费一定的时间以及流量。由于数据量可能会很大，加载完成时可能会出现卡顿，请耐心等待。
-                  </p>
-                  <p>
-                    <a-button type="primary" :disabled="hasLoadAllRecords" @click="loadAddRecords">
-                      {{ loadAllRecordsButtonText }}
-                    </a-button>
-                    <a-spin :spinning="isLoadingAllRecords" style="margin-left: 12px"></a-spin>
-                    <a-button @click="closeAllRecordsInfo" style="margin-left: 12px">
-                      关闭提示
-                    </a-button>
-                  </p>
-                </div>
-              </a-alert>
-            </div>
-          </a-spin>
-        </div>
+          <div v-if="isLoadAllRecordsShow">
+            <div class="section-separator"></div>
+            <a-spin :spinning="isLoadingRecords">
+              <div class="section-block">
+                <a-alert message="提示" type="info">
+                  <div slot="description">
+                    <p>
+                      为提高响应速度，当前仅加载最近一周内的数据。如需查看全部数据，请点击"获取全部数据"。<br>
+                      注意：这将耗费一定的时间以及流量。由于数据量可能会很大，加载完成时可能会出现卡顿，请耐心等待。
+                    </p>
+                    <p>
+                      <a-button type="primary" :disabled="hasLoadAllRecords" @click="loadAddRecords">
+                        {{ loadAllRecordsButtonText }}
+                      </a-button>
+                      <a-spin :spinning="isLoadingAllRecords" style="margin-left: 12px"></a-spin>
+                      <a-button @click="closeAllRecordsInfo" style="margin-left: 12px">
+                        关闭提示
+                      </a-button>
+                    </p>
+                  </div>
+                </a-alert>
+              </div>
+            </a-spin>
+          </div>
         </transition>
         <div class="section-separator"></div>
         <div class="section-block">
@@ -78,7 +78,7 @@ import SprintVideoHeatMapChart from "./SprintVideoHeatMapChart.vue";
 import SprintVideoInfo from './SprintVideoInfo.vue';
 
 export default {
-  name: "SprintVideoDetail", 
+  name: "SprintVideoDetail",
   components: {
     SprintVideoMainChart,
     SprintVideoHeatMapChart,
@@ -144,9 +144,9 @@ export default {
       }
       this.isLoadingRecords = true
       fetch(this.$store.state.apiBase + "sprint_video_record.php?aid=" + this.$route.params.aid + "&start=" + startTs)
-        .then(response => response.json())
-        .then(json => this.records = json.data)
-        .then(() => this.isLoadingRecords = false)
+          .then(response => response.json())
+          .then(json => this.records = json.data)
+          .then(() => this.isLoadingRecords = false)
     },
     loadAddRecords: function() {
       if (this.isLoadingAllRecords == true || this.hasLoadAllRecords == true) {
@@ -154,10 +154,10 @@ export default {
       }
       this.isLoadingAllRecords = true
       fetch(this.$store.state.apiBase + "sprint_video_record.php?aid=" + this.$route.params.aid)
-        .then(response => response.json())
-        .then(json => this.records = json.data)
-        .then(() => this.isLoadingAllRecords = false)
-        .then(() => this.hasLoadAllRecords = true)
+          .then(response => response.json())
+          .then(json => this.records = json.data)
+          .then(() => this.isLoadingAllRecords = false)
+          .then(() => this.hasLoadAllRecords = true)
     },
     closeAllRecordsInfo: function() {
       this.isLoadAllRecordsShow = false
@@ -166,13 +166,13 @@ export default {
   created: function() {
     this.isLoadingVideo = true
     fetch(this.$store.state.apiBase + "sprint_video.php?aid=" + this.$route.params.aid)
-      .then(response => response.json())
-      .then(json => {
-        if (json.data.length > 0){
-          this.video = json.data[0]
-        }
-        this.isLoadingVideo = false
-      })
+        .then(response => response.json())
+        .then(json => {
+          if (json.data.length > 0){
+            this.video = json.data[0]
+          }
+          this.isLoadingVideo = false
+        })
 
     // load only 1 week data first
     let nowDate = new Date()
@@ -185,10 +185,10 @@ export default {
 </script>
 
 <style>
-  .fade-enter-active, .fade-leave-active {
-    transition: opacity .5s;
-  }
-  .fade-enter, .fade-leave-to {
-    opacity: 0;
-  }
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+}
 </style>

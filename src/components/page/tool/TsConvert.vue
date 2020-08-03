@@ -82,91 +82,88 @@
 </template>
 
 <script>
-  import TsConvertItem from "./TsConvertItem";
+import TsConvertItem from "./TsConvertItem";
 
-  export default {
-    name: 'TsConvert.vue',
-    components: {
-      TsConvertItem
-    },
-    data: function () {
-      return {
-        currentTimer: null,
-        currentTs: 0,
-        nextId: 0,
-        newTsVal: '',
-        newTsStr: '',
-        convertList: []
-      }
-    },
-    methods: {
-      refreshCurrentTime: function () {
-        this.currentTs = Math.floor(new Date().valueOf() / 1000);
-      },
-      updateTsHandler: function (id, ts) {
-        const item = this.convertList.find(i => i.id === id);
-        if (item) {
-          item.ts = ts;
-        }
-      },
-      duplicateCurrentItemHandler: function () {
-        this.convertList.push({
-          id: this.nextId++,
-          ts: this.currentTs
-        });
-      },
-      duplicateItemHandler: function (id) {
-        const oldItem = this.convertList.find(i => i.id === id);
-        this.convertList.push({
-          id: this.nextId++,
-          ts: oldItem.ts
-        });
-      },
-      deleteItemHandler: function (id) {
-        this.convertList = this.convertList.filter(i => i.id !== id);
-      },
-      newTsValChangeHandler: function () {
-        this.newTsStr = this.newTsVal.length === 0 ? '' : this.$util.tsToDateString(this.newTsVal);
-      },
-      newTsStrChangeHandler: function () {
-        this.newTsVal = this.newTsStr.length === 0 ? '' : this.$util.dateStringToTs(this.newTsStr);
-      },
-      addNewTsHandler: function () {
-        this.convertList.push({
-          id: this.nextId++,
-          ts: parseInt(this.newTsVal)
-        });
-        this.newTsVal = '';
-        this.newTsStr = '';
-      },
-      clearNewTsHandler: function () {
-        this.newTsVal = '';
-        this.newTsStr = '';
-      }
-    },
-    computed: {
-      currentTsStr: function () {
-        return this.$util.tsToDateString(this.currentTs);
-      },
-      canAddNew: function () {
-        if (this.newTsVal.length === 0 || this.newTsStr.length === 0) {
-          return false;
-        }
-        if (isNaN(this.newTsVal) || this.newTsStr === 'NaN-NaN-NaN NaN:NaN:NaN') {
-          return false;
-        }
-        if (this.$util.tsToDateString(this.newTsVal) !== this.newTsStr) {
-          return false;
-        }
-        return true;
-      }
-    },
-    mounted: function () {
-      this.refreshCurrentTime();
-      this.currentTimer = setInterval(this.refreshCurrentTime, 1000);
-      this.convertList = [];
+export default {
+  name: 'TsConvert.vue',
+  components: {
+    TsConvertItem
+  },
+  data: function () {
+    return {
+      currentTimer: null,
+      currentTs: 0,
+      nextId: 0,
+      newTsVal: '',
+      newTsStr: '',
+      convertList: []
     }
+  },
+  methods: {
+    refreshCurrentTime: function () {
+      this.currentTs = Math.floor(new Date().valueOf() / 1000);
+    },
+    updateTsHandler: function (id, ts) {
+      const item = this.convertList.find(i => i.id === id);
+      if (item) {
+        item.ts = ts;
+      }
+    },
+    duplicateCurrentItemHandler: function () {
+      this.convertList.push({
+        id: this.nextId++,
+        ts: this.currentTs
+      });
+    },
+    duplicateItemHandler: function (id) {
+      const oldItem = this.convertList.find(i => i.id === id);
+      this.convertList.push({
+        id: this.nextId++,
+        ts: oldItem.ts
+      });
+    },
+    deleteItemHandler: function (id) {
+      this.convertList = this.convertList.filter(i => i.id !== id);
+    },
+    newTsValChangeHandler: function () {
+      this.newTsStr = this.newTsVal.length === 0 ? '' : this.$util.tsToDateString(this.newTsVal);
+    },
+    newTsStrChangeHandler: function () {
+      this.newTsVal = this.newTsStr.length === 0 ? '' : this.$util.dateStringToTs(this.newTsStr);
+    },
+    addNewTsHandler: function () {
+      this.convertList.push({
+        id: this.nextId++,
+        ts: parseInt(this.newTsVal)
+      });
+      this.newTsVal = '';
+      this.newTsStr = '';
+    },
+    clearNewTsHandler: function () {
+      this.newTsVal = '';
+      this.newTsStr = '';
+    }
+  },
+  computed: {
+    currentTsStr: function () {
+      return this.$util.tsToDateString(this.currentTs);
+    },
+    canAddNew: function () {
+      if (this.newTsVal.length === 0 || this.newTsStr.length === 0) {
+        return false;
+      }
+      if (isNaN(this.newTsVal) || this.newTsStr === 'NaN-NaN-NaN NaN:NaN:NaN') {
+        return false;
+      }
+      return this.$util.tsToDateString(this.newTsVal) === this.newTsStr;
+    }
+  },
+  mounted: function () {
+    this.refreshCurrentTime();
+    this.currentTimer = setInterval(this.refreshCurrentTime, 1000);
+    this.convertList = [];
   }
+}
 </script>
 
 <style scoped>

@@ -1,8 +1,9 @@
 <template>
-  <a-table :columns="columns"
-    :rowKey="r => r.id"
-    :dataSource="videos"
-    :pagination="pagination"
+  <a-table
+      :columns="columns"
+      :rowKey="r => r.id"
+      :dataSource="videos"
+      :pagination="pagination"
   >
     <template slot="picRender" slot-scope="pic">
       <img :src="pic" width="100px"/>

@@ -354,15 +354,15 @@ export default {
       let url = 'video/aidtitle?aid=' + this.videoAidInput;
       let that = this;
       this.$axios.get(url)
-        .then(function (response) {
-          that.videoAidTitleList = response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(function () {
-          that.isLoadingVideoAidTitleList = false;
-        });
+          .then(function (response) {
+            that.videoAidTitleList = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            that.isLoadingVideoAidTitleList = false;
+          });
     },
     fetchStatDailyList: function () {
       this.isLoadingStatDailyList = true;
@@ -371,16 +371,16 @@ export default {
       let url = 'statdaily?start_ts=' + start_ts;
       let that = this;
       this.$axios.get(url)
-        .then(function (response) {
-          that.statDailyList = response.data;
-          that.statDailyTotalCount = parseInt(response.headers['x-total-count']);
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(function () {
-          that.isLoadingStatDailyList = false;
-        });
+          .then(function (response) {
+            that.statDailyList = response.data;
+            that.statDailyTotalCount = parseInt(response.headers['x-total-count']);
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            that.isLoadingStatDailyList = false;
+          });
     },
     drawChart: function () {
       if (this.$store.getters.clientMode === 'MOBILE') {
@@ -389,22 +389,22 @@ export default {
 
       const ds = new DataSet();
       const dv = ds.createView()
-        .source(this.statDailyList)
-        .transform({
-          type: 'rename',
-          map: {
-            video_count: '收录视频',
-            member_count: '覆盖P主',
-            video_record_count: '数据记录'
-          }
-        })
-        .transform({
-          type: 'map',
-          callback(row) {
-            row.added = row.added * 1000; // ts_s -> ts_ms
-            return row;
-          }
-        });
+          .source(this.statDailyList)
+          .transform({
+            type: 'rename',
+            map: {
+              video_count: '收录视频',
+              member_count: '覆盖P主',
+              video_record_count: '数据记录'
+            }
+          })
+          .transform({
+            type: 'map',
+            callback(row) {
+              row.added = row.added * 1000; // ts_s -> ts_ms
+              return row;
+            }
+          });
 
       // video count chart
       this.drawOneChart('video-count-chart', dv, '收录视频');
@@ -439,15 +439,15 @@ export default {
       let url = 'updatelog?last_count=' + last_count;
       let that = this;
       this.$axios.get(url)
-        .then(function (response) {
-          that.updateLogList = response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(function () {
-          that.isLoadingUpdateLogList = false;
-        });
+          .then(function (response) {
+            that.updateLogList = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            that.isLoadingUpdateLogList = false;
+          });
     },
     getTimelineItemColor: function (type) {
       let timelineItemColorArray = ['blue', 'blue', 'red', 'green'];
@@ -458,46 +458,46 @@ export default {
       let url = '/video/random?count=' + count;
       let that = this;
       this.$axios.get(url)
-        .then(function (response) {
-          that.randomVideoList = response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(function () {
-          that.isLoadingRandomVideoList = false;
-        });
+          .then(function (response) {
+            that.randomVideoList = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            that.isLoadingRandomVideoList = false;
+          });
     },
     fetchRandomMemberList: function (count) {
       this.isLoadingRandomMemberList = true;
       let url = '/member/random?count=' + count;
       let that = this;
       this.$axios.get(url)
-        .then(function (response) {
-          that.randomMemberList = response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(function () {
-          that.isLoadingRandomMemberList = false;
-        });
+          .then(function (response) {
+            that.randomMemberList = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            that.isLoadingRandomMemberList = false;
+          });
     },
     fetchSprintVideoList: function () {
       let that = this;
       this.isLoadingSprintVideoList = true;
       fetch(this.$store.state.apiBase + "sprint_video.php?status=processing")
-        .then(response => response.json())
-        .then(json => this.sprintVideoList = json.data)
-        .then(function () {
-          // change to new data format
-          for (let i = 0; i < that.sprintVideoList.length; i++) {
-            that.sprintVideoList[i].pubdate = that.sprintVideoList[i].created;
-          }
-          that.sprintVideoList.sort((a, b) => b.last_record.view - a.last_record.view);
-          that.getSprintVideoListFiltered();
-          that.isLoadingSprintVideoList = false;
-        });
+          .then(response => response.json())
+          .then(json => this.sprintVideoList = json.data)
+          .then(function () {
+            // change to new data format
+            for (let i = 0; i < that.sprintVideoList.length; i++) {
+              that.sprintVideoList[i].pubdate = that.sprintVideoList[i].created;
+            }
+            that.sprintVideoList.sort((a, b) => b.last_record.view - a.last_record.view);
+            that.getSprintVideoListFiltered();
+            that.isLoadingSprintVideoList = false;
+          });
     },
     getSprintVideoListFiltered: function () {
       let lastAidList = [];
@@ -547,75 +547,75 @@ export default {
 </script>
 
 <style scoped>
-  /* home page carousel related */
-  .ant-carousel >>> .slick-dots li.slick-active button {
-    background: #192c3e;
-  }
-  .ant-carousel >>> .slick-dots li button {
-    background: #364d79;
-  }
+/* home page carousel related */
+.ant-carousel >>> .slick-dots li.slick-active button {
+  background: #192c3e;
+}
+.ant-carousel >>> .slick-dots li button {
+  background: #364d79;
+}
+.ant-carousel >>> .slick-slide {
+  background: #fff;
+  height: 300px;
+}
+
+.carousel-page {
+  height: 300px;
+  padding: 50px 20px;
+  text-align: center;
+}
+.carousel-page-container {
+  max-width: 600px;
+  text-align: left;
+  margin: auto;
+  overflow: hidden;
+}
+
+.carousel-p1-text {
+  float: left;
+  width: 60%;
+}
+.carousel-p1-image {
+  float: left;
+  width: 40%;
+  text-align: center;
+}
+.carousel-p1-image img {
+  margin: auto;
+  width: 60%;
+}
+
+.carousel-p2-col {
+  float: left;
+  width: 33%;
+}
+.carousel-p2-mobile-row1-col {
+  float: left;
+  width: 50%;
+}
+
+.carousel-p3-timeline-container {
+  overflow-y: auto;
+  height: 140px;
+  padding-top: 4px;
+}
+
+@media only screen and (max-width: 576px) {
   .ant-carousel >>> .slick-slide {
-    background: #fff;
-    height: 300px;
+    height: 188px;
   }
-
   .carousel-page {
-    height: 300px;
-    padding: 50px 20px;
-    text-align: center;
+    height: 188px;
+    padding: 12px 20px;
   }
-  .carousel-page-container {
-    max-width: 600px;
-    text-align: left;
-    margin: auto;
-    overflow: hidden;
-  }
-
   .carousel-p1-text {
-    float: left;
-    width: 60%;
+    width: 100%;
   }
   .carousel-p1-image {
-    float: left;
-    width: 40%;
-    text-align: center;
+    display: none;
   }
-  .carousel-p1-image img {
-    margin: auto;
-    width: 60%;
-  }
-
-  .carousel-p2-col {
-    float: left;
-    width: 33%;
-  }
-  .carousel-p2-mobile-row1-col {
-    float: left;
-    width: 50%;
-  }
-
   .carousel-p3-timeline-container {
-    overflow-y: auto;
-    height: 140px;
-    padding-top: 4px;
+    height: 100px;
   }
-
-  @media only screen and (max-width: 576px) {
-    .ant-carousel >>> .slick-slide {
-      height: 188px;
-    }
-    .carousel-page {
-      height: 188px;
-      padding: 12px 20px;
-    }
-    .carousel-p1-text {
-      width: 100%;
-    }
-    .carousel-p1-image {
-      display: none;
-    }
-    .carousel-p3-timeline-container {
-      height: 100px;
-    }
-  }
+}
 </style>

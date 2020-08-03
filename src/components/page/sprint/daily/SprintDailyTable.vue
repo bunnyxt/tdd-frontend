@@ -1,8 +1,9 @@
 <template>
-  <a-table :columns="columns"
-    :rowKey="r => r.id"
-    :dataSource="sprintDailyList"
-    :pagination="pagination"
+  <a-table
+      :columns="columns"
+      :rowKey="r => r.id"
+      :dataSource="sprintDailyList"
+      :pagination="pagination"
   >
     <template slot="titleRender" slot-scope="date">
       助攻日报<router-link :to="'/sprint/daily/'+date">#{{date}}</router-link>

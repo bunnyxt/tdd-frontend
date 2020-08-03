@@ -110,55 +110,55 @@
 </template>
 
 <script>
-  import TddMemberTable from "../../common/TddMemberTable";
+import TddMemberTable from "../../common/TddMemberTable";
 
-  export default {
-    name: 'MeFavoriteMember',
-    components: {
-      TddMemberTable
-    },
-    data: function () {
-      return {
-        userFavoriteMemberList: [],
-        isLoadingUserFavoriteMemberList: false,
-        orderValue: 'added',
-        orderDescValue: 1,
-        sexValue: '不限',
-        nameValue: '',
-        pagiCurrent: 1,
-        userFavoriteMemberTotalCount: 0,
+export default {
+  name: 'MeFavoriteMember',
+  components: {
+    TddMemberTable
+  },
+  data: function () {
+    return {
+      userFavoriteMemberList: [],
+      isLoadingUserFavoriteMemberList: false,
+      orderValue: 'added',
+      orderDescValue: 1,
+      sexValue: '不限',
+      nameValue: '',
+      pagiCurrent: 1,
+      userFavoriteMemberTotalCount: 0,
+    }
+  },
+  methods: {
+    assemblyQuery: function () {
+      let url = '/user/favorite/member/me?';
+
+      // name
+      if (this.nameValue) {
+        url += 'name='+ this.nameValue + '&';
       }
+      // sex
+      if (['男', '女', '保密'].indexOf(this.sexValue) >= 0) {
+        url += 'sex=' + this.sexValue + '&';
+      }
+      // order_by
+      url += 'order_by=' + this.orderValue + '&';
+      // desc
+      if (this.orderDescValue === 0) {
+        url += 'desc=0&';
+      } else {
+        url += 'desc=1&';
+      }
+      // pn
+      url += 'pn=' + this.pagiCurrent;
+      return url;
     },
-    methods: {
-      assemblyQuery: function () {
-        let url = '/user/favorite/member/me?';
+    fetchUserFavoriteMemberList: function () {
+      this.isLoadingUserFavoriteMemberList = true;
 
-        // name
-        if (this.nameValue) {
-          url += 'name='+ this.nameValue + '&';
-        }
-        // sex
-        if (['男', '女', '保密'].indexOf(this.sexValue) >= 0) {
-          url += 'sex=' + this.sexValue + '&';
-        }
-        // order_by
-        url += 'order_by=' + this.orderValue + '&';
-        // desc
-        if (this.orderDescValue === 0) {
-          url += 'desc=0&';
-        } else {
-          url += 'desc=1&';
-        }
-        // pn
-        url += 'pn=' + this.pagiCurrent;
-        return url;
-      },
-      fetchUserFavoriteMemberList: function () {
-        this.isLoadingUserFavoriteMemberList = true;
-
-        let that = this;
-        const url = this.assemblyQuery();
-        this.$axios.get(url)
+      let that = this;
+      const url = this.assemblyQuery();
+      this.$axios.get(url)
           .then(function (response) {
             that.userFavoriteMemberList = [];
             let oriList = response.data;
@@ -183,38 +183,38 @@
           .finally(function () {
             that.isLoadingUserFavoriteMemberList = false;
           });
-      },
-      userFavoriteMemberListItemClickedHandler: function (item) {
-        this.$store.commit('setMemberDetailMember', item);
-        this.$router.push('member/' + item.mid);
-      },
-      onPagiChange: function (pagiClick) {
-        this.pagiCurrent = pagiClick;
+    },
+    userFavoriteMemberListItemClickedHandler: function (item) {
+      this.$store.commit('setMemberDetailMember', item);
+      this.$router.push('member/' + item.mid);
+    },
+    onPagiChange: function (pagiClick) {
+      this.pagiCurrent = pagiClick;
+      this.fetchUserFavoriteMemberList();
+    },
+    handleSearchButtonClick: function () {
+      if (!this.isLoadingUserFavoriteVideoList) {
+        this.pagiCurrent = 1;
         this.fetchUserFavoriteMemberList();
-      },
-      handleSearchButtonClick: function () {
-        if (!this.isLoadingUserFavoriteVideoList) {
-          this.pagiCurrent = 1;
-          this.fetchUserFavoriteMemberList();
-        }
-      },
-      handleReloadButtonClick: function() {
-        this.orderValue = 'added';
-        this.orderDescValue = 1;
       }
     },
-    created: function () {
-      this.fetchUserFavoriteMemberList();
+    handleReloadButtonClick: function() {
+      this.orderValue = 'added';
+      this.orderDescValue = 1;
     }
+  },
+  created: function () {
+    this.fetchUserFavoriteMemberList();
   }
+}
 </script>
 
 <style scoped>
-  .filter-table td {
-    height: 40px;
-  }
-  .filter-table-label {
-    width: 80px;
-    white-space: nowrap;
-  }
+.filter-table td {
+  height: 40px;
+}
+.filter-table-label {
+  width: 80px;
+  white-space: nowrap;
+}
 </style>
