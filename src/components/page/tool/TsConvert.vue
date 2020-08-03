@@ -35,7 +35,7 @@
               <a-button title="复制" @click="duplicateCurrentItemHandler" style="margin-right: 8px">
                 <a-icon type="plus" />
               </a-button>
-              <a-button title="删除" disabled>
+              <a-button title="不可以删除当前时间" disabled>
                 <a-icon type="delete" />
               </a-button>
             </a-col>
@@ -67,14 +67,48 @@
               ></a-input>
             </a-col>
             <a-col :span="5">
-              <a-button title="添加" @click="addNewTsHandler" :disabled="!canAddNew" style="margin-right: 8px">
+              <a-button
+                  :title="canAddNew ? '添加' : '格式错误，无法添加'"
+                  @click="addNewTsHandler"
+                  :disabled="!canAddNew"
+                  style="margin-right: 8px"
+              >
                 <a-icon type="plus" />
               </a-button>
-              <a-button title="清空" @click="clearNewTsHandler">
+              <a-button title="清空" @click="clearNewTsInput">
                 <a-icon type="reload" />
               </a-button>
             </a-col>
           </a-row>
+        </div>
+        <div>
+          <a-popconfirm
+              title="确认清除所有记录的时间戳？"
+              placement="topLeft"
+              ok-text="确认"
+              cancel-text="取消"
+              @confirm="reset"
+              style="margin-right: 16px"
+          >
+            <a-button>
+              清除所有
+            </a-button>
+          </a-popconfirm>
+          <a-button @click="exportOpenHandler">
+            导出数据
+          </a-button>
+          <a-modal
+              title="时间戳数据"
+              :visible="showExport"
+              okText="复制到剪贴板"
+              cancelText="关闭"
+              @cancel="exportCloseHandler"
+          >
+            <div slot="footer">
+              <a-button type="primary" @click="exportHandler" >复制到剪贴板</a-button>
+            </div>
+            <a-textarea v-model="exportData" :rows="10" />
+          </a-modal>
         </div>
       </div>
     </div>
@@ -96,7 +130,9 @@ export default {
       nextId: 0,
       newTsVal: '',
       newTsStr: '',
-      convertList: []
+      convertList: [],
+      showExport: false,
+      exportData: ''
     }
   },
   methods: {
@@ -136,12 +172,36 @@ export default {
         id: this.nextId++,
         ts: parseInt(this.newTsVal)
       });
+      this.clearNewTsInput();
+    },
+    clearNewTsInput: function () {
       this.newTsVal = '';
       this.newTsStr = '';
     },
-    clearNewTsHandler: function () {
-      this.newTsVal = '';
-      this.newTsStr = '';
+    reset: function () {
+      // clear list
+      this.convertList = [];
+      this.nextId = 0;
+
+      // unset local storage
+      localStorage.removeItem('tsConvertList');
+      localStorage.removeItem('tsNextId');
+
+      // clear new ts
+      this.clearNewTsInput();
+    },
+    exportOpenHandler: function () {
+      this.exportData = `${this.currentTs},${this.$util.tsToDateString(this.currentTs)}`;
+      this.convertList.forEach(value => {
+        this.exportData += `${value.ts},${this.$util.tsToDateString(value.ts)}\n`
+      })
+      this.showExport = true;
+    },
+    exportHandler: function () {
+      this.$util.copyToClipboard(this.exportData, this);
+    },
+    exportCloseHandler: function () {
+      this.showExport = false;
     }
   },
   computed: {
@@ -150,18 +210,36 @@ export default {
     },
     canAddNew: function () {
       if (this.newTsVal.length === 0 || this.newTsStr.length === 0) {
+        // no new str or val input
         return false;
       }
       if (isNaN(this.newTsVal) || this.newTsStr === 'NaN-NaN-NaN NaN:NaN:NaN') {
+        // invalid format of new str or val
         return false;
       }
-      return this.$util.tsToDateString(this.newTsVal) === this.newTsStr;
+      if (this.$util.tsToDateString(this.newTsVal) !== this.newTsStr) {
+        // new val and new str are not same
+        return false
+      }
+      return true;
     }
   },
   mounted: function () {
     this.refreshCurrentTime();
     this.currentTimer = setInterval(this.refreshCurrentTime, 1000);
-    this.convertList = [];
+
+    // restore previous list
+    const storedConvertList = localStorage.getItem('tsConvertList');
+    const storedNextId = localStorage.getItem('tsNextId');
+    this.convertList = storedConvertList ? JSON.parse(storedConvertList) : [];
+    this.nextId = storedNextId ? storedNextId : 0;
+  },
+  beforeDestroy() {
+    window.clearInterval(this.currentTimer);
+
+    // store current list
+    localStorage.setItem('tsConvertList', JSON.stringify(this.convertList));
+    localStorage.setItem('tsNextId', this.nextId);
   }
 }
 </script>
