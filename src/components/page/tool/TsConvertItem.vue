@@ -6,14 +6,30 @@
             v-model="tsVal"
             placeholder="1359631780"
             @change="tsValChangeHandler"
-        ></a-input>
+        >
+          <a-icon
+              slot="suffix"
+              type="copy"
+              title="复制"
+              @click="copyTsVal"
+              style="cursor: pointer"
+          />
+        </a-input>
       </a-col>
       <a-col :span="10" style="padding-right: 16px">
         <a-input
             v-model="tsStr"
             placeholder="2013-01-31 19:29:40"
             @change="tsStrChangeHandler"
-        ></a-input>
+        >
+          <a-icon
+              slot="suffix"
+              type="copy"
+              title="复制"
+              @click="copyTsStr"
+              style="cursor: pointer"
+          />
+        </a-input>
       </a-col>
       <a-col :span="5">
         <a-button title="复制" :disabled="!canAddNew" @click="duplicateItemHandler" style="margin-right: 8px">
@@ -43,7 +59,8 @@ export default {
   data: function () {
     return {
       tsVal: '1359631780',
-      tsStr: '2013-01-31 19:29:40'
+      tsStr: '2013-01-31 19:29:40',
+      tsValCopyVisible: false
     }
   },
   computed: {
@@ -74,6 +91,12 @@ export default {
     },
     deleteItemHandler: function () {
       this.$emit('delete-item', this.id);
+    },
+    copyTsVal: function () {
+      this.$util.copyToClipboard(this.tsVal, this);
+    },
+    copyTsStr: function () {
+      this.$util.copyToClipboard(this.tsStr, this);
     }
   },
   mounted() {

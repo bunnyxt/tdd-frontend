@@ -9,7 +9,7 @@
     </div>
     <div class="section-block">
       <h1>时间戳转换</h1>
-      <div style="max-width: 800px; min-width: 500px">
+      <div style="max-width: 800px; min-width: 520px">
         <div style="font-weight: bold; margin-bottom: 8px">
           <a-row>
             <a-col :span="7">时间戳（秒）</a-col>
@@ -23,13 +23,29 @@
               <a-input
                   v-model="currentTs"
                   placeholder="1359631780"
-              ></a-input>
+              >
+                <a-icon
+                    slot="suffix"
+                    type="copy"
+                    title="复制"
+                    @click="copyCurrentTsVal"
+                    style="cursor: pointer"
+                />
+              </a-input>
             </a-col>
             <a-col :span="10" style="padding-right: 16px">
               <a-input
                   v-model="currentTsStr"
                   placeholder="2013-01-31 19:29:40"
-              ></a-input>
+              >
+                <a-icon
+                    slot="suffix"
+                    type="copy"
+                    title="复制"
+                    @click="copyCurrentTsStr"
+                    style="cursor: pointer"
+                />
+              </a-input>
             </a-col>
             <a-col :span="5">
               <a-button title="复制" @click="duplicateCurrentItemHandler" style="margin-right: 8px">
@@ -191,7 +207,7 @@ export default {
       this.clearNewTsInput();
     },
     exportOpenHandler: function () {
-      this.exportData = `${this.currentTs},${this.$util.tsToDateString(this.currentTs)}`;
+      this.exportData = `${this.currentTs},${this.$util.tsToDateString(this.currentTs)}\n`;
       this.convertList.forEach(value => {
         this.exportData += `${value.ts},${this.$util.tsToDateString(value.ts)}\n`
       })
@@ -202,6 +218,12 @@ export default {
     },
     exportCloseHandler: function () {
       this.showExport = false;
+    },
+    copyCurrentTsVal: function () {
+      this.$util.copyToClipboard(this.currentTs, this);
+    },
+    copyCurrentTsStr: function () {
+      this.$util.copyToClipboard(this.$util.tsToDateString(this.currentTs), this);
     }
   },
   computed: {
