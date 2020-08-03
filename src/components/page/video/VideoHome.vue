@@ -208,74 +208,74 @@
 </template>
 
 <script>
-  import { Modal } from 'ant-design-vue';
-  import moment from 'moment';
-  import TddVideoList from "../../common/TddVideoList";
+import { Modal } from 'ant-design-vue';
+import moment from 'moment';
+import TddVideoList from "../../common/TddVideoList";
 
-  export default {
-    name: "VideoHome",
-    components: {
-      TddVideoList
-    },
-    data: function() {
-      return {
-        videoAidInput: undefined,
-        isLoadingVideoAidTitleList: false,
-        videoAidTitleList: [],
-        videoList: [],
-        isLoadingVideoList: false,
-        lastLoadVideoListDate: null,
-        isvcValue: 2,
-        activityValue: 0,
-        recentValue: 0,
-        orderValue: 'pubdate',
-        orderDescValue: 1,
-        pubdateStartValue: null,
-        pubdateEndValue: null,
-        pubdateEndOpen: false,
-        pubdateSelectValue: undefined,
-        titleValue: '',
-        memberNameValue: '',
-        pagiCurrent: 1,
-        videoTotalCount: 0,
-        mainProp: 'view'
+export default {
+  name: "VideoHome",
+  components: {
+    TddVideoList
+  },
+  data: function() {
+    return {
+      videoAidInput: undefined,
+      isLoadingVideoAidTitleList: false,
+      videoAidTitleList: [],
+      videoList: [],
+      isLoadingVideoList: false,
+      lastLoadVideoListDate: null,
+      isvcValue: 2,
+      activityValue: 0,
+      recentValue: 0,
+      orderValue: 'pubdate',
+      orderDescValue: 1,
+      pubdateStartValue: null,
+      pubdateEndValue: null,
+      pubdateEndOpen: false,
+      pubdateSelectValue: undefined,
+      titleValue: '',
+      memberNameValue: '',
+      pagiCurrent: 1,
+      videoTotalCount: 0,
+      mainProp: 'view'
+    }
+  },
+  computed: {
+    videoAidTitleListStringified: function () {
+      return this.videoAidTitleList.map(x => {
+        let obj = {};
+        obj.aid = '' + x.aid;
+        obj.title = x.title;
+        return obj;
+      });
+    }
+  },
+  methods: {
+    goAidJump: function () {
+      if (this.videoAidInput) {
+        this.$router.push('/video/av' + this.videoAidInput);
       }
     },
-    computed: {
-      videoAidTitleListStringified: function () {
-        return this.videoAidTitleList.map(x => {
-          let obj = {};
-          obj.aid = '' + x.aid;
-          obj.title = x.title;
-          return obj;
-        });
+    onAidInputChange: function () {
+      if (this.videoAidInput && this.videoAidInput.toLowerCase().startsWith('av')) {
+        this.videoAidInput = this.videoAidInput.slice(2);
+      }
+      if (this.videoAidInput && this.videoAidInput.length >= 4) {
+        this.fetchVideoAidTileList();
+      } else {
+        this.videoAidTitleList = [];
       }
     },
-    methods: {
-      goAidJump: function () {
-        if (this.videoAidInput) {
-          this.$router.push('/video/av' + this.videoAidInput);
-        }
-      },
-      onAidInputChange: function () {
-        if (this.videoAidInput && this.videoAidInput.toLowerCase().startsWith('av')) {
-          this.videoAidInput = this.videoAidInput.slice(2);
-        }
-        if (this.videoAidInput && this.videoAidInput.length >= 4) {
-          this.fetchVideoAidTileList();
-        } else {
-          this.videoAidTitleList = [];
-        }
-      },
-      fetchVideoAidTileList: function () {
-        this.isLoadingVideoAidTitleList = true;
-        if ('' + parseInt(this.videoAidInput) !== this.videoAidInput) {
-          this.isLoadingVideoAidTitleList = false;
-          return;
-        }
-        let url = 'video/aidtitle?aid=' + this.videoAidInput;
-        let that = this;
-        this.$axios.get(url)
+    fetchVideoAidTileList: function () {
+      this.isLoadingVideoAidTitleList = true;
+      if ('' + parseInt(this.videoAidInput) !== this.videoAidInput) {
+        this.isLoadingVideoAidTitleList = false;
+        return;
+      }
+      let url = 'video/aidtitle?aid=' + this.videoAidInput;
+      let that = this;
+      this.$axios.get(url)
           .then(function (response) {
             that.videoAidTitleList = response.data;
           })
@@ -285,67 +285,67 @@
           .finally(function () {
             that.isLoadingVideoAidTitleList = false;
           });
-      },
-      videoListItemClickedHandler: function (item) {
-        this.$store.commit('setVideoDetailDrawerVideo', item);
-        this.$store.commit('setVideoDetailDrawerVisibility', true);
-      },
-      checkParams: function() {
-        // TODO
-        return true;
-      },
-      assembleQueryUrl: function() {
-        let url = "video?";
-        // vc
-        if (this.isvcValue === 2) {
-          url += 'vc=1&';
-        }
-        // activity
-        if (this.activityValue) {
-          url += 'activity=' + this.activityValue + '&';
-        }
-        // recent
-        if (this.recentValue) {
-          url += 'recent=' + this.recentValue + '&';
-        }
-        // start_ts
-        if (this.pubdateStartValue) {
-          url += 'start_ts=' + Math.floor(this.pubdateStartValue.toDate().valueOf() / 1000) + '&';
-        }
-        // end_ts
-        if (this.pubdateEndValue) {
-          url += 'end_ts=' + Math.floor(this.pubdateEndValue.toDate().valueOf() / 1000) + '&';
-        }
-        // title
-        if (this.titleValue) {
-          url += 'title=' + this.titleValue + '&';
-        }
-        // up
-        if (this.memberNameValue) {
-          url += 'up='+ this.memberNameValue + '&';
-        }
-        // order_by
-        url += 'order_by=' + this.orderValue + '&';
-        // desc
-        if (this.orderDescValue === 0) {
-          url += 'desc=0&';
-        } else {
-          url += 'desc=1&';
-        }
-        // pn
-        url += 'pn=' + this.pagiCurrent;
-        return url;
-      },
-      fetchVideoList: function () {
-        this.isLoadingVideoList = true;
-        if (!this.checkParams()) {
-          this.isLoadingVideoList = false;
-          return;
-        }
+    },
+    videoListItemClickedHandler: function (item) {
+      this.$store.commit('setVideoDetailDrawerVideo', item);
+      this.$store.commit('setVideoDetailDrawerVisibility', true);
+    },
+    checkParams: function() {
+      // TODO
+      return true;
+    },
+    assembleQueryUrl: function() {
+      let url = "video?";
+      // vc
+      if (this.isvcValue === 2) {
+        url += 'vc=1&';
+      }
+      // activity
+      if (this.activityValue) {
+        url += 'activity=' + this.activityValue + '&';
+      }
+      // recent
+      if (this.recentValue) {
+        url += 'recent=' + this.recentValue + '&';
+      }
+      // start_ts
+      if (this.pubdateStartValue) {
+        url += 'start_ts=' + Math.floor(this.pubdateStartValue.toDate().valueOf() / 1000) + '&';
+      }
+      // end_ts
+      if (this.pubdateEndValue) {
+        url += 'end_ts=' + Math.floor(this.pubdateEndValue.toDate().valueOf() / 1000) + '&';
+      }
+      // title
+      if (this.titleValue) {
+        url += 'title=' + this.titleValue + '&';
+      }
+      // up
+      if (this.memberNameValue) {
+        url += 'up='+ this.memberNameValue + '&';
+      }
+      // order_by
+      url += 'order_by=' + this.orderValue + '&';
+      // desc
+      if (this.orderDescValue === 0) {
+        url += 'desc=0&';
+      } else {
+        url += 'desc=1&';
+      }
+      // pn
+      url += 'pn=' + this.pagiCurrent;
+      return url;
+    },
+    fetchVideoList: function () {
+      this.isLoadingVideoList = true;
+      if (!this.checkParams()) {
+        this.isLoadingVideoList = false;
+        return;
+      }
 
-        let url = this.assembleQueryUrl();
-        let that = this;
-        this.$axios.get(url)
+      let url = this.assembleQueryUrl();
+      let that = this;
+      this.$axios.get(url)
           .then(function (response) {
             that.videoList = response.data;
             that.videoTotalCount = parseInt(response.headers['x-total-count']);
@@ -372,94 +372,92 @@
           .finally(function () {
             that.isLoadingVideoList = false;
           });
-      },
-      disabledStartDate(startValue) {
-        const endValue = this.pubdateEndValue;
-        if (!startValue || !endValue) {
-          return false;
-        }
-        return startValue.valueOf() > endValue.valueOf();
-      },
-      disabledEndDate(endValue) {
-        const startValue = this.pubdateStartValue;
-        if (!endValue || !startValue) {
-          return false;
-        }
-        return startValue.valueOf() >= endValue.valueOf();
-      },
-      handlePubdateStartChange() {
-        if (this.pubdateSelectValue !== 'custom') {
-          this.pubdateSelectValue = 'custom';
-        }
-      },
-      handlePubdateStartOpenChange(open) {
-        if (!open) {
-          if (this.pubdateStartValue != null && this.pubdateEndValue == null) {
-            this.pubdateEndOpen = true;
-          }
-        }
-      },
-      handlePubdateEndChange() {
-        if (this.pubdateSelectValue !== 'custom') {
-          this.pubdateSelectValue = 'custom';
-        }
-      },
-      handlePubdateEndOpenChange(open) {
-        this.pubdateEndOpen = open;
-      },
-      handlePubdateSelectChange(value) {
-        switch (value) {
-          case 'custom':
-            this.pubdateStartValue = null;
-            this.pubdateEndValue = null;
-            break;
-          case 'day':
-          case 'week':
-          case 'month':
-          case 'year':
-            this.pubdateStartValue = moment().startOf(value);
-            this.pubdateEndValue = moment().endOf(value);
-            break;
-          default:
-            break;
-        }
-      },
-      handleSearchButtonClick: function() {
-        if (!this.isLoadingVideoList) {
-          this.pagiCurrent = 1;
-          this.fetchVideoList();
-        }
-      },
-      handleReloadButtonClick: function() {
-        this.isvcValue = 2;
-        this.orderValue = 'pubdate';
-        this.orderDescValue = 1;
-        this.pubdateStartValue = null;
-        this.pubdateEndValue = null;
-        this.pubdateEndOpen = false;
-        this.pubdateSelectValue = undefined;
-        this.titleValue = '';
-        this.memberNameValue = '';
-      },
-      onPagiChange: function (pagiClick) {
-        this.pagiCurrent = pagiClick;
-        this.fetchVideoList();
-      },
     },
-    created() {
+    disabledStartDate(startValue) {
+      const endValue = this.pubdateEndValue;
+      if (!startValue || !endValue) {
+        return false;
+      }
+      return startValue.valueOf() > endValue.valueOf();
+    },
+    disabledEndDate(endValue) {
+      const startValue = this.pubdateStartValue;
+      if (!endValue || !startValue) {
+        return false;
+      }
+      return startValue.valueOf() >= endValue.valueOf();
+    },
+    handlePubdateStartChange() {
+      if (this.pubdateSelectValue !== 'custom') {
+        this.pubdateSelectValue = 'custom';
+      }
+    },
+    handlePubdateStartOpenChange(open) {
+      if (!open) {
+        if (this.pubdateStartValue != null && this.pubdateEndValue == null) {
+          this.pubdateEndOpen = true;
+        }
+      }
+    },
+    handlePubdateEndChange() {
+      if (this.pubdateSelectValue !== 'custom') {
+        this.pubdateSelectValue = 'custom';
+      }
+    },
+    handlePubdateEndOpenChange(open) {
+      this.pubdateEndOpen = open;
+    },
+    handlePubdateSelectChange(value) {
+      switch (value) {
+        case 'custom':
+          this.pubdateStartValue = null;
+          this.pubdateEndValue = null;
+          break;
+        case 'day':
+        case 'week':
+        case 'month':
+        case 'year':
+          this.pubdateStartValue = moment().startOf(value);
+          this.pubdateEndValue = moment().endOf(value);
+          break;
+        default:
+          break;
+      }
+    },
+    handleSearchButtonClick: function() {
+      if (!this.isLoadingVideoList) {
+        this.pagiCurrent = 1;
+        this.fetchVideoList();
+      }
+    },
+    handleReloadButtonClick: function() {
+      this.isvcValue = 2;
+      this.orderValue = 'pubdate';
+      this.orderDescValue = 1;
+      this.pubdateStartValue = null;
+      this.pubdateEndValue = null;
+      this.pubdateEndOpen = false;
+      this.pubdateSelectValue = undefined;
+      this.titleValue = '';
+      this.memberNameValue = '';
+    },
+    onPagiChange: function (pagiClick) {
+      this.pagiCurrent = pagiClick;
       this.fetchVideoList();
-    }
+    },
+  },
+  created() {
+    this.fetchVideoList();
   }
+}
 </script>
 
 <style scoped>
-  .filter-table td {
-    height: 40px;
-  }
-  .filter-table-label {
-    width: 80px;
-    white-space: nowrap;
-  }
-
-
+.filter-table td {
+  height: 40px;
+}
+.filter-table-label {
+  width: 80px;
+  white-space: nowrap;
+}
 </style>

@@ -244,39 +244,39 @@ export default {
       let that = this;
 
       this.dv = this.ds.createView()
-        .source(this.data)
-        .transform({
-          type: 'filter',
-          callback(row) {
-            return row.added >= that.ds.state.start && row.added <= that.ds.state.end;
-          }
-        })
-        .transform({
-          type: 'rename',
-          map: {
-            view: '播放',
-            danmaku: '弹幕',
-            reply: '评论',
-            favorite: '收藏',
-            coin: '硬币',
-            share: '分享',
-            like: '点赞',
-            view_speed: '播放瞬时增速/小时'
-          }
-        })
-        .transform({
-          type: 'fold',
-          fields: ['播放', '弹幕', '评论', '收藏', '硬币', '分享', '点赞'],
-          key: 'prop',
-          value: 'value'
-        })
-        .transform({
-          type: 'map',
-          callback(row) {
-            row.added = row.added * 1000; // ts_s -> ts_ms
-            return row;
-          }
-        });
+          .source(this.data)
+          .transform({
+            type: 'filter',
+            callback(row) {
+              return row.added >= that.ds.state.start && row.added <= that.ds.state.end;
+            }
+          })
+          .transform({
+            type: 'rename',
+            map: {
+              view: '播放',
+              danmaku: '弹幕',
+              reply: '评论',
+              favorite: '收藏',
+              coin: '硬币',
+              share: '分享',
+              like: '点赞',
+              view_speed: '播放瞬时增速/小时'
+            }
+          })
+          .transform({
+            type: 'fold',
+            fields: ['播放', '弹幕', '评论', '收藏', '硬币', '分享', '点赞'],
+            key: 'prop',
+            value: 'value'
+          })
+          .transform({
+            type: 'map',
+            callback(row) {
+              row.added = row.added * 1000; // ts_s -> ts_ms
+              return row;
+            }
+          });
     },
     initChart: function() {
       this.createChart();
@@ -329,14 +329,14 @@ export default {
     setChartInteract: function() {
       let that = this;
       let dv_slider = this.ds.createView()
-        .source(this.data)
-        .transform({
-          type: 'map',
-          callback(row) {
-            row.added = row.added * 1000; // ts_s -> ts_ms
-            return row;
-          }
-        });
+          .source(this.data)
+          .transform({
+            type: 'map',
+            callback(row) {
+              row.added = row.added * 1000; // ts_s -> ts_ms
+              return row;
+            }
+          });
       this.chart.interact('slider', {
         container: 'video-detail-history-line-chart-slider',
         data: dv_slider,
@@ -354,13 +354,13 @@ export default {
     },
     setChartStyle: function() {
       this.chart
-        .line()
-        .position('added*value')
-        .color('prop');
+          .line()
+          .position('added*value')
+          .color('prop');
       this.chart
-        .area()
-        .position('added*播放瞬时增速/小时')
-        .color('rgba(255,0,0,0.2)');
+          .area()
+          .position('added*播放瞬时增速/小时')
+          .color('rgba(255,0,0,0.2)');
     },
     setChartGuide: function () {
       if (this.data.length === 0) {

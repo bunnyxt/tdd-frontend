@@ -51,15 +51,15 @@ export default {
       let url = 'updatelog?last_count=' + last_count;
       let that = this;
       this.$axios.get(url)
-        .then(function (response) {
-          that.updateLogList = response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(function () {
-          that.isLoadingUpdateLogList = false;
-        });
+          .then(function (response) {
+            that.updateLogList = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            that.isLoadingUpdateLogList = false;
+          });
     },
     getTimelineItemColor: function (type) {
       let timelineItemColorArray = ['blue', 'blue', 'red', 'green'];
@@ -73,7 +73,7 @@ export default {
 </script>
 
 <style>
-  .ant-timeline-item-last {
-    padding-bottom: 8px;
-  }
+.ant-timeline-item-last {
+  padding-bottom: 8px;
+}
 </style>

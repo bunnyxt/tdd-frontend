@@ -81,7 +81,7 @@ export default {
 </script>
 
 <style>
-  .menu-wrapper {
-    margin-left: -24px;
-  }
+.menu-wrapper {
+  margin-left: -24px;
+}
 </style>

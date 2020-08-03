@@ -48,16 +48,16 @@
 </template>
 
 <script>
-  import qqgroup_qrcode from '../../../assets/img/qrcode_1580391374617.jpg'
+import qqgroup_qrcode from '../../../assets/img/qrcode_1580391374617.jpg'
 
-  export default {
-    name: 'ContactUs',
-    data: function () {
-      return {
-        qqgroup_qrcode: qqgroup_qrcode
-      }
+export default {
+  name: 'ContactUs',
+  data: function () {
+    return {
+      qqgroup_qrcode: qqgroup_qrcode
     }
   }
+}
 </script>
 
 <style scoped>

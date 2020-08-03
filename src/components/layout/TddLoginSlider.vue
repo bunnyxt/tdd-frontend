@@ -134,261 +134,261 @@
 </template>
 
 <script>
-  import VueGrecaptcha from 'vue-recaptcha'
+import VueGrecaptcha from 'vue-recaptcha'
 
-  export default {
-    name: 'TddLoginSlider',
-    data: function () {
-      return {
-        recaptchaSiteKey: this.$config.recaptchaSiteKey,
-        currentKeys: ['login'],
-        firstEnterLoginUsername: true,
-        firstEnterLoginPassword: true,
-        loginUsername: '',
-        loginPassword: '',
-        loginRecaptchaStatus: false,
-        loginRecaptchaResponse: '',
-        isLoginIn: false,
-        firstEnterRegisterUsername: true,
-        firstEnterRegisterPassword: true,
-        firstEnterRegisterValidation: true,
-        firstEnterRegisterCode: true,
-        registerValidationMethod: 'email',
-        registerUsername: '',
-        registerPassword: '',
-        registerValidation: '',
-        registerCode: '',
-        registerRecaptchaStatus: false,
-        registerRecaptchaResponse: '',
-        isSendingCode: false,
-        codeSendingCd: 0,
-        regkey: '',
-        regExpired: 0,
-        isSendingReg: false
+export default {
+  name: 'TddLoginSlider',
+  data: function () {
+    return {
+      recaptchaSiteKey: this.$config.recaptchaSiteKey,
+      currentKeys: ['login'],
+      firstEnterLoginUsername: true,
+      firstEnterLoginPassword: true,
+      loginUsername: '',
+      loginPassword: '',
+      loginRecaptchaStatus: false,
+      loginRecaptchaResponse: '',
+      isLoginIn: false,
+      firstEnterRegisterUsername: true,
+      firstEnterRegisterPassword: true,
+      firstEnterRegisterValidation: true,
+      firstEnterRegisterCode: true,
+      registerValidationMethod: 'email',
+      registerUsername: '',
+      registerPassword: '',
+      registerValidation: '',
+      registerCode: '',
+      registerRecaptchaStatus: false,
+      registerRecaptchaResponse: '',
+      isSendingCode: false,
+      codeSendingCd: 0,
+      regkey: '',
+      regExpired: 0,
+      isSendingReg: false
+    }
+  },
+  components: {
+    VueGrecaptcha
+  },
+  watch: {
+    // registerRecaptchaResponse: function () {
+    //   console.log(this.registerRecaptchaResponse);
+    // }
+  },
+  computed: {
+    loginUsernameString: function () {
+      return String(this.loginUsername);
+    },
+    loginPasswordString: function () {
+      return String(this.loginPassword);
+    },
+    loginUsernameValidity: function () {
+      const username = this.loginUsernameString;
+      if (username.length < 4 || username.length > 16) {
+        return '用户名长度应大于等于4、小于等于16';
       }
+      // eslint-disable-next-line no-useless-escape
+      let regex = /^[A-Za-z0-9_\-]+$/ig;
+      if (!regex.test(username)) {
+        return '用户名只能包含大小写字母、数字、下划线(_)和连字符(-)';
+      }
+      return 'ok';
     },
-    components: {
-      VueGrecaptcha
+    loginPasswordValidity: function () {
+      const password = this.loginPasswordString;
+      if (password.length < 6 || password.length > 16) {
+        return '密码长度应大于等于6、小于等于16';
+      }
+      // eslint-disable-next-line no-useless-escape
+      let regex = /^[A-Za-z0-9!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]+$/g;
+      if (!regex.test(password)) {
+        return '密码中包含不支持的字符';
+      }
+      return 'ok';
     },
-    watch: {
-      // registerRecaptchaResponse: function () {
-      //   console.log(this.registerRecaptchaResponse);
-      // }
+    canGoLogin: function () {
+      return this.loginUsernameValidity === 'ok' && this.loginPasswordValidity === 'ok' && this.loginRecaptchaStatus;
     },
-    computed: {
-      loginUsernameString: function () {
-        return String(this.loginUsername);
-      },
-      loginPasswordString: function () {
-        return String(this.loginPassword);
-      },
-      loginUsernameValidity: function () {
-        const username = this.loginUsernameString;
-        if (username.length < 4 || username.length > 16) {
-          return '用户名长度应大于等于4、小于等于16';
-        }
-        // eslint-disable-next-line no-useless-escape
-        let regex = /^[A-Za-z0-9_\-]+$/ig;
-        if (!regex.test(username)) {
-          return '用户名只能包含大小写字母、数字、下划线(_)和连字符(-)';
-        }
-        return 'ok';
-      },
-      loginPasswordValidity: function () {
-        const password = this.loginPasswordString;
-        if (password.length < 6 || password.length > 16) {
-          return '密码长度应大于等于6、小于等于16';
-        }
-        // eslint-disable-next-line no-useless-escape
-        let regex = /^[A-Za-z0-9!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]+$/g;
-        if (!regex.test(password)) {
-          return '密码中包含不支持的字符';
-        }
-        return 'ok';
-      },
-      canGoLogin: function () {
-        return this.loginUsernameValidity === 'ok' && this.loginPasswordValidity === 'ok' && this.loginRecaptchaStatus;
-      },
-      loginPrompt: function () {
-        let prompt = '';
-        if (!this.firstEnterLoginUsername && this.loginUsernameValidity !== 'ok') {
-          prompt += this.loginUsernameValidity + '，';
-        }
-        if (!this.firstEnterLoginPassword && this.loginPasswordValidity !== 'ok') {
-          prompt += this.loginPasswordValidity + '，';
-        }
-        return prompt.slice(0, prompt.length - 1);
-      },
-      registerValidationMethodName: function () {
-        const nameDict = {
-          'email': '邮箱',
-          'phone': '手机'
-        };
-        return nameDict[this.registerValidationMethod];
-      },
-      registerUsernameString: function () {
-        return String(this.registerUsername);
-      },
-      registerPasswordString: function () {
-        return String(this.registerPassword);
-      },
-      registerValidationString: function () {
-        return String(this.registerValidation);
-      },
-      registerUsernameValidity: function () {
-        const username = this.registerUsernameString;
-        if (username.length < 4 || username.length > 16) {
-          return '用户名长度应大于等于4、小于等于16';
-        }
-        // eslint-disable-next-line no-useless-escape
-        let regex = /^[A-Za-z0-9_\-]+$/ig;
-        if (!regex.test(username)) {
-          return '用户名只能包含大小写字母、数字、下划线(_)和连字符(-)';
-        }
-        return 'ok';
-      },
-      registerPasswordValidity: function () {
-        const password = this.registerPasswordString;
-        if (password.length < 6 || password.length > 16) {
-          return '密码长度应大于等于6、小于等于16';
-        }
-        // eslint-disable-next-line no-useless-escape
-        let regex = /^[A-Za-z0-9!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]+$/g;
-        if (!regex.test(password)) {
-          return '密码中包含不支持的字符';
-        }
-        if (this.registerPasswordStrongLevel === '弱') {
-          return '密码强度太弱';
-        }
-        return 'ok';
-      },
-      registerPasswordStrongLevel: function () {
-        const password = this.registerPasswordString;
-        // eslint-disable-next-line no-useless-escape
-        const regexList = [
-          /[A-Z]/g,
-          /[a-z]/g,
-          /[0-9]/g,
-          /[!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]/g
-        ];
-        let value = 0;
-        for (let regex of regexList) {
-          if (regex.test(password)) {
-            value++;
-          }
-        }
-        if (password.length > 10) {
+    loginPrompt: function () {
+      let prompt = '';
+      if (!this.firstEnterLoginUsername && this.loginUsernameValidity !== 'ok') {
+        prompt += this.loginUsernameValidity + '，';
+      }
+      if (!this.firstEnterLoginPassword && this.loginPasswordValidity !== 'ok') {
+        prompt += this.loginPasswordValidity + '，';
+      }
+      return prompt.slice(0, prompt.length - 1);
+    },
+    registerValidationMethodName: function () {
+      const nameDict = {
+        'email': '邮箱',
+        'phone': '手机'
+      };
+      return nameDict[this.registerValidationMethod];
+    },
+    registerUsernameString: function () {
+      return String(this.registerUsername);
+    },
+    registerPasswordString: function () {
+      return String(this.registerPassword);
+    },
+    registerValidationString: function () {
+      return String(this.registerValidation);
+    },
+    registerUsernameValidity: function () {
+      const username = this.registerUsernameString;
+      if (username.length < 4 || username.length > 16) {
+        return '用户名长度应大于等于4、小于等于16';
+      }
+      // eslint-disable-next-line no-useless-escape
+      let regex = /^[A-Za-z0-9_\-]+$/ig;
+      if (!regex.test(username)) {
+        return '用户名只能包含大小写字母、数字、下划线(_)和连字符(-)';
+      }
+      return 'ok';
+    },
+    registerPasswordValidity: function () {
+      const password = this.registerPasswordString;
+      if (password.length < 6 || password.length > 16) {
+        return '密码长度应大于等于6、小于等于16';
+      }
+      // eslint-disable-next-line no-useless-escape
+      let regex = /^[A-Za-z0-9!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]+$/g;
+      if (!regex.test(password)) {
+        return '密码中包含不支持的字符';
+      }
+      if (this.registerPasswordStrongLevel === '弱') {
+        return '密码强度太弱';
+      }
+      return 'ok';
+    },
+    registerPasswordStrongLevel: function () {
+      const password = this.registerPasswordString;
+      // eslint-disable-next-line no-useless-escape
+      const regexList = [
+        /[A-Z]/g,
+        /[a-z]/g,
+        /[0-9]/g,
+        /[!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]/g
+      ];
+      let value = 0;
+      for (let regex of regexList) {
+        if (regex.test(password)) {
           value++;
         }
-        const levelList = ['弱', '弱', '中', '强', '非常强'];
-        return levelList[value];
-      },
-      registerPasswordStrongLevelStyle: function () {
-        let style = {};
-        switch (this.registerPasswordStrongLevel) {
-          case '弱':
-            style.color = 'red';
-            break;
-          case '中':
-            style.color = 'orange';
-            break;
-          case '强':
-            style.color = 'lightgreen';
-            break;
-          case '非常强':
-            style.color = 'green';
-            break;
-          default:
-            break;
+      }
+      if (password.length > 10) {
+        value++;
+      }
+      const levelList = ['弱', '弱', '中', '强', '非常强'];
+      return levelList[value];
+    },
+    registerPasswordStrongLevelStyle: function () {
+      let style = {};
+      switch (this.registerPasswordStrongLevel) {
+        case '弱':
+          style.color = 'red';
+          break;
+        case '中':
+          style.color = 'orange';
+          break;
+        case '强':
+          style.color = 'lightgreen';
+          break;
+        case '非常强':
+          style.color = 'green';
+          break;
+        default:
+          break;
+      }
+      return style;
+    },
+    registerValidationValidity: function () {
+      if (this.registerValidationMethod === 'phone') {
+        const phone = this.registerValidationString;
+        let regex = /^1[3456789]\d{9}$/;
+        if (!regex.test(phone)) {
+          return '手机号不合法，只支持中国大陆11位手机号';
         }
-        return style;
-      },
-      registerValidationValidity: function () {
-        if (this.registerValidationMethod === 'phone') {
-          const phone = this.registerValidationString;
-          let regex = /^1[3456789]\d{9}$/;
-          if (!regex.test(phone)) {
-            return '手机号不合法，只支持中国大陆11位手机号';
-          }
-          return 'ok';
-        } else if (this.registerValidationMethod === 'email') {
-          const email = this.registerValidationString;
-          // eslint-disable-next-line no-useless-escape
-          let regex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-          if (!regex.test(email)) {
-            return '邮箱地址不合法，请检查输入';
-          }
-          if (email.length > 200) {
-            return '邮箱地址过长，请检查输入';
-          }
-          return 'ok';
-        } else {
-         return '未知验证方式';
+        return 'ok';
+      } else if (this.registerValidationMethod === 'email') {
+        const email = this.registerValidationString;
+        // eslint-disable-next-line no-useless-escape
+        let regex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+        if (!regex.test(email)) {
+          return '邮箱地址不合法，请检查输入';
         }
-      },
-      canGoSendCodeButton: function () {
-        return this.registerValidationValidity === 'ok' && this.registerRecaptchaStatus;
-      },
-      registerPrompt: function () {
-        let prompt = '';
-        if (!this.firstEnterRegisterUsername && this.registerUsernameValidity !== 'ok') {
-          prompt += this.registerUsernameValidity + '，';
+        if (email.length > 200) {
+          return '邮箱地址过长，请检查输入';
         }
-        if (!this.firstEnterRegisterPassword && this.registerPasswordValidity !== 'ok') {
-          prompt += this.registerPasswordValidity + '，';
-        }
-        if (!this.firstEnterRegisterValidation && this.registerValidationValidity !== 'ok') {
-          prompt += this.registerValidationValidity + '，';
-        }
-        return prompt.slice(0, prompt.length - 1);
-      },
-      registerSendCodeButtonString: function () {
-        if (this.codeSendingCd === 0) {
-          return '获取验证码';
-        } else {
-          return '已发送';
-        }
-      },
-      canGoSendRegButton: function () {
-        return this.regkey.length > 0 && this.registerCode.length === 6;
+        return 'ok';
+      } else {
+        return '未知验证方式';
       }
     },
-    methods: {
-      drawerCloseHandler: function() {
-        this.$store.commit('changeLoginSliderVisibility');
-      },
-      loginRecaptchaVerifyCallback: function (response) {
-        this.loginRecaptchaStatus = true;
-        this.loginRecaptchaResponse = response;
-      },
-      loginRecaptchaExpiredCallback: function () {
-        this.loginRecaptchaStatus = false;
-        this.loginRecaptchaResponse = '';
-      },
-      registerRecaptchaVerifyCallback: function (response) {
-        this.registerRecaptchaStatus = true;
-        this.registerRecaptchaResponse = response;
-      },
-      registerRecaptchaExpiredCallback: function () {
-        this.registerRecaptchaStatus = false;
-        this.registerRecaptchaResponse = '';
-      },
-      onLoginButtonClick: function () {
-        // go request
-        this.isLoginIn = true;
-        let that = this;
-        this.$axios({
-          method: 'post',
-          url: '/login',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: {
-            username: this.loginUsernameString,
-            password: this.loginPasswordString,
-            recaptcha: this.loginRecaptchaResponse
-          }
-        })
+    canGoSendCodeButton: function () {
+      return this.registerValidationValidity === 'ok' && this.registerRecaptchaStatus;
+    },
+    registerPrompt: function () {
+      let prompt = '';
+      if (!this.firstEnterRegisterUsername && this.registerUsernameValidity !== 'ok') {
+        prompt += this.registerUsernameValidity + '，';
+      }
+      if (!this.firstEnterRegisterPassword && this.registerPasswordValidity !== 'ok') {
+        prompt += this.registerPasswordValidity + '，';
+      }
+      if (!this.firstEnterRegisterValidation && this.registerValidationValidity !== 'ok') {
+        prompt += this.registerValidationValidity + '，';
+      }
+      return prompt.slice(0, prompt.length - 1);
+    },
+    registerSendCodeButtonString: function () {
+      if (this.codeSendingCd === 0) {
+        return '获取验证码';
+      } else {
+        return '已发送';
+      }
+    },
+    canGoSendRegButton: function () {
+      return this.regkey.length > 0 && this.registerCode.length === 6;
+    }
+  },
+  methods: {
+    drawerCloseHandler: function() {
+      this.$store.commit('changeLoginSliderVisibility');
+    },
+    loginRecaptchaVerifyCallback: function (response) {
+      this.loginRecaptchaStatus = true;
+      this.loginRecaptchaResponse = response;
+    },
+    loginRecaptchaExpiredCallback: function () {
+      this.loginRecaptchaStatus = false;
+      this.loginRecaptchaResponse = '';
+    },
+    registerRecaptchaVerifyCallback: function (response) {
+      this.registerRecaptchaStatus = true;
+      this.registerRecaptchaResponse = response;
+    },
+    registerRecaptchaExpiredCallback: function () {
+      this.registerRecaptchaStatus = false;
+      this.registerRecaptchaResponse = '';
+    },
+    onLoginButtonClick: function () {
+      // go request
+      this.isLoginIn = true;
+      let that = this;
+      this.$axios({
+        method: 'post',
+        url: '/login',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          username: this.loginUsernameString,
+          password: this.loginPasswordString,
+          recaptcha: this.loginRecaptchaResponse
+        }
+      })
           .then(function (response) {
             if (response.data.code === 20001) {
               let data = response.data;
@@ -441,24 +441,24 @@
             that.isLoginIn = false;
             that.$refs.loginRecaptcha.reset();
           });
-      },
-      onRegisterSendCodeButtonClick: function () {
-        this.isSendingCode = true;
-        let that = this;
-        this.$axios({
-          method: 'post',
-          url: '/register/code',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: {
-            method: this.registerValidationMethod,
-            validation: this.registerValidation,
-            username: this.registerUsernameString,
-            password: this.registerPasswordString,
-            recaptcha: this.registerRecaptchaResponse
-          }
-        })
+    },
+    onRegisterSendCodeButtonClick: function () {
+      this.isSendingCode = true;
+      let that = this;
+      this.$axios({
+        method: 'post',
+        url: '/register/code',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          method: this.registerValidationMethod,
+          validation: this.registerValidation,
+          username: this.registerUsernameString,
+          password: this.registerPasswordString,
+          recaptcha: this.registerRecaptchaResponse
+        }
+      })
           .then(function (response) {
             if (response.data.status === 'success') {
               let data = response.data;
@@ -520,26 +520,26 @@
             that.isSendingCode = false;
             that.$refs.registerRecaptcha.reset();
           });
-      },
-      onRegisterSendRegButtonClick: function () {
-        if ((new Date()).valueOf() > this.regExpired * 1000) {
-          this.$message.error('验证码已过期，请重新获取');
-          this.registerCode = '';
-          return
+    },
+    onRegisterSendRegButtonClick: function () {
+      if ((new Date()).valueOf() > this.regExpired * 1000) {
+        this.$message.error('验证码已过期，请重新获取');
+        this.registerCode = '';
+        return
+      }
+      this.isSendingReg = true;
+      let that = this;
+      this.$axios({
+        method: 'post',
+        url: '/register/reg',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        data: {
+          code: this.registerCode,
+          regkey: this.regkey
         }
-        this.isSendingReg = true;
-        let that = this;
-        this.$axios({
-          method: 'post',
-          url: '/register/reg',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          data: {
-            code: this.registerCode,
-            regkey: this.regkey
-          }
-        })
+      })
           .then(function (response) {
             if (response.data.status === 'success') {
               that.$message.success('注册成功！请使用该账号登录');
@@ -601,7 +601,7 @@
           .finally(function () {
             that.isSendingReg = false;
           });
-      }
     }
   }
+}
 </script>

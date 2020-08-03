@@ -54,18 +54,18 @@
 </template>
 
 <script>
-  import logo_max from '../../../assets/img/logo_max.png'
+import logo_max from '../../../assets/img/logo_max.png'
   import qqgroup_qrcode from '../../../assets/img/qrcode_1580391374617.jpg'
 
-  export default {
-    name: 'AboutHome',
-    data: function() {
-      return {
-        logo_max: logo_max,
-        qqgroup_qrcode: qqgroup_qrcode
-      }
+export default {
+  name: 'AboutHome',
+  data: function() {
+    return {
+      logo_max: logo_max,
+      qqgroup_qrcode: qqgroup_qrcode
     }
   }
+}
 </script>
 
 <style>

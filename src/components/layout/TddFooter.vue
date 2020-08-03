@@ -13,19 +13,19 @@
 </template>
 
 <script>
-  export default {
-    name: "TddFooter"
-  };
+export default {
+  name: "TddFooter"
+};
 </script>
 
 <style scoped>
-  .tdd-footer {
-    text-align: center;
-    height: 120px;
-    font-size: 12px;
-    padding: 24px 20px;
-  }
-  a {
-    color: rgba(0, 0, 0, 0.65);
-  }
+.tdd-footer {
+  text-align: center;
+  height: 120px;
+  font-size: 12px;
+  padding: 24px 20px;
+}
+a {
+  color: rgba(0, 0, 0, 0.65);
+}
 </style>
