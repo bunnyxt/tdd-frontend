@@ -141,6 +141,7 @@ export default {
   },
   data: function () {
     return {
+      storeTimer: null,
       currentTimer: null,
       currentTs: 0,
       nextId: 0,
@@ -249,6 +250,10 @@ export default {
   mounted: function () {
     this.refreshCurrentTime();
     this.currentTimer = setInterval(this.refreshCurrentTime, 1000);
+    this.storeTimer = setInterval(() => {
+      localStorage.setItem('tsConvertList', JSON.stringify(this.convertList));
+      localStorage.setItem('tsNextId', this.nextId);
+    }, 30000);
 
     // restore previous list
     const storedConvertList = localStorage.getItem('tsConvertList');
@@ -258,6 +263,7 @@ export default {
   },
   beforeDestroy() {
     window.clearInterval(this.currentTimer);
+    window.clearInterval(this.storeTimer);
 
     // store current list
     localStorage.setItem('tsConvertList', JSON.stringify(this.convertList));
