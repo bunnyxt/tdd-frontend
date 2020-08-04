@@ -17,6 +17,7 @@
         <a-menu-item key="home">首页</a-menu-item>
         <a-menu-item key="video">视频</a-menu-item>
         <a-menu-item key="member">UP主</a-menu-item>
+        <a-menu-item key="rank">排行</a-menu-item>
         <a-menu-item key="sprint">传说助攻</a-menu-item>
         <a-menu-item key="tool">辅助工具</a-menu-item>
         <a-menu-item key="about">关于</a-menu-item>
@@ -38,6 +39,8 @@ export default {
         keys = ['video'];
       } else if (path.startsWith('/member')) {
         keys = ['member'];
+      } else if (path.startsWith('/rank')) {
+        keys = ['rank'];
       } else if (path.startsWith('/sprint')) {
         keys = ['sprint'];
       } else if (path.startsWith('/tool')) {
@@ -62,6 +65,9 @@ export default {
           break;
         case "member":
           this.$router.push("/member");
+          break;
+        case "rank":
+          this.$router.push("/rank");
           break;
         case "sprint":
           this.$router.push("/sprint");
