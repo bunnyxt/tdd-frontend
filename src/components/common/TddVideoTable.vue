@@ -4,7 +4,7 @@
       :rowKey="video => video.id"
       :dataSource="videoList"
       :pagination="false"
-      :scroll="{ x: 700 }"
+      :scroll="{ x: 1400 }"
       size="small"
   >
     <template slot="pic" slot-scope="item">
@@ -49,7 +49,7 @@ export default {
         {
           title: '封面',
           scopedSlots: { customRender: 'pic' },
-          width: '112px',
+          width: '120px',
           fixed: 'left',
         }, {
           title: '标题',
@@ -58,6 +58,7 @@ export default {
         }, {
           title: 'UP主',
           scopedSlots: { customRender: 'member' },
+          width: '80px',
         }, {
           title: '投稿时间',
           dataIndex: 'pubdate',
@@ -67,30 +68,37 @@ export default {
           title: '播放',
           dataIndex: 'laststat.view',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '弹幕',
           dataIndex: 'laststat.danmaku',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '评论',
           dataIndex: 'laststat.reply',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '收藏',
           dataIndex: 'laststat.favorite',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '硬币',
           dataIndex: 'laststat.coin',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '分享',
           dataIndex: 'laststat.share',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '点赞',
           dataIndex: 'laststat.like',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '关注时间',
           dataIndex: 'favorite_added',

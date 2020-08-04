@@ -4,7 +4,7 @@
       :rowKey="item => item.rank"
       :dataSource="rankCurrentList"
       :pagination="false"
-      :scroll="{ x: 700 }"
+      :scroll="{ x: 1400 }"
       size="small"
   >
     <template slot="pic" slot-scope="item">
@@ -90,14 +90,16 @@ export default {
           title: '排名',
           dataIndex: 'rank',
           scopedSlots: { customRender: 'value' },
+          width: '72px',
           fixed: 'left',
         }, {
           title: '封面',
           scopedSlots: { customRender: 'pic' },
-          width: '112px',
+          width: '120px',
         }, {
           title: '标题',
           scopedSlots: { customRender: 'videoTitleMember' },
+          // width: '200px',
         },
         // {
         //   title: '投稿时间',
@@ -108,28 +110,36 @@ export default {
         {
           title: '播放',
           scopedSlots: { customRender: 'view_value' },
+          width: '100px',
         }, {
           title: '弹幕',
           scopedSlots: { customRender: 'danmaku_value' },
+          width: '100px',
         }, {
           title: '评论',
           scopedSlots: { customRender: 'reply_value' },
+          width: '100px',
         }, {
           title: '收藏',
           scopedSlots: { customRender: 'favorite_value' },
+          width: '100px',
         }, {
           title: '硬币',
           scopedSlots: { customRender: 'coin_value' },
+          width: '100px',
         }, {
           title: '分享',
           scopedSlots: { customRender: 'share_value' },
+          width: '100px',
         }, {
           title: '点赞',
           scopedSlots: { customRender: 'like_value' },
+          width: '100px',
         }, {
           title: '得分',
           dataIndex: 'point',
           scopedSlots: { customRender: 'value' },
+          width: '100px',
         }, {
           title: '修正A',
           dataIndex: 'xiua',

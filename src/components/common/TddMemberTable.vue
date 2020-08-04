@@ -4,7 +4,7 @@
       :rowKey="member => member.id"
       :dataSource="memberList"
       :pagination="false"
-      :scroll="{ x: 700 }"
+      :scroll="{ x: 1300 }"
       size="small"
   >
     <template slot="face" slot-scope="item">
@@ -100,43 +100,52 @@ export default {
           title: '粉丝数',
           dataIndex: 'last_follower.follower',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '总投稿数',
           dataIndex: 'video_count',
           scopedSlots: { customRender: 'value' },
+          width: '80px'
         }, {
           title: '总播放',
           dataIndex: 'last_total_stat.view',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '总弹幕',
           dataIndex: 'last_total_stat.danmaku',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '总评论',
           dataIndex: 'last_total_stat.reply',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '总收藏',
           dataIndex: 'last_total_stat.favorite',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '总硬币',
           dataIndex: 'last_total_stat.coin',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '总分享',
           dataIndex: 'last_total_stat.share',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '总点赞',
           dataIndex: 'last_total_stat.like',
           scopedSlots: { customRender: 'value' },
+          width: '100px'
         }, {
           title: '最新投稿',
           dataIndex: 'last_video',
           scopedSlots: { customRender: 'lastVideo' },
-          width: '108px',
+          width: '120px',
         }, {
           title: '关注时间',
           dataIndex: 'favorite_added',
