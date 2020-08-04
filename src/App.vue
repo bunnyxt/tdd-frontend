@@ -105,13 +105,7 @@ export default {
 
 /* override user agent style */
 h1 {
-  display: block;
   font-size: 2em;
-  margin-block-start: 0.67em;
-  margin-block-end: 0.67em;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
-  font-weight: bold;
 }
 
 /* MOBILE version */
