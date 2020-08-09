@@ -235,9 +235,9 @@ export default {
     formatDate: function(ts) {
       let date = new Date(ts * 1000)
       return (
-          date.getFullYear() + "-" +
-          (date.getMonth()+1) + "-" +
-          date.getDate()
+        date.getFullYear() + "-" +
+        (date.getMonth()+1) + "-" +
+        date.getDate()
       )
     }
   },

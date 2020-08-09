@@ -1,25 +1,25 @@
 <template>
   <div class="member-action-bar" :style="actionBarStyle">
     <a-button
-        title="点赞"
-        :style="memberLikeButtonStyle"
-        :loading="isLoadingMemberLikeCount || isPostingMemberLike || isDeletingMemberLike"
-        @click="memberLikeButtonClickHandler(mid)"
+      title="点赞"
+      :style="memberLikeButtonStyle"
+      :loading="isLoadingMemberLikeCount || isPostingMemberLike || isDeletingMemberLike"
+      @click="memberLikeButtonClickHandler(mid)"
     >
       <span :style="memberLikeDisplayStyle"><a-icon type="like" /> {{ memberLikeCount }}</span>
     </a-button>
     <a-button
-        title="关注"
-        :style="memberFavoriteButtonStyle"
-        :loading="isLoadingMemberFavoriteCount || isPostingMemberFavorite || isDeletingMemberFavorite"
-        @click="memberFavoriteButtonClickHandler(mid)"
+      title="关注"
+      :style="memberFavoriteButtonStyle"
+      :loading="isLoadingMemberFavoriteCount || isPostingMemberFavorite || isDeletingMemberFavorite"
+      @click="memberFavoriteButtonClickHandler(mid)"
     >
       <span :style="memberFavoriteDisplayStyle"><a-icon type="plus" /> {{ memberFavoriteCount }}</span>
     </a-button>
     <a-button
-        title="前往UP主B站个人空间"
-        :style="memberHomeButtonStyle"
-        @click="goToBiliSpace(mid)"
+      title="前往UP主B站个人空间"
+      :style="memberHomeButtonStyle"
+      @click="goToBiliSpace(mid)"
     >
       <a-icon type="home" />
     </a-button>
@@ -161,120 +161,120 @@ export default {
 
       let that = this;
       this.$axios.post('user/like/member/' + mid)
-          .then(function (response) {
-            const resp = response.data;
-            if (resp.status === 'success') {
-              // that.$message.info('点赞成功！');
-              that.memberLikeUserStatus = true;
-              that.memberLikeCount++;
+        .then(function (response) {
+          const resp = response.data;
+          if (resp.status === 'success') {
+            // that.$message.info('点赞成功！');
+            that.memberLikeUserStatus = true;
+            that.memberLikeCount++;
+          } else {
+            // that.$message.error('点赞失败！' + resp.message);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
             } else {
-              // that.$message.error('点赞失败！' + resp.message);
+              console.log(error.response);
             }
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, false);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
-            }
-          })
-          .finally(function () {
-            that.isPostingMemberLike = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isPostingMemberLike = false;
+        });
     },
     deleteMemberLike: function (mid) {
       this.isDeletingMemberLike = true;
 
       let that = this;
       this.$axios.delete('user/like/member/' + mid)
-          .then(function (response) {
-            const resp = response.data;
-            if (resp.status === 'success') {
-              // that.$message.info('取消点赞成功！');
-              that.memberLikeUserStatus = false;
-              that.memberLikeCount--;
+        .then(function (response) {
+          const resp = response.data;
+          if (resp.status === 'success') {
+            // that.$message.info('取消点赞成功！');
+            that.memberLikeUserStatus = false;
+            that.memberLikeCount--;
+          } else {
+            // that.$message.error('取消点赞失败！' + resp.message);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
             } else {
-              // that.$message.error('取消点赞失败！' + resp.message);
+              console.log(error.response);
             }
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, false);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
-            }
-          })
-          .finally(function () {
-            that.isDeletingMemberLike = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isDeletingMemberLike = false;
+        });
     },
     postMemberFavorite: function (mid) {
       this.isPostingMemberFavorite = true;
 
       let that = this;
       this.$axios.post('user/favorite/member/' + mid)
-          .then(function (response) {
-            const resp = response.data;
-            if (resp.status === 'success') {
-              that.$message.info('关注成功！');
-              that.memberFavoriteUserStatus = true;
-              that.memberFavoriteCount++;
+        .then(function (response) {
+          const resp = response.data;
+          if (resp.status === 'success') {
+            that.$message.info('关注成功！');
+            that.memberFavoriteUserStatus = true;
+            that.memberFavoriteCount++;
+          } else {
+            that.$message.error('关注失败！' + resp.message);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
             } else {
-              that.$message.error('关注失败！' + resp.message);
+              console.log(error.response);
             }
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, false);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
-            }
-          })
-          .finally(function () {
-            that.isPostingMemberFavorite = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isPostingMemberFavorite = false;
+        });
     },
     deleteMemberFavorite: function (mid) {
       this.isDeletingMemberFavorite = true;
 
       let that = this;
       this.$axios.delete('user/favorite/member/' + mid)
-          .then(function (response) {
-            const resp = response.data;
-            if (resp.status === 'success') {
-              that.$message.info('取消关注成功！');
-              that.memberFavoriteUserStatus = false;
-              that.memberFavoriteCount--;
+        .then(function (response) {
+          const resp = response.data;
+          if (resp.status === 'success') {
+            that.$message.info('取消关注成功！');
+            that.memberFavoriteUserStatus = false;
+            that.memberFavoriteCount--;
+          } else {
+            that.$message.error('取消关注失败！' + resp.message);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
             } else {
-              that.$message.error('取消关注失败！' + resp.message);
+              console.log(error.response);
             }
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, false);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
-            }
-          })
-          .finally(function () {
-            that.isDeletingMemberFavorite = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isDeletingMemberFavorite = false;
+        });
     },
     goToBiliSpace: function (mid) {
       window.open('https://space.bilibili.com/'+mid);
@@ -284,76 +284,76 @@ export default {
 
       let that = this;
       this.$axios.get('member/' + mid + '/like')
-          .then(function (response) {
-            that.memberLikeCount = response.data;
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingMemberLikeCount = false;
-          });
+        .then(function (response) {
+          that.memberLikeCount = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingMemberLikeCount = false;
+        });
     },
     getMemberLikeUserStatus: function (mid) {
       this.isLoadingMemberLikeUserStatus = true;
 
       let that = this;
       this.$axios.get('/user/like/member/' + mid)
-          .then(function (response) {
-            that.memberLikeUserStatus = Object.keys(response.data).length > 0;
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, false);
-              } else {
-                console.log(error.response);
-              }
+        .then(function (response) {
+          that.memberLikeUserStatus = Object.keys(response.data).length > 0;
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
             } else {
-              console.log(error);
+              console.log(error.response);
             }
-          })
-          .finally(function () {
-            that.isLoadingMemberLikeUserStatus = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isLoadingMemberLikeUserStatus = false;
+        });
     },
     getMemberFavoriteCount: function (mid) {
       this.isLoadingMemberFavoriteCount = true;
 
       let that = this;
       this.$axios.get('member/' + mid + '/favorite')
-          .then(function (response) {
-            that.memberFavoriteCount = response.data;
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingMemberFavoriteCount = false;
-          });
+        .then(function (response) {
+          that.memberFavoriteCount = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingMemberFavoriteCount = false;
+        });
     },
     getMemberFavoriteUserStatus: function (mid) {
       this.isLoadingMemberFavoriteUserStatus = true;
 
       let that = this;
       this.$axios.get('/user/favorite/member/' + mid)
-          .then(function (response) {
-            that.memberFavoriteUserStatus = Object.keys(response.data).length > 0;
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, false);
-              } else {
-                console.log(error.response);
-              }
+        .then(function (response) {
+          that.memberFavoriteUserStatus = Object.keys(response.data).length > 0;
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
             } else {
-              console.log(error);
+              console.log(error.response);
             }
-          })
-          .finally(function () {
-            that.isLoadingMemberFavoriteUserStatus = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isLoadingMemberFavoriteUserStatus = false;
+        });
     }
   },
   created: function () {

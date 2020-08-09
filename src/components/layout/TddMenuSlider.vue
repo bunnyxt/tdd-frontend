@@ -1,18 +1,18 @@
 <template>
   <a-drawer
-      placement="left"
-      :closable="false"
-      :visible="this.$store.state.isMenuSliderVisible"
-      width="200px"
-      @close="drawerCloseHandler"
+    placement="left"
+    :closable="false"
+    :visible="this.$store.state.isMenuSliderVisible"
+    width="200px"
+    @close="drawerCloseHandler"
   >
     <div class="menu-wrapper">
       <a-menu
-          theme="light"
-          mode="inline"
-          :style="{ lineHeight: '64px' }"
-          :selectedKeys="selectedKeys"
-          @click="handleMenuClick"
+        theme="light"
+        mode="inline"
+        :style="{ lineHeight: '64px' }"
+        :selectedKeys="selectedKeys"
+        @click="handleMenuClick"
       >
         <a-menu-item key="home">首页</a-menu-item>
         <a-menu-item key="video">视频</a-menu-item>

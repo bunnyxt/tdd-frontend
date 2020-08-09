@@ -1,21 +1,21 @@
 <template>
   <a-list
-      :data-source="memberList"
-      :itemLayout="$store.getters.clientMode === 'MOBILE' ? 'vertical' : ''"
-      :grid="$store.getters.clientMode !== 'MOBILE' ? { gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null"
+    :data-source="memberList"
+    :itemLayout="$store.getters.clientMode === 'MOBILE' ? 'vertical' : ''"
+    :grid="$store.getters.clientMode !== 'MOBILE' ? { gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null"
   >
     <a-list-item
-        slot="renderItem"
-        slot-scope="item"
-        key="item.id"
-        @click="$emit('item-clicked', item)"
+      slot="renderItem"
+      slot-scope="item"
+      key="item.id"
+      @click="$emit('item-clicked', item)"
     >
       <template v-if="$store.getters.clientMode === 'MOBILE'">
         <div class="tdd-member-item-mobile">
           <a-avatar
-              class="tdd-member-item-mobile-avatar"
-              :src="item.face ? item.face : 'https://static.hdslb.com/images/member/noface.gif'"
-              :size="48"
+            class="tdd-member-item-mobile-avatar"
+            :src="item.face ? item.face : 'https://static.hdslb.com/images/member/noface.gif'"
+            :size="48"
           />
           <div class="tdd-member-item-mobile-content">
             <div class="tdd-member-item-mobile-title" :title="item.name">
@@ -87,9 +87,9 @@
         <div class="tdd-member-item-desktop-grid-card">
           <div class="tdd-member-item-desktop-grid-header">
             <a-avatar
-                class="tdd-member-item-desktop-grid-avatar"
-                :src="item.face ? item.face : 'https://static.hdslb.com/images/member/noface.gif'"
-                :size="48"
+              class="tdd-member-item-desktop-grid-avatar"
+              :src="item.face ? item.face : 'https://static.hdslb.com/images/member/noface.gif'"
+              :size="48"
             />
             <div class="tdd-member-item-desktop-grid-content">
               <div class="tdd-member-item-desktop-grid-title" :title="item.name">
@@ -135,13 +135,13 @@
               点击查看视频详情
             </template>
             <div
-                class="tdd-member-item-desktop-grid-last-video"
-                @click.stop="itemLastVideoClickHandler(item.last_video ? item.last_video.aid : -1)"
-                style="margin-top: 8px"
+              class="tdd-member-item-desktop-grid-last-video"
+              @click.stop="itemLastVideoClickHandler(item.last_video ? item.last_video.aid : -1)"
+              style="margin-top: 8px"
             >
               <img
-                  class="tdd-member-item-desktop-grid-last-video-cover-pic"
-                  width="108px" height="65px" alt="pic" :src="item.last_video ? item.last_video.pic : ''"
+                class="tdd-member-item-desktop-grid-last-video-cover-pic"
+                width="108px" height="65px" alt="pic" :src="item.last_video ? item.last_video.pic : ''"
               />
               <div class="tdd-member-item-desktop-grid-last-video-right-content">
                 <div class="tdd-member-item-desktop-grid-last-video-title">

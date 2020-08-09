@@ -62,31 +62,31 @@
               </td>
               <td>
                 <a-input
-                    v-model="nameValue"
-                    placeholder="UP主"
-                    allowClear
+                  v-model="nameValue"
+                  placeholder="UP主"
+                  allowClear
                 />
               </td>
             </tr>
           </table>
           <a-button
-              type="primary"
-              icon="search"
-              :loading="isLoadingUserFavoriteMemberList"
-              @click="handleSearchButtonClick"
-              style="margin-top: 8px"
+            type="primary"
+            icon="search"
+            :loading="isLoadingUserFavoriteMemberList"
+            @click="handleSearchButtonClick"
+            style="margin-top: 8px"
           >
             搜索
           </a-button>
           <a-popconfirm
-              title="确定重置所有条件？"
-              @confirm="handleReloadButtonClick"
-              okText="确定"
-              cancelText="取消"
+            title="确定重置所有条件？"
+            @confirm="handleReloadButtonClick"
+            okText="确定"
+            cancelText="取消"
           >
             <a-button
-                icon="reload"
-                style="margin-top: 8px; margin-left: 16px"
+              icon="reload"
+              style="margin-top: 8px; margin-left: 16px"
             >
               重置
             </a-button>
@@ -96,13 +96,13 @@
       <a-spin :spinning="isLoadingUserFavoriteMemberList">
         <tdd-member-table :member-list="userFavoriteMemberList" />
         <a-pagination
-            showQuickJumper
-            v-model="pagiCurrent"
-            :total="userFavoriteMemberTotalCount"
-            :showTotal="total => `共 ${total} 位UP主`"
-            :pageSize="20"
-            style="margin-top: 8px"
-            @change="onPagiChange"
+          showQuickJumper
+          v-model="pagiCurrent"
+          :total="userFavoriteMemberTotalCount"
+          :showTotal="total => `共 ${total} 位UP主`"
+          :pageSize="20"
+          style="margin-top: 8px"
+          @change="onPagiChange"
         />
       </a-spin>
     </div>
@@ -159,30 +159,30 @@ export default {
       let that = this;
       const url = this.assemblyQuery();
       this.$axios.get(url)
-          .then(function (response) {
-            that.userFavoriteMemberList = [];
-            let oriList = response.data;
-            for (let item of oriList) {
-              let obj = item.member;
-              obj.favorite_added = item.added;
-              that.userFavoriteMemberList.push(obj);
-            }
-            that.userFavoriteMemberTotalCount = parseInt(response.headers['x-total-count']);
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, true);
-              } else {
-                console.log(error.response);
-              }
+        .then(function (response) {
+          that.userFavoriteMemberList = [];
+          let oriList = response.data;
+          for (let item of oriList) {
+            let obj = item.member;
+            obj.favorite_added = item.added;
+            that.userFavoriteMemberList.push(obj);
+          }
+          that.userFavoriteMemberTotalCount = parseInt(response.headers['x-total-count']);
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, true);
             } else {
-              console.log(error);
+              console.log(error.response);
             }
-          })
-          .finally(function () {
-            that.isLoadingUserFavoriteMemberList = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isLoadingUserFavoriteMemberList = false;
+        });
     },
     userFavoriteMemberListItemClickedHandler: function (item) {
       this.$store.commit('setMemberDetailMember', item);

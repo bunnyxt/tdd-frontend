@@ -1,14 +1,14 @@
 <template>
   <a-list
-      :itemLayout="(mode === 'list' || $store.getters.clientMode === 'MOBILE') ? 'vertical' : ''"
-      :grid="(mode === 'grid' && $store.getters.clientMode !== 'MOBILE') ? { gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null"
-      :dataSource="videoList"
+    :itemLayout="(mode === 'list' || $store.getters.clientMode === 'MOBILE') ? 'vertical' : ''"
+    :grid="(mode === 'grid' && $store.getters.clientMode !== 'MOBILE') ? { gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null"
+    :dataSource="videoList"
   >
     <a-list-item
-        slot="renderItem"
-        slot-scope="item"
-        key="item.id"
-        @click="$emit('item-clicked', item)"
+      slot="renderItem"
+      slot-scope="item"
+      key="item.id"
+      @click="$emit('item-clicked', item)"
     >
       <template v-if="$store.getters.clientMode === 'MOBILE'">
         <div class="tdd-video-item-mobile">
@@ -23,9 +23,9 @@
             <div class="tdd-video-item-mobile-right-content-footer">
               <div :style="{ width: showMobileView?'50%':'100%' }">
                 <a-avatar
-                    :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
-                    :size="16"
-                    style="margin-right: 4px; margin-bottom: 1px"
+                  :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+                  :size="16"
+                  style="margin-right: 4px; margin-bottom: 1px"
                 />
                 {{ item.member ? item.member.name : 'mid'+item.mid }}
               </div>
@@ -99,9 +99,9 @@
               <h3 class="tdd-video-item-desktop-list-title" :title="item.title">{{ item.title }}</h3>
               <div>
                 <a-avatar
-                    :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
-                    :size="16"
-                    style="margin-right: 4px; margin-bottom: 1px"
+                  :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+                  :size="16"
+                  style="margin-right: 4px; margin-bottom: 1px"
                 />
                 {{ item.member ? item.member.name : 'mid'+item.mid}}
                 <a-icon type="calendar" style="margin-left: 8px; margin-right: 4px"/>
@@ -138,9 +138,9 @@
               <h3 class="tdd-video-item-desktop-grid-title" :title="item.title">{{ item.title }}</h3>
               <div>
                 <a-avatar
-                    :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
-                    :size="16"
-                    style="margin-right: 4px; margin-bottom: 1px"
+                  :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+                  :size="16"
+                  style="margin-right: 4px; margin-bottom: 1px"
                 />
                 {{ item.member ? item.member.name : 'mid'+item.mid}}<br>
                 <a-icon type="calendar" style="margin-right: 4px"/>
@@ -152,10 +152,10 @@
                 </template>
                 <div v-if="showStatBar">
                   <tdd-video-stat-bar
-                      class="tdd-video-item-desktop-grid-video-stat-bar"
-                      :stat="item.laststat"
-                      :show-name="false"
-                      :mode="'bar'"
+                    class="tdd-video-item-desktop-grid-video-stat-bar"
+                    :stat="item.laststat"
+                    :show-name="false"
+                    :mode="'bar'"
                   ></tdd-video-stat-bar>
                 </div>
               </a-tooltip>

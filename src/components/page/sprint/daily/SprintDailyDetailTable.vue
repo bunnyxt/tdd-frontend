@@ -1,9 +1,9 @@
 <template>
   <a-table
-      :columns="columns"
-      :rowKey="r => r.id"
-      :dataSource="sprintDailyRecordList"
-      :pagination="pagination"
+    :columns="columns"
+    :rowKey="r => r.id"
+    :dataSource="sprintDailyRecordList"
+    :pagination="pagination"
   >
     <template slot="picRender" slot-scope="pic">
       <img :src="pic" width="100px"/>

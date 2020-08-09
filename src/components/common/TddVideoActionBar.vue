@@ -1,25 +1,25 @@
 <template>
   <div class="video-action-bar" :style="actionBarStyle">
     <a-button
-        title="点赞"
-        :style="videoLikeButtonStyle"
-        :loading="isLoadingVideoLikeCount || isPostingVideoLike || isDeletingVideoLike"
-        @click="videoLikeButtonClickHandler(aid)"
+      title="点赞"
+      :style="videoLikeButtonStyle"
+      :loading="isLoadingVideoLikeCount || isPostingVideoLike || isDeletingVideoLike"
+      @click="videoLikeButtonClickHandler(aid)"
     >
       <span :style="videoLikeDisplayStyle"><a-icon type="like" /> {{ videoLikeCount }}</span>
     </a-button>
     <a-button
-        title="关注"
-        :style="videoFavoriteButtonStyle"
-        :loading="isLoadingVideoFavoriteCount || isPostingVideoFavorite || isDeletingVideoFavorite"
-        @click="videoFavoriteButtonClickHandler(aid)"
+      title="关注"
+      :style="videoFavoriteButtonStyle"
+      :loading="isLoadingVideoFavoriteCount || isPostingVideoFavorite || isDeletingVideoFavorite"
+      @click="videoFavoriteButtonClickHandler(aid)"
     >
       <span :style="videoFavoriteDisplayStyle"><a-icon type="plus" /> {{ videoFavoriteCount }}</span>
     </a-button>
     <a-button
-        title="去B站观看"
-        :style="videoPlayButtonStyle"
-        @click="goToBiliAv(aid)"
+      title="去B站观看"
+      :style="videoPlayButtonStyle"
+      @click="goToBiliAv(aid)"
     >
       <a-icon type="play-circle" />
     </a-button>
@@ -161,120 +161,120 @@ export default {
 
       let that = this;
       this.$axios.post('user/like/video/' + aid)
-          .then(function (response) {
-            const resp = response.data;
-            if (resp.status === 'success') {
-              // that.$message.info('点赞成功！');
-              that.videoLikeUserStatus = true;
-              that.videoLikeCount++;
+        .then(function (response) {
+          const resp = response.data;
+          if (resp.status === 'success') {
+            // that.$message.info('点赞成功！');
+            that.videoLikeUserStatus = true;
+            that.videoLikeCount++;
+          } else {
+            // that.$message.error('点赞失败！' + resp.message);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
             } else {
-              // that.$message.error('点赞失败！' + resp.message);
+              console.log(error.response);
             }
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, false);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
-            }
-          })
-          .finally(function () {
-            that.isPostingVideoLike = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isPostingVideoLike = false;
+        });
     },
     deleteVideoLike: function (aid) {
       this.isDeletingVideoLike = true;
 
       let that = this;
       this.$axios.delete('user/like/video/' + aid)
-          .then(function (response) {
-            const resp = response.data;
-            if (resp.status === 'success') {
-              // that.$message.info('取消点赞成功！');
-              that.videoLikeUserStatus = false;
-              that.videoLikeCount--;
+        .then(function (response) {
+          const resp = response.data;
+          if (resp.status === 'success') {
+            // that.$message.info('取消点赞成功！');
+            that.videoLikeUserStatus = false;
+            that.videoLikeCount--;
+          } else {
+            // that.$message.error('取消点赞失败！' + resp.message);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
             } else {
-              // that.$message.error('取消点赞失败！' + resp.message);
+              console.log(error.response);
             }
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, false);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
-            }
-          })
-          .finally(function () {
-            that.isDeletingVideoLike = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isDeletingVideoLike = false;
+        });
     },
     postVideoFavorite: function (aid) {
       this.isPostingVideoFavorite = true;
 
       let that = this;
       this.$axios.post('user/favorite/video/' + aid)
-          .then(function (response) {
-            const resp = response.data;
-            if (resp.status === 'success') {
-              that.$message.info('关注成功！');
-              that.videoFavoriteUserStatus = true;
-              that.videoFavoriteCount++;
+        .then(function (response) {
+          const resp = response.data;
+          if (resp.status === 'success') {
+            that.$message.info('关注成功！');
+            that.videoFavoriteUserStatus = true;
+            that.videoFavoriteCount++;
+          } else {
+            that.$message.error('关注失败！' + resp.message);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
             } else {
-              that.$message.error('关注失败！' + resp.message);
+              console.log(error.response);
             }
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, false);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
-            }
-          })
-          .finally(function () {
-            that.isPostingVideoFavorite = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isPostingVideoFavorite = false;
+        });
     },
     deleteVideoFavorite: function (aid) {
       this.isDeletingVideoFavorite = true;
 
       let that = this;
       this.$axios.delete('user/favorite/video/' + aid)
-          .then(function (response) {
-            const resp = response.data;
-            if (resp.status === 'success') {
-              that.$message.info('取消关注成功！');
-              that.videoFavoriteUserStatus = false;
-              that.videoFavoriteCount--;
+        .then(function (response) {
+          const resp = response.data;
+          if (resp.status === 'success') {
+            that.$message.info('取消关注成功！');
+            that.videoFavoriteUserStatus = false;
+            that.videoFavoriteCount--;
+          } else {
+            that.$message.error('取消关注失败！' + resp.message);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
             } else {
-              that.$message.error('取消关注失败！' + resp.message);
+              console.log(error.response);
             }
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, false);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
-            }
-          })
-          .finally(function () {
-            that.isDeletingVideoFavorite = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isDeletingVideoFavorite = false;
+        });
     },
     goToBiliAv: function (aid) {
       window.open('https://www.bilibili.com/video/av'+aid);
@@ -284,76 +284,76 @@ export default {
 
       let that = this;
       this.$axios.get('video/' + aid + '/like')
-          .then(function (response) {
-            that.videoLikeCount = response.data;
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingVideoLikeCount = false;
-          });
+        .then(function (response) {
+          that.videoLikeCount = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingVideoLikeCount = false;
+        });
     },
     getVideoLikeUserStatus: function (aid) {
       this.isLoadingVideoLikeUserStatus = true;
 
       let that = this;
       this.$axios.get('/user/like/video/' + aid)
-          .then(function (response) {
-            that.videoLikeUserStatus = Object.keys(response.data).length > 0;
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, false);
-              } else {
-                console.log(error.response);
-              }
+        .then(function (response) {
+          that.videoLikeUserStatus = Object.keys(response.data).length > 0;
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
             } else {
-              console.log(error);
+              console.log(error.response);
             }
-          })
-          .finally(function () {
-            that.isLoadingVideoLikeUserStatus = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isLoadingVideoLikeUserStatus = false;
+        });
     },
     getVideoFavoriteCount: function (aid) {
       this.isLoadingVideoFavoriteCount = true;
 
       let that = this;
       this.$axios.get('video/' + aid + '/favorite')
-          .then(function (response) {
-            that.videoFavoriteCount = response.data;
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingVideoFavoriteCount = false;
-          });
+        .then(function (response) {
+          that.videoFavoriteCount = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingVideoFavoriteCount = false;
+        });
     },
     getVideoFavoriteUserStatus: function (aid) {
       this.isLoadingVideoFavoriteUserStatus = true;
 
       let that = this;
       this.$axios.get('/user/favorite/video/' + aid)
-          .then(function (response) {
-            that.videoFavoriteUserStatus = Object.keys(response.data).length > 0;
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, false);
-              } else {
-                console.log(error.response);
-              }
+        .then(function (response) {
+          that.videoFavoriteUserStatus = Object.keys(response.data).length > 0;
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, false);
             } else {
-              console.log(error);
+              console.log(error.response);
             }
-          })
-          .finally(function () {
-            that.isLoadingVideoFavoriteUserStatus = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isLoadingVideoFavoriteUserStatus = false;
+        });
     }
   },
   created: function () {

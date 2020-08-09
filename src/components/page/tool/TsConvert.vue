@@ -21,29 +21,29 @@
           <a-row>
             <a-col :span="7" style="padding-right: 16px">
               <a-input
-                  v-model="currentTs"
-                  placeholder="1359631780"
+                v-model="currentTs"
+                placeholder="1359631780"
               >
                 <a-icon
-                    slot="suffix"
-                    type="copy"
-                    title="复制"
-                    @click="copyCurrentTsVal"
-                    style="cursor: pointer"
+                  slot="suffix"
+                  type="copy"
+                  title="复制"
+                  @click="copyCurrentTsVal"
+                  style="cursor: pointer"
                 />
               </a-input>
             </a-col>
             <a-col :span="10" style="padding-right: 16px">
               <a-input
-                  v-model="currentTsStr"
-                  placeholder="2013-01-31 19:29:40"
+                v-model="currentTsStr"
+                placeholder="2013-01-31 19:29:40"
               >
                 <a-icon
-                    slot="suffix"
-                    type="copy"
-                    title="复制"
-                    @click="copyCurrentTsStr"
-                    style="cursor: pointer"
+                  slot="suffix"
+                  type="copy"
+                  title="复制"
+                  @click="copyCurrentTsStr"
+                  style="cursor: pointer"
                 />
               </a-input>
             </a-col>
@@ -58,36 +58,36 @@
           </a-row>
         </div>
         <ts-convert-item
-            v-for="item in convertList"
-            :key="item.id"
-            :id="item.id"
-            :ts="item.ts"
-            @update-ts="updateTsHandler"
-            @duplicate-item="duplicateItemHandler"
-            @delete-item="deleteItemHandler"
+          v-for="item in convertList"
+          :key="item.id"
+          :id="item.id"
+          :ts="item.ts"
+          @update-ts="updateTsHandler"
+          @duplicate-item="duplicateItemHandler"
+          @delete-item="deleteItemHandler"
         ></ts-convert-item>
         <div style="margin-bottom: 8px">
           <a-row>
             <a-col :span="7" style="padding-right: 16px">
               <a-input
-                  v-model="newTsVal"
-                  placeholder="1359631780"
-                  @change="newTsValChangeHandler"
+                v-model="newTsVal"
+                placeholder="1359631780"
+                @change="newTsValChangeHandler"
               ></a-input>
             </a-col>
             <a-col :span="10" style="padding-right: 16px">
               <a-input
-                  v-model="newTsStr"
-                  placeholder="2013-01-31 19:29:40"
-                  @change="newTsStrChangeHandler"
+                v-model="newTsStr"
+                placeholder="2013-01-31 19:29:40"
+                @change="newTsStrChangeHandler"
               ></a-input>
             </a-col>
             <a-col :span="5">
               <a-button
-                  :title="canAddNew ? '添加' : '格式错误，无法添加'"
-                  @click="addNewTsHandler"
-                  :disabled="!canAddNew"
-                  style="margin-right: 8px"
+                :title="canAddNew ? '添加' : '格式错误，无法添加'"
+                @click="addNewTsHandler"
+                :disabled="!canAddNew"
+                style="margin-right: 8px"
               >
                 <a-icon type="plus" />
               </a-button>
@@ -99,12 +99,12 @@
         </div>
         <div>
           <a-popconfirm
-              title="确认清除所有记录的时间戳？"
-              placement="topLeft"
-              ok-text="确认"
-              cancel-text="取消"
-              @confirm="reset"
-              style="margin-right: 16px"
+            title="确认清除所有记录的时间戳？"
+            placement="topLeft"
+            ok-text="确认"
+            cancel-text="取消"
+            @confirm="reset"
+            style="margin-right: 16px"
           >
             <a-button>
               清除所有
@@ -114,11 +114,11 @@
             导出数据
           </a-button>
           <a-modal
-              title="时间戳数据"
-              :visible="showExport"
-              okText="复制到剪贴板"
-              cancelText="关闭"
-              @cancel="exportCloseHandler"
+            title="时间戳数据"
+            :visible="showExport"
+            okText="复制到剪贴板"
+            cancelText="关闭"
+            @cancel="exportCloseHandler"
           >
             <div slot="footer">
               <a-button type="primary" @click="exportHandler" >复制到剪贴板</a-button>

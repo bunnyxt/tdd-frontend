@@ -16,7 +16,7 @@ export default {
   data: function () {
     return {
       sectionBlockStyle : {
-        background: '#fff', 
+        background: '#fff',
         padding: '24px',
         margin: '16px 0',
         textAlign: 'center'

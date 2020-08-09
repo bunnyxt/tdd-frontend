@@ -66,31 +66,31 @@
               </td>
               <td>
                 <a-input
-                    v-model="nameValue"
-                    placeholder="UP主"
-                    allowClear
+                  v-model="nameValue"
+                  placeholder="UP主"
+                  allowClear
                 />
               </td>
             </tr>
           </table>
           <a-button
-              type="primary"
-              icon="search"
-              :loading="isLoadingMemberList"
-              @click="handleSearchButtonClick"
-              style="margin-top: 8px"
+            type="primary"
+            icon="search"
+            :loading="isLoadingMemberList"
+            @click="handleSearchButtonClick"
+            style="margin-top: 8px"
           >
             搜索
           </a-button>
           <a-popconfirm
-              title="确定重置所有条件？"
-              @confirm="handleReloadButtonClick"
-              okText="确定"
-              cancelText="取消"
+            title="确定重置所有条件？"
+            @confirm="handleReloadButtonClick"
+            okText="确定"
+            cancelText="取消"
           >
             <a-button
-                icon="reload"
-                style="margin-top: 8px; margin-left: 16px"
+              icon="reload"
+              style="margin-top: 8px; margin-left: 16px"
             >
               重置
             </a-button>
@@ -99,18 +99,18 @@
       </a-collapse>
       <a-spin :spinning="isLoadingMemberList">
         <tdd-member-list
-            :member-list="memberList"
-            :main-prop="mainProp"
-            @item-clicked="memberListItemClickedHandler"
+          :member-list="memberList"
+          :main-prop="mainProp"
+          @item-clicked="memberListItemClickedHandler"
         />
         <a-pagination
-            showQuickJumper
-            v-model="pagiCurrent"
-            :total="memberTotalCount"
-            :showTotal="total => `共 ${total} 位UP主`"
-            :pageSize="20"
-            style="margin-top: 8px"
-            @change="onPagiChange"
+          showQuickJumper
+          v-model="pagiCurrent"
+          :total="memberTotalCount"
+          :showTotal="total => `共 ${total} 位UP主`"
+          :pageSize="20"
+          style="margin-top: 8px"
+          @change="onPagiChange"
         />
       </a-spin>
     </div>
@@ -175,26 +175,26 @@ export default {
       let url = this.assembleQueryUrl();
       let that = this;
       this.$axios.get(url)
-          .then(function (response) {
-            that.memberList = response.data;
-            that.memberTotalCount = parseInt(response.headers['x-total-count']);
-            // change mainProp
-            if (that.orderValue.startsWith('sr_')) {
-              that.mainProp = that.orderValue;
-            } else if (that.orderValue === 'fr_follower') {
-              that.mainProp = 'fr_follower';
-            } else if (that.orderValue === 'v_pubdate') {
-              that.mainProp = 'v_pubdate';
-            } else {
-              that.mainProp = 'sr_view';
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingMemberList = false;
-          });
+        .then(function (response) {
+          that.memberList = response.data;
+          that.memberTotalCount = parseInt(response.headers['x-total-count']);
+          // change mainProp
+          if (that.orderValue.startsWith('sr_')) {
+            that.mainProp = that.orderValue;
+          } else if (that.orderValue === 'fr_follower') {
+            that.mainProp = 'fr_follower';
+          } else if (that.orderValue === 'v_pubdate') {
+            that.mainProp = 'v_pubdate';
+          } else {
+            that.mainProp = 'sr_view';
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingMemberList = false;
+        });
     },
     handleSearchButtonClick: function () {
       if (!this.isLoadingMemberList) {

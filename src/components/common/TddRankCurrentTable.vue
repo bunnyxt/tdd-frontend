@@ -1,20 +1,20 @@
 <template>
   <a-table
-      :columns="columns"
-      :rowKey="item => item.rank"
-      :dataSource="rankCurrentList"
-      :pagination="false"
-      :scroll="{ x: 1400 }"
-      size="small"
+    :columns="columns"
+    :rowKey="item => item.rank"
+    :dataSource="rankCurrentList"
+    :pagination="false"
+    :scroll="{ x: 1400 }"
+    size="small"
   >
     <template slot="pic" slot-scope="item">
       <img
-          width="108px"
-          height="65px"
-          alt="pic"
-          :src="item.video.pic"
-          @click="videoPicClickHandler(item.video.aid)"
-          style="cursor: pointer"
+        width="108px"
+        height="65px"
+        alt="pic"
+        :src="item.video.pic"
+        @click="videoPicClickHandler(item.video.aid)"
+        style="cursor: pointer"
       />
     </template>
     <template slot="videoTitleMember" slot-scope="item">
@@ -23,9 +23,9 @@
       </div>
       <div class="video-title-member">
         <a-avatar
-            :src="item.video.member ? item.video.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
-            :size="16"
-            style="margin-right: 4px"
+          :src="item.video.member ? item.video.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+          :size="16"
+          style="margin-right: 4px"
         />
         <a @click="memberNameClickHandler(item.video.mid)">{{ item.video.member ? item.video.member.name : '' }}</a>
       </div>

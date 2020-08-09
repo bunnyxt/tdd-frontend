@@ -20,9 +20,9 @@
       <template v-else>
         <a-timeline style="margin-top: 12px">
           <a-timeline-item
-              v-for="updateLog in updateLogList"
-              :key="updateLog.added"
-              :color="getTimelineItemColor(updateLog.type)"
+            v-for="updateLog in updateLogList"
+            :key="updateLog.added"
+            :color="getTimelineItemColor(updateLog.type)"
           >
             <b>{{ $util.tsToDateString(updateLog.added) }}</b> {{ updateLog.content }}
           </a-timeline-item>
@@ -51,15 +51,15 @@ export default {
       let url = 'updatelog?last_count=' + last_count;
       let that = this;
       this.$axios.get(url)
-          .then(function (response) {
-            that.updateLogList = response.data;
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingUpdateLogList = false;
-          });
+        .then(function (response) {
+          that.updateLogList = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingUpdateLogList = false;
+        });
     },
     getTimelineItemColor: function (type) {
       let timelineItemColorArray = ['blue', 'blue', 'red', 'green'];

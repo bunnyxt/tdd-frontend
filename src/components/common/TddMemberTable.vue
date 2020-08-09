@@ -1,17 +1,17 @@
 <template>
   <a-table
-      :columns="columns"
-      :rowKey="member => member.id"
-      :dataSource="memberList"
-      :pagination="false"
-      :scroll="{ x: 1300 }"
-      size="small"
+    :columns="columns"
+    :rowKey="member => member.id"
+    :dataSource="memberList"
+    :pagination="false"
+    :scroll="{ x: 1300 }"
+    size="small"
   >
     <template slot="face" slot-scope="item">
       <router-link :to="'/member/'+item.mid">
         <a-avatar
-            :src="item.face ? item.face : 'https://static.hdslb.com/images/member/noface.gif'"
-            :size="48"
+          :src="item.face ? item.face : 'https://static.hdslb.com/images/member/noface.gif'"
+          :size="48"
         />
       </router-link>
     </template>
@@ -53,12 +53,12 @@
           点击查看视频详情
         </template>
         <img
-            width="108px"
-            height="65px"
-            alt="pic"
-            :src="video.pic"
-            @click="() => $router.push('/video/av'+video.aid)"
-            style="cursor: pointer"
+          width="108px"
+          height="65px"
+          alt="pic"
+          :src="video.pic"
+          @click="() => $router.push('/video/av'+video.aid)"
+          style="cursor: pointer"
         />
       </a-tooltip>
     </template>

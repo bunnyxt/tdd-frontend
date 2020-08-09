@@ -28,27 +28,27 @@
         <div class="section-block">
           <div class="tdd-member-detail-header">
             <a-avatar
-                class="tdd-member-detail-header-avatar"
-                :src="member.face ? member.face : 'https://static.hdslb.com/images/member/noface.gif'"
-                :size="48"
+              class="tdd-member-detail-header-avatar"
+              :src="member.face ? member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+              :size="48"
             />
             <div class="tdd-member-detail-header-content">
               <div class="tdd-member-detail-header-title">
                 <span style="font-size: 1.17em; color: rgba(0, 0, 0, 0.85); font-weight: 500">{{ member.name }}</span>
                 <template v-if="member.sex === '男'">
-                <span class="tdd-member-detail-header-title-sex" style="color: #00b5f6">
-                  <icon-font type="icon-xingbie-nan" />
-                </span>
+                  <span class="tdd-member-detail-header-title-sex" style="color: #00b5f6">
+                    <icon-font type="icon-xingbie-nan" />
+                  </span>
                 </template>
                 <template v-else-if="member.sex === '女'">
-                <span class="tdd-member-detail-header-title-sex" style="color: #f9a9f8">
-                  <icon-font type="icon-xingbie-nv" />
-                </span>
+                  <span class="tdd-member-detail-header-title-sex" style="color: #f9a9f8">
+                    <icon-font type="icon-xingbie-nv" />
+                  </span>
                 </template>
                 <template v-else-if="member.sex === '保密'">
-                <span class="tdd-member-detail-header-title-sex" style="color: rgba(183,183,183,0.95)">
-                  <icon-font type="icon-xingbie-weizhi" />
-                </span>
+                  <span class="tdd-member-detail-header-title-sex" style="color: rgba(183,183,183,0.95)">
+                    <icon-font type="icon-xingbie-weizhi" />
+                  </span>
                 </template>
               </div>
               <div class="tdd-member-detail-header-video-count-follower">
@@ -162,23 +162,23 @@
                 </tr>
               </table>
               <a-button
-                  type="primary"
-                  icon="search"
-                  :loading="isLoadingMemberVideos"
-                  @click="handleSearchButtonClick"
-                  style="margin-top: 8px"
+                type="primary"
+                icon="search"
+                :loading="isLoadingMemberVideos"
+                @click="handleSearchButtonClick"
+                style="margin-top: 8px"
               >
                 搜索
               </a-button>
               <a-popconfirm
-                  title="确定重置所有条件？"
-                  @confirm="handleReloadButtonClick"
-                  okText="确定"
-                  cancelText="取消"
+                title="确定重置所有条件？"
+                @confirm="handleReloadButtonClick"
+                okText="确定"
+                cancelText="取消"
               >
                 <a-button
-                    icon="reload"
-                    style="margin-top: 8px; margin-left: 16px"
+                  icon="reload"
+                  style="margin-top: 8px; margin-left: 16px"
                 >
                   重置
                 </a-button>
@@ -187,18 +187,18 @@
           </a-collapse>
           <a-spin :spinning="isLoadingMemberVideos">
             <tdd-video-list
-                :video-list="memberVideoList"
-                :mode="'grid'"
-                @item-clicked="videoListItemClickedHandler"
+              :video-list="memberVideoList"
+              :mode="'grid'"
+              @item-clicked="videoListItemClickedHandler"
             />
             <a-pagination
-                showQuickJumper
-                v-model="pagiCurrent"
-                :total="memberVideoTotalCount"
-                :showTotal="total => `共 ${total} 个视频`"
-                :pageSize="20"
-                style="margin-top: 8px"
-                @change="onPagiChange"
+              showQuickJumper
+              v-model="pagiCurrent"
+              :total="memberVideoTotalCount"
+              :showTotal="total => `共 ${total} 个视频`"
+              :pageSize="20"
+              style="margin-top: 8px"
+              @change="onPagiChange"
             />
           </a-spin>
         </div>
@@ -304,15 +304,15 @@ export default {
       let that = this;
       if (!memberLoadedFromStore) {
         this.$axios.get('member/' + mid)
-            .then(function (response) {
-              that.member = response.data;
-            })
-            .catch(function (error) {
-              console.log(error);
-            })
-            .finally(function () {
-              that.isLoadingMember = false;
-            });
+          .then(function (response) {
+            that.member = response.data;
+          })
+          .catch(function (error) {
+            console.log(error);
+          })
+          .finally(function () {
+            that.isLoadingMember = false;
+          });
       }
     },
     getFollowerRecords: function (mid) {
@@ -320,30 +320,30 @@ export default {
 
       let that = this;
       this.$axios.get('member/' + mid + '/follower')
-          .then(function (response) {
-            that.followerRecords = response.data;
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingFollowerRecords = false;
-          });
+        .then(function (response) {
+          that.followerRecords = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingFollowerRecords = false;
+        });
     },
     getTotalStatRecords: function (mid) {
       this.isLoadingTotalStatRecords = true;
 
       let that = this;
       this.$axios.get('member/' + mid + '/totalstat')
-          .then(function (response) {
-            that.totalStatRecords = response.data;
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingTotalStatRecords = false;
-          });
+        .then(function (response) {
+          that.totalStatRecords = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingTotalStatRecords = false;
+        });
     },
     getMemberLogs: function (mid) {
       if (this.$store.state.isUserLoggedIn === false) {
@@ -355,30 +355,30 @@ export default {
 
       let that = this;
       this.$axios.get('member/log?mid=' + mid)
-          .then(function (response) {
-            let logs = response.data;
-            let logs_filtered = [];
-            for (let log of logs) {
-              if (log.attr === 'sign' && log.oldval === '' && log.newval !== '') {
+        .then(function (response) {
+          let logs = response.data;
+          let logs_filtered = [];
+          for (let log of logs) {
+            if (log.attr === 'sign' && log.oldval === '' && log.newval !== '') {
+              continue;
+            }
+            if (log.attr === 'face') {
+              const oldval = log.oldval.slice(log.oldval.lastIndexOf('/') + 1);
+              const newval = log.newval.slice(log.newval.lastIndexOf('/') + 1);
+              if (oldval === newval) {
                 continue;
               }
-              if (log.attr === 'face') {
-                const oldval = log.oldval.slice(log.oldval.lastIndexOf('/') + 1);
-                const newval = log.newval.slice(log.newval.lastIndexOf('/') + 1);
-                if (oldval === newval) {
-                  continue;
-                }
-              }
-              logs_filtered.push(log);
             }
-            that.memberLogs = logs_filtered.reverse();
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingMemberLogs = false;
-          });
+            logs_filtered.push(log);
+          }
+          that.memberLogs = logs_filtered.reverse();
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingMemberLogs = false;
+        });
     },
     assemblyQuery: function () {
       let url = 'member/' + this.mid + '/video?';
@@ -400,16 +400,16 @@ export default {
       let that = this;
       let url = this.assemblyQuery();
       this.$axios.get(url)
-          .then(function (response) {
-            that.memberVideoList = response.data;
-            that.memberVideoTotalCount = parseInt(response.headers['x-total-count']);
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingMemberVideos = false;
-          });
+        .then(function (response) {
+          that.memberVideoList = response.data;
+          that.memberVideoTotalCount = parseInt(response.headers['x-total-count']);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingMemberVideos = false;
+        });
     },
     videoListItemClickedHandler: function (item) {
       this.$store.commit('setVideoDetailDrawerVideo', item);

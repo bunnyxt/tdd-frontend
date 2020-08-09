@@ -18,21 +18,21 @@
           <p>
             开始：
             <a-date-picker
-                showTime
-                format="YYYY-MM-DD HH:mm:ss"
-                placeholder="开始"
-                v-model="addedRangeValueStart"
-                @change="onAddedRangeValueStartChange"
+              showTime
+              format="YYYY-MM-DD HH:mm:ss"
+              placeholder="开始"
+              v-model="addedRangeValueStart"
+              @change="onAddedRangeValueStartChange"
             ></a-date-picker>
           </p>
           <p>
             结束：
             <a-date-picker
-                showTime
-                format="YYYY-MM-DD HH:mm:ss"
-                placeholder="结束"
-                v-model="addedRangeValueEnd"
-                @change="onAddedRangeValueEndChange"
+              showTime
+              format="YYYY-MM-DD HH:mm:ss"
+              placeholder="结束"
+              v-model="addedRangeValueEnd"
+              @change="onAddedRangeValueEndChange"
             ></a-date-picker>
           </p>
           <p>
@@ -50,12 +50,12 @@
           <template slot="content">
             <p>
               <a-range-picker
-                  showTime
-                  v-model="addedRangeValue"
-                  :ranges="addedRangeRanges"
-                  :disabledDate="addedRangeDisabledDate"
-                  @change="onAddedRangeChange"
-                  style="width: 360px"
+                showTime
+                v-model="addedRangeValue"
+                :ranges="addedRangeRanges"
+                :disabledDate="addedRangeDisabledDate"
+                @change="onAddedRangeChange"
+                style="width: 360px"
               />
             </p>
             <p>数据共计：{{ this.followerRecords.length }}条，当前展示：{{ this.data.length }}条。</p>
@@ -213,33 +213,33 @@ export default {
       let that = this;
 
       this.dv = this.ds.createView()
-          .source(this.data)
-          .transform({
-            type: 'filter',
-            callback(row) {
-              return row.added >= that.ds.state.start && row.added <= that.ds.state.end;
-            }
-          })
-          .transform({
-            type: 'rename',
-            map: {
-              follower: '粉丝数',
-              follower_speed: '粉丝瞬时增速/日'
-            }
-          })
-          .transform({
-            type: 'fold',
-            fields: ['粉丝数'],
-            key: 'prop',
-            value: 'value'
-          })
-          .transform({
-            type: 'map',
-            callback(row) {
-              row.added = row.added * 1000; // ts_s -> ts_ms
-              return row;
-            }
-          });
+        .source(this.data)
+        .transform({
+          type: 'filter',
+          callback(row) {
+            return row.added >= that.ds.state.start && row.added <= that.ds.state.end;
+          }
+        })
+        .transform({
+          type: 'rename',
+          map: {
+            follower: '粉丝数',
+            follower_speed: '粉丝瞬时增速/日'
+          }
+        })
+        .transform({
+          type: 'fold',
+          fields: ['粉丝数'],
+          key: 'prop',
+          value: 'value'
+        })
+        .transform({
+          type: 'map',
+          callback(row) {
+            row.added = row.added * 1000; // ts_s -> ts_ms
+            return row;
+          }
+        });
     },
     initChart: function() {
       this.createChart();
@@ -289,14 +289,14 @@ export default {
     setChartInteract: function() {
       let that = this;
       let dv_slider = this.ds.createView()
-          .source(this.data)
-          .transform({
-            type: 'map',
-            callback(row) {
-              row.added = row.added * 1000; // ts_s -> ts_ms
-              return row;
-            }
-          });
+        .source(this.data)
+        .transform({
+          type: 'map',
+          callback(row) {
+            row.added = row.added * 1000; // ts_s -> ts_ms
+            return row;
+          }
+        });
       this.chart.interact('slider', {
         container: 'member-detail-follower-history-line-chart-slider',
         data: dv_slider,
@@ -314,13 +314,13 @@ export default {
     },
     setChartStyle: function() {
       this.chart
-          .line()
-          .position('added*value')
-          .color('prop');
+        .line()
+        .position('added*value')
+        .color('prop');
       this.chart
-          .area()
-          .position('added*粉丝瞬时增速/日')
-          .color('rgba(255,0,0,0.2)');
+        .area()
+        .position('added*粉丝瞬时增速/日')
+        .color('rgba(255,0,0,0.2)');
     },
     onAddedRangeChange: function () {
       this.chart.destroy();

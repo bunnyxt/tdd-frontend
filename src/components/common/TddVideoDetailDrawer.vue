@@ -1,22 +1,22 @@
 <template>
   <div v-if="video">
     <a-drawer
-        :title="'av'+video.aid"
-        placement="right"
-        :closable="false"
-        :visible="this.$store.state.isVideoDetailDrawerVisible"
-        @close="() => $store.commit('setVideoDetailDrawerVisibility', false)"
-        :width="videoDetailDrawerWidth + 'px'"
+      :title="'av'+video.aid"
+      placement="right"
+      :closable="false"
+      :visible="this.$store.state.isVideoDetailDrawerVisible"
+      @close="() => $store.commit('setVideoDetailDrawerVisibility', false)"
+      :width="videoDetailDrawerWidth + 'px'"
     >
       <h3 style="margin-bottom: 14px">{{ video.title }}</h3>
       <div style="overflow: hidden">
         <div style="float: left; margin-right: 20px; margin-bottom: 12px">
           <a-avatar
-              size="small"
-              :src="video.member
-                    ? video.member.face
-                    : 'https://static.hdslb.com/images/member/noface.gif'"
-              style="margin-right:12px"
+            size="small"
+            :src="video.member
+                  ? video.member.face
+                  : 'https://static.hdslb.com/images/member/noface.gif'"
+            style="margin-right:12px"
           />
           <a @click="videoMemberNameClickHandler(video.mid)">
             {{ video.member ? video.member.name : 'mid_'+video.mid}}
@@ -54,20 +54,20 @@
       <tdd-video-description :description="video.desc" :key="video.aid" />
       <a-divider orientation="left">标签</a-divider>
       <a-tag
-          v-for="tag in video.tags
+        v-for="tag in video.tags
               ? video.tags.split(';').slice(0, -1)
               : []"
-          :key="tag"
-          style="margin-bottom: 4px"
+        :key="tag"
+        style="margin-bottom: 4px"
       >
         {{ tag }}
       </a-tag>
       <a-divider orientation="left">数据</a-divider>
       <div v-if="video.laststat">
         <tdd-video-stat-bar
-            :stat="video.laststat"
-            mode="vertical"
-            :show-name="true"
+          :stat="video.laststat"
+          mode="vertical"
+          :show-name="true"
         ></tdd-video-stat-bar>
         *{{ $util.tsToDateString(video.laststat.added) }}更新
       </div>

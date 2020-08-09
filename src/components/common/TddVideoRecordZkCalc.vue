@@ -9,11 +9,11 @@
           <h3>周刊期数</h3>
           <div style="overflow: hidden">
             <a-input-number
-                :min="211"
-                :max="currentZkIssueValue"
-                v-model="zkIssueValue"
-                @change="setTimespanViaZkIssueValue"
-                :style="zkIssueInputStyle"
+              :min="211"
+              :max="currentZkIssueValue"
+              v-model="zkIssueValue"
+              @change="setTimespanViaZkIssueValue"
+              :style="zkIssueInputStyle"
             />
             <div :style="zkIssueActionStyle">
               <a-button @click="setZkIssueToCurrent">选择当前期</a-button>
@@ -30,25 +30,25 @@
             <div :style="startDateStyle">
               开始：
               <a-date-picker
-                  :disabledDate="disabledStartDate"
-                  showTime
-                  format="YYYY-MM-DD HH:mm:ss"
-                  placeholder="开始"
-                  v-model="recordStartValue"
-                  @openChange="handleRecordStartOpenChange"
+                :disabledDate="disabledStartDate"
+                showTime
+                format="YYYY-MM-DD HH:mm:ss"
+                placeholder="开始"
+                v-model="recordStartValue"
+                @openChange="handleRecordStartOpenChange"
               ></a-date-picker>
             </div>
             <div style="float: left">
               结束：
               <a-date-picker
-                  :disabledDate="disabledEndDate"
-                  showTime
-                  format="YYYY-MM-DD HH:mm:ss"
-                  placeholder="结束"
-                  v-model="recordEndValue"
-                  :open="recordEndOpen"
-                  @openChange="handleRecordEndOpenChange"
-                  style="margin-right: 8px"
+                :disabledDate="disabledEndDate"
+                showTime
+                format="YYYY-MM-DD HH:mm:ss"
+                placeholder="结束"
+                v-model="recordEndValue"
+                :open="recordEndOpen"
+                @openChange="handleRecordEndOpenChange"
+                style="margin-right: 8px"
               ></a-date-picker>
             </div>
           </div>
@@ -56,12 +56,12 @@
         <div style="margin-bottom: 12px">
           <h3>起止记录</h3>
           <a-table
-              :columns="columns"
-              :rowKey="record => record.tableId"
-              :pagination="false"
-              :dataSource="videoRecordsFromTo"
-              :scroll="{ x: 700 }"
-              size="small"
+            :columns="columns"
+            :rowKey="record => record.tableId"
+            :pagination="false"
+            :dataSource="videoRecordsFromTo"
+            :scroll="{ x: 700 }"
+            size="small"
           >
             <template slot="added" slot-scope="added">
               {{ $util.tsToDateString(added) }}
@@ -218,23 +218,23 @@ export default {
     },
     view: function () {
       return this.useZero ?
-          this.videoRecords[this.videoRecordToIndex].view :
-          this.videoRecords[this.videoRecordToIndex].view - this.videoRecords[this.videoRecordFromIndex].view;
+        this.videoRecords[this.videoRecordToIndex].view :
+        this.videoRecords[this.videoRecordToIndex].view - this.videoRecords[this.videoRecordFromIndex].view;
     },
     reply: function () {
       return this.useZero ?
-          this.videoRecords[this.videoRecordToIndex].reply :
-          this.videoRecords[this.videoRecordToIndex].reply - this.videoRecords[this.videoRecordFromIndex].reply;
+        this.videoRecords[this.videoRecordToIndex].reply :
+        this.videoRecords[this.videoRecordToIndex].reply - this.videoRecords[this.videoRecordFromIndex].reply;
     },
     danmaku: function () {
       return this.useZero ?
-          this.videoRecords[this.videoRecordToIndex].danmaku :
-          this.videoRecords[this.videoRecordToIndex].danmaku - this.videoRecords[this.videoRecordFromIndex].danmaku;
+        this.videoRecords[this.videoRecordToIndex].danmaku :
+        this.videoRecords[this.videoRecordToIndex].danmaku - this.videoRecords[this.videoRecordFromIndex].danmaku;
     },
     favorite: function () {
       return this.useZero ?
-          this.videoRecords[this.videoRecordToIndex].favorite :
-          this.videoRecords[this.videoRecordToIndex].favorite - this.videoRecords[this.videoRecordFromIndex].favorite;
+        this.videoRecords[this.videoRecordToIndex].favorite :
+        this.videoRecords[this.videoRecordToIndex].favorite - this.videoRecords[this.videoRecordFromIndex].favorite;
     },
     point: function () {
       return this.$util.zkCalc(this.view, this.reply, this.danmaku, this.favorite, this.page).point;

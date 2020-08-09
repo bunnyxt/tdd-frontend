@@ -144,9 +144,9 @@ export default {
       }
       this.isLoadingRecords = true
       fetch(this.$store.state.apiBase + "sprint_video_record.php?aid=" + this.$route.params.aid + "&start=" + startTs)
-          .then(response => response.json())
-          .then(json => this.records = json.data)
-          .then(() => this.isLoadingRecords = false)
+        .then(response => response.json())
+        .then(json => this.records = json.data)
+        .then(() => this.isLoadingRecords = false)
     },
     loadAddRecords: function() {
       if (this.isLoadingAllRecords == true || this.hasLoadAllRecords == true) {
@@ -154,10 +154,10 @@ export default {
       }
       this.isLoadingAllRecords = true
       fetch(this.$store.state.apiBase + "sprint_video_record.php?aid=" + this.$route.params.aid)
-          .then(response => response.json())
-          .then(json => this.records = json.data)
-          .then(() => this.isLoadingAllRecords = false)
-          .then(() => this.hasLoadAllRecords = true)
+        .then(response => response.json())
+        .then(json => this.records = json.data)
+        .then(() => this.isLoadingAllRecords = false)
+        .then(() => this.hasLoadAllRecords = true)
     },
     closeAllRecordsInfo: function() {
       this.isLoadAllRecordsShow = false
@@ -166,13 +166,13 @@ export default {
   created: function() {
     this.isLoadingVideo = true
     fetch(this.$store.state.apiBase + "sprint_video.php?aid=" + this.$route.params.aid)
-        .then(response => response.json())
-        .then(json => {
-          if (json.data.length > 0){
-            this.video = json.data[0]
-          }
-          this.isLoadingVideo = false
-        })
+      .then(response => response.json())
+      .then(json => {
+        if (json.data.length > 0){
+          this.video = json.data[0]
+        }
+        this.isLoadingVideo = false
+      })
 
     // load only 1 week data first
     let nowDate = new Date()

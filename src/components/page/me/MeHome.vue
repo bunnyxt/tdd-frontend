@@ -42,19 +42,19 @@
         <div>
           <div style="overflow: hidden">
             <a-avatar
-                :src="avatarUrl"
-                :size="48"
-                class="me-header-avatar"
-                @click="() => avatarSettingPrompt = true"
+              :src="avatarUrl"
+              :size="48"
+              class="me-header-avatar"
+              @click="() => avatarSettingPrompt = true"
             />
             <a-modal title="设置头像" v-model="avatarSettingPrompt">
               <template slot="footer">
                 <a-button type="primary" @click="() => avatarSettingPrompt = false">了解</a-button>
               </template>
               <a-avatar
-                  :src="avatarUrl"
-                  :size="64"
-                  style="float: right; margin: 0 8px 16px 16px"
+                :src="avatarUrl"
+                :size="64"
+                style="float: right; margin: 0 8px 16px 16px"
               />
               <p>天钿Daily用户头像用Gravatar头像服务，在Gravatar里使用同一个邮箱注册账号，上传头像，这里就能看到自定义头像了~</p>
               <p>第一步：前往<router-link to="/me/setting">设置</router-link>，绑定邮箱</p>
@@ -97,9 +97,9 @@
                   </div>
                 </template>
                 <a-button
-                    type="primary"
-                    @click="goSignIn"
-                    :disabled="userSignInStatusToday"
+                  type="primary"
+                  @click="goSignIn"
+                  :disabled="userSignInStatusToday"
                 >{{ userSignInStatusToday ? '已签到' : '签到' }}</a-button>
               </a-tooltip>
             </div>
@@ -122,10 +122,10 @@
                 </div>
               </template>
               <a-button
-                  type="primary"
-                  @click="goSignIn"
-                  :disabled="userSignInStatusToday"
-                  block
+                type="primary"
+                @click="goSignIn"
+                :disabled="userSignInStatusToday"
+                block
               >{{ userSignInStatusToday ? '已签到' : '签到' }}</a-button>
             </a-tooltip>
           </div>
@@ -136,19 +136,19 @@
     <div class="section-block">
       <div style="display: flex">
         <a-menu
-            class="me-favorite-menu"
-            v-model="favoriteCurrent"
-            mode="horizontal"
-            :style="meFavoriteMenuStyle"
+          class="me-favorite-menu"
+          v-model="favoriteCurrent"
+          mode="horizontal"
+          :style="meFavoriteMenuStyle"
         >
           <a-menu-item key="video"><a-icon type="video-camera" />关注视频</a-menu-item>
           <a-menu-item key="member"><a-icon type="user" />关注UP主</a-menu-item>
         </a-menu>
         <div style="margin-top: 8px">
           <a-button
-              size="small"
-              @click="() => this.$router.push('/me/favorite/' + this.favoriteCurrent[0])"
-              style="margin-top: 4px"
+            size="small"
+            @click="() => this.$router.push('/me/favorite/' + this.favoriteCurrent[0])"
+            style="margin-top: 4px"
           >{{ moreString }}<a-icon type="arrow-right" /></a-button>
         </div>
       </div>
@@ -157,10 +157,10 @@
           正在获取用户关注视频列表
         </a-spin>
         <tdd-video-list
-            v-else
-            :video-list="userFavoriteVideoList.slice(0, listColNum)"
-            :mode="'grid'"
-            @item-clicked="userFavoriteVideoListItemClickedHandler"
+          v-else
+          :video-list="userFavoriteVideoList.slice(0, listColNum)"
+          :mode="'grid'"
+          @item-clicked="userFavoriteVideoListItemClickedHandler"
         />
       </template>
       <template v-if="favoriteCurrent.includes('member')">
@@ -168,9 +168,9 @@
           正在获取用户关注P主列表
         </a-spin>
         <tdd-member-list
-            v-else
-            :member-list="userFavoriteMemberList.slice(0, listColNum)"
-            @item-clicked="userFavoriteMemberListItemClickedHandler"
+          v-else
+          :member-list="userFavoriteMemberList.slice(0, listColNum)"
+          @item-clicked="userFavoriteMemberListItemClickedHandler"
         />
       </template>
     </div>
@@ -292,33 +292,33 @@ export default {
 
       return new Promise(function (resolve, reject) {
         that.$axios.get('/user/me')
-            .then(function (response) {
-              that.user = response.data;
+          .then(function (response) {
+            that.user = response.data;
 
-              // update store and local storage
-              that.$store.commit('setUserDetail', that.user);
-              localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
+            // update store and local storage
+            that.$store.commit('setUserDetail', that.user);
+            localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
 
-              // promise
-              resolve();
-            })
-            .catch(function (error) {
-              if (error.response) {
-                if (error.response.data.code === 40102) {
-                  that.$util.tddErrorHandler40102(that, true);
-                } else {
-                  console.log(error.response);
-                }
+            // promise
+            resolve();
+          })
+          .catch(function (error) {
+            if (error.response) {
+              if (error.response.data.code === 40102) {
+                that.$util.tddErrorHandler40102(that, true);
               } else {
-                console.log(error);
+                console.log(error.response);
               }
+            } else {
+              console.log(error);
+            }
 
-              // promise
-              reject(error);
-            })
-            .finally(function () {
-              that.isLoadingUserInfo = false;
-            });
+            // promise
+            reject(error);
+          })
+          .finally(function () {
+            that.isLoadingUserInfo = false;
+          });
       });
     },
     fetchUserSignInList: function () {
@@ -326,146 +326,146 @@ export default {
 
       let that = this;
       this.$axios.get('/user/signin/me')
-          .then(function (response) {
-            that.userSignInList = response.data;
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, true);
-              } else {
-                console.log(error.response);
-              }
+        .then(function (response) {
+          that.userSignInList = response.data;
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, true);
             } else {
-              console.log(error);
+              console.log(error.response);
             }
-          })
-          .finally(function () {
-            that.isLoadingUserSignInList = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isLoadingUserSignInList = false;
+        });
     },
     fetchUserSignInOverview: function () {
       this.isLoadingUserSignInOverview = true;
 
       let that = this;
       this.$axios.get('/user/signin/overview/me')
-          .then(function (response) {
-            that.userSignInOverview = response.data;
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, true);
-              } else {
-                console.log(error.response);
-              }
+        .then(function (response) {
+          that.userSignInOverview = response.data;
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, true);
             } else {
-              console.log(error);
+              console.log(error.response);
             }
-          })
-          .finally(function () {
-            that.isLoadingUserSignInOverview = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isLoadingUserSignInOverview = false;
+        });
     },
     fetchUserFavoriteVideoList: function () {
       this.isLoadingUserFavoriteVideoList = true;
 
       let that = this;
       this.$axios.get('/user/favorite/video/me')
-          .then(function (response) {
-            that.userFavoriteVideoList = [];
-            let oriList = response.data;
-            for (let item of oriList) {
-              let obj = item.video;
-              obj.favorite_added = item.added;
-              that.userFavoriteVideoList.push(obj);
-            }
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, true);
-              } else {
-                console.log(error.response);
-              }
+        .then(function (response) {
+          that.userFavoriteVideoList = [];
+          let oriList = response.data;
+          for (let item of oriList) {
+            let obj = item.video;
+            obj.favorite_added = item.added;
+            that.userFavoriteVideoList.push(obj);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, true);
             } else {
-              console.log(error);
+              console.log(error.response);
             }
-          })
-          .finally(function () {
-            that.isLoadingUserFavoriteVideoList = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isLoadingUserFavoriteVideoList = false;
+        });
     },
     fetchUserFavoriteMemberList: function () {
       this.isLoadingUserFavoriteMemberList = true;
 
       let that = this;
       this.$axios.get('/user/favorite/member/me')
-          .then(function (response) {
-            that.userFavoriteMemberList = [];
-            let oriList = response.data;
-            for (let item of oriList) {
-              let obj = item.member;
-              obj.favorite_added = item.added;
-              that.userFavoriteMemberList.push(obj);
-            }
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, true);
-              } else {
-                console.log(error.response);
-              }
+        .then(function (response) {
+          that.userFavoriteMemberList = [];
+          let oriList = response.data;
+          for (let item of oriList) {
+            let obj = item.member;
+            obj.favorite_added = item.added;
+            that.userFavoriteMemberList.push(obj);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, true);
             } else {
-              console.log(error);
+              console.log(error.response);
             }
-          })
-          .finally(function () {
-            that.isLoadingUserFavoriteMemberList = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isLoadingUserFavoriteMemberList = false;
+        });
     },
     goSignIn: function () {
       this.isGoingSignIn = true;
       let that = this;
       this.$axios.post('/user/signin')
-          .then(function (response) {
-            const resp = response.data;
-            if (resp.status === 'success') {
-              that.$message.info(`签到成功！今日第${resp.detail.rank}名`);
-              that.$message.info(`连续签到${resp.detail.consecutive_days}天，积分+${resp.detail.point}，经验+${resp.detail.exp}`);
+        .then(function (response) {
+          const resp = response.data;
+          if (resp.status === 'success') {
+            that.$message.info(`签到成功！今日第${resp.detail.rank}名`);
+            that.$message.info(`连续签到${resp.detail.consecutive_days}天，积分+${resp.detail.point}，经验+${resp.detail.exp}`);
 
-              // update info
-              that.user.point += resp.detail.point;
-              that.user.exp += resp.detail.exp;
-              that.fetchUserSignInList();
-              that.fetchUserSignInOverview();
-            } else if (resp.status === 'fail') {
-              if (resp.message === 'user have already signed in today') {
-                that.$message.warn('今天已经签过到了——');
-              } else {
-                that.$message.error('签到失败');
-                that.$message.error(resp);
-              }
+            // update info
+            that.user.point += resp.detail.point;
+            that.user.exp += resp.detail.exp;
+            that.fetchUserSignInList();
+            that.fetchUserSignInOverview();
+          } else if (resp.status === 'fail') {
+            if (resp.message === 'user have already signed in today') {
+              that.$message.warn('今天已经签过到了——');
             } else {
               that.$message.error('签到失败');
               that.$message.error(resp);
             }
-          })
-          .catch(function (error) {
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, true);
-              } else {
-                console.log(error.response);
-              }
+          } else {
+            that.$message.error('签到失败');
+            that.$message.error(resp);
+          }
+        })
+        .catch(function (error) {
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, true);
             } else {
-              console.log(error);
+              console.log(error.response);
             }
-          })
-          .finally(function () {
-            that.isGoingSignIn = false;
-          });
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isGoingSignIn = false;
+        });
     },
     getRoleTitleColor: function (title) {
       let color = '';
@@ -515,12 +515,12 @@ export default {
   created() {
     let that = this;
     this.fetchUserInfo()
-        .then(function () {
-          that.fetchUserSignInList();
-          that.fetchUserSignInOverview();
-          that.fetchUserFavoriteVideoList();
-          that.fetchUserFavoriteMemberList();
-        });
+      .then(function () {
+        that.fetchUserSignInList();
+        that.fetchUserSignInOverview();
+        that.fetchUserFavoriteVideoList();
+        that.fetchUserFavoriteMemberList();
+      });
   }
 }
 </script>

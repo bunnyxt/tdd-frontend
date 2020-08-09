@@ -21,10 +21,10 @@
           <a-form-item label="昵称">
             {{ user.nickname }}
             <a-button
-                size="small"
-                style="margin-left: 12px"
-                @click="() => setNicknameModalVisibility = true"
-                :type="user.nickname === 'tdduser'+user.id ? 'primary' : 'default'"
+              size="small"
+              style="margin-left: 12px"
+              @click="() => setNicknameModalVisibility = true"
+              :type="user.nickname === 'tdduser'+user.id ? 'primary' : 'default'"
             >
               {{ user.nickname === 'tdduser'+user.id ? '首次设置(免费)' : '修改' }}
             </a-button>
@@ -34,19 +34,19 @@
               </template>
               <a-form :form="setNicknameForm">
                 <a-form-item
-                    label="昵称"
+                  label="昵称"
                 >
                   <a-input
-                      v-decorator="[
-                          'nickname',
-                          {
-                            rules: [
-                                { required: true, message: '请填写新昵称' },
-                                { validator: nicknameValidator },
-                              ]
-                          },
-                        ]"
-                      placeholder="请填写新昵称"
+                    v-decorator="[
+                      'nickname',
+                      {
+                        rules: [
+                            { required: true, message: '请填写新昵称' },
+                            { validator: nicknameValidator },
+                          ]
+                      },
+                    ]"
+                    placeholder="请填写新昵称"
                   />
                 </a-form-item>
                 <a-form-item>
@@ -67,19 +67,19 @@
               {{ user.email }}
               <template v-if="user.phone">
                 <a-popconfirm
-                    placement="bottom"
-                    okText="确认"
-                    cancelText="取消"
-                    @confirm="unbindEmail"
+                  placement="bottom"
+                  okText="确认"
+                  cancelText="取消"
+                  @confirm="unbindEmail"
                 >
                   <template slot="title">
                     取消绑定后，您将无法通过邮箱找回账号密码，<br/>
                     Gravatar头像也无法显示。确认取消绑定？
                   </template>
                   <a-button
-                      size="small"
-                      style="margin-left: 12px"
-                      :loading="isUnbindingEmail"
+                    size="small"
+                    style="margin-left: 12px"
+                    :loading="isUnbindingEmail"
                   >取消绑定</a-button>
                 </a-popconfirm>
               </template>
@@ -89,9 +89,9 @@
                     用户至少留有邮箱/手机一项绑定
                   </template>
                   <a-button
-                      size="small"
-                      style="margin-left: 12px"
-                      :disabled="true"
+                    size="small"
+                    style="margin-left: 12px"
+                    :disabled="true"
                   >取消绑定</a-button>
                 </a-tooltip>
               </template>
@@ -99,10 +99,10 @@
             <div v-else>
               未绑定
               <a-button
-                  type="primary"
-                  size="small"
-                  style="margin-left: 12px"
-                  @click="() => bindEmailModalVisibility = true"
+                type="primary"
+                size="small"
+                style="margin-left: 12px"
+                @click="() => bindEmailModalVisibility = true"
               >绑定</a-button>
               <a-modal title="绑定邮箱" v-model="bindEmailModalVisibility">
                 <template slot="footer">
@@ -110,77 +110,77 @@
                 </template>
                 <a-form :form="bindEmailForm">
                   <a-form-item
-                      label="邮箱"
+                    label="邮箱"
                   >
                     <a-input
-                        v-decorator="[
-                          'email',
-                          {
-                            rules: [
-                                { required: true, message: '请填写邮箱地址' },
-                                { validator: emailValidator },
-                              ]
-                          },
-                        ]"
-                        placeholder="请输入绑定邮箱"
+                      v-decorator="[
+                        'email',
+                        {
+                          rules: [
+                              { required: true, message: '请填写邮箱地址' },
+                              { validator: emailValidator },
+                            ]
+                        },
+                      ]"
+                      placeholder="请输入绑定邮箱"
                     />
                   </a-form-item>
                   <a-form-item
-                      label="人机验证"
+                    label="人机验证"
                   >
                     <div
-                        v-decorator="[
-                          'recaptcha',
-                          {
-                            rules: [
-                              { required: true },
-                            ]
-                          },
-                        ]"
+                      v-decorator="[
+                        'recaptcha',
+                        {
+                          rules: [
+                            { required: true },
+                          ]
+                        },
+                      ]"
                     >
                       <template v-if="bindEmailRecaptchaPassed">
                         <a-icon type="check-circle" style="margin-right: 8px" />已通过
                         <a-button
-                            type="primary"
-                            style="margin-left: 8px"
-                            @click="bindEmailSendCode"
-                            :loading="isSendingBindEmailCode"
-                            :disabled="isSendingBindEmailCode || bindEmailCodeSendingCd > 0"
+                          type="primary"
+                          style="margin-left: 8px"
+                          @click="bindEmailSendCode"
+                          :loading="isSendingBindEmailCode"
+                          :disabled="isSendingBindEmailCode || bindEmailCodeSendingCd > 0"
                         >发送验证码</a-button>
                         <span v-if="bindEmailCodeSendingCd > 0" style="margin-left: 8px">没收到验证码？{{ bindEmailCodeSendingCd }}秒后重新获取</span>
                       </template>
                       <vue-grecaptcha
-                          v-else
-                          ref="bindEmailRecaptcha"
-                          @verify="bindEmailRecaptchaVerifyCallback"
-                          @expired="bindEmailRecaptchaExpiredCallback"
-                          :sitekey="recaptchaSiteKey"
-                          style="margin-bottom: 12px"
+                        v-else
+                        ref="bindEmailRecaptcha"
+                        @verify="bindEmailRecaptchaVerifyCallback"
+                        @expired="bindEmailRecaptchaExpiredCallback"
+                        :sitekey="recaptchaSiteKey"
+                        style="margin-bottom: 12px"
                       ></vue-grecaptcha>
                     </div>
                   </a-form-item>
                   <a-form-item
-                      label="验证码"
+                    label="验证码"
                   >
                     <a-input
-                        v-decorator="[
-                          'code',
-                          {
-                            rules: [
-                                { required: true, message: '请填写验证码' },
-                                { validator: codeValidator },
-                              ]
-                          },
-                        ]"
-                        placeholder="请输入验证码"
+                      v-decorator="[
+                        'code',
+                        {
+                          rules: [
+                              { required: true, message: '请填写验证码' },
+                              { validator: codeValidator },
+                            ]
+                        },
+                      ]"
+                      placeholder="请输入验证码"
                     />
                   </a-form-item>
                   <a-form-item>
                     <a-button
-                        type="primary"
-                        @click="bindEmailSendValidation"
-                        :loading="isSendingBindEmailValidation"
-                        :disabled="isSendingBindEmailValidation"
+                      type="primary"
+                      @click="bindEmailSendValidation"
+                      :loading="isSendingBindEmailValidation"
+                      :disabled="isSendingBindEmailValidation"
                     >提交绑定</a-button>
                   </a-form-item>
                 </a-form>
@@ -192,18 +192,18 @@
               {{ user.phone }}
               <template v-if="user.email">
                 <a-popconfirm
-                    placement="bottom"
-                    okText="确认"
-                    cancelText="取消"
-                    @confirm="unbindPhone"
+                  placement="bottom"
+                  okText="确认"
+                  cancelText="取消"
+                  @confirm="unbindPhone"
                 >
                   <template slot="title">
                     取消绑定后，您将无法通过手机号找回账号密码。<br/>
                     确认取消绑定？
                   </template>
                   <a-button
-                      size="small"
-                      style="margin-left: 12px"
+                    size="small"
+                    style="margin-left: 12px"
                   >取消绑定</a-button>
                 </a-popconfirm>
               </template>
@@ -213,9 +213,9 @@
                     用户至少留有邮箱/手机一项绑定
                   </template>
                   <a-button
-                      size="small"
-                      style="margin-left: 12px"
-                      :disabled="true"
+                    size="small"
+                    style="margin-left: 12px"
+                    :disabled="true"
                   >取消绑定</a-button>
                 </a-tooltip>
               </template>
@@ -223,10 +223,10 @@
             <div v-else>
               未绑定
               <a-button
-                  type="primary"
-                  size="small"
-                  style="margin-left: 12px"
-                  @click="() => bindPhoneModalVisibility = true"
+                type="primary"
+                size="small"
+                style="margin-left: 12px"
+                @click="() => bindPhoneModalVisibility = true"
               >绑定</a-button>
               <a-modal title="绑定手机" v-model="bindPhoneModalVisibility">
                 <template slot="footer">
@@ -234,77 +234,77 @@
                 </template>
                 <a-form :form="bindPhoneForm">
                   <a-form-item
-                      label="手机"
+                    label="手机"
                   >
                     <a-input
-                        v-decorator="[
-                          'phone',
-                          {
-                            rules: [
-                                { required: true, message: '请填写手机号' },
-                                { validator: phoneValidator },
-                              ]
-                          },
-                        ]"
-                        placeholder="请输入绑定手机号"
+                      v-decorator="[
+                        'phone',
+                        {
+                          rules: [
+                              { required: true, message: '请填写手机号' },
+                              { validator: phoneValidator },
+                            ]
+                        },
+                      ]"
+                      placeholder="请输入绑定手机号"
                     />
                   </a-form-item>
                   <a-form-item
-                      label="人机验证"
+                    label="人机验证"
                   >
                     <div
-                        v-decorator="[
-                          'recaptcha',
-                          {
-                            rules: [
-                              { required: true },
-                            ]
-                          },
-                        ]"
+                      v-decorator="[
+                        'recaptcha',
+                        {
+                          rules: [
+                            { required: true },
+                          ]
+                        },
+                      ]"
                     >
                       <template v-if="bindPhoneRecaptchaPassed">
                         <a-icon type="check-circle" style="margin-right: 8px" />已通过
                         <a-button
-                            type="primary"
-                            style="margin-left: 8px"
-                            @click="bindPhoneSendCode"
-                            :loading="isSendingBindPhoneCode"
-                            :disabled="isSendingBindPhoneCode || bindPhoneCodeSendingCd > 0"
+                          type="primary"
+                          style="margin-left: 8px"
+                          @click="bindPhoneSendCode"
+                          :loading="isSendingBindPhoneCode"
+                          :disabled="isSendingBindPhoneCode || bindPhoneCodeSendingCd > 0"
                         >发送验证码</a-button>
                         <span v-if="bindPhoneCodeSendingCd > 0" style="margin-left: 8px">没收到验证码？{{ bindPhoneCodeSendingCd }}秒后重新获取</span>
                       </template>
                       <vue-grecaptcha
-                          v-else
-                          ref="bindPhoneRecaptcha"
-                          @verify="bindPhoneRecaptchaVerifyCallback"
-                          @expired="bindPhoneRecaptchaExpiredCallback"
-                          :sitekey="recaptchaSiteKey"
-                          style="margin-bottom: 12px"
+                        v-else
+                        ref="bindPhoneRecaptcha"
+                        @verify="bindPhoneRecaptchaVerifyCallback"
+                        @expired="bindPhoneRecaptchaExpiredCallback"
+                        :sitekey="recaptchaSiteKey"
+                        style="margin-bottom: 12px"
                       ></vue-grecaptcha>
                     </div>
                   </a-form-item>
                   <a-form-item
-                      label="验证码"
+                    label="验证码"
                   >
                     <a-input
-                        v-decorator="[
-                          'code',
-                          {
-                            rules: [
-                                { required: true, message: '请填写验证码' },
-                                { validator: codeValidator },
-                              ]
-                          },
-                        ]"
-                        placeholder="请输入验证码"
+                      v-decorator="[
+                        'code',
+                        {
+                          rules: [
+                              { required: true, message: '请填写验证码' },
+                              { validator: codeValidator },
+                            ]
+                        },
+                      ]"
+                      placeholder="请输入验证码"
                     />
                   </a-form-item>
                   <a-form-item>
                     <a-button
-                        type="primary"
-                        @click="bindPhoneSendValidation"
-                        :loading="isSendingBindPhoneValidation"
-                        :disabled="isSendingBindPhoneValidation"
+                      type="primary"
+                      @click="bindPhoneSendValidation"
+                      :loading="isSendingBindPhoneValidation"
+                      :disabled="isSendingBindPhoneValidation"
                     >提交绑定</a-button>
                   </a-form-item>
                 </a-form>
@@ -319,42 +319,42 @@
               </template>
               <a-form :form="changePasswordForm">
                 <a-form-item
-                    label="新密码"
+                  label="新密码"
                 >
                   <a-input-password
-                      v-decorator="[
-                          'password',
-                          {
-                            rules: [
-                                { required: true, message: '请填写新密码' },
-                                { validator: passwordValidator },
-                              ]
-                          },
-                        ]"
-                      placeholder="请填写新密码"
+                    v-decorator="[
+                        'password',
+                        {
+                          rules: [
+                              { required: true, message: '请填写新密码' },
+                              { validator: passwordValidator },
+                            ]
+                        },
+                      ]"
+                    placeholder="请填写新密码"
                   />
                 </a-form-item>
                 <a-form-item
-                    label="确认新密码"
+                  label="确认新密码"
                 >
                   <a-input-password
-                      v-decorator="[
-                          'password2',
-                          {
-                            rules: [
-                                { required: true, message: '请再输入一遍新密码' },
-                              ]
-                          },
-                        ]"
-                      placeholder="请再输入一遍新密码"
+                    v-decorator="[
+                        'password2',
+                        {
+                          rules: [
+                              { required: true, message: '请再输入一遍新密码' },
+                            ]
+                        },
+                      ]"
+                    placeholder="请再输入一遍新密码"
                   />
                 </a-form-item>
                 <a-form-item>
                   <a-button
-                      type="primary"
-                      @click="changePassword"
-                      :loading="isChangingPassword"
-                      :disabled="isChangingPassword"
+                    type="primary"
+                    @click="changePassword"
+                    :loading="isChangingPassword"
+                    :disabled="isChangingPassword"
                   >更改密码</a-button>
                 </a-form-item>
               </a-form>
@@ -430,33 +430,33 @@ export default {
 
       return new Promise(function (resolve, reject) {
         that.$axios.get('/user/me')
-            .then(function (response) {
-              that.user = response.data;
+          .then(function (response) {
+            that.user = response.data;
 
-              // update store and local storage
-              that.$store.commit('setUserDetail', that.user);
-              localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
+            // update store and local storage
+            that.$store.commit('setUserDetail', that.user);
+            localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
 
-              // promise
-              resolve();
-            })
-            .catch(function (error) {
-              if (error.response) {
-                if (error.response.data.code === 40102) {
-                  that.$util.tddErrorHandler40102(that, true);
-                } else {
-                  console.log(error.response);
-                }
+            // promise
+            resolve();
+          })
+          .catch(function (error) {
+            if (error.response) {
+              if (error.response.data.code === 40102) {
+                that.$util.tddErrorHandler40102(that, true);
               } else {
-                console.log(error);
+                console.log(error.response);
               }
+            } else {
+              console.log(error);
+            }
 
-              // promise
-              reject(error);
-            })
-            .finally(function () {
-              that.isLoadingUserInfo = false;
-            });
+            // promise
+            reject(error);
+          })
+          .finally(function () {
+            that.isLoadingUserInfo = false;
+          });
       });
     },
     unbindEmail: function () {
@@ -464,88 +464,88 @@ export default {
       this.isUnbindingEmail = true;
 
       that.$axios.delete('/user/bind/email')
-          .then(function (response) {
-            let data = response.data;
-            if (data.status === 'success') {
-              that.$message.success('取消绑定邮箱成功！');
-              // update email
-              that.user.email = null;
-              // update store and local storage
-              that.$store.commit('setUserDetail', that.user);
-              localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
-            } else {
-              that.$message.error('取消绑定邮箱失败！');
-              switch (data.message) {
-                case 'user have not bind email yet':
-                  that.$message.error('用户还未绑定邮箱！');
-                  break;
-                case 'cannot unbind last only validation':
-                  that.$message.error('用户至少留有邮箱/手机一项绑定！');
-                  break;
-                default:
-                  that.$message.error(data.message);
-              }
-            }
-          })
-          .catch(function (error) {
+        .then(function (response) {
+          let data = response.data;
+          if (data.status === 'success') {
+            that.$message.success('取消绑定邮箱成功！');
+            // update email
+            that.user.email = null;
+            // update store and local storage
+            that.$store.commit('setUserDetail', that.user);
+            localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
+          } else {
             that.$message.error('取消绑定邮箱失败！');
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, true);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
+            switch (data.message) {
+              case 'user have not bind email yet':
+                that.$message.error('用户还未绑定邮箱！');
+                break;
+              case 'cannot unbind last only validation':
+                that.$message.error('用户至少留有邮箱/手机一项绑定！');
+                break;
+              default:
+                that.$message.error(data.message);
             }
-          })
-          .finally(function () {
-            that.isUnbindingEmail = false;
-          })
+          }
+        })
+        .catch(function (error) {
+          that.$message.error('取消绑定邮箱失败！');
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, true);
+            } else {
+              console.log(error.response);
+            }
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isUnbindingEmail = false;
+        })
     },
     unbindPhone: function () {
       let that = this;
       this.isUnbindingPhone = true;
 
       that.$axios.delete('/user/bind/phone')
-          .then(function (response) {
-            let data = response.data;
-            if (data.status === 'success') {
-              that.$message.success('取消绑定手机成功！');
-              // update phone
-              that.user.phone = null;
-              // update store and local storage
-              that.$store.commit('setUserDetail', that.user);
-              localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
-            } else {
-              that.$message.error('取消绑定手机失败！');
-              switch (data.message) {
-                case 'user have not bind phone yet':
-                  that.$message.error('用户还未绑定手机！');
-                  break;
-                case 'cannot unbind last only validation':
-                  that.$message.error('用户至少留有邮箱/手机一项绑定！');
-                  break;
-                default:
-                  that.$message.error(data.message);
-              }
-            }
-          })
-          .catch(function (error) {
+        .then(function (response) {
+          let data = response.data;
+          if (data.status === 'success') {
+            that.$message.success('取消绑定手机成功！');
+            // update phone
+            that.user.phone = null;
+            // update store and local storage
+            that.$store.commit('setUserDetail', that.user);
+            localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
+          } else {
             that.$message.error('取消绑定手机失败！');
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, true);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
+            switch (data.message) {
+              case 'user have not bind phone yet':
+                that.$message.error('用户还未绑定手机！');
+                break;
+              case 'cannot unbind last only validation':
+                that.$message.error('用户至少留有邮箱/手机一项绑定！');
+                break;
+              default:
+                that.$message.error(data.message);
             }
-          })
-          .finally(function () {
-            that.isUnbindingPhone = false;
-          })
+          }
+        })
+        .catch(function (error) {
+          that.$message.error('取消绑定手机失败！');
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, true);
+            } else {
+              console.log(error.response);
+            }
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isUnbindingPhone = false;
+        })
     },
     emailValidator: (rule, value, callback) => {
       let regex = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
@@ -638,9 +638,9 @@ export default {
     bindEmailSendCode: function () {
       const { getFieldValue, getFieldError } = this.bindEmailForm;
       if (!(
-          getFieldValue('email') !== undefined &&
-          getFieldError('email') === undefined &&
-          this.bindEmailRecaptchaPassed
+        getFieldValue('email') !== undefined &&
+        getFieldError('email') === undefined &&
+        this.bindEmailRecaptchaPassed
       )) {
         this.$message.warn('请先正确填写参数');
         return;
@@ -668,64 +668,64 @@ export default {
           recaptcha: this.bindEmailRecaptchaResponse
         }
       })
-          .then(function (response) {
-            let data = response.data;
-            if (data.status === 'success') {
-              that.$message.success('验证码发送成功！请检查邮箱');
-              that.bindEmailBindKey = data.detail.bindkey;
-              that.bindEmailExpired = data.detail.expired;
-              // cd start
-              that.bindEmailCodeSendingCd = 60;
-              let cdInterval = setInterval(function () {
-                that.bindEmailCodeSendingCd--;
-                if (that.bindEmailCodeSendingCd === 0) {
-                  clearInterval(cdInterval);
-                }
-              }, 1000);
-            } else {
-              that.$message.error('验证码发送失败！');
-              switch (data.message) {
-                case 'fail to validate recaptcha':
-                  that.$message.error('人机验证未通过！');
-                  that.$message.error(JSON.stringify(data.detail));
-                  break;
-                case 'user have already bind email':
-                  that.$message.error('用户已经绑定过邮箱了！');
-                  break;
-                case 'email already used':
-                  that.$message.error('该邮箱已被绑定！');
-                  break;
-                case 'fail to sent bind code to email':
-                  that.$message.error('发送邮件失败！');
-                  break;
-                default:
-                  that.$message.error(data.message);
+        .then(function (response) {
+          let data = response.data;
+          if (data.status === 'success') {
+            that.$message.success('验证码发送成功！请检查邮箱');
+            that.bindEmailBindKey = data.detail.bindkey;
+            that.bindEmailExpired = data.detail.expired;
+            // cd start
+            that.bindEmailCodeSendingCd = 60;
+            let cdInterval = setInterval(function () {
+              that.bindEmailCodeSendingCd--;
+              if (that.bindEmailCodeSendingCd === 0) {
+                clearInterval(cdInterval);
               }
-            }
-          })
-          .catch(function (error) {
+            }, 1000);
+          } else {
             that.$message.error('验证码发送失败！');
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, true);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
+            switch (data.message) {
+              case 'fail to validate recaptcha':
+                that.$message.error('人机验证未通过！');
+                that.$message.error(JSON.stringify(data.detail));
+                break;
+              case 'user have already bind email':
+                that.$message.error('用户已经绑定过邮箱了！');
+                break;
+              case 'email already used':
+                that.$message.error('该邮箱已被绑定！');
+                break;
+              case 'fail to sent bind code to email':
+                that.$message.error('发送邮件失败！');
+                break;
+              default:
+                that.$message.error(data.message);
             }
-          })
-          .finally(function () {
-            that.isSendingBindEmailCode = false;
-            that.bindEmailCodeSendRequested = true;
-          })
+          }
+        })
+        .catch(function (error) {
+          that.$message.error('验证码发送失败！');
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, true);
+            } else {
+              console.log(error.response);
+            }
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isSendingBindEmailCode = false;
+          that.bindEmailCodeSendRequested = true;
+        })
     },
     bindEmailSendValidation: function () {
       const { getFieldValue, getFieldError } = this.bindEmailForm;
       if (!(
-          getFieldValue('code') !== undefined &&
-          getFieldError('code') === undefined &&
-          this.bindEmailBindKey.length > 0
+        getFieldValue('code') !== undefined &&
+        getFieldError('code') === undefined &&
+        this.bindEmailBindKey.length > 0
       )) {
         this.$message.warn('请先正确填写参数');
         return;
@@ -756,59 +756,59 @@ export default {
           code: getFieldValue('code'),
         }
       })
-          .then(function (response) {
-            let data = response.data;
-            if (data.status === 'success') {
-              that.$message.success('绑定邮箱成功！');
-              // reset
-              that.bindEmailRecaptchaPassed = false;
-              that.bindEmailRecaptchaResponse = '';
-              that.bindEmailBindKey = '';
-              that.bindEmailExpired = 0;
-              if (that.$refs.bindEmailRecaptcha) {
-                that.$refs.bindEmailRecaptcha.reset();
-              }
-              // update email
-              that.user.email = data.detail.email;
-              // update store and local storage
-              that.$store.commit('setUserDetail', that.user);
-              localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
-              // close modal
-              that.bindEmailModalVisibility = false;
-            } else {
-              that.$message.error('绑定邮箱失败！');
-              switch (data.message) {
-                case 'code expired':
-                  that.$message.error('验证码已过期！请重新获取');
-                  that.bindEmailRecaptchaPassed = false;
-                  that.bindEmailRecaptchaResponse = '';
-                  if (that.$refs.bindEmailRecaptcha) {
-                    that.$refs.bindEmailRecaptcha.reset();
-                  }
-                  break;
-                case 'wrong code':
-                  that.$message.error('验证码错误！');
-                  break;
-                default:
-                  that.$message.error(data.message);
-              }
+        .then(function (response) {
+          let data = response.data;
+          if (data.status === 'success') {
+            that.$message.success('绑定邮箱成功！');
+            // reset
+            that.bindEmailRecaptchaPassed = false;
+            that.bindEmailRecaptchaResponse = '';
+            that.bindEmailBindKey = '';
+            that.bindEmailExpired = 0;
+            if (that.$refs.bindEmailRecaptcha) {
+              that.$refs.bindEmailRecaptcha.reset();
             }
-          })
-          .catch(function (error) {
+            // update email
+            that.user.email = data.detail.email;
+            // update store and local storage
+            that.$store.commit('setUserDetail', that.user);
+            localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
+            // close modal
+            that.bindEmailModalVisibility = false;
+          } else {
             that.$message.error('绑定邮箱失败！');
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, true);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
+            switch (data.message) {
+              case 'code expired':
+                that.$message.error('验证码已过期！请重新获取');
+                that.bindEmailRecaptchaPassed = false;
+                that.bindEmailRecaptchaResponse = '';
+                if (that.$refs.bindEmailRecaptcha) {
+                  that.$refs.bindEmailRecaptcha.reset();
+                }
+                break;
+              case 'wrong code':
+                that.$message.error('验证码错误！');
+                break;
+              default:
+                that.$message.error(data.message);
             }
-          })
-          .finally(function () {
-            that.isSendingBindEmailValidation = false;
-          })
+          }
+        })
+        .catch(function (error) {
+          that.$message.error('绑定邮箱失败！');
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, true);
+            } else {
+              console.log(error.response);
+            }
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isSendingBindEmailValidation = false;
+        })
     },
     bindPhoneRecaptchaVerifyCallback: function (response) {
       this.bindPhoneRecaptchaPassed = true;
@@ -821,9 +821,9 @@ export default {
     bindPhoneSendCode: function () {
       const { getFieldValue, getFieldError } = this.bindPhoneForm;
       if (!(
-          getFieldValue('phone') !== undefined &&
-          getFieldError('phone') === undefined &&
-          this.bindPhoneRecaptchaPassed
+        getFieldValue('phone') !== undefined &&
+        getFieldError('phone') === undefined &&
+        this.bindPhoneRecaptchaPassed
       )) {
         this.$message.warn('请先正确填写参数');
         return;
@@ -851,64 +851,64 @@ export default {
           recaptcha: this.bindPhoneRecaptchaResponse
         }
       })
-          .then(function (response) {
-            let data = response.data;
-            if (data.status === 'success') {
-              that.$message.success('验证码发送成功！请检查手机短信');
-              that.bindPhoneBindKey = data.detail.bindkey;
-              that.bindPhoneExpired = data.detail.expired;
-              // cd start
-              that.bindPhoneCodeSendingCd = 60;
-              let cdInterval = setInterval(function () {
-                that.bindPhoneCodeSendingCd--;
-                if (that.bindPhoneCodeSendingCd === 0) {
-                  clearInterval(cdInterval);
-                }
-              }, 1000);
-            } else {
-              that.$message.error('验证码发送失败！');
-              switch (data.message) {
-                case 'fail to validate recaptcha':
-                  that.$message.error('人机验证未通过！');
-                  that.$message.error(JSON.stringify(data.detail));
-                  break;
-                case 'user have already bind phone':
-                  that.$message.error('用户已经绑定过手机了！');
-                  break;
-                case 'phone already used':
-                  that.$message.error('该手机号已被绑定！');
-                  break;
-                case 'fail to sent bind code to phone':
-                  that.$message.error('发送短信失败！');
-                  break;
-                default:
-                  that.$message.error(data.message);
+        .then(function (response) {
+          let data = response.data;
+          if (data.status === 'success') {
+            that.$message.success('验证码发送成功！请检查手机短信');
+            that.bindPhoneBindKey = data.detail.bindkey;
+            that.bindPhoneExpired = data.detail.expired;
+            // cd start
+            that.bindPhoneCodeSendingCd = 60;
+            let cdInterval = setInterval(function () {
+              that.bindPhoneCodeSendingCd--;
+              if (that.bindPhoneCodeSendingCd === 0) {
+                clearInterval(cdInterval);
               }
-            }
-          })
-          .catch(function (error) {
+            }, 1000);
+          } else {
             that.$message.error('验证码发送失败！');
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, true);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
+            switch (data.message) {
+              case 'fail to validate recaptcha':
+                that.$message.error('人机验证未通过！');
+                that.$message.error(JSON.stringify(data.detail));
+                break;
+              case 'user have already bind phone':
+                that.$message.error('用户已经绑定过手机了！');
+                break;
+              case 'phone already used':
+                that.$message.error('该手机号已被绑定！');
+                break;
+              case 'fail to sent bind code to phone':
+                that.$message.error('发送短信失败！');
+                break;
+              default:
+                that.$message.error(data.message);
             }
-          })
-          .finally(function () {
-            that.isSendingBindPhoneCode = false;
-            that.bindPhoneCodeSendRequested = true;
-          })
+          }
+        })
+        .catch(function (error) {
+          that.$message.error('验证码发送失败！');
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, true);
+            } else {
+              console.log(error.response);
+            }
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isSendingBindPhoneCode = false;
+          that.bindPhoneCodeSendRequested = true;
+        })
     },
     bindPhoneSendValidation: function () {
       const { getFieldValue, getFieldError } = this.bindPhoneForm;
       if (!(
-          getFieldValue('code') !== undefined &&
-          getFieldError('code') === undefined &&
-          this.bindPhoneBindKey.length > 0
+        getFieldValue('code') !== undefined &&
+        getFieldError('code') === undefined &&
+        this.bindPhoneBindKey.length > 0
       )) {
         this.$message.warn('请先正确填写参数');
         return;
@@ -939,65 +939,65 @@ export default {
           code: getFieldValue('code'),
         }
       })
-          .then(function (response) {
-            let data = response.data;
-            if (data.status === 'success') {
-              that.$message.success('绑定手机成功！');
-              // reset
-              that.bindPhoneRecaptchaPassed = false;
-              that.bindPhoneRecaptchaResponse = '';
-              that.bindPhoneBindKey = '';
-              that.bindPhoneExpired = 0;
-              if (that.$refs.bindPhoneRecaptcha) {
-                that.$refs.bindPhoneRecaptcha.reset();
-              }
-              // update phone
-              that.user.phone = data.detail.phone;
-              // update store and local storage
-              that.$store.commit('setUserDetail', that.user);
-              localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
-              // close modal
-              that.bindPhoneModalVisibility = false;
-            } else {
-              that.$message.error('绑定手机失败！');
-              switch (data.message) {
-                case 'code expired':
-                  that.$message.error('验证码已过期！请重新获取');
-                  that.bindPhoneRecaptchaPassed = false;
-                  that.bindPhoneRecaptchaResponse = '';
-                  if (that.$refs.bindPhoneRecaptcha) {
-                    that.$refs.bindPhoneRecaptcha.reset();
-                  }
-                  break;
-                case 'wrong code':
-                  that.$message.error('验证码错误！');
-                  break;
-                default:
-                  that.$message.error(data.message);
-              }
+        .then(function (response) {
+          let data = response.data;
+          if (data.status === 'success') {
+            that.$message.success('绑定手机成功！');
+            // reset
+            that.bindPhoneRecaptchaPassed = false;
+            that.bindPhoneRecaptchaResponse = '';
+            that.bindPhoneBindKey = '';
+            that.bindPhoneExpired = 0;
+            if (that.$refs.bindPhoneRecaptcha) {
+              that.$refs.bindPhoneRecaptcha.reset();
             }
-          })
-          .catch(function (error) {
+            // update phone
+            that.user.phone = data.detail.phone;
+            // update store and local storage
+            that.$store.commit('setUserDetail', that.user);
+            localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
+            // close modal
+            that.bindPhoneModalVisibility = false;
+          } else {
             that.$message.error('绑定手机失败！');
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, true);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
+            switch (data.message) {
+              case 'code expired':
+                that.$message.error('验证码已过期！请重新获取');
+                that.bindPhoneRecaptchaPassed = false;
+                that.bindPhoneRecaptchaResponse = '';
+                if (that.$refs.bindPhoneRecaptcha) {
+                  that.$refs.bindPhoneRecaptcha.reset();
+                }
+                break;
+              case 'wrong code':
+                that.$message.error('验证码错误！');
+                break;
+              default:
+                that.$message.error(data.message);
             }
-          })
-          .finally(function () {
-            that.isSendingBindPhoneValidation = false;
-          })
+          }
+        })
+        .catch(function (error) {
+          that.$message.error('绑定手机失败！');
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, true);
+            } else {
+              console.log(error.response);
+            }
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isSendingBindPhoneValidation = false;
+        })
     },
     setNickname: function () {
       const { getFieldValue, getFieldError } = this.setNicknameForm;
       if (!(
-          getFieldValue('nickname') !== undefined &&
-          getFieldError('nickname') === undefined
+        getFieldValue('nickname') !== undefined &&
+        getFieldError('nickname') === undefined
       )) {
         this.$message.warn('请先正确填写参数');
         return;
@@ -1016,57 +1016,57 @@ export default {
           nickname: getFieldValue('nickname'),
         }
       })
-          .then(function (response) {
-            let data = response.data;
-            if (data.status === 'success') {
-              that.$message.success('设置昵称成功！');
-              // update nickname
-              that.user.nickname = data.detail.nickname;
-              // update store and local storage
-              that.$store.commit('setUserDetail', that.user);
-              localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
-              // close modal
-              that.setNicknameModalVisibility = false;
-            } else {
-              that.$message.error('设置昵称失败！');
-              switch (data.message) {
-                case 'nickname same with before':
-                  that.$message.error('新旧昵称相同！');
-                  break;
-                case 'nickname already used':
-                  that.$message.error('昵称已被使用！');
-                  break;
-                case 'nickname changed in 7 days':
-                  that.$message.error('过去7日内修改过昵称！');
-                  that.$message.info('下次可修改时间：' + that.$util.tsToDateString(data.detail.last + 7 * 24 * 60 * 60));
-                  break;
-                case 'point not enough':
-                  that.$message.error('积分不足！');
-                  that.$message.info('该操作需要'+data.detail.require+'积分，当前仅剩'+data.detail.left+'积分')
-                  break;
-                default:
-                  that.$message.error(data.message);
-              }
-            }
-          })
-          .catch(function (error) {
+        .then(function (response) {
+          let data = response.data;
+          if (data.status === 'success') {
+            that.$message.success('设置昵称成功！');
+            // update nickname
+            that.user.nickname = data.detail.nickname;
+            // update store and local storage
+            that.$store.commit('setUserDetail', that.user);
+            localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
+            // close modal
+            that.setNicknameModalVisibility = false;
+          } else {
             that.$message.error('设置昵称失败！');
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, true);
-              } else if (error.response.data.code === 40001) {
-                that.$message.error('参数错误！');
-                that.$message.error(error.response.data.message);
-              } else {
-                console.log(error.response);
-              }
-            } else {
-              console.log(error);
+            switch (data.message) {
+              case 'nickname same with before':
+                that.$message.error('新旧昵称相同！');
+                break;
+              case 'nickname already used':
+                that.$message.error('昵称已被使用！');
+                break;
+              case 'nickname changed in 7 days':
+                that.$message.error('过去7日内修改过昵称！');
+                that.$message.info('下次可修改时间：' + that.$util.tsToDateString(data.detail.last + 7 * 24 * 60 * 60));
+                break;
+              case 'point not enough':
+                that.$message.error('积分不足！');
+                that.$message.info('该操作需要'+data.detail.require+'积分，当前仅剩'+data.detail.left+'积分')
+                break;
+              default:
+                that.$message.error(data.message);
             }
-          })
-          .finally(function () {
-            that.isSettingNickname = false;
-          })
+          }
+        })
+        .catch(function (error) {
+          that.$message.error('设置昵称失败！');
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, true);
+            } else if (error.response.data.code === 40001) {
+              that.$message.error('参数错误！');
+              that.$message.error(error.response.data.message);
+            } else {
+              console.log(error.response);
+            }
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isSettingNickname = false;
+        })
     },
     changePassword: function () {
       const { getFieldValue, getFieldError } = this.changePasswordForm;
@@ -1076,10 +1076,10 @@ export default {
       }
 
       if (!(
-          getFieldValue('password') !== undefined &&
-          getFieldError('password') === undefined &&
-          getFieldValue('password2') !== undefined &&
-          getFieldError('password2') === undefined
+        getFieldValue('password') !== undefined &&
+        getFieldError('password') === undefined &&
+        getFieldValue('password2') !== undefined &&
+        getFieldError('password2') === undefined
       )) {
         this.$message.warn('请先正确填写参数');
         return;
@@ -1098,46 +1098,46 @@ export default {
           password: getFieldValue('password'),
         }
       })
-          .then(function (response) {
-            let data = response.data;
-            if (data.status === 'success') {
-              that.$message.success('修改密码成功！');
-              that.changePasswordModalVisibility = false;
+        .then(function (response) {
+          let data = response.data;
+          if (data.status === 'success') {
+            that.$message.success('修改密码成功！');
+            that.changePasswordModalVisibility = false;
 
-              // clear local storage
-              localStorage.removeItem('tddUserDetail');
+            // clear local storage
+            localStorage.removeItem('tddUserDetail');
 
-              // set status
-              that.$store.commit('setUserLoginStatus', false);
-              that.$store.commit('setUserDetail', null);
+            // set status
+            that.$store.commit('setUserLoginStatus', false);
+            that.$store.commit('setUserDetail', null);
 
-              that.$message.info('请使用新密码重新登录！');
+            that.$message.info('请使用新密码重新登录！');
 
-              // go to home page
-              that.$router.push('/');
-            } else {
-              that.$message.error('修改密码失败！');
-              that.$message.error(data.message);
-            }
-          })
-          .catch(function (error) {
+            // go to home page
+            that.$router.push('/');
+          } else {
             that.$message.error('修改密码失败！');
-            if (error.response) {
-              if (error.response.data.code === 40102) {
-                that.$util.tddErrorHandler40102(that, true);
-              } else if (error.response.data.code === 40001) {
-                that.$message.error('参数错误！');
-                that.$message.error(error.response.data.message);
-              } else {
-                console.log(error.response);
-              }
+            that.$message.error(data.message);
+          }
+        })
+        .catch(function (error) {
+          that.$message.error('修改密码失败！');
+          if (error.response) {
+            if (error.response.data.code === 40102) {
+              that.$util.tddErrorHandler40102(that, true);
+            } else if (error.response.data.code === 40001) {
+              that.$message.error('参数错误！');
+              that.$message.error(error.response.data.message);
             } else {
-              console.log(error);
+              console.log(error.response);
             }
-          })
-          .finally(function () {
-            that.isChangingPassword = false;
-          })
+          } else {
+            console.log(error);
+          }
+        })
+        .finally(function () {
+          that.isChangingPassword = false;
+        })
     }
   },
   created() {

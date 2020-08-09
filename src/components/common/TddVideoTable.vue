@@ -1,20 +1,20 @@
 <template>
   <a-table
-      :columns="columns"
-      :rowKey="video => video.id"
-      :dataSource="videoList"
-      :pagination="false"
-      :scroll="{ x: 1400 }"
-      size="small"
+    :columns="columns"
+    :rowKey="video => video.id"
+    :dataSource="videoList"
+    :pagination="false"
+    :scroll="{ x: 1400 }"
+    size="small"
   >
     <template slot="pic" slot-scope="item">
       <img
-          width="108px"
-          height="65px"
-          alt="pic"
-          :src="item.pic"
-          @click="videoPicClickHandler(item)"
-          style="cursor: pointer"
+        width="108px"
+        height="65px"
+        alt="pic"
+        :src="item.pic"
+        @click="videoPicClickHandler(item)"
+        style="cursor: pointer"
       />
     </template>
     <template slot="videoTitle" slot-scope="title">

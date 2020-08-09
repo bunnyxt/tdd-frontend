@@ -91,9 +91,9 @@
           <div class="carousel-p3-timeline-container">
             <a-timeline>
               <a-timeline-item
-                  v-for="updateLog in updateLogList"
-                  :key="updateLog.added"
-                  :color="getTimelineItemColor(updateLog.type)"
+                v-for="updateLog in updateLogList"
+                :key="updateLog.added"
+                :color="getTimelineItemColor(updateLog.type)"
               >
                 <b>{{ $util.tsToDateString(updateLog.added, 'yyyy-MM-dd') }}</b> {{ updateLog.content }}
               </a-timeline-item>
@@ -117,12 +117,12 @@
       <p>本站收录的所有视频，包括B站UV分区下的所有视频和部分其他分区中的VC视频。</p>
       <p style="display: flex; display: -webkit-flex">
         <a-auto-complete
-            placeholder="视频aid"
-            v-model="videoAidInput"
-            @change="onAidInputChange"
-            optionLabelProp="text"
-            allowClear
-            style="margin-right: 8px; flex-grow: 1"
+          placeholder="视频aid"
+          v-model="videoAidInput"
+          @change="onAidInputChange"
+          optionLabelProp="text"
+          allowClear
+          style="margin-right: 8px; flex-grow: 1"
         >
           <template slot="dataSource">
             <a-select-option v-for="item in videoAidTitleListStringified" :key="item.aid" :text="item.aid" >
@@ -134,9 +134,9 @@
       </p>
       <a-spin :spinning="isLoadingRandomVideoList">
         <tdd-video-list
-            :video-list="randomVideoList.slice(0, listColNum)"
-            mode="grid"
-            @item-clicked="randomVideoListItemClickedHandler"
+          :video-list="randomVideoList.slice(0, listColNum)"
+          mode="grid"
+          @item-clicked="randomVideoListItemClickedHandler"
         ></tdd-video-list>
       </a-spin>
     </div>
@@ -154,8 +154,8 @@
       <p>本站收录的所有视频的B站UP主和staff们。</p>
       <a-spin :spinning="isLoadingRandomMemberList">
         <tdd-member-list
-            :member-list="randomMemberList.slice(0, listColNum)"
-            @item-clicked="randomMemberListItemClickedHandler"
+          :member-list="randomMemberList.slice(0, listColNum)"
+          @item-clicked="randomMemberListItemClickedHandler"
         ></tdd-member-list>
       </a-spin>
     </div>
@@ -173,12 +173,12 @@
       <p>VC传说冲刺曲目助攻计划，收录B站接近<a href="https://zh.moegirl.org/Vocaloid中文传说曲" target="_blank">中文VOCALOID传说曲</a>要求的曲目视频，记录播放、收藏等数据变化，提供传说助攻参考。</p>
       <a-spin :spinning="isLoadingSprintVideoList">
         <tdd-video-list
-            :video-list="sprintVideoListFiltered.slice(0, listColNum)"
-            mode="grid"
-            :show-stat-bar="false"
-            :show-mobile-view="false"
-            :show-sprint-board="true"
-            @item-clicked="sprintVideoListItemClickedHandler"
+          :video-list="sprintVideoListFiltered.slice(0, listColNum)"
+          mode="grid"
+          :show-stat-bar="false"
+          :show-mobile-view="false"
+          :show-sprint-board="true"
+          @item-clicked="sprintVideoListItemClickedHandler"
         ></tdd-video-list>
       </a-spin>
     </div>
@@ -354,15 +354,15 @@ export default {
       let url = 'video/aidtitle?aid=' + this.videoAidInput;
       let that = this;
       this.$axios.get(url)
-          .then(function (response) {
-            that.videoAidTitleList = response.data;
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingVideoAidTitleList = false;
-          });
+        .then(function (response) {
+          that.videoAidTitleList = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingVideoAidTitleList = false;
+        });
     },
     fetchStatDailyList: function () {
       this.isLoadingStatDailyList = true;
@@ -371,16 +371,16 @@ export default {
       let url = 'statdaily?start_ts=' + start_ts;
       let that = this;
       this.$axios.get(url)
-          .then(function (response) {
-            that.statDailyList = response.data;
-            that.statDailyTotalCount = parseInt(response.headers['x-total-count']);
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingStatDailyList = false;
-          });
+        .then(function (response) {
+          that.statDailyList = response.data;
+          that.statDailyTotalCount = parseInt(response.headers['x-total-count']);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingStatDailyList = false;
+        });
     },
     drawChart: function () {
       if (this.$store.getters.clientMode === 'MOBILE') {
@@ -389,22 +389,22 @@ export default {
 
       const ds = new DataSet();
       const dv = ds.createView()
-          .source(this.statDailyList)
-          .transform({
-            type: 'rename',
-            map: {
-              video_count: '收录视频',
-              member_count: '覆盖P主',
-              video_record_count: '数据记录'
-            }
-          })
-          .transform({
-            type: 'map',
-            callback(row) {
-              row.added = row.added * 1000; // ts_s -> ts_ms
-              return row;
-            }
-          });
+        .source(this.statDailyList)
+        .transform({
+          type: 'rename',
+          map: {
+            video_count: '收录视频',
+            member_count: '覆盖P主',
+            video_record_count: '数据记录'
+          }
+        })
+        .transform({
+          type: 'map',
+          callback(row) {
+            row.added = row.added * 1000; // ts_s -> ts_ms
+            return row;
+          }
+        });
 
       // video count chart
       this.drawOneChart('video-count-chart', dv, '收录视频');
@@ -439,15 +439,15 @@ export default {
       let url = 'updatelog?last_count=' + last_count;
       let that = this;
       this.$axios.get(url)
-          .then(function (response) {
-            that.updateLogList = response.data;
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingUpdateLogList = false;
-          });
+        .then(function (response) {
+          that.updateLogList = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingUpdateLogList = false;
+        });
     },
     getTimelineItemColor: function (type) {
       let timelineItemColorArray = ['blue', 'blue', 'red', 'green'];
@@ -458,46 +458,46 @@ export default {
       let url = '/video/random?count=' + count;
       let that = this;
       this.$axios.get(url)
-          .then(function (response) {
-            that.randomVideoList = response.data;
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingRandomVideoList = false;
-          });
+        .then(function (response) {
+          that.randomVideoList = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingRandomVideoList = false;
+        });
     },
     fetchRandomMemberList: function (count) {
       this.isLoadingRandomMemberList = true;
       let url = '/member/random?count=' + count;
       let that = this;
       this.$axios.get(url)
-          .then(function (response) {
-            that.randomMemberList = response.data;
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingRandomMemberList = false;
-          });
+        .then(function (response) {
+          that.randomMemberList = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingRandomMemberList = false;
+        });
     },
     fetchSprintVideoList: function () {
       let that = this;
       this.isLoadingSprintVideoList = true;
       fetch(this.$store.state.apiBase + "sprint_video.php?status=processing")
-          .then(response => response.json())
-          .then(json => this.sprintVideoList = json.data)
-          .then(function () {
-            // change to new data format
-            for (let i = 0; i < that.sprintVideoList.length; i++) {
-              that.sprintVideoList[i].pubdate = that.sprintVideoList[i].created;
-            }
-            that.sprintVideoList.sort((a, b) => b.last_record.view - a.last_record.view);
-            that.getSprintVideoListFiltered();
-            that.isLoadingSprintVideoList = false;
-          });
+        .then(response => response.json())
+        .then(json => this.sprintVideoList = json.data)
+        .then(function () {
+          // change to new data format
+          for (let i = 0; i < that.sprintVideoList.length; i++) {
+            that.sprintVideoList[i].pubdate = that.sprintVideoList[i].created;
+          }
+          that.sprintVideoList.sort((a, b) => b.last_record.view - a.last_record.view);
+          that.getSprintVideoListFiltered();
+          that.isLoadingSprintVideoList = false;
+        });
     },
     getSprintVideoListFiltered: function () {
       let lastAidList = [];

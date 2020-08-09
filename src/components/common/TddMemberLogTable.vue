@@ -1,11 +1,11 @@
 <template>
   <a-table
-      :columns="columns"
-      :rowKey="memberLog => memberLog.id"
-      :dataSource="memberLogs"
-      :pagination="pagination"
-      :scroll="{ x: 700 }"
-      size="small"
+    :columns="columns"
+    :rowKey="memberLog => memberLog.id"
+    :dataSource="memberLogs"
+    :pagination="pagination"
+    :scroll="{ x: 700 }"
+    size="small"
   >
     <template slot="added" slot-scope="added">
       {{ $util.tsToDateString(added) }}
@@ -16,8 +16,8 @@
     <template slot="oldval" slot-scope="item">
       <template v-if="item.attr === 'face'">
         <a-avatar
-            :src="item.oldval"
-            :size="48"
+          :src="item.oldval"
+          :size="48"
         />
       </template>
       <template v-else-if="item.attr === 'sex'">
@@ -45,8 +45,8 @@
     <template slot="newval" slot-scope="item">
       <template v-if="item.attr === 'face'">
         <a-avatar
-            :src="item.newval"
-            :size="48"
+          :src="item.newval"
+          :size="48"
         />
       </template>
       <template v-else-if="item.attr === 'sex'">

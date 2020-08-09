@@ -60,10 +60,10 @@ export default {
   created: function() {
     this.isLoadingDaily = true
     fetch(this.$store.state.apiBase + "sprint_daily.php")
-        .then(response => response.json())
-        .then(json => this.sprintDailyList = json.data)
-        .then(() => this.sprintDailyList = this.sprintDailyList.reverse()) // reverse here
-        .then(() => this.isLoadingDaily = false)
+      .then(response => response.json())
+      .then(json => this.sprintDailyList = json.data)
+      .then(() => this.sprintDailyList = this.sprintDailyList.reverse()) // reverse here
+      .then(() => this.isLoadingDaily = false)
   },
 }
 </script>

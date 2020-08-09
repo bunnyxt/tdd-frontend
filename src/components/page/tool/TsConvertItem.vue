@@ -3,31 +3,31 @@
     <a-row>
       <a-col :span="7" style="padding-right: 16px">
         <a-input
-            v-model="tsVal"
-            placeholder="1359631780"
-            @change="tsValChangeHandler"
+          v-model="tsVal"
+          placeholder="1359631780"
+          @change="tsValChangeHandler"
         >
           <a-icon
-              slot="suffix"
-              type="copy"
-              title="复制"
-              @click="copyTsVal"
-              style="cursor: pointer"
+            slot="suffix"
+            type="copy"
+            title="复制"
+            @click="copyTsVal"
+            style="cursor: pointer"
           />
         </a-input>
       </a-col>
       <a-col :span="10" style="padding-right: 16px">
         <a-input
-            v-model="tsStr"
-            placeholder="2013-01-31 19:29:40"
-            @change="tsStrChangeHandler"
+          v-model="tsStr"
+          placeholder="2013-01-31 19:29:40"
+          @change="tsStrChangeHandler"
         >
           <a-icon
-              slot="suffix"
-              type="copy"
-              title="复制"
-              @click="copyTsStr"
-              style="cursor: pointer"
+            slot="suffix"
+            type="copy"
+            title="复制"
+            @click="copyTsStr"
+            style="cursor: pointer"
           />
         </a-input>
       </a-col>

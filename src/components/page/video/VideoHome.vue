@@ -15,12 +15,12 @@
     <div class="section-separator"></div>
     <div class="section-block" style="display: flex; display: -webkit-flex">
       <a-auto-complete
-          placeholder="视频aid"
-          v-model="videoAidInput"
-          @change="onAidInputChange"
-          optionLabelProp="text"
-          allowClear
-          style="margin-right: 8px; flex-grow: 1"
+        placeholder="视频aid"
+        v-model="videoAidInput"
+        @change="onAidInputChange"
+        optionLabelProp="text"
+        allowClear
+        style="margin-right: 8px; flex-grow: 1"
       >
         <template slot="dataSource">
           <a-select-option v-for="item in videoAidTitleListStringified" :key="item.aid" :text="item.aid" >
@@ -104,31 +104,31 @@
               </td>
               <td>
                 <a-date-picker
-                    :disabledDate="disabledStartDate"
-                    showTime
-                    format="YYYY-MM-DD HH:mm:ss"
-                    placeholder="开始"
-                    v-model="pubdateStartValue"
-                    @change="handlePubdateStartChange"
-                    @openChange="handlePubdateStartOpenChange"
+                  :disabledDate="disabledStartDate"
+                  showTime
+                  format="YYYY-MM-DD HH:mm:ss"
+                  placeholder="开始"
+                  v-model="pubdateStartValue"
+                  @change="handlePubdateStartChange"
+                  @openChange="handlePubdateStartOpenChange"
                 />
                 ~
                 <a-date-picker
-                    :disabledDate="disabledEndDate"
-                    showTime
-                    format="YYYY-MM-DD HH:mm:ss"
-                    placeholder="结束"
-                    v-model="pubdateEndValue"
-                    :open="pubdateEndOpen"
-                    @change="handlePubdateEndChange"
-                    @openChange="handlePubdateEndOpenChange"
-                    style="margin-right: 8px"
+                  :disabledDate="disabledEndDate"
+                  showTime
+                  format="YYYY-MM-DD HH:mm:ss"
+                  placeholder="结束"
+                  v-model="pubdateEndValue"
+                  :open="pubdateEndOpen"
+                  @change="handlePubdateEndChange"
+                  @openChange="handlePubdateEndOpenChange"
+                  style="margin-right: 8px"
                 />
                 <a-select
-                    style="width: 100px"
-                    placeholder="快速选择"
-                    v-model="pubdateSelectValue"
-                    @change="handlePubdateSelectChange">
+                  style="width: 100px"
+                  placeholder="快速选择"
+                  v-model="pubdateSelectValue"
+                  @change="handlePubdateSelectChange">
                   <a-select-option value="custom">自定义</a-select-option>
                   <a-select-option value="day">本日</a-select-option>
                   <a-select-option value="week">本周</a-select-option>
@@ -143,9 +143,9 @@
               </td>
               <td>
                 <a-input
-                    v-model="titleValue"
-                    placeholder="视频标题"
-                    allowClear
+                  v-model="titleValue"
+                  placeholder="视频标题"
+                  allowClear
                 />
               </td>
             </tr>
@@ -155,31 +155,31 @@
               </td>
               <td>
                 <a-input
-                    v-model="memberNameValue"
-                    placeholder="UP主"
-                    allowClear
+                  v-model="memberNameValue"
+                  placeholder="UP主"
+                  allowClear
                 />
               </td>
             </tr>
           </table>
           <a-button
-              type="primary"
-              icon="search"
-              :loading="isLoadingVideoList"
-              @click="handleSearchButtonClick"
-              style="margin-top: 8px"
+            type="primary"
+            icon="search"
+            :loading="isLoadingVideoList"
+            @click="handleSearchButtonClick"
+            style="margin-top: 8px"
           >
             搜索
           </a-button>
           <a-popconfirm
-              title="确定重置所有条件？"
-              @confirm="handleReloadButtonClick"
-              okText="确定"
-              cancelText="取消"
+            title="确定重置所有条件？"
+            @confirm="handleReloadButtonClick"
+            okText="确定"
+            cancelText="取消"
           >
             <a-button
-                icon="reload"
-                style="margin-top: 8px; margin-left: 16px"
+              icon="reload"
+              style="margin-top: 8px; margin-left: 16px"
             >
               重置
             </a-button>
@@ -188,19 +188,19 @@
       </a-collapse>
       <a-spin :spinning="isLoadingVideoList">
         <tdd-video-list
-            :video-list="videoList"
-            :main-prop="mainProp"
-            mode="grid"
-            @item-clicked="videoListItemClickedHandler"
+          :video-list="videoList"
+          :main-prop="mainProp"
+          mode="grid"
+          @item-clicked="videoListItemClickedHandler"
         ></tdd-video-list>
         <a-pagination
-            showQuickJumper
-            v-model="pagiCurrent"
-            :total="videoTotalCount"
-            :showTotal="total => `共 ${total} 个视频`"
-            :pageSize="20"
-            style="margin-top: 8px"
-            @change="onPagiChange"
+          showQuickJumper
+          v-model="pagiCurrent"
+          :total="videoTotalCount"
+          :showTotal="total => `共 ${total} 个视频`"
+          :pageSize="20"
+          style="margin-top: 8px"
+          @change="onPagiChange"
         />
       </a-spin>
     </div>
@@ -276,15 +276,15 @@ export default {
       let url = 'video/aidtitle?aid=' + this.videoAidInput;
       let that = this;
       this.$axios.get(url)
-          .then(function (response) {
-            that.videoAidTitleList = response.data;
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
-          .finally(function () {
-            that.isLoadingVideoAidTitleList = false;
-          });
+        .then(function (response) {
+          that.videoAidTitleList = response.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingVideoAidTitleList = false;
+        });
     },
     videoListItemClickedHandler: function (item) {
       this.$store.commit('setVideoDetailDrawerVideo', item);
@@ -346,32 +346,32 @@ export default {
       let url = this.assembleQueryUrl();
       let that = this;
       this.$axios.get(url)
-          .then(function (response) {
-            that.videoList = response.data;
-            that.videoTotalCount = parseInt(response.headers['x-total-count']);
-            that.lastLoadVideoListDate = new Date();
-            // change mainProp
-            if (that.orderValue === 'pubdate') {
-              that.mainProp = 'view';
-            } else {
-              that.mainProp = that.orderValue;
-            }
-          })
-          .catch(function (error) {
-            let title = error.response.data.code + ' - ' + error.response.data.message;
-            let content = JSON.stringify(error.response.data.detail);
-            if (error.response.data.code === 40001) {
-              title = '请求参数出错';
-              content = '请检查筛选搜索条件。' + JSON.stringify(error.response.data);
-            }
-            Modal.error({
-              title: title,
-              content: content
-            });
-          })
-          .finally(function () {
-            that.isLoadingVideoList = false;
+        .then(function (response) {
+          that.videoList = response.data;
+          that.videoTotalCount = parseInt(response.headers['x-total-count']);
+          that.lastLoadVideoListDate = new Date();
+          // change mainProp
+          if (that.orderValue === 'pubdate') {
+            that.mainProp = 'view';
+          } else {
+            that.mainProp = that.orderValue;
+          }
+        })
+        .catch(function (error) {
+          let title = error.response.data.code + ' - ' + error.response.data.message;
+          let content = JSON.stringify(error.response.data.detail);
+          if (error.response.data.code === 40001) {
+            title = '请求参数出错';
+            content = '请检查筛选搜索条件。' + JSON.stringify(error.response.data);
+          }
+          Modal.error({
+            title: title,
+            content: content
           });
+        })
+        .finally(function () {
+          that.isLoadingVideoList = false;
+        });
     },
     disabledStartDate(startValue) {
       const endValue = this.pubdateEndValue;

@@ -1,17 +1,17 @@
 <template>
   <a-card
-      hoverable
-      style="margin: 0px 0px 12px 0px"
-      class="sprint-video-card"
+    hoverable
+    style="margin: 0px 0px 12px 0px"
+    class="sprint-video-card"
   >
     <img
-        :id="'video-pic-'+video.id"
-        :alt="video.title"
-        :src="video.pic"
-        :height="imgHeight"
-        slot="cover"
-        @load="initImg"
-        @click="handleLineChartClick"
+      :id="'video-pic-'+video.id"
+      :alt="video.title"
+      :src="video.pic"
+      :height="imgHeight"
+      slot="cover"
+      @load="initImg"
+      @click="handleLineChartClick"
     >
     <a-card-meta>
       <template slot="title">
@@ -64,8 +64,8 @@ export default {
   },
   created: function() {
     fetch(this.$store.state.apiBase + "member.php?mid=" + this.video.mid)
-        .then(response => response.json())
-        .then(json => this.member = json.data[0])
+      .then(response => response.json())
+      .then(json => this.member = json.data[0])
   }
 };
 </script>

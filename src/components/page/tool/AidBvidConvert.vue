@@ -17,19 +17,19 @@
       </div>
       <div style="overflow: hidden; margin-bottom: 12px">
         <a-select
-            defaultValue="aid"
-            v-model="queryKey"
-            @change="queryKeyChangeHandler"
-            style="float: left; width: 80px"
+          defaultValue="aid"
+          v-model="queryKey"
+          @change="queryKeyChangeHandler"
+          style="float: left; width: 80px"
         >
           <a-select-option value="aid">av号</a-select-option>
           <a-select-option value="bvid">bv号</a-select-option>
         </a-select>
         <a-input style="float: left; width: 140px; margin-left: 12px" v-model="queryValue" />
         <a-button
-            type="primary"
-            @click="queryClickHandler"
-            style="float: left; margin-left: 12px"
+          type="primary"
+          @click="queryClickHandler"
+          style="float: left; margin-left: 12px"
         >转换</a-button>
       </div>
       <div style="overflow: hidden; margin-bottom: 12px">
@@ -91,16 +91,16 @@ export default {
       if (this.method === 'api') {
         // must use fetch, not axios, due to axios withCredentials setting
         fetch('https://api.bunnyxt.com/tdd/bapi_aid_bvid.php?'+this.queryKey+'='+this.queryValue)
-            .then(response => response.json())
-            .then((json) => {
-              this.queryResultObj = json;
-              if (json.status === 'success') {
-                this.$message.success('转换成功');
-              } else {
-                this.$message.error('转换出错');
-              }
-            })
-            .catch(() => this.$message.error('请求出错'))
+          .then(response => response.json())
+          .then((json) => {
+            this.queryResultObj = json;
+            if (json.status === 'success') {
+              this.$message.success('转换成功');
+            } else {
+              this.$message.error('转换出错');
+            }
+          })
+          .catch(() => this.$message.error('请求出错'))
       } else if (this.method === 'alg') {
         // ref: https://www.zhihu.com/question/381784377
         let table = 'fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF';

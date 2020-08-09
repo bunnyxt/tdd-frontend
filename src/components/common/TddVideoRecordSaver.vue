@@ -7,19 +7,19 @@
       <div style="margin-bottom: 12px">
         <h3>输出字段</h3>
         <a-checkbox-group
-            :options="fields"
-            v-model="enabledFields"
+          :options="fields"
+          v-model="enabledFields"
         ></a-checkbox-group>
       </div>
       <div style="margin-bottom: 12px">
         <h3>输出预览</h3>
         <a-table
-            :columns="columns"
-            :rowKey="record => record.added"
-            :dataSource="videoRecordsFiltered.slice(0, 5)"
-            :pagination="false"
-            :scroll="{ x: 700 }"
-            size="small"
+          :columns="columns"
+          :rowKey="record => record.added"
+          :dataSource="videoRecordsFiltered.slice(0, 5)"
+          :pagination="false"
+          :scroll="{ x: 700 }"
+          size="small"
         >
         </a-table>
       </div>
@@ -224,17 +224,17 @@ export default {
   },
   created() {
     this.fieldNames = new Map()
-        .set('id', 'id')
-        .set('aid', 'aid')
-        .set('时间(时间戳)', 'added')
-        .set('时间(格式化)', 'added_s')
-        .set('播放', 'view')
-        .set('弹幕', 'danmaku')
-        .set('评论', 'reply')
-        .set('收藏', 'favorite')
-        .set('硬币', 'coin')
-        .set('分享', 'share')
-        .set('点赞', 'like');
+      .set('id', 'id')
+      .set('aid', 'aid')
+      .set('时间(时间戳)', 'added')
+      .set('时间(格式化)', 'added_s')
+      .set('播放', 'view')
+      .set('弹幕', 'danmaku')
+      .set('评论', 'reply')
+      .set('收藏', 'favorite')
+      .set('硬币', 'coin')
+      .set('分享', 'share')
+      .set('点赞', 'like');
   }
 }
 </script>

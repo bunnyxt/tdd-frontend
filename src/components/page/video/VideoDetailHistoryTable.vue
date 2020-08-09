@@ -1,11 +1,11 @@
 <template>
   <a-table
-      :columns="columns"
-      :rowKey="record => record.added"
-      :dataSource="videoRecords"
-      :pagination="pagination"
-      :scroll="{ x: 700 }"
-      size="small"
+    :columns="columns"
+    :rowKey="record => record.added"
+    :dataSource="videoRecords"
+    :pagination="pagination"
+    :scroll="{ x: 700 }"
+    size="small"
   >
     <template slot="added" slot-scope="added">
       {{ $util.tsToDateString(added) }}

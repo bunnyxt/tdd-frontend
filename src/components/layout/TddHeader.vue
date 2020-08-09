@@ -1,31 +1,31 @@
 <template>
   <div v-if="this.$store.getters.clientMode === 'MOBILE'">
     <a-layout-header
-        class="mobile-header"
-        :style="{ position: 'fixed', zIndex: 30, width: '100%' }"
+      class="mobile-header"
+      :style="{ position: 'fixed', zIndex: 30, width: '100%' }"
     >
       <a-icon
-          class="trigger mobile-header-menu-icon"
-          :type="this.$store.state.isMenuSliderVisible ? 'menu-fold' : 'menu-unfold'"
-          @click="() => this.$store.commit('changeMenuSliderVisibility')"
+        class="trigger mobile-header-menu-icon"
+        :type="this.$store.state.isMenuSliderVisible ? 'menu-fold' : 'menu-unfold'"
+        @click="() => this.$store.commit('changeMenuSliderVisibility')"
       />
       <img
-          class="mobile-header-logo"
-          :src="logo_small"
-          @click="() => this.$router.push('/')"
+        class="mobile-header-logo"
+        :src="logo_small"
+        @click="() => this.$router.push('/')"
       />
       <div v-if="!this.$store.state.isUserLoggedIn">
         <a-icon
-            class="mobile-header-user-avatar"
-            type="user"
-            @click="() => this.$store.commit('changeLoginSliderVisibility')"
+          class="mobile-header-user-avatar"
+          type="user"
+          @click="() => this.$store.commit('changeLoginSliderVisibility')"
         />
       </div>
       <div v-else>
         <a-dropdown key="mobile">
           <a-avatar
-              class="mobile-header-user-avatar"
-              :src="avatarUrl"
+            class="mobile-header-user-avatar"
+            :src="avatarUrl"
           />
           <a-menu slot="overlay" style="margin-top: 4px">
             <a-menu-item>
@@ -53,15 +53,15 @@
   <div v-else>
     <a-layout-header :style="{padding: layoutPadding}">
       <img
-          class="desktop-header-logo"
-          :src="logo_small"
-          @click="() => this.$router.push('/')"
+        class="desktop-header-logo"
+        :src="logo_small"
+        @click="() => this.$router.push('/')"
       />
       <a-menu
-          theme="dark"
-          mode="horizontal"
-          :selectedKeys="selectedKeys"
-          :style="{ lineHeight: '64px', float: 'left' }"
+        theme="dark"
+        mode="horizontal"
+        :selectedKeys="selectedKeys"
+        :style="{ lineHeight: '64px', float: 'left' }"
       >
         <a-menu-item key="home">
           <router-link to="/">首页</router-link>
@@ -87,9 +87,9 @@
       </a-menu>
       <div v-if="!this.$store.state.isUserLoggedIn">
         <a-button
-            class="desktop-header-login-button"
-            ghost
-            @click="() => this.$store.commit('changeLoginSliderVisibility')"
+          class="desktop-header-login-button"
+          ghost
+          @click="() => this.$store.commit('changeLoginSliderVisibility')"
         >
           登录
         </a-button>
@@ -97,8 +97,8 @@
       <div v-else>
         <a-dropdown key="desktop">
           <a-avatar
-              class="desktop-header-user-avatar"
-              :src="avatarUrl"
+            class="desktop-header-user-avatar"
+            :src="avatarUrl"
           />
           <a-menu slot="overlay" style="margin-top: 4px">
             <a-menu-item>
@@ -180,26 +180,26 @@ export default {
         method: 'post',
         url: '/logout'
       })
-          .then(function (response) {
-            if (response.data.code === 20002) {
-              // clear local storage
-              localStorage.removeItem('tddUserDetail');
+        .then(function (response) {
+          if (response.data.code === 20002) {
+            // clear local storage
+            localStorage.removeItem('tddUserDetail');
 
-              // set status
-              that.$store.commit('setUserLoginStatus', false);
-              that.$store.commit('setUserDetail', null);
+            // set status
+            that.$store.commit('setUserLoginStatus', false);
+            that.$store.commit('setUserDetail', null);
 
-              that.$message.info('您已成功退出登录！');
+            that.$message.info('您已成功退出登录！');
 
-              // go to home page
-              that.$router.push('/');
-            } else {
-              console.log(response.data);
-            }
-          })
-          .catch(function (error) {
-            that.$message.error(error.response.data);
-          })
+            // go to home page
+            that.$router.push('/');
+          } else {
+            console.log(response.data);
+          }
+        })
+        .catch(function (error) {
+          that.$message.error(error.response.data);
+        })
     }
   }
 }
