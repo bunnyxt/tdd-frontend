@@ -29,7 +29,7 @@
     <div class="section-separator"></div>
     <div class="section-block">
       <h1>技术相关</h1>
-      <p>小霸王服务器由京东云提供，<strong>谢绝爆破</strong>。</p>
+      <p>小霸王服务器目前由阿里云与腾讯云提供，<strong>谢绝爆破</strong>。</p>
       <p>前端使用Vue全家桶构建，包括vue-router前端路由以及vuex状态管理。界面使用<a href="https://ant.design" target="_blank">Ant Design</a> UI设计语言，并根据项目需要，针对移动端访问进行了一系列优化。图表目前采用<a href="https://github.com/apexcharts/vue-apexcharts" target="_blank">ApexCharts</a>，但由于兼容性、更新频率与性能等问题，计划换成<a href="https://g2.antv.vision/" target="_blank">G2</a>。</p>
       <p>后端使用Spring Boot构建RESTful API，另外还有部分使用PHP实现的旧版接口。本站所有数据可以通过调用API获取。<strong>资源有限，请勿滥用。</strong>数据库依旧使用MySQL（因为不会用NoSQL）。</p>
       <p>爬虫脚本基于Python。很丢人，目前还没使用多线程爬虫，不知道怎么避免触发412。</p>
