@@ -18,7 +18,7 @@
           :rowKey="record => record.added"
           :dataSource="videoRecordsFiltered.slice(0, 5)"
           :pagination="false"
-          :scroll="{ x: 700 }"
+          :scroll="{ x: 800 }"
           size="small"
         >
         </a-table>

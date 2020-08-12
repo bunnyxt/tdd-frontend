@@ -4,7 +4,7 @@
     :rowKey="record => record.added"
     :dataSource="videoRecords"
     :pagination="pagination"
-    :scroll="{ x: 700 }"
+    :scroll="{ x: 800 }"
     size="small"
   >
     <template slot="added" slot-scope="added">

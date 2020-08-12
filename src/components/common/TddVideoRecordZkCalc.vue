@@ -60,7 +60,7 @@
             :rowKey="record => record.tableId"
             :pagination="false"
             :dataSource="videoRecordsFromTo"
-            :scroll="{ x: 700 }"
+            :scroll="{ x: 800 }"
             size="small"
           >
             <template slot="added" slot-scope="added">
