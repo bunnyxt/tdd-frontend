@@ -1,13 +1,19 @@
 <template>
   <div v-if="video">
     <a-drawer
-      :title="'av'+video.aid"
       placement="right"
       :closable="false"
       :visible="this.$store.state.isVideoDetailDrawerVisible"
       @close="() => $store.commit('setVideoDetailDrawerVisibility', false)"
       :width="videoDetailDrawerWidth + 'px'"
     >
+      <template slot="title">
+        {{ idString }}
+        <a-button
+          size="small"
+          @click="() => this.showBvid = !this.showBvid"
+        >转{{ this.showBvid ? 'aid' : 'bvid'}}</a-button>
+      </template>
       <h3 style="margin-bottom: 14px">{{ video.title }}</h3>
       <div style="overflow: hidden">
         <div style="float: left; margin-right: 20px; margin-bottom: 12px">
@@ -101,10 +107,17 @@ export default {
   },
   data: function () {
     return {
-
+      showBvid: false
     }
   },
   computed: {
+    idString: function () {
+      if (this.showBvid) {
+        return `BV${this.$util.a2b(this.video.aid)}`;
+      } else {
+        return `av${this.video.aid}`;
+      }
+    },
     video: {
       get() {
         return this.$store.state.videoDetailDrawerVideo;
