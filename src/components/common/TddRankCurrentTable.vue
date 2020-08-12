@@ -17,7 +17,7 @@
           @click="videoPicClickHandler(item.video.aid)"
           style="cursor: pointer"
         />
-        <a-tag style="position: absolute; bottom: 2px; right: -9px">{{ item.video.videos }}P</a-tag>
+        <a-tag v-if="item.video.videos > 1" style="position: absolute; bottom: 2px; right: -9px">{{ item.video.videos }}P</a-tag>
       </div>
     </template>
     <template slot="videoTitleMember" slot-scope="item">

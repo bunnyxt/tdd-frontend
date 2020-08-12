@@ -5,7 +5,7 @@
       <div style="position: absolute; padding: 8px">
         <a-tag v-for="tag in tagList" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
       </div>
-      <div v-if="video.videos" style="position: absolute; bottom: 6px; right: 0">
+      <div v-if="video.videos && video.videos > 1" style="position: absolute; bottom: 6px; right: 0">
         <a-tag>{{ video.videos }}P</a-tag>
       </div>
     </div>
