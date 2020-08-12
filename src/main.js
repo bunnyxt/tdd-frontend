@@ -26,7 +26,7 @@ import { Input } from 'ant-design-vue'
 import { Switch } from 'ant-design-vue'
 import { DatePicker } from "ant-design-vue"
 import { Select } from "ant-design-vue"
-import { LocaleProvider } from "ant-design-vue"
+import { ConfigProvider } from "ant-design-vue"
 import { BackTop } from "ant-design-vue"
 import { Drawer } from "ant-design-vue"
 import { Divider } from "ant-design-vue"
@@ -83,7 +83,7 @@ Vue.use(Input)
 Vue.use(Switch)
 Vue.use(DatePicker)
 Vue.use(Select)
-Vue.use(LocaleProvider)
+Vue.use(ConfigProvider)
 Vue.use(BackTop)
 Vue.use(Drawer)
 Vue.use(Divider)

@@ -1,5 +1,5 @@
 <template>
-  <a-locale-provider :locale="locale">
+  <a-config-provider :locale="locale">
     <a-layout class="layout" style="min-height:100%">
       <tdd-menu-slider />
       <tdd-login-slider />
@@ -17,7 +17,7 @@
         <a-back-top />
       </a-layout>
     </a-layout>
-  </a-locale-provider>
+  </a-config-provider>
 </template>
 
 <script>
