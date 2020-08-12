@@ -37,11 +37,11 @@
             <div style="overflow: hidden">
               <div style="float: left; margin-right: 20px; margin-bottom: 12px">
                 <a-avatar
-                    size="small"
-                    :src="video.member
-                      ? video.member.face
-                      : 'https://static.hdslb.com/images/member/noface.gif'"
-                    style="margin-right:12px"
+                  size="small"
+                  :src="video.member
+                        ? video.member.face
+                        : 'https://static.hdslb.com/images/member/noface.gif'"
+                  style="margin-right:12px"
                 />
                 <a @click="videoMemberNameClickHandler(video.mid)">
                   {{ video.member ? video.member.name : 'mid_'+video.mid}}
@@ -76,17 +76,18 @@
             <tdd-video-action-bar :aid="aid" />
             <div style="margin-bottom: 12px">
               <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
+              <a-tag>{{ video.videos }}P</a-tag>
             </div>
           </div>
           <a-divider orientation="left">简介</a-divider>
           <tdd-video-description :description="video.desc" />
           <a-divider orientation="left">标签</a-divider>
           <a-tag
-              v-for="tag in video.tags
-                  ? video.tags.split(';').slice(0, -1)
-                  : []"
-              :key="tag"
-              style="margin-bottom: 4px"
+            v-for="tag in video.tags
+                   ? video.tags.split(';').slice(0, -1)
+                   : []"
+            :key="tag"
+            style="margin-bottom: 4px"
           >
             {{ tag }}
           </a-tag>
@@ -173,7 +174,7 @@ export default {
   },
   computed: {
     aid: function() {
-     return parseInt(this.$route.params.aid);
+      return parseInt(this.$route.params.aid);
     },
     titleDivStyle: function () {
       let style = {};
@@ -312,10 +313,10 @@ export default {
 </script>
 
 <style scoped>
-  .stat-item {
-    white-space: nowrap;
-  }
-  .stat-item-icon {
-    margin-right: 8px;
-  }
+.stat-item {
+  white-space: nowrap;
+}
+.stat-item-icon {
+  margin-right: 8px;
+}
 </style>
