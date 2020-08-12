@@ -34,7 +34,7 @@ export const b2a = function (bvid) {
     }
   }
   for (let i = 0; i < 6; i++) {
-    r += tr[x[s[i]]] * Math.pow(58, i);
+    r += tr[x[s[i]-2]] * Math.pow(58, i);
   }
   return (r - add) ^ xor;
 }
