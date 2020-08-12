@@ -1,24 +1,33 @@
 <template>
   <div>
-    <div v-wechat-title="$route.meta.title='av'+this.$route.params.aid+' - 视频详情 - 天钿Daily'"></div>
+    <div v-wechat-title="$route.meta.title='av'+aid+' - 视频详情 - 天钿Daily'"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
         <a-breadcrumb-item><router-link to="/video">视频</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>av{{ this.$route.params.aid }}</a-breadcrumb-item>
+        <a-breadcrumb-item v-if="fromBvid">BV{{ bvid }} - av{{ aid }}</a-breadcrumb-item>
+        <a-breadcrumb-item v-else>av{{ aid }} - BV{{ bvid }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div v-if="isLoadingVideo">
       <div class="section-block">
         <a-spin :spinning="true">
-          正在获取<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的视频信息
+          正在获取
+          <a v-if="fromBvid" :href="'https://www.bilibili.com/video/BV' + bvid" target="_blank">BV{{ bvid }}</a>
+          <a v-else :href="'https://www.bilibili.com/video/av' + aid" target="_blank">av{{ aid }}</a>
+          的视频信息
         </a-spin>
       </div>
     </div>
     <div v-else>
       <div v-if="!video || Object.keys(video).length === 0">
         <div class="section-block">
-          <p>没有找到<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的视频信息</p>
+          <p>
+            没有找到
+            <a v-if="fromBvid" :href="'https://www.bilibili.com/video/BV' + bvid" target="_blank">BV{{ bvid }}</a>
+            <a v-else :href="'https://www.bilibili.com/video/av' + aid" target="_blank">av{{ aid }}</a>
+            的视频信息
+          </p>
           <p>可能是因为该视频不在本站收录范围内</p>
           <a @click="$router.go(-1)">返回上一页</a>
         </div>
@@ -104,13 +113,19 @@
         <div class="section-block">
           <div v-if="isLoadingVideoRecords">
             <a-spin :spinning="true">
-              正在获取<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的历史数据
+              正在获取
+              <a v-if="fromBvid" :href="'https://www.bilibili.com/video/BV' + bvid" target="_blank">BV{{ bvid }}</a>
+              <a v-else :href="'https://www.bilibili.com/video/av' + aid" target="_blank">av{{ aid }}</a>
+              的历史数据
             </a-spin>
           </div>
           <div v-else>
             <div v-if="videoRecords.length === 0">
               <a-alert banner>
-                没有找到<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的历史数据
+                没有找到
+                <a v-if="fromBvid" :href="'https://www.bilibili.com/video/BV' + bvid" target="_blank">BV{{ bvid }}</a>
+                <a v-else :href="'https://www.bilibili.com/video/av' + aid" target="_blank">av{{ aid }}</a>
+                的历史数据
               </a-alert>
             </div>
             <div v-else>
@@ -173,8 +188,18 @@ export default {
     }
   },
   computed: {
+    fromBvid: function () {
+      return !!this.$route.params.bvid;
+    },
     aid: function() {
-      return parseInt(this.$route.params.aid);
+      if (this.fromBvid) {
+        return parseInt(this.$util.b2a(this.$route.params.bvid));
+      } else {
+        return parseInt(this.$route.params.aid);
+      }
+    },
+    bvid: function () {
+      return this.$util.a2b(this.aid);
     },
     titleDivStyle: function () {
       let style = {};

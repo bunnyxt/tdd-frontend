@@ -58,6 +58,18 @@ export default new VueRouter({
         title: '视频详情 - ' + SITE_NAME
       }
     }, {
+      path: "/video/bv:bvid",
+      component: VideoDetail,
+      meta: {
+        title: '视频详情 - ' + SITE_NAME
+      }
+    }, {
+      path: "/video/BV:bvid",
+      component: VideoDetail,
+      meta: {
+        title: '视频详情 - ' + SITE_NAME
+      }
+    }, {
       path: "/member",
       component: MemberHome,
       meta: {
