@@ -92,6 +92,20 @@ export default {
 .ant-pagination li {
   margin-bottom: 8px;
 }
+.bili-btn {
+  /*border-color: #fb7299 !important;*/
+  border-color: #fc82a5 !important;
+  background-color: #fc82a5 !important;
+  color: white !important;
+}
+.bili-btn:hover {
+  border-color: #ff9db9 !important;
+  background-color: #ff9db9 !important;
+}
+.bili-btn:active {
+  border-color: #ff5a8a !important;
+  background-color: #ff5a8a !important;
+}
 
 /* fixed width-height ratio image */
 .tdd-cover-pic {

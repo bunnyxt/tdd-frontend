@@ -17,6 +17,7 @@
       <span :style="videoFavoriteDisplayStyle"><a-icon type="plus" /> {{ videoFavoriteCount }}</span>
     </a-button>
     <a-button
+      class="bili-btn"
       title="去B站观看"
       :style="videoPlayButtonStyle"
       @click="goToBiliAv(aid)"

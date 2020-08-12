@@ -17,6 +17,7 @@
       <span :style="memberFavoriteDisplayStyle"><a-icon type="plus" /> {{ memberFavoriteCount }}</span>
     </a-button>
     <a-button
+      class="bili-btn"
       title="前往UP主B站个人空间"
       :style="memberHomeButtonStyle"
       @click="goToBiliSpace(mid)"
