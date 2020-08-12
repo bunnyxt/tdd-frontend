@@ -1,3 +1,5 @@
+import { a2b, b2a } from './abid'
+
 export default {
   calcLayoutPadding: function (clientWidth) {
     if (clientWidth < 576) {
@@ -183,6 +185,7 @@ export default {
     that.$store.commit('setLoginSliderVisibility', true);
   },
   copyToClipboard: function (value, that) {
+    // TODO sometimes dont work on safari
     if (document.execCommand('copy')) {
       let tmpElement = document.createElement('textarea');
       document.body.appendChild(tmpElement);
@@ -196,5 +199,7 @@ export default {
     } else {
       that && that.$message.warning('您的浏览器不支持复制！请手动复制');
     }
-  }
+  },
+  // abid.js
+  a2b, b2a
 }
