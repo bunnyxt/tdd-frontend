@@ -8,14 +8,17 @@
     size="small"
   >
     <template slot="pic" slot-scope="item">
-      <img
-        width="108px"
-        height="65px"
-        alt="pic"
-        :src="item.video.pic"
-        @click="videoPicClickHandler(item.video.aid)"
-        style="cursor: pointer"
-      />
+      <div style="position: relative">
+        <img
+          width="108px"
+          height="65px"
+          alt="pic"
+          :src="item.video.pic"
+          @click="videoPicClickHandler(item.video.aid)"
+          style="cursor: pointer"
+        />
+        <a-tag style="position: absolute; bottom: 2px; right: -9px">{{ item.video.videos }}P</a-tag>
+      </div>
     </template>
     <template slot="videoTitleMember" slot-scope="item">
       <div class="video-title">
