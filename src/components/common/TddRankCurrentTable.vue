@@ -110,36 +110,36 @@ export default {
         {
           title: '播放',
           scopedSlots: { customRender: 'view_value' },
-          width: '100px',
+          width: '108px',
         }, {
           title: '弹幕',
           scopedSlots: { customRender: 'danmaku_value' },
-          width: '100px',
+          width: '96px',
         }, {
           title: '评论',
           scopedSlots: { customRender: 'reply_value' },
-          width: '100px',
+          width: '96px',
         }, {
           title: '收藏',
           scopedSlots: { customRender: 'favorite_value' },
-          width: '100px',
+          width: '96px',
         }, {
           title: '硬币',
           scopedSlots: { customRender: 'coin_value' },
-          width: '100px',
+          width: '96px',
         }, {
           title: '分享',
           scopedSlots: { customRender: 'share_value' },
-          width: '100px',
+          width: '96px',
         }, {
           title: '点赞',
           scopedSlots: { customRender: 'like_value' },
-          width: '100px',
+          width: '96px',
         }, {
           title: '得分',
           dataIndex: 'point',
           scopedSlots: { customRender: 'value' },
-          width: '100px',
+          width: '96px',
         }, {
           title: '修正A',
           dataIndex: 'xiua',
