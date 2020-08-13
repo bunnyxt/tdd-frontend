@@ -33,8 +33,22 @@ export default {
   },
   computed: {
     descriptionHtml: function () {
-      let html = this.description.replace(/\n/g, '<br>');
-      html = html.replace(/av([0-9]+)/g, '<a href="https://www.bilibili.com/video/av$1" target="_blank">av$1</a>');
+      let html = this.description;
+      // wrap line
+      html = html.replace(
+        /\n/g,
+        '<br>'
+      );
+      // add av link
+      html = html.replace(
+        /av([0-9]+)/g,
+        '<a href="https://www.bilibili.com/video/av$1" target="_blank">av$1</a>'
+      );
+      // add BV link
+      html = html.replace(
+        /BV([fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF]{10})/g,
+        '<a href="https://www.bilibili.com/video/BV$1" target="_blank">BV$1</a>'
+      );
       return html;
     },
     textStyle: function () {
