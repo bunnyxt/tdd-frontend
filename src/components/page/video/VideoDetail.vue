@@ -101,13 +101,12 @@
             {{ tag }}
           </a-tag>
           <a-divider orientation="left">数据</a-divider>
-          <div v-if="video.laststat">
-            <tdd-video-stat-bar :stat="video.laststat" :show-name="true" :mode="'vertical'"></tdd-video-stat-bar>
-            *{{ $util.tsToDateString(video.laststat.added) }}更新
-          </div>
-          <div v-else>
-            <a-alert type="error" message="暂无数据" />
-          </div>
+          <tdd-video-data-block
+            v-if="video.laststat"
+            :stat="video.laststat"
+            :size="this.$store.getters.clientMode === 'MOBILE' ? 'middle' : 'large'"
+          />
+          <a-alert v-else type="error" message="暂无数据" />
         </div>
         <div class="section-separator"></div>
         <div class="section-block">
@@ -163,8 +162,8 @@ import VideoDetailHistoryTable from "./VideoDetailHistoryTable";
 import TddVideoRecordSaver from "../../common/TddVideoRecordSaver";
 import TddVideoRecordZkCalc from "../../common/TddVideoRecordZkCalc";
 import TddVideoDescription from "../../common/TddVideoDescription";
-import TddVideoStatBar from "../../common/TddVideoStatBar";
 import TddVideoActionBar from "../../common/TddVideoActionBar";
+import TddVideoDataBlock from "@/components/common/TddVideoDataBlock";
 
 export default {
   name: 'VideoDetail',
@@ -174,8 +173,8 @@ export default {
     TddVideoRecordSaver,
     TddVideoRecordZkCalc,
     TddVideoDescription,
-    TddVideoStatBar,
-    TddVideoActionBar
+    TddVideoActionBar,
+    TddVideoDataBlock
   },
   data: function() {
     return {

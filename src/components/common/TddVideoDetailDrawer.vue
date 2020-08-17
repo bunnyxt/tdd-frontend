@@ -70,17 +70,12 @@
         {{ tag }}
       </a-tag>
       <a-divider orientation="left">数据</a-divider>
-      <div v-if="video.laststat">
-        <tdd-video-stat-bar
-          :stat="video.laststat"
-          mode="vertical"
-          :show-name="true"
-        ></tdd-video-stat-bar>
-        *{{ $util.tsToDateString(video.laststat.added) }}更新
-      </div>
-      <div v-else>
-        <a-alert type="error" message="暂无数据" />
-      </div>
+      <tdd-video-data-block
+        v-if="video.laststat"
+        :stat="video.laststat"
+        :size="this.$store.getters.clientMode === 'MOBILE' ? 'small' : 'middle'"
+      />
+      <a-alert v-else type="error" message="暂无数据" />
       <div class="drawer-fake-footer"></div>
       <div class="drawer-footer" :style="{ width: videoDetailDrawerWidth + 'px', zIndex: 10 }">
         <router-link :to="'/video/av'+video.aid">
@@ -94,16 +89,16 @@
 </template>
 
 <script>
-import TddVideoStatBar from "./TddVideoStatBar";
 import TddVideoDescription from "./TddVideoDescription";
 import TddVideoActionBar from "./TddVideoActionBar";
+import TddVideoDataBlock from "@/components/common/TddVideoDataBlock";
 
 export default {
   name: 'TddVideoDetailDrawer',
   components: {
-    TddVideoStatBar,
     TddVideoDescription,
-    TddVideoActionBar
+    TddVideoActionBar,
+    TddVideoDataBlock
   },
   data: function () {
     return {
