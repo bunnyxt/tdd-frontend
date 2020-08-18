@@ -105,6 +105,7 @@
             v-if="video.laststat"
             :stat="video.laststat"
             :size="this.$store.getters.clientMode === 'MOBILE' ? 'middle' : 'large'"
+            :bvid="bvid"
           />
           <a-alert v-else type="error" message="暂无数据" />
         </div>
@@ -215,7 +216,7 @@ export default {
   watch: {
     aid: function(newAid) {
       this.getVideoInfo(newAid);
-      this.postVisitVideoRecord(newAid);
+      this.addVisitHistoryVideo(newAid);
     },
     videoRecords: function() {
 
@@ -233,20 +234,22 @@ export default {
     }
   },
   methods: {
-    postVisitVideoRecord: function (aid) {
+    addVisitHistoryVideo: function (bvid) {
+      // TODO make bvid version
       // let that = this;
-      this.$axios.post('task/visit/video/' + aid + '/record')
-        .then(function (response) {
-          if (!response) {
-            console.log(response);
-          }
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(function () {
-
-        });
+      console.log(bvid);
+      // this.$axios.post('/visit/history/video/BV' + bvid)
+      //   .then(function (response) {
+      //     if (!response) {
+      //       console.log(response);
+      //     }
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   })
+      //   .finally(function () {
+      //
+      //   });
     },
     getVideoInfo: function(aid, checkVideoFromStore=false) {
       this.isLoadingVideo = true;
@@ -328,7 +331,7 @@ export default {
   },
   created: function() {
     this.getVideoInfo(this.aid, true);
-    this.postVisitVideoRecord(this.aid);
+    this.addVisitHistoryVideo(this.aid);
   },
   mounted: function () {
 
