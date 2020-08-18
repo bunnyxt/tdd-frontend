@@ -214,22 +214,4 @@ a {
 a:hover {
   color: #1890ff
 }
-.color-0 {
-  color: rgba(0, 0, 0, 0.65);
-}
-.color-1 {
-  color: #d32f2f;
-}
-.color-2 {
-  color: #f57c00;
-}
-.color-3 {
-  color: #388e3c;
-}
-.color-4 {
-  color: #1976d2;
-}
-.color-5 {
-  color: #7b1fa2;
-}
 </style>
