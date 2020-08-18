@@ -27,8 +27,6 @@
         <h3>输出格式</h3>
         <a-radio-group name="outputFormatRadioGroup" :defaultValue="'csv'" v-model="outputFormat">
           <a-radio :value="'csv'">csv</a-radio>
-          <a-radio :value="'xls'" disabled>xls</a-radio>
-          <a-radio :value="'xlsx'" disabled>xlsx</a-radio>
           <a-radio :value="'json'">json</a-radio>
         </a-radio-group>
       </div>
@@ -44,8 +42,6 @@
 </template>
 
 <script>
-// import XLSX from 'xlsx'
-
 export default {
   name: 'TddVideoRecordSaver',
   props: {
@@ -156,17 +152,10 @@ export default {
       return str;
     },
     onSaverClick: function () {
-      // let ws = XLSX.utils.json_to_sheet(this.videoRecordsFiltered, { header: this.enabledFieldsName });
-      // this.openDownloadDialog(this.sheet2blob(ws), '导出.xlsx');
-
       let filename = 'tdd_output_' + this.$util.tsToDateString(Math.floor(new Date().valueOf()/1000), 'yyyyMMddHHmmss');
       if (this.outputFormat === 'csv') {
         let blob = new Blob([this.listToCsvString(this.videoRecordsFiltered, this.enabledFieldsName)], { type: 'application/csv' });
         this.startDownloadBlob(blob, filename + '.csv');
-      } else if (this.outputFormat === 'xls') {
-        alert('WIP: xls will be supported in the future!');
-      } else if (this.outputFormat === 'xlsx') {
-        alert('WIP: xlsx will be supported in the future!');
       } else if (this.outputFormat === 'json') {
         let blob = new Blob([JSON.stringify(this.videoRecordsFiltered, undefined, 2)], { type: 'application/json' });
         this.startDownloadBlob(blob, filename + '.json');
@@ -181,46 +170,6 @@ export default {
         }
       }
     },
-    // openDownloadDialog: function (url, saveName) {
-    //   if (typeof url == 'object' && url instanceof Blob) {
-    //     url = URL.createObjectURL(url); // 创建blob地址
-    //   }
-    //   let aLink = document.createElement('a');
-    //   aLink.href = url;
-    //   aLink.download = saveName || ''; // HTML5新增的属性，指定保存文件名，可以不要后缀，注意，file:///模式下不会生效
-    //   let event;
-    //   if (window.MouseEvent) {
-    //     event = new MouseEvent('click');
-    //   } else {
-    //     event = document.createEvent('MouseEvents');
-    //     event.initMouseEvent('click', true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    //   }
-    //   aLink.dispatchEvent(event);
-    // },
-    // sheet2blob: function (sheet, sheetName) {
-    //   sheetName = sheetName || 'sheet1';
-    //   let workbook = {
-    //     SheetNames: [sheetName],
-    //     Sheets: {}
-    //   };
-    //   workbook.Sheets[sheetName] = sheet;
-    //   // 生成excel的配置项
-    //   let wopts = {
-    //     bookType: 'xlsx', // 要生成的文件类型
-    //     bookSST: false, // 是否生成Shared String Table，官方解释是，如果开启生成速度会下降，但在低版本IOS设备上有更好的兼容性
-    //     type: 'binary'
-    //   };
-    //   let wbout = XLSX.write(workbook, wopts);
-    //   let blob = new Blob([s2ab(wbout)], {type:"application/octet-stream"});
-    //   // 字符串转ArrayBuffer
-    //   function s2ab(s) {
-    //     let buf = new ArrayBuffer(s.length);
-    //     let view = new Uint8Array(buf);
-    //     for (let i=0; i!=s.length; ++i) view[i] = s.charCodeAt(i) & 0xFF;
-    //     return buf;
-    //   }
-    //   return blob;
-    // }
   },
   created() {
     this.fieldNames = new Map()
