@@ -7,86 +7,116 @@
     </div>
     <div v-else>
       <div v-if="Object.keys(rankInfo).length === 0">
-        <a-row :gutter="16">
-          <a-col :span="12">
-            <a-statistic title="排名" value="10,000+" />
-          </a-col>
-          <a-col :span="12">
+        <div class="rank-point-bar">
+          <div style="display: flex; flex-wrap: nowrap">
+            <a-statistic title="排名" value="10,000+" style="margin-right: 16px" />
             <a-statistic title="得分" value="***" />
-          </a-col>
-        </a-row>
+          </div>
+        </div>
         *请使用视频详情页下方"周刊算分"功能计算得分
       </div>
       <div v-else>
-        <a-row :gutter="16">
-          <a-col :span="size === 'small' ? 10 : 5">
-            <a-statistic title="排名" :value="rankInfo.rank" />
-          </a-col>
-          <a-col :span="size === 'small' ? 14 : 9">
-            <a-statistic title="得分" :value="rankInfo.point" />
-          </a-col>
-          <a-col :span="size === 'small' ? 0 : 5">
-            <a-statistic title="修正A" :value="rankInfo.xiua" />
-          </a-col>
-          <a-col :span="size === 'small' ? 0 : 5">
-            <a-statistic title="修正B" :value="rankInfo.xiub" />
-          </a-col>
-        </a-row>
+        <div class="rank-point-bar">
+          <div style="display: flex; flex-wrap: nowrap; justify-content: space-between">
+            <a-statistic title="排名" :value="rankInfo" style="margin-right: 16px" >
+              <template slot="formatter">
+                <div style="min-width: 28px">
+                  {{ rankInfo.rank.toLocaleString() }}
+                </div>
+              </template>
+            </a-statistic>
+            <a-statistic title="得分" :value="rankInfo" style="margin-right: 16px">
+              <template slot="formatter">
+                <div style="min-width: 28px">
+                  {{ rankInfo.point.toLocaleString() }}
+                </div>
+              </template>
+            </a-statistic>
+            <a-statistic title="修正A" :value="rankInfo" style="margin-right: 16px">
+              <template slot="formatter">
+                <div style="min-width: 38px">
+                  {{ rankInfo.xiua.toLocaleString() }}
+                </div>
+              </template>
+            </a-statistic>
+            <a-statistic title="修正B" :value="rankInfo.xiub">
+              <template slot="formatter">
+                <div style="min-width: 38px">
+                  {{ rankInfo.xiub.toLocaleString() }}
+                </div>
+              </template>
+            </a-statistic>
+          </div>
+        </div>
         <a-carousel autoplay>
           <a-statistic title="播放" :value="rankInfo">
             <template slot="formatter">
-              {{ rankInfo.now_view.toLocaleString() }} (
-              <span :class="[getColorClass('incr_view', rankInfo.incr_view)]">
-                {{rankInfo.incr_view > 0 ? '+' : ''}}{{ rankInfo.incr_view.toLocaleString() }}
-              </span>)
+              <div class="rank-prop">
+                {{ rankInfo.now_view.toLocaleString() }} (
+                <span :class="[getColorClass('incr_view', rankInfo.incr_view)]">
+                  {{rankInfo.incr_view > 0 ? '+' : ''}}{{ rankInfo.incr_view.toLocaleString() }}
+                </span>)
+              </div>
             </template>
           </a-statistic>
           <a-statistic title="弹幕" :value="rankInfo">
             <template slot="formatter">
-              {{ rankInfo.now_danmaku.toLocaleString() }} (
-              <span :class="[getColorClass('incr_danmaku', rankInfo.incr_danmaku)]">
-                {{rankInfo.incr_danmaku > 0 ? '+' : ''}}{{ rankInfo.incr_danmaku.toLocaleString() }}
-              </span>)
+              <div class="rank-prop">
+                {{ rankInfo.now_danmaku.toLocaleString() }} (
+                <span :class="[getColorClass('incr_danmaku', rankInfo.incr_danmaku)]">
+                  {{rankInfo.incr_danmaku > 0 ? '+' : ''}}{{ rankInfo.incr_danmaku.toLocaleString() }}
+                </span>)
+              </div>
             </template>
           </a-statistic>
           <a-statistic title="评论" :value="rankInfo">
             <template slot="formatter">
-              {{ rankInfo.now_reply.toLocaleString() }} (
-              <span :class="[getColorClass('incr_reply', rankInfo.incr_reply)]">
-                {{rankInfo.incr_reply > 0 ? '+' : ''}}{{ rankInfo.incr_reply.toLocaleString() }}
-              </span>)
+              <div class="rank-prop">
+                {{ rankInfo.now_reply.toLocaleString() }} (
+                <span :class="[getColorClass('incr_reply', rankInfo.incr_reply)]">
+                  {{rankInfo.incr_reply > 0 ? '+' : ''}}{{ rankInfo.incr_reply.toLocaleString() }}
+                </span>)
+              </div>
             </template>
           </a-statistic>
           <a-statistic title="收藏" :value="rankInfo">
             <template slot="formatter">
-              {{ rankInfo.now_favorite.toLocaleString() }} (
-              <span :class="[getColorClass('incr_favorite', rankInfo.incr_favorite)]">
-                {{rankInfo.incr_favorite > 0 ? '+' : ''}}{{ rankInfo.incr_favorite.toLocaleString() }}
-              </span>)
+              <div class="rank-prop">
+                {{ rankInfo.now_favorite.toLocaleString() }} (
+                <span :class="[getColorClass('incr_favorite', rankInfo.incr_favorite)]">
+                  {{rankInfo.incr_favorite > 0 ? '+' : ''}}{{ rankInfo.incr_favorite.toLocaleString() }}
+                </span>)
+              </div>
             </template>
           </a-statistic>
           <a-statistic title="硬币" :value="rankInfo">
             <template slot="formatter">
-              {{ rankInfo.now_coin.toLocaleString() }} (
-              <span :class="[getColorClass('incr_coin', rankInfo.incr_coin)]">
-                {{rankInfo.incr_coin > 0 ? '+' : ''}}{{ rankInfo.incr_coin.toLocaleString() }}
-              </span>)
+              <div class="rank-prop">
+                {{ rankInfo.now_coin.toLocaleString() }} (
+                <span :class="[getColorClass('incr_coin', rankInfo.incr_coin)]">
+                  {{rankInfo.incr_coin > 0 ? '+' : ''}}{{ rankInfo.incr_coin.toLocaleString() }}
+                </span>)
+              </div>
             </template>
           </a-statistic>
           <a-statistic title="分享" :value="rankInfo">
             <template slot="formatter">
-              {{ rankInfo.now_share.toLocaleString() }} (
-              <span :class="[getColorClass('incr_share', rankInfo.incr_share)]">
-                {{rankInfo.incr_share > 0 ? '+' : ''}}{{ rankInfo.incr_share.toLocaleString() }}
-              </span>)
+              <div class="rank-prop">
+                {{ rankInfo.now_share.toLocaleString() }} (
+                <span :class="[getColorClass('incr_share', rankInfo.incr_share)]">
+                  {{rankInfo.incr_share > 0 ? '+' : ''}}{{ rankInfo.incr_share.toLocaleString() }}
+                </span>)
+              </div>
             </template>
           </a-statistic>
           <a-statistic title="点赞" :value="rankInfo">
             <template slot="formatter">
-              {{ rankInfo.now_like.toLocaleString() }} (
-              <span :class="[getColorClass('incr_like', rankInfo.incr_like)]">
-                {{rankInfo.incr_like > 0 ? '+' : ''}}{{ rankInfo.incr_like.toLocaleString() }}
-              </span>)
+              <div class="rank-prop">
+                {{ rankInfo.now_like.toLocaleString() }} (
+                <span :class="[getColorClass('incr_like', rankInfo.incr_like)]">
+                  {{rankInfo.incr_like > 0 ? '+' : ''}}{{ rankInfo.incr_like.toLocaleString() }}
+                </span>)
+              </div>
             </template>
           </a-statistic>
         </a-carousel>
@@ -103,10 +133,6 @@ export default {
     bvid: {
       type: String,
       required: true
-    },
-    size: {
-      type: String,
-      default: 'middle'
     }
   },
   data: function () {
@@ -179,5 +205,17 @@ export default {
 }
 .ant-carousel >>> .slick-dots li button {
   background: #364d79;
+}
+
+.rank-point-bar {
+  width: 100%;
+  height: 64px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.rank-prop {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 </style>

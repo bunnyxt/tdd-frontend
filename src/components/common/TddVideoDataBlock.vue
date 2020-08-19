@@ -20,7 +20,7 @@
         </a-col>
         <a-col :span="size === 'small' ? 24 : size === 'middle' ? 24 : 8">
           <h3>周榜排行</h3>
-          <tdd-video-rank-weekly-brief :bvid="bvid" :size="size" />
+          <tdd-video-rank-weekly-brief :bvid="bvid" />
         </a-col>
       </a-row>
     </div>
