@@ -55,7 +55,7 @@
           <template v-else>
             <div style="overflow: hidden">
               <div class="carousel-p2-col">
-                <div id="video-count-chart"></div>
+<!--                <div id="video-count-chart"></div>-->
                 <a-statistic title="收录视频" :value="latestVideoCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
                     个
@@ -63,7 +63,7 @@
                 </a-statistic>
               </div>
               <div class="carousel-p2-col">
-                <div id="member-count-chart"></div>
+<!--                <div id="member-count-chart"></div>-->
                 <a-statistic title="覆盖P主" :value="latestMemberCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
                     位
@@ -71,7 +71,7 @@
                 </a-statistic>
               </div>
               <div class="carousel-p2-col">
-                <div id="video-record-count-chart"></div>
+<!--                <div id="video-record-count-chart"></div>-->
                 <a-statistic title="数据记录" :value="latestVideoRecordCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
                     条
@@ -216,7 +216,7 @@
 
 <script>
 import G2 from '@antv/g2';
-import DataSet from '@antv/data-set';
+// import DataSet from '@antv/data-set';
 import TddVideoList from "../common/TddVideoList"
 import TddMemberList from "../common/TddMemberList";
 import logo_max from '../../assets/img/logo_max.png'
@@ -383,33 +383,33 @@ export default {
         });
     },
     drawChart: function () {
-      if (this.$store.getters.clientMode === 'MOBILE') {
-        return;
-      }
-
-      const ds = new DataSet();
-      const dv = ds.createView()
-        .source(this.statDailyList)
-        .transform({
-          type: 'rename',
-          map: {
-            video_count: '收录视频',
-            member_count: '覆盖P主',
-            video_record_count: '数据记录'
-          }
-        })
-        .transform({
-          type: 'map',
-          callback(row) {
-            row.added = row.added * 1000; // ts_s -> ts_ms
-            return row;
-          }
-        });
-
-      // video count chart
-      this.drawOneChart('video-count-chart', dv, '收录视频');
-      this.drawOneChart('member-count-chart', dv, '覆盖P主');
-      this.drawOneChart('video-record-count-chart', dv, '数据记录');
+      // if (this.$store.getters.clientMode === 'MOBILE') {
+      //   return;
+      // }
+      //
+      // const ds = new DataSet();
+      // const dv = ds.createView()
+      //   .source(this.statDailyList)
+      //   .transform({
+      //     type: 'rename',
+      //     map: {
+      //       video_count: '收录视频',
+      //       member_count: '覆盖P主',
+      //       video_record_count: '数据记录'
+      //     }
+      //   })
+      //   .transform({
+      //     type: 'map',
+      //     callback(row) {
+      //       row.added = row.added * 1000; // ts_s -> ts_ms
+      //       return row;
+      //     }
+      //   });
+      //
+      // // video count chart
+      // this.drawOneChart('video-count-chart', dv, '收录视频');
+      // this.drawOneChart('member-count-chart', dv, '覆盖P主');
+      // this.drawOneChart('video-record-count-chart', dv, '数据记录');
     },
     drawOneChart: function (container, dv, yLabel) {
       const chart = new G2.Chart({
