@@ -63,7 +63,7 @@ export default {
       this.chart.coordinate('polar', { innerRadius: 0.1 }).transpose();
       this.chart.interval()
         .position('prop*percent')
-        .color('prop', [ '#323cbf', '#58bcf1', '#7b4cd8', '#24336f', '#f3cc49' ])
+        .color('prop', [ '#8c63b4', '#82c6e8', '#d86c59', '#eebe45', '#60708f' ])
         .tooltip('percent', val => {
           return {
             name: '占比',
