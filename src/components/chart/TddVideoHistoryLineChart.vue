@@ -231,7 +231,10 @@ export default {
       this.draw();
     },
     videoRecords: function () {
+      // TODO change addedRangeValue
       this.chart.changeData(this.transformedData);
+      // TODO test whether need render
+      // this.chart.render();
     }
   },
   methods: {
