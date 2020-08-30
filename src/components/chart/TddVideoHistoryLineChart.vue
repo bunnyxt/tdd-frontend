@@ -458,6 +458,14 @@ export default {
     }
   },
   mounted() {
+    let defaultAddedRangeStartIndex = 0;
+    if (this.videoRecords.length > 200) {
+      defaultAddedRangeStartIndex = this.videoRecords.length - 200;
+    }
+    this.addedRangeValue = [
+      moment(this.videoRecords[defaultAddedRangeStartIndex].added * 1000),
+      moment()
+    ];
     this.draw();
   }
 }
