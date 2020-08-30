@@ -308,7 +308,6 @@ export default {
       this.setData();
       this.setConfig();
       this.setLayout();
-      console.log(this.transformedData)
       this.chart.render();
     }
   },
