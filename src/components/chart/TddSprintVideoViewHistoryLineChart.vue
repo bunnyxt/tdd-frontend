@@ -34,7 +34,7 @@
             <a-button size="small" @click="setAddedRangeMobile(180)">180日</a-button>
           </p>
           <p>数据共计：{{ this.records.length }}条，当前展示：{{ this.filteredData.length }}条。</p>
-          <a-alert v-if="this.filteredData.length > 200" message="当前显示数据较多，可能会出现图表卡顿，如欲提高响应速度，请酌情缩小时间范围。" banner />
+          <a-alert v-if="this.filteredData.length > 1000" message="当前显示数据较多，可能会出现图表卡顿，如欲提高响应速度，请酌情缩小时间范围。" banner />
         </a-modal>
       </div>
       <template v-else>
@@ -51,7 +51,7 @@
               />
             </p>
             <p>数据共计：{{ this.records.length }}条，当前展示：{{ this.filteredData.length }}条。</p>
-            <a-alert v-if="this.filteredData.length > 200" banner>
+            <a-alert v-if="this.filteredData.length > 1000" banner>
               <template slot="message">
                 当前显示数据较多，可能会出现图表卡顿，<br>如欲提高响应速度，请酌情缩小时间范围。
               </template>
@@ -182,8 +182,8 @@ export default {
     },
     records: function () {
       let defaultAddedRangeStartIndex = 0;
-      if (this.records.length > 200) {
-        defaultAddedRangeStartIndex = this.records.length - 200;
+      if (this.records.length > 1000) {
+        defaultAddedRangeStartIndex = this.records.length - 1000;
       }
       this.addedRangeValue = [
         moment(this.records[defaultAddedRangeStartIndex].added * 1000),
@@ -313,8 +313,8 @@ export default {
   },
   mounted() {
     let defaultAddedRangeStartIndex = 0;
-    if (this.records.length > 200) {
-      defaultAddedRangeStartIndex = this.records.length - 200;
+    if (this.records.length > 1000) {
+      defaultAddedRangeStartIndex = this.records.length - 1000;
     }
     this.addedRangeValue = [
       moment(this.records[defaultAddedRangeStartIndex].added * 1000),
