@@ -162,6 +162,11 @@ export default {
       return filteredRecords;
     },
     transformedData: function () {
+      // annotation
+      // TODO can I move it to another proper place?
+      this.chart.annotation().clear(true);
+      this.setAnnotation();
+      
       const filteredData = [...this.filteredData];
       // add view speed
       if (filteredData.length > 0) {
