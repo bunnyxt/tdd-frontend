@@ -75,7 +75,13 @@ export default {
         .shape('smooth');
       
       this.chart.option('slider', {
+        // TODO bug here, cannot display the correct start and end
+        // start: 0.6,
+        // end: 1,
         height: 24,
+        trendCfg: {
+          data: this.sprintDailyList.map(x => x.viewincr).reverse()
+        },
         formatter: added => this.$util.tsToDateString(Math.floor(added / 1000))
       });
       
