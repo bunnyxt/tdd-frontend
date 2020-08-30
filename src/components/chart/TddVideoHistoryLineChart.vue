@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="video-detail-history-line-chart-toolbar" style="overflow: hidden">
+    <div id="tdd-video-history-line-chart-toolbar" style="overflow: hidden">
       <a-popover title="图表设置" trigger="click" placement="bottomLeft">
         <div slot="content">
           <p>坐标系类型：<a-switch checkedChildren="对数" unCheckedChildren="线性" @change="toggleAxisType" /></p>
