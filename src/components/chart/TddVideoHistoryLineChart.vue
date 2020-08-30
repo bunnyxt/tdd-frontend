@@ -137,7 +137,8 @@ export default {
     },
     toggleShowBasePoint: function (checked) {
       this.showBasePoint = checked;
-      this.chart.changeData(this.transformRecords(this.videoRecords, this.pubdate, undefined, undefined, this.showBasePoint));
+      this.chart.changeData(this.transformRecords(this.videoRecords, this.pubdate,
+        undefined, undefined, this.showBasePoint));
     },
     toggleShowSpecialPoint: function (checked) {
       this.showSpecialPoint = checked;
@@ -272,15 +273,90 @@ export default {
         this.chart.option('slider', {
           height: -30,
           trendCfg: {
-            data: this.videoRecords.map(v => -v.view)
+            // data: this.videoRecords.map(v => -v.view)
+            data: []
           },
           formatter: added => this.$util.tsToDateString(Math.floor(added / 1000))
         });
       }
     },
     setAnnotation: function () {
-      const viewList = this.videoRecords.map(x => x.view);
-      // TODO
+      const data = this.videoRecords;
+      if (data.length === 0) {
+        return;
+      }
+      
+      // view point
+      const minView = data[0].view;
+      const maxView = data[data.length - 1].view;
+      let viewPointTasks = [];
+      let currentViewTask = 10000;
+      let step = 90000;
+      while (currentViewTask <= maxView) {
+        // push current
+        if (currentViewTask >= minView) {
+          viewPointTasks.push(currentViewTask);
+        }
+        // go next
+        currentViewTask += step;
+        // change step
+        if (currentViewTask >= 100000 && currentViewTask < 1000000) {
+          step = 100000;
+        } else if (currentViewTask < 10000000) {
+          step = 1000000;
+        } else if (currentViewTask < 100000000) {
+          step = 10000000;
+        }
+      }
+      
+      // get view points
+      let viewPoints = [];
+      for (let viewPointTask of viewPointTasks) {
+        let lo = 0;
+        let hi = data.length;
+        while (lo < hi) {
+          let mid = Math.floor(lo + (hi - lo) / 2);
+          if (data[mid].view < viewPointTask) {
+            lo = mid + 1;
+          } else {
+            hi = mid;
+          }
+        }
+        viewPoints.push({
+          viewPoint: data[lo],
+          viewPointTask: viewPointTask
+        });
+      }
+      
+      // remove duplicate
+      let viewPointsTemp = [];
+      for (let i = 1; i < viewPoints.length; i++) {
+        if (viewPoints[i].viewPoint.view !== viewPoints[i - 1].viewPoint.view) {
+          viewPointsTemp.push(viewPoints[i - 1]);
+        }
+      }
+      if (viewPoints.length > 0) {
+        viewPointsTemp.push(viewPoints[viewPoints.length - 1]);
+      }
+      viewPoints = viewPointsTemp;
+      
+      // add data maker
+      for (let { viewPoint, viewPointTask } of viewPoints) {
+        this.chart.annotation().dataMarker({
+          position: [ viewPoint.added * 1000, viewPoint.view ],
+          text: {
+            style: {
+              fontSize: 13,
+              stroke: 'white',
+              lineWidth: 2
+            },
+            content: viewPointTask.toLocaleString() + '+',
+          },
+          line: {
+            length: 30
+          }
+        });
+      }
     },
     setLayout: function () {
       this.chart.line()
@@ -294,7 +370,8 @@ export default {
     },
     draw: function () {
       this.createChart();
-      this.setData(this.transformRecords(this.videoRecords, this.pubdate, undefined, undefined, this.showBasePoint));
+      this.setData(this.transformRecords(this.videoRecords, this.pubdate,
+        undefined, undefined, this.showBasePoint));
       this.setConfig(this.compact);
       this.setAnnotation();
       this.setLayout();
