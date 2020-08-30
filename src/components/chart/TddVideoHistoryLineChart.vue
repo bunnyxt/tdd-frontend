@@ -94,7 +94,6 @@ export default {
     return {
       // chart
       chart: null,
-      axisType: 'linear',
       chartPaddingDESKTOP: [ 20, 8, 95, 68 ],
       chartPaddingMOBILE: [ 20, 8, 50, 8 ],
       chartHeightDESKTOP: 400,
