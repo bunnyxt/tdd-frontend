@@ -209,7 +209,6 @@ export default {
     onWeekPickerChange: function () {
       this.chart.destroy();
       this.draw();
-      console.log(this.weekMatrices);
     },
   },
   mounted() {
