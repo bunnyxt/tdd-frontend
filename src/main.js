@@ -44,9 +44,6 @@ import { Form } from "ant-design-vue";
 import { message } from "ant-design-vue"
 Vue.prototype.$message = message;
 
-// apex chart
-import VueApexCharts from 'vue-apexcharts'
-
 // router
 import router from "./router"
 
@@ -97,10 +94,6 @@ Vue.use(InputNumber)
 Vue.use(AutoComplete)
 Vue.use(Dropdown)
 Vue.use(Form)
-
-// apex chart
-Vue.use(VueApexCharts)
-Vue.component('apexchart', VueApexCharts)
 
 // axios
 import axios from './api/axios'
