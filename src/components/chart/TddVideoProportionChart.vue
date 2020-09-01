@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import G2 from '@antv/g2';
+import { Chart } from '@antv/g2';
 
 export default {
   name: 'TddVideoProportionChart',
@@ -45,30 +45,33 @@ export default {
   },
   methods: {
     draw: function () {
-      this.chart = new G2.Chart({
+      this.chart = new Chart({
         container: 'video-proportion-chart',
-        forceFit: true,
+        autoFit: true,
         height: 168,
-        padding: [ 0, 0, 0, 0 ]
+        padding: [ 2, 0, 0, 0 ],
       });
-      this.chart.source(this.proportion, {
-        percent: { min: 0, max: Math.max(...this.proportion.map(x => x.percent)) * 1.05 }
+      this.chart.data(this.proportion);
+      this.chart.scale('percent', {
+        min: 0,
+        max: Math.max(...this.proportion.map(x => x.percent)) * 1.15
       });
       this.chart.tooltip({
         title: 'prop'
       });
       this.chart.legend(false);
-      this.chart.coord('polar', { innerRadius: 0.1 }).transpose();
+      this.chart.coordinate('polar', { innerRadius: 0.1 }).transpose();
       this.chart.interval()
         .position('prop*percent')
-        .color('prop', [ '#323cbf', '#58bcf1', '#7b4cd8', '#24336f', '#f3cc49' ])
+        .color('prop', [ '#8c63b4', '#82c6e8', '#d86c59', '#eebe45', '#60708f' ])
         .tooltip('percent', val => {
           return {
+            name: '占比',
             value: (val * 100).toFixed(2) + '%'
           };
         });
       this.proportion.map(obj => {
-        this.chart.guide().text({
+        this.chart.annotation().text({
           position: [ obj.prop, 0 ],
           content: obj.prop + ' ',
           style: {
@@ -76,6 +79,7 @@ export default {
           }
         });
       });
+      this.chart.interaction('element-active');
       this.chart.render();
     }
   },

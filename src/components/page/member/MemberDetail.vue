@@ -110,7 +110,7 @@
             </div>
             <div v-else>
               <div v-if="followerCategoryEnterCount > 0">
-                <member-detail-follower-history-line-chart :follower-records="followerRecords" />
+                <tdd-member-follower-history-line-chart :follower-records="followerRecords" />
               </div>
             </div>
           </div>
@@ -122,7 +122,7 @@
             </div>
             <div v-else>
               <div v-if="totalStatCategoryEnterCount > 0">
-                <member-detail-total-stat-history-line-chart :total-stat-records="totalStatRecords" />
+                <tdd-member-total-stat-history-line-chart :total-stat-records="totalStatRecords" />
               </div>
             </div>
           </div>
@@ -210,11 +210,11 @@
 <script>
 import { Icon } from 'ant-design-vue';
 import TddVideoList from "../../common/TddVideoList";
-import MemberDetailFollowerHistoryLineChart from "./MemberDetailFollowerHistoryLineChart";
-import MemberDetailTotalStatHistoryLineChart from "./MemberDetailTotalStatHistoryLineChart";
 import TddVideoStatBar from "../../common/TddVideoStatBar";
 import TddMemberActionBar from "../../common/TddMemberActionBar";
 import TddMemberLogTable from "../../common/TddMemberLogTable";
+import TddMemberFollowerHistoryLineChart from "@/components/chart/TddMemberFollowerHistoryLineChart";
+import TddMemberTotalStatHistoryLineChart from "@/components/chart/TddMemberTotalStatHistoryLineChart";
 
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
@@ -245,13 +245,13 @@ export default {
     }
   },
   components: {
+    TddMemberFollowerHistoryLineChart,
     TddVideoList,
     IconFont,
-    MemberDetailFollowerHistoryLineChart,
-    MemberDetailTotalStatHistoryLineChart,
     TddVideoStatBar,
     TddMemberActionBar,
-    TddMemberLogTable
+    TddMemberLogTable,
+    TddMemberTotalStatHistoryLineChart,
   },
   computed: {
     mid: function () {

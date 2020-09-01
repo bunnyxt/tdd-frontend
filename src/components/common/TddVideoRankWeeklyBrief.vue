@@ -212,6 +212,11 @@ export default {
   height: 64px;
   overflow-x: auto;
   overflow-y: hidden;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+}
+.rank-point-bar::-webkit-scrollbar{
+  display:none;
 }
 .rank-prop {
   overflow: hidden;

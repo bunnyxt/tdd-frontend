@@ -54,27 +54,41 @@
           </template>
           <template v-else>
             <div style="overflow: hidden">
-              <div class="carousel-p2-col">
-                <div id="video-count-chart"></div>
+              <div style="margin-bottom: 12px">
+              </div>
+              <div class="carousel-p2-col-narrow">
                 <a-statistic title="收录视频" :value="latestVideoCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
                     个
                   </template>
                 </a-statistic>
+                <a-statistic title="30日增幅" :value="last30DayVideoCount" style="padding: 8px 20px 0 20px">
+                  <template #prefix>
+                    <a-icon type="arrow-up" />
+                  </template>
+                </a-statistic>
               </div>
-              <div class="carousel-p2-col">
-                <div id="member-count-chart"></div>
+              <div class="carousel-p2-col-narrow">
                 <a-statistic title="覆盖P主" :value="latestMemberCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
                     位
                   </template>
                 </a-statistic>
+                <a-statistic title="30日增幅" :value="last30DayMemberCount" style="padding: 8px 20px 0 20px">
+                  <template #prefix>
+                    <a-icon type="arrow-up" />
+                  </template>
+                </a-statistic>
               </div>
-              <div class="carousel-p2-col">
-                <div id="video-record-count-chart"></div>
+              <div class="carousel-p2-col-wide">
                 <a-statistic title="数据记录" :value="latestVideoRecordCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
                     条
+                  </template>
+                </a-statistic>
+                <a-statistic title="30日增幅" :value="last30DayVideoRecordCount" style="padding: 8px 20px 0 20px">
+                  <template #prefix>
+                    <a-icon type="arrow-up" />
                   </template>
                 </a-statistic>
               </div>
@@ -215,8 +229,6 @@
 </template>
 
 <script>
-import G2 from '@antv/g2';
-import DataSet from '@antv/data-set';
 import TddVideoList from "../common/TddVideoList"
 import TddMemberList from "../common/TddMemberList";
 import logo_max from '../../assets/img/logo_max.png'
@@ -258,9 +270,6 @@ export default {
         return obj;
       });
     },
-    _storeClientMode: function() {
-      return this.$store.getters.clientMode;
-    },
     latestStatDaily: function () {
       let length = this.statDailyList.length;
       if (length > 0) {
@@ -295,6 +304,30 @@ export default {
         return this.$util.tsToDateString(this.latestStatDaily.added);
       } else {
         return this.$util.tsToDateString(0);
+      }
+    },
+    last30DayVideoCount: function () {
+      const length = this.statDailyList.length;
+      if (length > 0) {
+        return this.statDailyList[length - 1].video_count - this.statDailyList[0].video_count;
+      } else {
+        return 0;
+      }
+    },
+    last30DayMemberCount: function () {
+      const length = this.statDailyList.length;
+      if (length > 0) {
+        return this.statDailyList[length - 1].member_count - this.statDailyList[0].member_count;
+      } else {
+        return 0;
+      }
+    },
+    last30DayVideoRecordCount: function () {
+      const length = this.statDailyList.length;
+      if (length > 0) {
+        return this.statDailyList[length - 1].video_record_count - this.statDailyList[0].video_record_count;
+      } else {
+        return 0;
       }
     },
     refreshString: function () {
@@ -381,57 +414,6 @@ export default {
         .finally(function () {
           that.isLoadingStatDailyList = false;
         });
-    },
-    drawChart: function () {
-      if (this.$store.getters.clientMode === 'MOBILE') {
-        return;
-      }
-
-      const ds = new DataSet();
-      const dv = ds.createView()
-        .source(this.statDailyList)
-        .transform({
-          type: 'rename',
-          map: {
-            video_count: '收录视频',
-            member_count: '覆盖P主',
-            video_record_count: '数据记录'
-          }
-        })
-        .transform({
-          type: 'map',
-          callback(row) {
-            row.added = row.added * 1000; // ts_s -> ts_ms
-            return row;
-          }
-        });
-
-      // video count chart
-      this.drawOneChart('video-count-chart', dv, '收录视频');
-      this.drawOneChart('member-count-chart', dv, '覆盖P主');
-      this.drawOneChart('video-record-count-chart', dv, '数据记录');
-    },
-    drawOneChart: function (container, dv, yLabel) {
-      const chart = new G2.Chart({
-        container: container,
-        forceFit: true,
-        height: 100,
-        padding: [ 0, 20, 0, 20 ]
-      });
-      chart.source(dv, {
-        added: {
-          type: 'time',
-          mask: 'YYYY-MM-DD'
-        }
-      });
-      chart.axis('added', {
-        label: null
-      });
-      chart.axis(yLabel, {
-        label: null
-      });
-      chart.line().position('added*'+yLabel);
-      chart.render();
     },
     fetchUpdateLogList: function () {
       this.isLoadingUpdateLogList = true;
@@ -525,17 +507,6 @@ export default {
       this.$router.push('member/' + item.mid);
     }
   },
-  watch: {
-    _storeClientMode: function() {
-      if (this.$store.getters.clientMode !== 'MOBILE') {
-        let that = this;
-        setTimeout(() => that.drawChart(), 100); // to avoid missing div
-      }
-    },
-    statDailyList: function () {
-      this.drawChart();
-    }
-  },
   created() {
     this.fetchStatDailyList();
     this.fetchUpdateLogList();
@@ -585,9 +556,13 @@ export default {
   width: 60%;
 }
 
-.carousel-p2-col {
+.carousel-p2-col-narrow {
   float: left;
-  width: 33%;
+  width: 30%;
+}
+.carousel-p2-col-wide {
+  float: left;
+  width: 40%;
 }
 .carousel-p2-mobile-row1-col {
   float: left;

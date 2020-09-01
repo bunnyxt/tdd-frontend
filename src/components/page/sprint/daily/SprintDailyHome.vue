@@ -28,7 +28,7 @@
     <div class="section-block">
       <h1>助攻趋势</h1>
       <a-spin :spinning="isLoadingDaily">
-        <SprintDailyChart :sprintDailyList="sprintDailyList"/>
+        <tdd-sprint-daily-view-incr-history-line-chart :sprint-daily-list="sprintDailyList" />
       </a-spin>
     </div>
     <div class="section-separator"></div>
@@ -43,13 +43,13 @@
 
 <script>
 import SprintDailyTable from "./SprintDailyTable.vue"
-import SprintDailyChart from "./SprintDailyChart.vue"
+import TddSprintDailyViewIncrHistoryLineChart from "@/components/chart/TddSprintDailyViewIncrHistoryLineChart";
 
 export default {
   name: "SprintDailyHome",
   components: {
     SprintDailyTable,
-    SprintDailyChart
+    TddSprintDailyViewIncrHistoryLineChart,
   },
   data: function() {
     return {

@@ -5,7 +5,7 @@ module.exports = {
   configureWebpack: {
     plugins: [
       new BundleAnalyzerPlugin({
-        analyzerPort: 8889
+        analyzerPort: 8887
       })
     ]
   }

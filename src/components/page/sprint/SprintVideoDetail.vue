@@ -52,13 +52,13 @@
         <div class="section-separator"></div>
         <div class="section-block">
           <a-spin :spinning="isLoadingRecords">
-            <SprintVideoMainChart :records="records"/>
+            <tdd-sprint-video-view-history-line-chart :records="records" />
           </a-spin>
         </div>
         <div class="section-separator"></div>
         <div class="section-block">
           <a-spin :spinning="isLoadingRecords">
-            <SprintVideoHeatMapChart :records="records"/>
+            <tdd-sprint-video-view-history-heat-map-chart :records="records" />
           </a-spin>
         </div>
       </div>
@@ -73,16 +73,16 @@
 </template>
 
 <script>
-import SprintVideoMainChart from "./SprintVideoMainChart.vue";
-import SprintVideoHeatMapChart from "./SprintVideoHeatMapChart.vue";
 import SprintVideoInfo from './SprintVideoInfo.vue';
+import TddSprintVideoViewHistoryLineChart from "@/components/chart/TddSprintVideoViewHistoryLineChart";
+import TddSprintVideoViewHistoryHeatMapChart from "@/components/chart/TddSprintVideoViewHistoryHeatMapChart";
 
 export default {
   name: "SprintVideoDetail",
   components: {
-    SprintVideoMainChart,
-    SprintVideoHeatMapChart,
-    SprintVideoInfo
+    SprintVideoInfo,
+    TddSprintVideoViewHistoryLineChart,
+    TddSprintVideoViewHistoryHeatMapChart,
   },
   data: function() {
     return {

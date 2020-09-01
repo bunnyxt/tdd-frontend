@@ -29,7 +29,7 @@
 
 <script>
 import TddVideoStatBar from "@/components/common/TddVideoStatBar";
-import TddVideoProportionChart from "@/components/common/TddVideoProportionChart";
+import TddVideoProportionChart from "@/components/chart/TddVideoProportionChart";
 import TddVideoRankWeeklyBrief from "@/components/common/TddVideoRankWeeklyBrief";
 
 export default {
