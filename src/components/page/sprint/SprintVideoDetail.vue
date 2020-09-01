@@ -58,7 +58,7 @@
         <div class="section-separator"></div>
         <div class="section-block">
           <a-spin :spinning="isLoadingRecords">
-            <SprintVideoHeatMapChart :records="records"/>
+            <tdd-sprint-video-view-history-heat-map-chart :records="records" />
           </a-spin>
         </div>
       </div>
@@ -73,16 +73,16 @@
 </template>
 
 <script>
-import SprintVideoHeatMapChart from "./SprintVideoHeatMapChart.vue";
 import SprintVideoInfo from './SprintVideoInfo.vue';
 import TddSprintVideoViewHistoryLineChart from "@/components/chart/TddSprintVideoViewHistoryLineChart";
+import TddSprintVideoViewHistoryHeatMapChart from "@/components/chart/TddSprintVideoViewHistoryHeatMapChart";
 
 export default {
   name: "SprintVideoDetail",
   components: {
-    SprintVideoHeatMapChart,
     SprintVideoInfo,
     TddSprintVideoViewHistoryLineChart,
+    TddSprintVideoViewHistoryHeatMapChart,
   },
   data: function() {
     return {
