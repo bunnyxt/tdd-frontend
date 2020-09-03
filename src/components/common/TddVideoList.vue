@@ -13,9 +13,9 @@
       <template v-if="$store.getters.clientMode === 'MOBILE'">
         <div class="tdd-video-item-mobile">
 <!--          <div style="width: 108px; height: 65px; float: left; margin-right: 8px">-->
-<!--            <tdd-video-cover :src="item.pic" :video="item" />-->
+<!--            <tdd-video-cover :src="$util.httpS(item.pic)" :video="item" />-->
 <!--          </div>-->
-          <img class="tdd-video-item-mobile-cover-pic" width="108px" height="65px" alt="pic" :src="item.pic"/>
+          <img class="tdd-video-item-mobile-cover-pic" width="108px" height="65px" alt="pic" :src="$util.httpS(item.pic)"/>
           <div class="tdd-video-item-mobile-right-content">
             <div class="tdd-video-item-mobile-title" :title="item.title">
               {{ item.title }}
@@ -23,7 +23,7 @@
             <div class="tdd-video-item-mobile-right-content-footer">
               <div :style="{ width: showMobileView?'50%':'100%' }">
                 <a-avatar
-                  :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+                  :src="item.member ? $util.httpS(item.member.face) : 'https://static.hdslb.com/images/member/noface.gif'"
                   :size="16"
                   style="margin-right: 4px; margin-bottom: 1px"
                 />
@@ -99,7 +99,7 @@
               <h3 class="tdd-video-item-desktop-list-title" :title="item.title">{{ item.title }}</h3>
               <div>
                 <a-avatar
-                  :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+                  :src="item.member ? $util.httpS(item.member.face) : 'https://static.hdslb.com/images/member/noface.gif'"
                   :size="16"
                   style="margin-right: 4px; margin-bottom: 1px"
                 />
@@ -138,7 +138,7 @@
               <h3 class="tdd-video-item-desktop-grid-title" :title="item.title">{{ item.title }}</h3>
               <div>
                 <a-avatar
-                  :src="item.member ? item.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+                  :src="item.member ? $util.httpS(item.member.face) : 'https://static.hdslb.com/images/member/noface.gif'"
                   :size="16"
                   style="margin-right: 4px; margin-bottom: 1px"
                 />

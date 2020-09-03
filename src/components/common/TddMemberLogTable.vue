@@ -16,7 +16,7 @@
     <template slot="oldval" slot-scope="item">
       <template v-if="item.attr === 'face'">
         <a-avatar
-          :src="item.oldval"
+          :src="$util.httpS(item.oldval)"
           :size="48"
         />
       </template>
@@ -45,7 +45,7 @@
     <template slot="newval" slot-scope="item">
       <template v-if="item.attr === 'face'">
         <a-avatar
-          :src="item.newval"
+          :src="$util.httpS(item.newval)"
           :size="48"
         />
       </template>

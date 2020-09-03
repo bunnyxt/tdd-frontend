@@ -20,7 +20,7 @@
           <a-avatar
             size="small"
             :src="video.member
-                  ? video.member.face
+                  ? $util.httpS(video.member.face)
                   : 'https://static.hdslb.com/images/member/noface.gif'"
             style="margin-right:12px"
           />
@@ -35,7 +35,7 @@
               <template v-for="staff in video.staff.filter( s => s.title === 'UP主')">
                 <a-menu-item :key="staff.mid">
                   <a @click="videoMemberNameClickHandler(staff.mid)">
-                    <a-avatar size="small" :src="staff.face" style="margin-right: 8px" />
+                    <a-avatar size="small" :src="$util.httpS(staff.face)" style="margin-right: 8px" />
                     {{ staff.name }}<a-tag :color="getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
                   </a>
                 </a-menu-item>
@@ -43,7 +43,7 @@
               <template v-for="staff in video.staff.filter( s => s.title !== 'UP主')">
                 <a-menu-item :key="staff.mid">
                   <a @click="videoMemberNameClickHandler(staff.mid)">
-                    <a-avatar size="small" :src="staff.face" style="margin-right: 8px" />
+                    <a-avatar size="small" :src="$util.httpS(staff.face)" style="margin-right: 8px" />
                     {{ staff.name }}<a-tag :color="getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
                   </a>
                 </a-menu-item>

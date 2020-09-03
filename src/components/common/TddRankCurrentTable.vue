@@ -13,7 +13,7 @@
           width="108px"
           height="65px"
           alt="pic"
-          :src="item.video.pic"
+          :src="$util.httpS(item.video.pic)"
           @click="videoPicClickHandler(item.video.aid)"
           style="cursor: pointer"
         />
@@ -26,7 +26,7 @@
       </div>
       <div class="video-title-member">
         <a-avatar
-          :src="item.video.member ? item.video.member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+          :src="item.video.member ? $util.httpS(item.video.member.face) : 'https://static.hdslb.com/images/member/noface.gif'"
           :size="16"
           style="margin-right: 4px"
         />

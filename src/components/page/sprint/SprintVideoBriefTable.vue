@@ -6,7 +6,7 @@
     :pagination="pagination"
   >
     <template slot="picRender" slot-scope="pic">
-      <img :src="pic" width="100px"/>
+      <img :src="$util.httpS(pic)" width="100px"/>
     </template>
     <template slot="actionRender" slot-scope="aid">
       <a-button title="立刻助攻" @click="handlePlayCircleClick(aid)" style="margin-right: 8px"><a-icon type="play-circle"/></a-button>

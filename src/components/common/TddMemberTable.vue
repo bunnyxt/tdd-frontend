@@ -10,7 +10,7 @@
     <template slot="face" slot-scope="item">
       <router-link :to="'/member/'+item.mid">
         <a-avatar
-          :src="item.face ? item.face : 'https://static.hdslb.com/images/member/noface.gif'"
+          :src="item.face ? $util.httpS(item.face) : 'https://static.hdslb.com/images/member/noface.gif'"
           :size="48"
         />
       </router-link>
@@ -56,7 +56,7 @@
           width="108px"
           height="65px"
           alt="pic"
-          :src="video.pic"
+          :src="$util.httpS(video.pic)"
           @click="() => $router.push('/video/av'+video.aid)"
           style="cursor: pointer"
         />

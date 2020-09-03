@@ -25,7 +25,7 @@
         <a-dropdown key="mobile">
           <a-avatar
             class="mobile-header-user-avatar"
-            :src="avatarUrl"
+            :src="$util.httpS(avatarUrl)"
           />
           <a-menu slot="overlay" style="margin-top: 4px">
             <a-menu-item>
@@ -98,7 +98,7 @@
         <a-dropdown key="desktop">
           <a-avatar
             class="desktop-header-user-avatar"
-            :src="avatarUrl"
+            :src="$util.httpS(avatarUrl)"
           />
           <a-menu slot="overlay" style="margin-top: 4px">
             <a-menu-item>

@@ -200,6 +200,9 @@ export default {
       that && that.$message.warning('您的浏览器不支持复制！请手动复制');
     }
   },
+  httpS: function (url) {
+    return url.replace(/^http:/, 'https:');
+  },
   // abid.js
   a2b, b2a
 }

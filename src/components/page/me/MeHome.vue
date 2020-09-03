@@ -42,7 +42,7 @@
         <div>
           <div style="overflow: hidden">
             <a-avatar
-              :src="avatarUrl"
+              :src="$util.httpS(avatarUrl)"
               :size="48"
               class="me-header-avatar"
               @click="() => avatarSettingPrompt = true"
@@ -52,7 +52,7 @@
                 <a-button type="primary" @click="() => avatarSettingPrompt = false">了解</a-button>
               </template>
               <a-avatar
-                :src="avatarUrl"
+                :src="$util.httpS(avatarUrl)"
                 :size="64"
                 style="float: right; margin: 0 8px 16px 16px"
               />

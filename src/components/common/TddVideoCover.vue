@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="tdd-cover-pic">
-      <img :src="src" alt="pic">
+      <img :src="$util.httpS(src)" alt="pic">
       <div style="position: absolute; padding: 8px">
         <a-tag v-for="tag in tagList" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
       </div>

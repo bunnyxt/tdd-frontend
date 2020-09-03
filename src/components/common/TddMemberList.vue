@@ -14,7 +14,7 @@
         <div class="tdd-member-item-mobile">
           <a-avatar
             class="tdd-member-item-mobile-avatar"
-            :src="item.face ? item.face : 'https://static.hdslb.com/images/member/noface.gif'"
+            :src="item.face ? $util.httpS(item.face) : 'https://static.hdslb.com/images/member/noface.gif'"
             :size="48"
           />
           <div class="tdd-member-item-mobile-content">
@@ -88,7 +88,7 @@
           <div class="tdd-member-item-desktop-grid-header">
             <a-avatar
               class="tdd-member-item-desktop-grid-avatar"
-              :src="item.face ? item.face : 'https://static.hdslb.com/images/member/noface.gif'"
+              :src="item.face ? $util.httpS(item.face) : 'https://static.hdslb.com/images/member/noface.gif'"
               :size="48"
             />
             <div class="tdd-member-item-desktop-grid-content">
@@ -141,7 +141,7 @@
             >
               <img
                 class="tdd-member-item-desktop-grid-last-video-cover-pic"
-                width="108px" height="65px" alt="pic" :src="item.last_video ? item.last_video.pic : ''"
+                width="108px" height="65px" alt="pic" :src="item.last_video ? $util.httpS(item.last_video.pic) : ''"
               />
               <div class="tdd-member-item-desktop-grid-last-video-right-content">
                 <div class="tdd-member-item-desktop-grid-last-video-title">

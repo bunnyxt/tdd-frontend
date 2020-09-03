@@ -7,7 +7,7 @@
     <img
       :id="'video-pic-'+video.id"
       :alt="video.title"
-      :src="video.pic"
+      :src="$util.httpS(video.pic)"
       :height="imgHeight"
       slot="cover"
       @load="initImg"

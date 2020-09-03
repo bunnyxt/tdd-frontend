@@ -29,7 +29,7 @@
           <div class="tdd-member-detail-header">
             <a-avatar
               class="tdd-member-detail-header-avatar"
-              :src="member.face ? member.face : 'https://static.hdslb.com/images/member/noface.gif'"
+              :src="member.face ? $util.httpS(member.face) : 'https://static.hdslb.com/images/member/noface.gif'"
               :size="48"
             />
             <div class="tdd-member-detail-header-content">

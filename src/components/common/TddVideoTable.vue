@@ -12,7 +12,7 @@
         width="108px"
         height="65px"
         alt="pic"
-        :src="item.pic"
+        :src="$util.httpS(item.pic)"
         @click="videoPicClickHandler(item)"
         style="cursor: pointer"
       />
