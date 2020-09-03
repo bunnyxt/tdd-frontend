@@ -29,6 +29,19 @@
       </div>
       <div class="carousel-page">
         <div class="carousel-page-container">
+          <h1>资助感谢</h1>
+          <div class="carousel-p4-table-container">
+            <tdd-donate-log-list :donate-log-list="donateLogList" />
+            <div style="margin-top: 8px; overflow: hidden">
+              <div style="float: right; margin-right: 8px">
+                立刻<a href="https://afdian.net/@bunnyxt" target="_blank">资助本站</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="carousel-page">
+        <div class="carousel-page-container">
           <template v-if="this.$store.getters.clientMode === 'MOBILE'">
             <div style="overflow: hidden">
               <div class="carousel-p2-mobile-row1-col">
@@ -229,6 +242,7 @@
 </template>
 
 <script>
+import TddDonateLogList from "@/components/common/TddDonateLogList";
 import TddVideoList from "../common/TddVideoList"
 import TddMemberList from "../common/TddMemberList";
 import logo_max from '../../assets/img/logo_max.png'
@@ -238,7 +252,8 @@ export default {
   name: "Home",
   components: {
     TddVideoList,
-    TddMemberList
+    TddMemberList,
+    TddDonateLogList,
   },
   data: function () {
     return {
@@ -249,6 +264,8 @@ export default {
       statDailyTotalCount: 0,
       isLoadingUpdateLogList: false,
       updateLogList: [],
+      isLoadingDonateLogList: false,
+      donateLogList: [],
       videoAidInput: undefined,
       isLoadingVideoAidTitleList: false,
       videoAidTitleList: [],
@@ -431,6 +448,20 @@ export default {
           that.isLoadingUpdateLogList = false;
         });
     },
+    fetchDonateLogList: function () {
+      this.isLoadingDonateLogList = true;
+      let that = this;
+      this.$axios.get('donatelog')
+        .then(function (response) {
+          that.donateLogList = response.data.sort((a, b) => b.added - a.added);
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingDonateLogList = false;
+        });
+    },
     getTimelineItemColor: function (type) {
       let timelineItemColorArray = ['blue', 'blue', 'red', 'green'];
       return timelineItemColorArray[type];
@@ -510,6 +541,7 @@ export default {
   created() {
     this.fetchStatDailyList();
     this.fetchUpdateLogList();
+    this.fetchDonateLogList();
     this.fetchRandomVideoList(6);
     this.fetchRandomMemberList(6);
     this.fetchSprintVideoList();
@@ -569,6 +601,11 @@ export default {
   width: 50%;
 }
 
+.carousel-p4-table-container {
+  overflow-y: auto;
+  height: 140px;
+}
+
 .carousel-p3-timeline-container {
   overflow-y: auto;
   height: 140px;
@@ -590,6 +627,9 @@ export default {
     display: none;
   }
   .carousel-p3-timeline-container {
+    height: 100px;
+  }
+  .carousel-p4-table-container {
     height: 100px;
   }
 }
