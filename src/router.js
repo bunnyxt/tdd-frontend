@@ -83,7 +83,7 @@ export default new VueRouter({
         title: 'UP主详情 - ' + SITE_NAME
       }
     }, {
-      path: "/rank",
+      path: "/rank/:category?/:archId?",
       component: RankHome,
       meta: {
         title: '排行 - ' + SITE_NAME
