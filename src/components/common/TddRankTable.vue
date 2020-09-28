@@ -311,7 +311,7 @@ export default {
           title: '得分排名',
           dataIndex: 'rank',
           scopedSlots: { customRender: 'value' },
-          width: '72px',
+          width: '76px',
           fixed: this.useIndex ? '' : 'left',
         },
       ]
@@ -321,7 +321,7 @@ export default {
             title: '排名',
             dataIndex: 'index',
             scopedSlots: { customRender: 'value' },
-            width: '72px',
+            width: '76px',
             fixed: 'left',
           },
           ...headerColumns
