@@ -16,7 +16,7 @@
         >
           <h3>互动比例</h3>
           <tdd-video-proportion-chart v-if="stat.view > 0" :stat="stat" />
-          <a-alert v-else type="error" message="播放数非正，无法计算" />
+          <a-alert v-else type="error" message="播放数非正，无法计算" banner />
         </a-col>
         <a-col :span="size === 'small' ? 24 : size === 'middle' ? 24 : 8">
           <h3>周榜排行</h3>
