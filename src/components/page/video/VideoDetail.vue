@@ -35,6 +35,20 @@
       <div v-else>
         <div v-wechat-title="$route.meta.title=video.title+' - 视频详情 - 天钿Daily'"></div>
         <div class="section-block">
+          <a-alert
+            v-if="video.code !== 0 && video.code !== -403"
+            type="error"
+            :message='`本视频已无法正常观看，错误代码：${video.code}，提示信息：${$util.getVideoCodeMessage(video.code)}`'
+            style="margin-bottom: 12px;"
+            banner
+          />
+          <a-alert
+            v-if="video.code === -403"
+            type="warning"
+            :message='`本视频仅会员可见，登录B站后方可观看；由于B站限制，本站无法获取精确播放数`'
+            style="margin-bottom: 12px;"
+            banner
+          />
           <div v-if="$store.getters.clientMode === 'MOBILE'">
             <img :src="$util.httpS(video.pic)" alt="pic" width="100%" style="margin-bottom: 8px"/>
           </div>

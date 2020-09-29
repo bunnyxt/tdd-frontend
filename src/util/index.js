@@ -203,6 +203,16 @@ export default {
   httpS: function (url) {
     return url.replace(/^http:/, 'https:');
   },
+  getVideoCodeMessage: function (code) {
+    switch (code) {
+      case 62002:
+        return '稿件不可见';
+      case -404:
+        return '啥都木有';
+      default:
+        return null;
+    }
+  },
   // abid.js
   a2b, b2a
 }

@@ -14,6 +14,20 @@
           @click="() => this.showBvid = !this.showBvid"
         >转{{ this.showBvid ? 'aid' : 'bvid'}}</a-button>
       </template>
+      <a-alert
+        v-if="video.code !== 0 && video.code !== -403"
+        type="error"
+        :message='`本视频已无法正常观看，错误代码：${video.code}，提示信息：${$util.getVideoCodeMessage(video.code)}`'
+        style="margin-bottom: 12px;"
+        banner
+      />
+      <a-alert
+        v-if="video.code === -403"
+        type="warning"
+        :message='`本视频仅会员可见，登录B站后方可观看；由于B站限制，本站无法获取精确播放数`'
+        style="margin-bottom: 12px;"
+        banner
+      />
       <h3 style="margin-bottom: 14px">{{ video.title }}</h3>
       <div style="overflow: hidden">
         <div style="float: left; margin-right: 20px; margin-bottom: 12px">
