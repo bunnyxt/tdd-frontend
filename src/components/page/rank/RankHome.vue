@@ -212,13 +212,11 @@ export default {
         );
       };
       const getRankColor = function (category, archId) {
-        // TODO use vue cache
         return that.$axios.get(
           `/video/record/rank/${category}/${archId === 0 ? 'current' : `archive/${archId}`}/color`
         );
       };
       const getRankArchiveOverview = function (category) {
-        // TODO use vue cache
         return that.$axios.get(
           `/video/record/rank/${category}/archive/overview`
         );
