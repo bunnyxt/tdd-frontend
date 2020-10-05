@@ -1,4 +1,4 @@
 export default {
   recaptchaSiteKey: '<your-google-recaptcha-site-key>',
-  enableMoegirlWikiWidget: true,
+  enableMoegirlWikiWidget: false,
 }
