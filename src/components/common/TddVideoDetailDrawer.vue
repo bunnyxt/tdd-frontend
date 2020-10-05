@@ -69,6 +69,7 @@
       <p><a-icon type="calendar" style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
       <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
       <tdd-video-action-bar :aid="video.aid" :small="$store.state.clientWidth < 420" />
+      <tdd-moe-girl-wiki-widget v-if="$config.enableMoegirlWikiWidget" type="video" url="https://zh.moegirl.org.cn/普通DISCO" style="margin-bottom: 12px" />
       <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
       <a-tag>{{ video.videos }}P</a-tag>
       <a-divider orientation="left">简介</a-divider>
@@ -107,13 +108,15 @@
 import TddVideoDescription from "./TddVideoDescription";
 import TddVideoActionBar from "./TddVideoActionBar";
 import TddVideoDataBlock from "@/components/common/TddVideoDataBlock";
+import TddMoeGirlWikiWidget from "@/components/common/TddMoeGirlWikiWidget";
 
 export default {
   name: 'TddVideoDetailDrawer',
   components: {
     TddVideoDescription,
     TddVideoActionBar,
-    TddVideoDataBlock
+    TddVideoDataBlock,
+    TddMoeGirlWikiWidget,
   },
   data: function () {
     return {

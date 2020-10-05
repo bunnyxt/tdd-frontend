@@ -1,3 +1,4 @@
 export default {
-  recaptchaSiteKey: '<your-google-recaptcha-site-key>'
+  recaptchaSiteKey: '<your-google-recaptcha-site-key>',
+  enableMoegirlWikiWidget: true,
 }
