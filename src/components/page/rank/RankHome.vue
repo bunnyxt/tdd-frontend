@@ -8,47 +8,86 @@
     </div>
     <div class="section-block">
       <a-alert message="WORK IN PROGRESS" style="margin-bottom: 16px" banner/>
-      <div style="display: flex">
-        <a-menu
-          v-model="category"
-          mode="horizontal"
-          @click="categoryClickHandler"
-          style="flex-grow: 1"
-        >
-          <a-menu-item
-            v-for="(val, key) in categories"
-            :key="key"
-            :disabled="!categoryEnabledList.includes(key)"
+      <div>
+        <div style="display: flex">
+          <a-menu
+            v-model="category"
+            mode="horizontal"
+            @click="categoryClickHandler"
+            style="width: calc(100% - 58px)"
           >
-            {{ val }}
-          </a-menu-item>
-        </a-menu>
-        <a-select
-          v-model="orderRule"
-          @change="orderRuleChangeHandler"
-          style="margin-top: 8px; margin-right: 12px; margin-left: 12px; width: 120px; justify-content: flex-end"
-        >
-          <a-select-option
-            v-for="(val, key) in orderRules"
-            :key="key"
-            :value="key"
-          >
-            {{ val }}
-          </a-select-option>
-        </a-select>
-        <a-select
-          v-model="archId"
-          @change="archIdChangeHandler"
-          style="margin-top: 8px; width: 180px; justify-content: flex-end"
-        >
-          <a-select-option
-            v-for="item in rankArchiveOverview"
-            :key="item.id"
-            :value="item.id"
-          >
-            {{ item.name }}
-          </a-select-option>
-        </a-select>
+            <a-menu-item
+              v-for="(val, key) in categories"
+              :key="key"
+              :disabled="!categoryEnabledList.includes(key)"
+            >
+              {{ val }}
+            </a-menu-item>
+          </a-menu>
+          <div style="margin-top: 8px; padding-left: 12px; border-bottom: 1px solid #e8e8e8">
+            <a-popover v-if="$store.state.clientWidth < 864" placement="bottom" trigger="click">
+              <a-button>
+                <a-icon type="filter" />
+              </a-button>
+              <div slot="content" style="width: 312px">
+                <a-select
+                  v-model="orderRule"
+                  @change="orderRuleChangeHandler"
+                  style="margin-right: 12px; width: 120px"
+                >
+                  <a-select-option
+                    v-for="(val, key) in orderRules"
+                    :key="key"
+                    :value="key"
+                  >
+                    {{ val }}
+                  </a-select-option>
+                </a-select>
+                <a-select
+                  v-model="archId"
+                  @change="archIdChangeHandler"
+                  style="width: 180px"
+                >
+                  <a-select-option
+                    v-for="item in rankArchiveOverview"
+                    :key="item.id"
+                    :value="item.id"
+                  >
+                    {{ item.name }}
+                  </a-select-option>
+                </a-select>
+              </div>
+            </a-popover>
+            <div v-else style="display: flex">
+              <a-select
+                v-model="orderRule"
+                @change="orderRuleChangeHandler"
+                style="margin-right: 12px; width: 120px"
+              >
+                <a-select-option
+                  v-for="(val, key) in orderRules"
+                  :key="key"
+                  :value="key"
+                >
+                  {{ val }}
+                </a-select-option>
+              </a-select>
+              <a-select
+                v-model="archId"
+                @change="archIdChangeHandler"
+                style="width: 180px"
+              >
+                <a-select-option
+                  v-for="item in rankArchiveOverview"
+                  :key="item.id"
+                  :value="item.id"
+                >
+                  {{ item.name }}
+                </a-select-option>
+              </a-select>
+            </div>
+          </div>
+        </div>
       </div>
       <a-spin :spinning="isLoadingRankList">
         <a-alert
