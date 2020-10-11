@@ -88,11 +88,6 @@ export default new VueRouter({
       meta: {
         title: '排行 - ' + SITE_NAME
       },
-      // children: [
-      //   {
-      //     path: '/weekly/current',
-      //   }
-      // ]
     }, {
       path: "/sprint",
       component: SprintHome,
