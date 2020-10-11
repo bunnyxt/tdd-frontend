@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-wechat-title="$route.meta.title=`${archId === 0 ? '' : (rankArchiveOverview.find(x => x.id === archId) ? rankArchiveOverview.find(x => x.id === archId).name : archId) + ' - '}${categories[category[0]]} - 排行 - 天钿Daily`"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
