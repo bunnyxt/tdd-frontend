@@ -75,7 +75,6 @@
 
 <script>
 import { Chart } from '@antv/g2';
-import { DataView } from '@antv/data-set';
 import moment from "moment";
 
 export default {
@@ -183,7 +182,7 @@ export default {
         }
       }
       
-      return new DataView().source(filteredData)
+      return new this.$util.DataView().source(filteredData)
         .transform({
           type: 'rename',
           map: {

@@ -1,4 +1,5 @@
 import { a2b, b2a } from './abid'
+import { DataView } from './DataView'
 
 export default {
   calcLayoutPadding: function (clientWidth) {
@@ -214,5 +215,7 @@ export default {
     }
   },
   // abid.js
-  a2b, b2a
+  a2b, b2a,
+  // DataView.js
+  DataView,
 }
