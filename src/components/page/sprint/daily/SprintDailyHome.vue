@@ -27,16 +27,22 @@
     <div class="section-separator"></div>
     <div class="section-block">
       <h1>助攻趋势</h1>
-      <a-spin :spinning="isLoadingDaily">
-        <tdd-sprint-daily-view-incr-history-line-chart :sprint-daily-list="sprintDailyList" />
-      </a-spin>
+      <div v-if="isLoadingDaily">
+        <a-spin>
+          <a-alert type="info" message="加载中..."></a-alert>
+        </a-spin>
+      </div>
+      <tdd-sprint-daily-view-incr-history-line-chart v-else :sprint-daily-list="sprintDailyList" />
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
       <h1>往期助攻日报</h1>
-      <a-spin :spinning="isLoadingDaily">
-        <SprintDailyTable :sprintDailyList="sprintDailyList" :showPagi="true"/>
-      </a-spin>
+      <div v-if="isLoadingDaily">
+        <a-spin>
+          <a-alert type="info" message="加载中..."></a-alert>
+        </a-spin>
+      </div>
+      <sprint-daily-table v-else :sprintDailyList="sprintDailyList" :showPagi="true"/>
     </div>
   </div>
 </template>
