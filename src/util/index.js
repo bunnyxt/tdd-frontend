@@ -214,6 +214,29 @@ export default {
         return null;
     }
   },
+  deepClone: function (obj = {}) {
+    if (typeof obj !== 'object' || obj == null) {
+      // obj is not object or is null, no need to deep clone
+      return obj;
+    }
+    
+    let result;
+    // check array or object
+    if (obj instanceof Array) {
+      result = [];
+    } else {
+      result = {};
+    }
+    
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        // ensure key not a property from proto
+        result[key] = this.deepClone(obj[key]); // go recursive
+      }
+    }
+    
+    return result;
+  },
   // abid.js
   a2b, b2a,
   // DataView.js
