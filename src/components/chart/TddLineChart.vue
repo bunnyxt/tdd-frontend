@@ -614,6 +614,9 @@ export default {
     },
   },
   mounted() {
+    // sort via added
+    this.data.sort((a, b) => a.added - b.added);
+    
     // init addedRangeValue
     let defaultAddedRangeStartIndex = 0;
     const defaultDataLength = this.config.dateRangePanel
