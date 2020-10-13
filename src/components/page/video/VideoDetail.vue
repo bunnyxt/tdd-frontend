@@ -152,6 +152,21 @@
               </a-menu>
               <div v-show="currentDataCategory.indexOf('recordChart') !== -1">
                 <template v-if="recordChartEnterCount">
+                  <a-alert type="info" banner style="margin-bottom: 12px" closable>
+                    <template slot="message">
+                      新功能！想对比多个视频的历史趋势？将此视频<a-popover placement="bottom">
+                      <template slot="content">
+                        <template v-if="_inVideoCompareList">
+                          已添加，点此<a @click="removeFromVideoCompareListHandler">移除</a>
+                        </template>
+                        <template v-else>
+                          点此<a @click="addToVideoCompareListHandler">添加</a>
+                        </template>
+                      </template>
+                      <a>添加到对比列表</a>
+                    </a-popover>，前往<router-link to="/tool/compare">视频对比工具</router-link>进行比较
+                    </template>
+                  </a-alert>
                   <tdd-video-history-line-chart :videoRecords="videoRecords" :pubdate="video ? video.pubdate : 0" />
                 </template>
               </div>
@@ -228,7 +243,10 @@ export default {
     },
     _clientMode: function () {
       return this.$store.getters.clientMode;
-    }
+    },
+    _inVideoCompareList: function () {
+      return this.$store.state.videoCompareList.find(x => x.aid === this.aid);
+    },
   },
   watch: {
     aid: function(newAid) {
@@ -344,7 +362,13 @@ export default {
     },
     videoMemberNameClickHandler: function (mid) {
       this.$router.push('/member/' + mid);
-    }
+    },
+    addToVideoCompareListHandler: function () {
+      this.$store.commit('addCompareVideo', { aid: this.aid, video: this.video, records: this.videoRecords });
+    },
+    removeFromVideoCompareListHandler: function () {
+      this.$store.commit('removeCompareVideo', this.aid);
+    },
   },
   created: function() {
     this.getVideoInfo(this.aid, true);
