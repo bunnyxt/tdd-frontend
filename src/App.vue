@@ -63,6 +63,8 @@ export default {
         that.$store.commit('setClientWidth', width);
       }
     });
+    // init videoCompareList
+    this.$store.commit('loadVideoCompareList');
   }
 };
 </script>

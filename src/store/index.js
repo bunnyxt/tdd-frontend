@@ -15,7 +15,9 @@ const store = new Vuex.Store({
     memberDetailMember: null,
     clientWidth: 0,
     isUserLoggedIn: false,
-    userDetail: null
+    userDetail: null,
+    // video compare related
+    videoCompareList: null,
   },
   mutations: {
     changeMenuSliderVisibility(state) {
@@ -50,7 +52,53 @@ const store = new Vuex.Store({
     },
     setUserDetail(state, detail) {
       state.userDetail = detail;
-    }
+    },
+    // video compare related
+    loadVideoCompareList: (state) => {
+      if (!state.videoCompareList) {
+        const tddVideoCompareList = localStorage.getItem('tddVideoCompareList');
+        if (tddVideoCompareList) {
+          state.videoCompareList = JSON.parse(tddVideoCompareList);
+        } else {
+          state.videoCompareList = [];
+        }
+      }
+    },
+    storeVideoCompareList: (state) => {
+      localStorage.setItem('tddVideoCompareList', JSON.stringify(state.videoCompareList));
+    },
+    addCompareVideo (state, { aid, video, records }) {
+      const item = state.videoCompareList.find(x => x.aid === aid);
+      if (!item) {
+        // add new
+        state.videoCompareList.push({
+          aid,
+          video,
+          records,
+          config: {
+            title: `av${aid}`,
+            props: ['view'],
+          }
+        });
+      } else {
+        // update existed
+        item.video = video;
+        item.records = records;
+      }
+      localStorage.setItem('tddVideoCompareList', JSON.stringify(state.videoCompareList));
+    },
+    setCompareVideoConfig (state, { aid, config }) {
+      const item = state.videoCompareList.find(x => x.aid === aid);
+      if (item) {
+        // update config
+        item.config = config;
+        localStorage.setItem('tddVideoCompareList', JSON.stringify(state.videoCompareList));
+      }
+    },
+    removeCompareVideo (state, aid) {
+      state.videoCompareList = state.videoCompareList.filter(x => x.aid !== aid);
+      localStorage.setItem('tddVideoCompareList', JSON.stringify(state.videoCompareList));
+    },
   },
   getters: {
     clientMode: state => {
@@ -61,7 +109,16 @@ const store = new Vuex.Store({
       } else {
         return 'LARGE_DESKTOP';  // TODO change name in future
       }
-    }
+    },
+    // video compare related
+    getCompareVideoConfig: (state, aid) => {
+      const item = state.videoCompareList.find(x => x.aid === aid);
+      if (item) {
+        return item.config;
+      } else {
+        return null;
+      }
+    },
   }
 });
 
