@@ -17,6 +17,7 @@ const BiliApi = () => import("./components/page/tool/BiliApi");
 const ZkCalc = () => import("./components/page/tool/ZkCalc");
 const AidBvidConvert = () => import("./components/page/tool/AidBvidConvert");
 const TsConvert = () => import("./components/page/tool/TsConvert");
+const VideoCompare = () => import('./components/page/tool/VideoCompare');
 const AboutHome = () => import("./components/page/about/AboutHome");
 const ContactUs = () => import("./components/page/about/ContactUs");
 const UpdateLog = () => import("./components/page/about/UpdateLog");
@@ -148,6 +149,12 @@ export default new VueRouter({
       component: TsConvert,
       meta: {
         title: '时间戳转换 - ' + SITE_NAME
+      }
+    }, {
+      path: "/tool/compare",
+      component: VideoCompare,
+      meta: {
+        title: '视频对比 - ' + SITE_NAME
       }
     }, {
       path: "/about",

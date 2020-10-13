@@ -236,6 +236,9 @@
         <li>
           <router-link to="/tool/ts">时间戳转换</router-link>：时间戳与时间字符串转换工具。
         </li>
+        <li>
+          <router-link to="/tool/compare">视频对比</router-link>：视频数据对比。
+        </li>
       </ul>
     </div>
   </div>
