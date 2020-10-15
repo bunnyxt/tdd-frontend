@@ -474,10 +474,19 @@ export default {
           formatter: val => parseInt(val).toLocaleString()
         }
       });
-      this.chart.axis('播放瞬时增速/小时', {
-        label: null,
-        grid: null
-      });
+      if (this.config.data.speedArea) {
+        const prop = this.config.data.speedArea;
+        const { per } = this.config.data.addSpeed.find(x => x.prop === prop);
+        const per_rename = {
+          'hour': '小时',
+          'day': '日',
+        }[per];
+        const prop_name = `${this.config.data.transform.rename[prop]}瞬时增速/${per_rename}`;
+        this.chart.axis(prop_name, {
+          label: null,
+          grid: null
+        });
+      }
       
       // set slider
       if (!this.compact) {
