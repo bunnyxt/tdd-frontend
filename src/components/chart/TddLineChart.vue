@@ -444,16 +444,17 @@ export default {
       this.chart.data(this.transformedData);
     },
     setConfig: function () {
+      const that = this;
       this.chart.scale({
         added: {
           type: 'time',
           mask: 'YYYY-MM-DD HH:mm:ss'
         },
-        value: {
+        [that.config.data.dataLine]: {  // 'value' or single line prop
           type: this.axisType,
           base: 10, // only work when valueType === 'log'
           nice: false
-        }
+        },
       });
       
       this.chart.tooltip({
@@ -469,7 +470,7 @@ export default {
           }
         }
       });
-      this.chart.axis(this.config.data.dataLine, {
+      this.chart.axis(this.config.data.dataLine, {  // 'value' or single line prop
         label: this.compact ? null : {
           formatter: val => parseInt(val).toLocaleString()
         }
