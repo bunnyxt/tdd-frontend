@@ -464,10 +464,11 @@ export default {
       
       this.chart.axis('added', {
         label: {
-          // TODO change formatter
+          autoRotate: false,
+          autoEllipsis: true,
           formatter: function (text) {
-            return text.slice(5, 10);
-          }
+            return text.slice(5, 16);  // MM-dd HH:mm
+          },
         }
       });
       this.chart.axis(this.config.data.dataLine, {  // 'value' or single line prop
