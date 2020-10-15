@@ -469,7 +469,7 @@ export default {
           }
         }
       });
-      this.chart.axis('value', {
+      this.chart.axis(this.config.data.dataLine, {
         label: this.compact ? null : {
           formatter: val => parseInt(val).toLocaleString()
         }
