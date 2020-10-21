@@ -67,7 +67,6 @@ export default {
           },
         },
       };
-      console.log(this.videoCompareList);
       for (let { records, config } of this.videoCompareList) {
         const prefix = `${config.title} - `;
         const propRenameMap = {};

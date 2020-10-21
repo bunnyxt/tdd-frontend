@@ -8,13 +8,14 @@
       </a-breadcrumb>
     </div>
     <div class="section-block">
+      <a-alert message="WORK IN PROGRESS" style="margin-bottom: 16px" banner/>
       <h1>视频对比</h1>
-      <p>想对比多个视频的历史趋势？前往视频详情页面，点击"历史趋势"下的"添加到对比列表"按钮，回到本页面，即可查看</p>
+      <p>想对比多个视频的历史趋势？前往视频详情页面，点击"历史趋势"下的"添加到对比列表"按钮，回到本页面，即可查看。注意：当前只支持视频的最近200条记录。</p>
       <h3>对比列表</h3>
       <a-table
         :columns="columns"
         :rowKey="x => x.aid"
-        :dataSource="$store.state.videoCompareList"
+        :dataSource="videoCompareList"
         :scroll="{ x: 850 }"
         :pagination="false"
         size="small"
@@ -27,17 +28,18 @@
           <a :href="`https://www.bilibili.com/video/av${item.aid}`" target="_blank">{{ item.video.title }}</a>
         </template>
         <template slot="videoConfigTitle" slot-scope="item">
-          <a-input v-model="item.config.title" @change="storeVideoCompareListHandler" />
+          <!-- TODO prompt when two video has same title -->
+          <a-input v-model="item.config.title" @change="videoCompareListChangeHandler" />
         </template>
         <template slot="videoConfigProps" slot-scope="item">
-          <a-checkbox-group :options="configPropsOptions" v-model="item.config.props" @change="storeVideoCompareListHandler" />
+          <a-checkbox-group :options="configPropsOptions" v-model="item.config.props" @change="videoCompareListChangeHandler" />
         </template>
         <template slot="videoManipulation" slot-scope="item">
           <a @click="removeFromVideoCompareListHandler(item.aid)">移除</a>
         </template>
       </a-table>
       <h3>趋势对比</h3>
-      <tdd-video-history-compare-line-chart :video-compare-list="$store.state.videoCompareList" />
+      <tdd-video-history-compare-line-chart :video-compare-list="videoCompareList" />
     </div>
   </div>
 </template>
@@ -52,6 +54,7 @@ export default {
   },
   data: function () {
     return {
+      videoCompareList: [],
       columns: [{
         title: 'aid',
         dataIndex: 'aid',
@@ -96,13 +99,41 @@ export default {
     }
   },
   methods: {
-    removeFromVideoCompareListHandler: function (aid) {
-      this.$store.commit('removeCompareVideo', aid);
+    loadVideoCompareList: function () {
+      const videoCompareListString = localStorage.getItem('videoCompareList');
+      if (videoCompareListString) {
+        this.videoCompareList = JSON.parse(videoCompareListString);
+      } else {
+        this.videoCompareList = [];
+        localStorage.setItem('videoCompareList', '[]');
+      }
     },
-    storeVideoCompareListHandler: function () {
-      this.$store.commit('storeVideoCompareList');
+    removeFromVideoCompareListHandler: function (aid) {
+      const videoCompareListString = localStorage.getItem('videoCompareList') || '[]';
+      const videoCompareList = JSON.parse(videoCompareListString);
+      const newVideoCompareList = videoCompareList.filter(video => video.aid !== aid);
+      localStorage.setItem('videoCompareList', JSON.stringify(newVideoCompareList));
+      this.videoCompareList = newVideoCompareList;
+    },
+    // debounce: function (fun, delay) {
+    //   return function (args) {
+    //     let that = this;
+    //     let _args = args;
+    //     clearTimeout(fun.id);
+    //     fun.id = setTimeout(function () {
+    //       fun.call(that, _args)
+    //     }, delay);
+    //   };
+    // },
+    // TODO add debounce
+    videoCompareListChangeHandler: function () {
+      localStorage.setItem('videoCompareList', JSON.stringify(this.videoCompareList));
+      this.loadVideoCompareList();
     },
   },
+  mounted() {
+    this.loadVideoCompareList();
+  }
 }
 </script>
 

@@ -156,7 +156,7 @@
                     <template slot="message">
                       新功能！想对比多个视频的历史趋势？将此视频<a-popover placement="bottom">
                       <template slot="content">
-                        <template v-if="_inVideoCompareList">
+                        <template v-if="inVideoCompareList">
                           已添加，点此<a @click="removeFromVideoCompareListHandler">移除</a>
                         </template>
                         <template v-else>
@@ -217,6 +217,8 @@ export default {
       isLoadingVideoRecords: false,
       currentDataCategory: ['recordChart'],
       recordChartEnterCount: 1,
+      // video compare list related
+      inVideoCompareList: false,
     }
   },
   computed: {
@@ -244,14 +246,12 @@ export default {
     _clientMode: function () {
       return this.$store.getters.clientMode;
     },
-    _inVideoCompareList: function () {
-      return this.$store.state.videoCompareList.find(x => x.aid === this.aid);
-    },
   },
   watch: {
     aid: function(newAid) {
       this.getVideoInfo(newAid);
       this.addVisitHistoryVideo(newAid);
+      this.initVideoCompareListRelated(newAid);
     },
     videoRecords: function() {
 
@@ -364,15 +364,44 @@ export default {
       this.$router.push('/member/' + mid);
     },
     addToVideoCompareListHandler: function () {
-      this.$store.commit('addCompareVideo', { aid: this.aid, video: this.video, records: this.videoRecords });
+      const videoCompareListString = localStorage.getItem('videoCompareList') || '[]';
+      const videoCompareList = JSON.parse(videoCompareListString);
+      const newVideo = {
+        aid: this.aid,
+        video: this.video,
+        // records: [],
+        records: this.videoRecords.slice(-200),
+        config: {
+          title: `av${this.aid}`,
+          props: ['view'],
+        },
+      }
+      const newVideoCompareList = [...videoCompareList.filter(video => video.aid !== newVideo.aid), newVideo];
+      localStorage.setItem('videoCompareList', JSON.stringify(newVideoCompareList));
+      this.inVideoCompareList = true;
     },
     removeFromVideoCompareListHandler: function () {
-      this.$store.commit('removeCompareVideo', this.aid);
+      const videoCompareListString = localStorage.getItem('videoCompareList') || '[]';
+      const videoCompareList = JSON.parse(videoCompareListString);
+      const newVideoCompareList = videoCompareList.filter(video => video.aid !== this.aid);
+      localStorage.setItem('videoCompareList', JSON.stringify(newVideoCompareList));
+      this.inVideoCompareList = false;
+    },
+    initVideoCompareListRelated: function (aid) {
+      const videoCompareListString = localStorage.getItem('videoCompareList');
+      if (videoCompareListString) {
+        const videoCompareList = JSON.parse(videoCompareListString);
+        this.inVideoCompareList = !!videoCompareList.find(x => x.aid === aid);
+      } else {
+        localStorage.setItem('videoCompareList', '[]');
+        this.inVideoCompareList = false;
+      }
     },
   },
   created: function() {
     this.getVideoInfo(this.aid, true);
     this.addVisitHistoryVideo(this.aid);
+    this.initVideoCompareListRelated(this.aid);
   },
   mounted: function () {
 
