@@ -10,7 +10,35 @@
     <div class="section-block">
       <a-alert message="WORK IN PROGRESS" style="margin-bottom: 16px" banner/>
       <h1>视频对比</h1>
-      <p>想对比多个视频的历史趋势？前往视频详情页面，点击"历史趋势"下的"添加到对比列表"按钮，回到本页面，即可查看。注意：当前只支持视频的最近200条记录。</p>
+      <p>想对比多个视频的历史趋势？前往视频详情页面，点击"历史趋势"下的"添加到对比列表"按钮，或直接在下方"添加视频"输入框中添加，回到本页面，即可查看。注意：当前只支持视频的最近200条记录。</p>
+      <h3>添加视频</h3>
+      <div style="margin-bottom: 12px">
+        <a-spin :spinning="isAddingVideo">
+          <a-input-group compact >
+            <a-select default-value="aid" v-model="addVideoPrefix">
+              <a-select-option value="aid">
+                <span style="margin-right: 8px">av</span>
+              </a-select-option>
+              <a-select-option value="bvid">
+                <span style="margin-right: 8px">BV</span>
+              </a-select-option>
+            </a-select>
+            <a-input
+              :placeholder="{ 'aid': '456930', 'bvid': '19x411F7kL' }[addVideoPrefix]"
+              style="width: 50%; min-width: 128px; max-width: 200px"
+              v-model="addVideoId"
+            />
+            <a-button
+              type="primary"
+              :disabled="!isAddVideoIdValid"
+              :title="isAddVideoIdValid ? '添加视频' : `请输入正确的视频${addVideoPrefix}`"
+              @click="addVideoButtonClickHandler"
+            >
+              添加
+            </a-button>
+          </a-input-group>
+        </a-spin>
+      </div>
       <h3>对比列表</h3>
       <a-table
         :columns="columns"
@@ -96,7 +124,36 @@ export default {
         label: '点赞',
         value: 'like',
       }],
-    }
+      // add video related
+      addVideoPrefix: 'aid',
+      addVideoId: '',
+      isAddingVideo: false,
+    };
+  },
+  computed: {
+    // add video related
+    isAddVideoIdValid: function () {
+      const prefix = this.addVideoPrefix;
+      const id = this.addVideoId;
+      if (prefix === 'aid') {
+        if (id.length <= 0) {
+          return false;
+        }
+        if (String(parseInt(id)) !== id) {
+          return false;
+        }
+      } else if (prefix === 'bvid') {
+        if (id.length !== 10) {
+          return false;
+        }
+        if (!(id.charAt(0) === '1' && id.charAt(3) === '4' && id.charAt(5) === '1' && id.charAt(7) === '7')) {  // 1??4?1?7??
+          return false;
+        }
+      } else {
+        return false;
+      }
+      return true;
+    },
   },
   methods: {
     loadVideoCompareList: function () {
@@ -129,6 +186,64 @@ export default {
     videoCompareListChangeHandler: function () {
       localStorage.setItem('videoCompareList', JSON.stringify(this.videoCompareList));
       this.loadVideoCompareList();
+    },
+    // add video related
+    addVideoButtonClickHandler: function () {
+      const aid = this.addVideoPrefix === 'aid'
+        ? parseInt(this.addVideoId)
+        : this.addVideoPrefix === 'bvid'
+          ? this.$util.b2a(this.addVideoId)
+          : -1;
+      
+      this.isAddingVideo = true;
+      
+      const that = this;
+      const getVideoByAid = function (aid) {
+        return that.$axios.get(
+          `/video/${aid}`
+        );
+      };
+      const getVideoRecordsByAid = function (aid) {
+        return that.$axios.get(
+          `/video/${aid}/record`
+        );
+      };
+      this.$axios.all([
+        getVideoByAid(aid),
+        getVideoRecordsByAid(aid),
+      ])
+        .then(that.$axios.spread( function (
+          videoResponse, videoRecordsResponse
+        ) {
+          const video = videoResponse.data;
+          const records = videoRecordsResponse.data;
+          if (records.length === 0) {
+            that.$message.error('添加失败！视频不在本站收录范围内');
+          } else {
+            const newVideo = {
+              aid,
+              video,
+              // records: [],
+              records: records.slice(-200),
+              config: {
+                title: `av${aid}`,
+                props: ['view'],
+              },
+            };
+            const newVideoCompareList = [...that.videoCompareList.filter(video => video.aid !== newVideo.aid), newVideo];
+            that.videoCompareList = newVideoCompareList;
+            localStorage.setItem('videoCompareList', JSON.stringify(newVideoCompareList));
+            that.addVideoId = '';
+            that.$message.success('添加成功！');
+          }
+        }))
+        .catch(function (error) {
+          console.log(error);
+          that.$message.error('添加失败！');
+        })
+        .finally(function () {
+          that.isAddingVideo = false;
+        });
     },
   },
   mounted() {
