@@ -217,7 +217,7 @@ export default {
         ) {
           const video = videoResponse.data;
           const records = videoRecordsResponse.data;
-          if (records.length === 0) {
+          if (video.length === 0) {
             that.$message.error('添加失败！视频不在本站收录范围内');
           } else {
             const newVideo = {
