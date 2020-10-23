@@ -23,11 +23,20 @@
                 <span style="margin-right: 8px">BV</span>
               </a-select-option>
             </a-select>
-            <a-input
+            <a-auto-complete
               :placeholder="{ 'aid': '456930', 'bvid': '19x411F7kL' }[addVideoPrefix]"
-              style="width: 50%; min-width: 128px; max-width: 200px"
               v-model="addVideoId"
-            />
+              @change="addVideoIdChangeHandler"
+              optionLabelProp="text"
+              allowClear
+              style="width: calc(100% - 130px); min-width: 128px; max-width: 400px"
+            >
+              <template slot="dataSource">
+                <a-select-option v-for="item in addVideoIdCandidateList" :key="item.id" :text="item.id" >
+                  {{ item.id }} - {{ item.title }}
+                </a-select-option>
+              </template>
+            </a-auto-complete>
             <a-button
               type="primary"
               :disabled="!isAddVideoIdValid"
@@ -128,6 +137,8 @@ export default {
       addVideoPrefix: 'aid',
       addVideoId: '',
       isAddingVideo: false,
+      addVideoIdCandidateList: [],
+      isLoadingAddVideoIdCandidateList: false,
     };
   },
   computed: {
@@ -135,6 +146,9 @@ export default {
     isAddVideoIdValid: function () {
       const prefix = this.addVideoPrefix;
       const id = this.addVideoId;
+      if (!id) {
+        return false;
+      }
       if (prefix === 'aid') {
         if (id.length <= 0) {
           return false;
@@ -243,6 +257,36 @@ export default {
         })
         .finally(function () {
           that.isAddingVideo = false;
+        });
+    },
+    addVideoIdChangeHandler: function () {
+      if (this.addVideoPrefix === 'aid') {
+        if (this.isAddVideoIdValid && this.addVideoId.length > 3) {
+          this.fetchVideoIdCandidateList(this.addVideoPrefix, this.addVideoId);
+        }
+      } else if (this.addVideoPrefix === 'bvid') {
+        this.fetchVideoIdCandidateList(this.addVideoPrefix, this.addVideoId);
+      }
+    },
+    fetchVideoIdCandidateList: function (type, id) {
+      if (!(type === 'aid' || type === 'bvid')) {
+        return;
+      }
+      this.isLoadingAddVideoIdCandidateList = true;
+      const url = `video/${type}title?${type}=${id}`;
+      const that = this;
+      this.$axios.get(url)
+        .then(function (response) {
+          that.addVideoIdCandidateList = response.data.map(x => ({
+            id: String(x[type]),
+            title: x['title'],
+          }));
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingAddVideoIdCandidateList = false;
         });
     },
   },
