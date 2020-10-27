@@ -641,7 +641,6 @@ export default {
     },
     setLegendFilter: function () {
       if (this.config.data.dataLine === 'value' && this.config.dateRangePanel.soloProp) {
-        console.log(this.config);
         if (this.filteredData.length > this.config.dateRangePanel.performanceWarning) {
           this.chart.filter('prop', value => value === this.config.dateRangePanel.soloProp);
         } else {
