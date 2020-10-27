@@ -151,6 +151,8 @@ export default {
         dateRangePanel: {
           // performance warning
           performanceWarning: 200,  // 200 for multi props, 1000 for single prop
+          // the only prop to show when over performance warning
+          soloProp: '播放', // prop name, set to null to disable
         },
         // data manipulation
         data: {
@@ -364,7 +366,11 @@ export default {
       this.chart.changeData(this.transformedData);
       // TODO test whether need render
       this.chart.render();
-    }
+    },
+    filteredData: function () {
+      // set legend filter
+      this.setLegendFilter();
+    },
   },
   methods: {
     // config panel
@@ -633,12 +639,24 @@ export default {
           });
       }
     },
+    setLegendFilter: function () {
+      if (this.config.data.dataLine === 'value' && this.config.dateRangePanel.soloProp) {
+        console.log(this.config);
+        if (this.filteredData.length > this.config.dateRangePanel.performanceWarning) {
+          this.chart.filter('prop', value => value === this.config.dateRangePanel.soloProp);
+        } else {
+          this.chart.filter('prop', null);
+        }
+        this.chart.render();
+      }
+    },
     draw: function () {
       this.createChart();
       this.setData();
       this.setConfig();
       this.setAnnotation();
       this.setLayout();
+      this.setLegendFilter();
       this.chart.render();
     },
   },

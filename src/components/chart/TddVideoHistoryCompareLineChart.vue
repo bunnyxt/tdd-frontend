@@ -38,6 +38,9 @@ export default {
         configPanel: {
           showBasePoint: null,
         },
+        dateRangePanel: {
+          soloProp: null,
+        },
         data: {
           transform: {
             rename: {},
@@ -59,6 +62,9 @@ export default {
       const option = {
         configPanel: {
           showBasePoint: null,
+        },
+        dateRangePanel: {
+          soloProp: null,
         },
         data: {
           transform: {
