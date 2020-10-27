@@ -592,12 +592,24 @@ export default {
         this.chart.line()
           .position('added*value')
           .color('prop')
-          .shape('smooth');
+          .shape('smooth')
+          .tooltip('prop*value', (prop, value) => {
+            return {
+              name: prop,
+              value: value.toLocaleString(),
+            };
+          });
       } else {
         // single line support
         this.chart.line()
           .position(`added*${this.config.data.dataLine}`)
-          .shape('smooth');
+          .shape('smooth')
+          .tooltip(this.config.data.dataLine, (value) => {
+            return {
+              name: this.config.data.dataLine,
+              value: value.toLocaleString(),
+            };
+          });
       }
 
       
@@ -612,7 +624,13 @@ export default {
         const prop_name = `${this.config.data.transform.rename[prop]}瞬时增速/${per_rename}`;
         this.chart.area()
           .position(`added*${prop_name}`)
-          .color('rgba(255,0,0,0.5)');
+          .color('rgba(255,0,0,0.5)')
+          .tooltip(prop_name, (value) => {
+            return {
+              name: prop_name,
+              value: value.toLocaleString(),
+            };
+          });
       }
     },
     draw: function () {
