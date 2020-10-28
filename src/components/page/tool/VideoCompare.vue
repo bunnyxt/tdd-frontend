@@ -164,6 +164,7 @@ export default {
       isAddingVideo: false,
       addVideoIdCandidateList: [],
       isLoadingAddVideoIdCandidateList: false,
+      fetchVideoIdCandidateListTimeoutId: null,
     };
   },
   computed: {
@@ -236,32 +237,22 @@ export default {
       localStorage.setItem('videoCompareList', JSON.stringify(newVideoCompareList));
       this.videoCompareList = newVideoCompareList;
     },
-    // debounce: function (fun, delay) {
-    //   return function (args) {
-    //     let that = this;
-    //     let _args = args;
-    //     clearTimeout(fun.id);
-    //     fun.id = setTimeout(function () {
-    //       fun.call(that, _args)
-    //     }, delay);
-    //   };
-    // },
     // TODO add debounce
     videoCompareListChangeHandler: function () {
       localStorage.setItem('videoCompareList', JSON.stringify(this.videoCompareList));
       this.loadVideoCompareList();
     },
-    // add video related
     addVideoButtonClickHandler: function () {
-      const aid = this.addVideoPrefix === 'aid'
-        ? parseInt(this.addVideoId)
-        : this.addVideoPrefix === 'bvid'
-          ? this.$util.b2a(this.addVideoId)
+      const that = this;
+      
+      that.isAddingVideo = true;
+      
+      const aid = that.addVideoPrefix === 'aid'
+        ? parseInt(that.addVideoId)
+        : that.addVideoPrefix === 'bvid'
+          ? that.$util.b2a(that.addVideoId)
           : -1;
       
-      this.isAddingVideo = true;
-      
-      const that = this;
       const getVideoByAid = function (aid) {
         return that.$axios.get(
           `/video/${aid}`
@@ -310,12 +301,15 @@ export default {
         });
     },
     addVideoIdChangeHandler: function () {
-      if (this.addVideoPrefix === 'aid') {
-        if (this.isAddVideoIdValid && this.addVideoId.length > 3) {
-          this.fetchVideoIdCandidateList(this.addVideoPrefix, this.addVideoId);
+      const prefix = this.addVideoPrefix;
+      const id = this.addVideoId;
+      const isIdValid = this.isAddVideoIdValid;
+      if (prefix === 'aid') {
+        if (isIdValid && id.length > 3) {
+          this.$util.debounce(this.fetchVideoIdCandidateList, 500)(prefix, id);
         }
-      } else if (this.addVideoPrefix === 'bvid') {
-        this.fetchVideoIdCandidateList(this.addVideoPrefix, this.addVideoId);
+      } else if (prefix === 'bvid') {
+        this.$util.debounce(this.fetchVideoIdCandidateList, 500)(prefix, id);
       }
     },
     fetchVideoIdCandidateList: function (type, id) {
