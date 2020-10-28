@@ -237,6 +237,15 @@ export default {
     
     return result;
   },
+  debounce: function (fun, delay) {
+    return function (...args) {
+      let that = this;
+      clearTimeout(fun.timeoutId);
+      fun.timeoutId = setTimeout(function () {
+        fun.call(that, ...args)
+      }, delay);
+    };
+  },
   // abid.js
   a2b, b2a,
   // DataView.js
