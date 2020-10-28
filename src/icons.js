@@ -92,6 +92,9 @@ export {
 export {
   default as MenuUnfoldOutline
 } from '@ant-design/icons/lib/outline/MenuUnfoldOutline';
+export {
+  default as FlagOutline
+} from '@ant-design/icons/lib/outline/FlagOutline';
 
 // export what antd other components need
 export {

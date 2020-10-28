@@ -96,6 +96,36 @@
             </div>
             <p><a-icon type="calendar" style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
             <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
+            <template v-if="videoAttributeFlags.length > 0 && $store.state.isUserLoggedIn">
+              <p>
+                <a-icon type="flag" style="margin-right: 12px" />
+                <a-tag
+                  v-for="flag in videoAttributeFlags"
+                  :key="flag.name"
+                  :title="flag.message"
+                  color="red"
+                  style="margin-bottom: 4px; cursor: pointer"
+                >
+                  <a-popover>
+                    <template slot="content">
+                      {{ flag.message }}
+                    </template>
+                    {{ flag.name }}
+                  </a-popover>
+                </a-tag>
+                <a-tag
+                  color="red"
+                  style="margin-bottom: 4px; cursor: pointer"
+                >
+                  <a-popover>
+                    <template slot="content">
+                      对B站API提供的视频"attribute"属性的解释，仅供参考。<br/>详见<a href="https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/video/info.md#获取视频详细信息web端" target="_blank">此处</a>。
+                    </template>
+                    <a-icon type="question-circle" />
+                  </a-popover>
+                </a-tag>
+              </p>
+            </template>
             <tdd-video-action-bar :aid="aid" />
             <tdd-moe-girl-wiki-widget v-if="$config.enableMoegirlWikiWidget" type="video" url="https://zh.moegirl.org.cn/普通DISCO" style="margin-bottom: 12px" />
             <div style="margin-bottom: 12px">
@@ -245,6 +275,13 @@ export default {
     },
     _clientMode: function () {
       return this.$store.getters.clientMode;
+    },
+    videoAttributeFlags: function () {
+      if (this.video && this.video.attribute) {
+        return this.$util.getVideoAttributeFlags(this.video.attribute);
+      } else {
+        return [];
+      }
     },
   },
   watch: {
