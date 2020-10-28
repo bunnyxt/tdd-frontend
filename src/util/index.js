@@ -214,6 +214,42 @@ export default {
         return null;
     }
   },
+  getVideoAttributeFlags: function (attribute) {
+    const flags = [];
+    // ref: https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/video/info.md
+    const flagMap = {
+      0: {
+        name: '禁止排行',
+        message: '该视频不会出现在B站排行榜中，不会有"全站全站排行榜最高第若干名"的显示',
+      },
+      1: {
+        name: '禁止动态',
+        message: 'APP不会推送该视频的动态',
+      },
+      4: {
+        name: '禁止搜索',
+        message: '无法通过搜索功能搜索到该视频',
+      },
+      6: {
+        name: '禁止推荐',
+        message: 'APP不会在天马列表推荐该视频',
+      },
+      12: {
+        name: '私单恰饭',
+        message: '该视频被标记为内含"私单"、"恰饭"内容',
+      },
+      21: {
+        name: '限制游客',
+        message: '该视频可能未登录无法观看，可能无法通过外链滚看',
+      },
+    };
+    for (const digit of Object.keys(flagMap)) {
+      if ((attribute >> digit) % 2 === 1) {
+        flags.push(flagMap[digit]);
+      }
+    }
+    return flags;
+  },
   deepClone: function (obj = {}) {
     if (typeof obj !== 'object' || obj == null) {
       // obj is not object or is null, no need to deep clone
