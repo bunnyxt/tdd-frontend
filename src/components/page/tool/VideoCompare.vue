@@ -72,7 +72,14 @@
           <a-checkbox-group :options="configPropsOptions" v-model="item.config.props" @change="videoCompareListChangeHandler" />
         </template>
         <template slot="videoManipulation" slot-scope="item">
-          <a @click="removeFromVideoCompareListHandler(item.aid)">移除</a>
+          <a-popconfirm
+            :title="`确定删除av${item.aid}？`"
+            ok-text="确定"
+            cancel-text="取消"
+            @confirm="removeFromVideoCompareListHandler(item.aid)"
+          >
+            <a-button><a-icon type="delete" /></a-button>
+          </a-popconfirm>
         </template>
       </a-table>
       <h3>趋势对比</h3>
