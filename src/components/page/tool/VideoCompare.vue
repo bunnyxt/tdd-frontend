@@ -66,10 +66,17 @@
         </template>
         <template slot="videoConfigTitle" slot-scope="item">
           <!-- TODO prompt when two video has same title -->
-          <a-input v-model="item.config.title" @change="videoCompareListChangeHandler" />
+          <a-input
+            v-model="item.config.title"
+            @change="$util.debounce(videoCompareListChangeHandler, 500)()"
+          />
         </template>
         <template slot="videoConfigProps" slot-scope="item">
-          <a-checkbox-group :options="configPropsOptions" v-model="item.config.props" @change="videoCompareListChangeHandler" />
+          <a-checkbox-group
+            :options="configPropsOptions"
+            v-model="item.config.props"
+            @change="$util.debounce(videoCompareListChangeHandler, 500)()"
+          />
         </template>
         <template slot="videoManipulation" slot-scope="item">
           <a-button
@@ -164,7 +171,6 @@ export default {
       isAddingVideo: false,
       addVideoIdCandidateList: [],
       isLoadingAddVideoIdCandidateList: false,
-      fetchVideoIdCandidateListTimeoutId: null,
     };
   },
   computed: {
