@@ -49,6 +49,14 @@
         </a-spin>
       </div>
       <h3>对比列表</h3>
+      <a-alert
+        v-if="hasDuplicateConfigTitle"
+        message="检测到「自定义标注」命名重复，图表绘制出错，请重新命名"
+        type="error"
+        style="margin-bottom: 12px"
+        banner
+        closable
+      />
       <a-table
         :columns="columns"
         :rowKey="x => x.aid"
@@ -174,6 +182,9 @@ export default {
     };
   },
   computed: {
+    hasDuplicateConfigTitle: function () {
+      return (new Set(this.videoCompareList.map(video => video.config.title))).size < this.videoCompareList.length;
+    },
     // add video related
     isAddVideoIdValid: function () {
       const prefix = this.addVideoPrefix;
