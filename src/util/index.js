@@ -244,7 +244,7 @@ export default {
       },
     };
     for (const digit of Object.keys(flagMap)) {
-      if ((attribute >> digit) % 2 === 1) {
+      if (attribute >> digit & 1 === 1) {
         flags.push(flagMap[digit]);
       }
     }
