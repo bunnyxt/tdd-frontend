@@ -220,7 +220,7 @@ export default {
     const flagMap = {
       0: {
         name: '禁止排行',
-        message: '该视频不会出现在B站排行榜中，不会有"全站全站排行榜最高第若干名"的显示',
+        message: '该视频不会出现在B站排行榜中',
       },
       1: {
         name: '禁止动态',
