@@ -102,7 +102,6 @@
                 <a-tag
                   v-for="flag in videoAttributeFlags"
                   :key="flag.name"
-                  :title="flag.message"
                   color="red"
                   style="margin-bottom: 4px; cursor: pointer"
                 >
