@@ -36,6 +36,9 @@ export {
   default as ArrowUpOutline
 } from '@ant-design/icons/lib/outline/ArrowUpOutline';
 export {
+  default as ArrowDownOutline
+} from '@ant-design/icons/lib/outline/ArrowDownOutline';
+export {
   default as ArrowLeftOutline
 } from '@ant-design/icons/lib/outline/ArrowLeftOutline';
 export {

@@ -72,13 +72,31 @@
           <a-checkbox-group :options="configPropsOptions" v-model="item.config.props" @change="videoCompareListChangeHandler" />
         </template>
         <template slot="videoManipulation" slot-scope="item">
+          <a-button
+            title="上移"
+            @click="moveVideoInVideoCompareList(item.aid, 'up')"
+            style="margin-right: 12px"
+          >
+            <a-icon type="arrow-up" />
+          </a-button>
+          <a-button
+            title="下移"
+            @click="moveVideoInVideoCompareList(item.aid, 'down')"
+            style="margin-right: 12px"
+          >
+            <a-icon type="arrow-down" />
+          </a-button>
           <a-popconfirm
             :title="`确定删除av${item.aid}？`"
             ok-text="确定"
             cancel-text="取消"
-            @confirm="removeFromVideoCompareListHandler(item.aid)"
+            @confirm="removeFromVideoCompareList(item.aid)"
           >
-            <a-button><a-icon type="delete" /></a-button>
+            <a-button
+              title="删除"
+            >
+              <a-icon type="delete" />
+            </a-button>
           </a-popconfirm>
         </template>
       </a-table>
@@ -116,7 +134,7 @@ export default {
       }, {
         title: '操作',
         scopedSlots: { customRender: 'videoManipulation' },
-        width: '60px',
+        width: '180px',
       }],
       configPropsOptions: [{
         label: '播放',
@@ -186,7 +204,32 @@ export default {
         localStorage.setItem('videoCompareList', '[]');
       }
     },
-    removeFromVideoCompareListHandler: function (aid) {
+    moveVideoInVideoCompareList: function (aid, direction) {
+      let canMove, swapOffset;
+      if (direction === 'up') {
+        canMove = (videoIndex, videoCompareList) => videoIndex > 0;
+        swapOffset = -1;
+      } else if (direction === 'down') {
+        canMove = (videoIndex, videoCompareList) => videoIndex < videoCompareList.length;
+        swapOffset = 1;
+      } else {
+        // invalid direction
+        return;
+      }
+      
+      const videoCompareListString = localStorage.getItem('videoCompareList') || '[]';
+      const videoCompareList = JSON.parse(videoCompareListString);
+      const videoIndex = videoCompareList.findIndex(video => video.aid === aid);
+      
+      if (canMove(videoIndex, videoCompareList)) {
+        const tmp = videoCompareList[videoIndex + swapOffset];
+        videoCompareList[videoIndex + swapOffset] = videoCompareList[videoIndex];
+        videoCompareList[videoIndex] = tmp;
+      }
+      localStorage.setItem('videoCompareList', JSON.stringify(videoCompareList));
+      this.videoCompareList = videoCompareList;
+    },
+    removeFromVideoCompareList: function (aid) {
       const videoCompareListString = localStorage.getItem('videoCompareList') || '[]';
       const videoCompareList = JSON.parse(videoCompareListString);
       const newVideoCompareList = videoCompareList.filter(video => video.aid !== aid);
