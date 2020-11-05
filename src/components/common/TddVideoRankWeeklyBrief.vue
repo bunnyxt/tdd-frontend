@@ -28,7 +28,9 @@
             <a-statistic title="得分" :value="rankInfo" style="margin-right: 16px">
               <template slot="formatter">
                 <div style="min-width: 28px">
-                  {{ rankInfo.point.toLocaleString() }}
+                  <span :class="[getColorClass('point', rankInfo.incr_like)]">
+                    {{ rankInfo.point.toLocaleString() }}
+                  </span>
                 </div>
               </template>
             </a-statistic>

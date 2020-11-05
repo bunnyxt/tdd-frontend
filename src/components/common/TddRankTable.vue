@@ -101,6 +101,9 @@
       {{ archId === 0 ? item.now_like.toLocaleString() : item.arch_like.toLocaleString() }} <br>
       (<span :class="[getColorClass('incr_like', item.incr_like)]">{{item.incr_like > 0 ? '+' : ''}}{{ item.incr_like.toLocaleString() }}</span>)
     </template>
+    <template slot="point_value" slot-scope="item">
+      <span :class="[getColorClass('point', item.point)]">{{ item.point.toLocaleString() }}</span>
+    </template>
     <template slot="more">
       更多
     </template>
@@ -282,8 +285,7 @@ export default {
           },
         }, {
           title: '得分',
-          dataIndex: 'point',
-          scopedSlots: { customRender: 'value' },
+          scopedSlots: { customRender: 'point_value' },
           width: '96px',
         }, {
           title: '修正A',
