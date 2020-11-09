@@ -73,7 +73,6 @@
           <a :href="`https://www.bilibili.com/video/av${item.aid}`" target="_blank">{{ item.video.title }}</a>
         </template>
         <template slot="videoConfigTitle" slot-scope="item">
-          <!-- TODO prompt when two video has same title -->
           <a-input
             v-model="item.config.title"
             @change="$util.debounce(videoCompareListChangeHandler, 500)()"
@@ -254,7 +253,6 @@ export default {
       localStorage.setItem('videoCompareList', JSON.stringify(newVideoCompareList));
       this.videoCompareList = newVideoCompareList;
     },
-    // TODO add debounce
     videoCompareListChangeHandler: function () {
       localStorage.setItem('videoCompareList', JSON.stringify(this.videoCompareList));
       this.loadVideoCompareList();
