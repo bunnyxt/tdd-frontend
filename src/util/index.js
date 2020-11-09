@@ -190,6 +190,7 @@ export default {
     if (document.execCommand('copy')) {
       let tmpElement = document.createElement('textarea');
       document.body.appendChild(tmpElement);
+      tmpElement.setAttribute('readonly', 'readonly');
       tmpElement.value = value;
       tmpElement.focus();
       tmpElement.select();
