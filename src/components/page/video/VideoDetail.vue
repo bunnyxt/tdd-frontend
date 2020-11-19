@@ -96,7 +96,7 @@
             </div>
             <p><a-icon type="calendar" style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
             <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
-            <template v-if="videoAttributeFlags.length > 0 && $store.state.isUserLoggedIn">
+            <template v-if="$config.enableVideoAttributeFlags && videoAttributeFlags.length > 0 && $store.state.isUserLoggedIn">
               <p>
                 <a-icon type="flag" style="margin-right: 12px" />
                 <a-tag
