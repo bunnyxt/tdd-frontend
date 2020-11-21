@@ -40,6 +40,9 @@ export default {
     colorNum: function () {
       const value = this.incr;
       const separator = this.separator;
+      if (!separator) {
+        return 0;
+      }
       if (value <= separator.a) {
         return 1;
       } else if (value <= separator.b) {
