@@ -74,35 +74,61 @@
       {{ value.toLocaleString() }}
     </template>
     <template slot="view_value" slot-scope="item">
-      {{ archId === 0 ? item.now_view.toLocaleString() : item.arch_view.toLocaleString() }} <br>
-      (<span :class="[getColorClass('incr_view', item.incr_view)]">{{item.incr_view > 0 ? '+' : ''}}{{ item.incr_view.toLocaleString() }}</span>)
+      <tdd-rank-table-incr-cell
+        :incr="item.incr_view"
+        :total="archId === 0 ? item.now_view : item.arch_view"
+        :separator="rankColor['incr_view']"
+      />
     </template>
     <template slot="danmaku_value" slot-scope="item">
-      {{ archId === 0 ? item.now_danmaku.toLocaleString() : item.arch_danmaku.toLocaleString() }} <br>
-      (<span :class="[getColorClass('incr_danmaku', item.incr_danmaku)]">{{item.incr_danmaku > 0 ? '+' : ''}}{{ item.incr_danmaku.toLocaleString() }}</span>)
+      <tdd-rank-table-incr-cell
+        :incr="item.incr_danmaku"
+        :total="archId === 0 ? item.now_danmaku : item.arch_danmaku"
+        :separator="rankColor['incr_danmaku']"
+      />
     </template>
     <template slot="reply_value" slot-scope="item">
-      {{ archId === 0 ? item.now_reply.toLocaleString() : item.arch_reply.toLocaleString() }} <br>
-      (<span :class="[getColorClass('incr_reply', item.incr_reply)]">{{item.incr_reply > 0 ? '+' : ''}}{{ item.incr_reply.toLocaleString() }}</span>)
+      <tdd-rank-table-incr-cell
+        :incr="item.incr_reply"
+        :total="archId === 0 ? item.now_reply : item.arch_reply"
+        :separator="rankColor['incr_reply']"
+      />
     </template>
     <template slot="favorite_value" slot-scope="item">
-      {{ archId === 0 ? item.now_favorite.toLocaleString() : item.arch_favorite.toLocaleString() }} <br>
-      (<span :class="[getColorClass('incr_favorite', item.incr_favorite)]">{{item.incr_favorite > 0 ? '+' : ''}}{{ item.incr_favorite.toLocaleString() }}</span>)
+      <tdd-rank-table-incr-cell
+        :incr="item.incr_favorite"
+        :total="archId === 0 ? item.now_favorite : item.arch_favorite"
+        :separator="rankColor['incr_favorite']"
+      />
     </template>
     <template slot="coin_value" slot-scope="item">
-      {{ archId === 0 ? item.now_coin.toLocaleString() : item.arch_coin.toLocaleString() }} <br>
-      (<span :class="[getColorClass('incr_coin', item.incr_coin)]">{{item.incr_coin > 0 ? '+' : ''}}{{ item.incr_coin.toLocaleString() }}</span>)
+      <tdd-rank-table-incr-cell
+        :incr="item.incr_coin"
+        :total="archId === 0 ? item.now_coin : item.arch_coin"
+        :separator="rankColor['incr_coin']"
+      />
     </template>
     <template slot="share_value" slot-scope="item">
-      {{ archId === 0 ? item.now_share.toLocaleString() : item.arch_share.toLocaleString() }} <br>
-      (<span :class="[getColorClass('incr_share', item.incr_share)]">{{item.incr_share > 0 ? '+' : ''}}{{ item.incr_share.toLocaleString() }}</span>)
+      <tdd-rank-table-incr-cell
+        :incr="item.incr_share"
+        :total="archId === 0 ? item.now_share : item.arch_share"
+        :separator="rankColor['incr_share']"
+      />
     </template>
     <template slot="like_value" slot-scope="item">
-      {{ archId === 0 ? item.now_like.toLocaleString() : item.arch_like.toLocaleString() }} <br>
-      (<span :class="[getColorClass('incr_like', item.incr_like)]">{{item.incr_like > 0 ? '+' : ''}}{{ item.incr_like.toLocaleString() }}</span>)
+      <tdd-rank-table-incr-cell
+        :incr="item.incr_like"
+        :total="archId === 0 ? item.now_like : item.arch_like"
+        :separator="rankColor['incr_like']"
+      />
     </template>
     <template slot="point_value" slot-scope="item">
-      <span :class="[getColorClass('point', item.point)]">{{ item.point.toLocaleString() }}</span>
+      <tdd-rank-table-point-cell
+        :point="item.point"
+        :xiua="item.xiua"
+        :xiub="item.xiub"
+        :separator="rankColor['point']"
+      />
     </template>
     <template slot="more">
       更多
@@ -111,6 +137,9 @@
 </template>
 
 <script>
+import TddRankTableIncrCell from "@/components/common/TddRankTableIncrCell";
+import TddRankTablePointCell from "@/components/common/TddRankTablePointCell";
+
 export default {
   name: 'TddRankTable',
   props: {
@@ -133,6 +162,10 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+  components: {
+    TddRankTableIncrCell,
+    TddRankTablePointCell,
   },
   data: function () {
     return {
@@ -284,25 +317,10 @@ export default {
             } : {};
           },
         }, {
-          title: '得分',
+          title: '得分（修正A/B）',
           scopedSlots: { customRender: 'point_value' },
-          width: '96px',
-        }, {
-          title: '修正A',
-          dataIndex: 'xiua',
-          scopedSlots: { customRender: 'value' },
-          width: '64px',
-        }, {
-          title: '修正B',
-          dataIndex: 'xiub',
-          scopedSlots: { customRender: 'value' },
-          width: '64px',
-        },
-        // {
-        //   title: '更多',
-        //   scopedSlots: { customRender: 'more' },
-        //   width: '64px',
-        // }
+          width: '126px',
+        }
       ],
     }
   },
