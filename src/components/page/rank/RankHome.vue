@@ -26,11 +26,13 @@
             </a-menu-item>
           </a-menu>
           <div style="margin-top: 8px; padding-left: 12px; border-bottom: 1px solid #e8e8e8">
-            <a-popover v-if="$store.state.clientWidth < 864" placement="bottom" trigger="click">
+            <a-popover v-if="$store.state.clientWidth < 964" placement="bottom" trigger="click">
+<!--            <a-popover v-if="$store.state.clientWidth < 864" placement="bottom" trigger="click">-->
               <a-button>
                 <a-icon type="filter" />
               </a-button>
-              <div slot="content" style="width: 312px">
+<!--              <div slot="content" style="width: 312px">-->
+              <div slot="content" :style="$store.state.clientWidth < 472 ? { width: '280px' } : { width: '412px' }">
                 <a-select
                   v-model="orderRule"
                   @change="orderRuleChangeHandler"
@@ -44,19 +46,32 @@
                     {{ val }}
                   </a-select-option>
                 </a-select>
-                <a-select
-                  v-model="archId"
-                  @change="archIdChangeHandler"
-                  style="width: 180px"
-                >
-                  <a-select-option
-                    v-for="item in rankArchiveOverview"
-                    :key="item.id"
-                    :value="item.id"
-                  >
-                    {{ item.name }}
-                  </a-select-option>
-                </a-select>
+<!--                <a-select-->
+<!--                  v-model="archId"-->
+<!--                  @change="archIdChangeHandler"-->
+<!--                  style="width: 180px"-->
+<!--                >-->
+<!--                  <a-select-option-->
+<!--                    v-for="item in rankArchiveOverview"-->
+<!--                    :key="item.id"-->
+<!--                    :value="item.id"-->
+<!--                  >-->
+<!--                    {{ item.name }}-->
+<!--                  </a-select-option>-->
+<!--                </a-select>-->
+                <template v-if="$store.state.clientWidth < 472">
+                  <div style="height: 8px" />
+                </template>
+                <a-cascader
+                  :allowClear="false"
+                  expandTrigger="hover"
+                  :value="archIdCascader"
+                  :options="rankArchiveOverviewOptions"
+                  :disabled="archIdCascader === []"
+                  placeholder="请选择排名期数"
+                  @change="archIdCascaderChangeHandler"
+                  style="width: 280px"
+                />
               </div>
             </a-popover>
             <div v-else style="display: flex">
@@ -73,19 +88,29 @@
                   {{ val }}
                 </a-select-option>
               </a-select>
-              <a-select
-                v-model="archId"
-                @change="archIdChangeHandler"
-                style="width: 180px"
-              >
-                <a-select-option
-                  v-for="item in rankArchiveOverview"
-                  :key="item.id"
-                  :value="item.id"
-                >
-                  {{ item.name }}
-                </a-select-option>
-              </a-select>
+<!--              <a-select-->
+<!--                v-model="archId"-->
+<!--                @change="archIdChangeHandler"-->
+<!--                style="width: 180px"-->
+<!--              >-->
+<!--                <a-select-option-->
+<!--                  v-for="item in rankArchiveOverview"-->
+<!--                  :key="item.id"-->
+<!--                  :value="item.id"-->
+<!--                >-->
+<!--                  {{ item.name }}-->
+<!--                </a-select-option>-->
+<!--              </a-select>-->
+              <a-cascader
+                :allowClear="false"
+                expandTrigger="hover"
+                :value="archIdCascader"
+                :options="rankArchiveOverviewOptions"
+                :disabled="archIdCascader === []"
+                placeholder="请选择排名期数"
+                @change="archIdCascaderChangeHandler"
+                style="width: 280px"
+              />
             </div>
           </div>
         </div>
@@ -178,6 +203,84 @@ export default {
         return true;
       }
       return false;
+    },
+    rankArchiveOverviewOptions: function () {
+      const options = [
+        {
+          value: 0,
+          label: '实时排行',
+        },
+      ];
+      
+      for (let archive of this.rankArchiveOverview.filter(archive => archive.id !== 0)) {
+        const endTsDate = new Date(archive.end_ts * 1000);
+        // calc year
+        const year = endTsDate.getFullYear();
+        
+        // get year children list
+        let yearChildrenList = options.find(option => option.value === year);
+        if (!yearChildrenList) {
+          const newYearOption = {
+            value: year,
+            label: `${year}年`,
+            children: [],
+          };
+          yearChildrenList = newYearOption.children;
+          options.push(newYearOption);
+        } else {
+          yearChildrenList = yearChildrenList.children;
+        }
+        
+        // calc month
+        const month = endTsDate.getMonth() + 1;
+        
+        // get month children list
+        let monthChildrenList = yearChildrenList.find(option => option.value === month);
+        if (!monthChildrenList) {
+          const newMonthOption = {
+            value: month,
+            label: `${month}月`,
+            children: [],
+          };
+          monthChildrenList = newMonthOption.children;
+          yearChildrenList.push(newMonthOption);
+        } else {
+          monthChildrenList = monthChildrenList.children;
+        }
+        
+        // append new archive option
+        monthChildrenList.push({
+          value: archive.id,
+          label: archive.name,
+        });
+      }
+      
+      return options;
+    },
+    archIdCascader: function () {
+      if (this.archId === 0) {
+        return [0];
+      }
+      
+      const yearOptions = this.rankArchiveOverviewOptions.filter(archive => archive.value !== 0);
+      if (!yearOptions) {
+        return [];
+      }
+      
+      let year, month;
+      for (let yearOption of yearOptions) {
+        year = yearOption.value;
+        for (let monthOption of yearOption.children) {
+          month = monthOption.value;
+          for (let archiveOption of monthOption.children) {
+            if (archiveOption.value === this.archId) {
+              return [year, month, this.archId];
+            }
+          }
+        }
+      }
+      
+      return [];
     },
   },
   methods: {
@@ -321,6 +424,10 @@ export default {
     },
     archIdChangeHandler: function () {
       this.pushRouter(this.category[0], this.archId);
+    },
+    archIdCascaderChangeHandler: function (e) {
+      this.archId = e.pop();
+      this.archIdChangeHandler();
     },
     orderRuleChangeHandler: function () {
       this.pushRouter(this.category[0], this.archId, this.orderRule);
