@@ -201,21 +201,10 @@ export default {
           scopedSlots: { customRender: 'videoTitleMemberPubdate' },
           // width: '200px',
         },
-        // {
-        //   title: '投稿时间',
-        //   dataIndex: 'video.pubdate',
-        //   scopedSlots: { customRender: 'added' },
-        //   width: '108px',
-        // },
         {
           title: '播放',
           scopedSlots: { customRender: 'view_value' },
           width: '108px',
-          // customCell: () => {
-          //   return {
-          //     class: { 'tr-highlight': true }
-          //   };
-          // },
           customHeaderCell: () => {
             return this.highlight === 'view' ? {
               style: {
@@ -339,7 +328,7 @@ export default {
             } : {};
           },
         }, {
-          title: '得分（修正A/B）',
+          title: '得分 (修正A/B)',
           scopedSlots: { customRender: 'point_value' },
           width: '144px',
         }
