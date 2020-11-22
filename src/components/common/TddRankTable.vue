@@ -355,13 +355,13 @@ export default {
   },
   methods: {
     videoPicClickHandler: function (aid) {
-      window.open('/video/av' + aid);
+      window.open(`https://www.bilibili.com/video/av${aid}`);
     },
     videoTitleClickHandler: function (aid) {
-      window.open('/video/av' + aid);
+      window.open(`/video/av${aid}`);
     },
     memberNameClickHandler: function (mid) {
-      window.open('/member/' + mid);
+      window.open(`/member/${mid}`);
     },
     getColorClass: function (property, value) {
       let abcd = this.rankColor[property];
