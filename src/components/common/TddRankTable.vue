@@ -4,7 +4,7 @@
     :rowKey="item => item.rank"
     :dataSource="rankList"
     :pagination="false"
-    :scroll="{ x: 1300 }"
+    :scroll="{ x: $store.getters.clientMode === 'MOBILE' ? 1200 : useIndex ? 1300 : 1260 }"
     size="small"
   >
     <template slot="rank" slot-scope="item">
