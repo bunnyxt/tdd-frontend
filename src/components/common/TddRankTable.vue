@@ -4,7 +4,7 @@
     :rowKey="item => item.rank"
     :dataSource="rankList"
     :pagination="false"
-    :scroll="{ x: 1400 }"
+    :scroll="{ x: 1300 }"
     size="small"
   >
     <template slot="pic" slot-scope="item">
@@ -15,6 +15,7 @@
             height="65px"
             alt="pic"
             :src="$util.httpS(item.video.pic)"
+            :title="`点击前往BiliBili「${item.video.title}」视频播放页面`"
             @click="videoPicClickHandler(item.video.aid)"
             style="cursor: pointer"
           />
@@ -33,18 +34,39 @@
         </div>
       </div>
     </template>
-    <template slot="videoTitleMember" slot-scope="item">
+    <template slot="videoTitleMemberPubdate" slot-scope="item">
       <div v-if="item.video">
-        <div class="video-title">
+        <div
+          :title="`点击前往天钿Daily「${item.video.title}」视频详情页面`"
+          class="video-title"
+        >
           <a @click="videoTitleClickHandler(item.video.aid)">{{ item.video.title }}</a>
         </div>
-        <div class="video-title-member">
-          <a-avatar
-            :src="item.video.member ? $util.httpS(item.video.member.face) : 'https://static.hdslb.com/images/member/noface.gif'"
-            :size="16"
-            style="margin-right: 4px"
-          />
-          <a @click="memberNameClickHandler(item.video.mid)">{{ item.video.member ? item.video.member.name : '' }}</a>
+        <div style="margin-top: 4px; width: 100%; display: flex">
+          <span
+            class="video-title-member"
+            style="flex-grow: 1; margin-right: 8px"
+            :title="`UP主：${item.video.member ? item.video.member.name : ''}`"
+          >
+            <a-avatar
+              :src="item.video.member ? $util.httpS(item.video.member.face) : 'https://static.hdslb.com/images/member/noface.gif'"
+              :size="16"
+              style="margin-right: 4px"
+            />
+            <a @click="memberNameClickHandler(item.video.mid)">{{ item.video.member ? item.video.member.name : '' }}</a>
+          </span>
+          <span
+            :title="`投稿日期：${$util.tsToDateString(item.video.pubdate)}`"
+            style="flex-shrink: 0"
+          >
+            <a-icon type="calendar" style="margin-right: 4px" />
+            <template v-if="$store.state.clientWidth < 1600">
+              {{ $util.tsToDateString(item.video.pubdate, 'yyyy-MM-dd') }}
+            </template>
+            <template v-else>
+              {{ $util.tsToDateString(item.video.pubdate) }}
+            </template>
+          </span>
         </div>
       </div>
       <div v-else>
@@ -176,7 +198,7 @@ export default {
           width: '120px',
         }, {
           title: '标题',
-          scopedSlots: { customRender: 'videoTitleMember' },
+          scopedSlots: { customRender: 'videoTitleMemberPubdate' },
           // width: '200px',
         },
         // {
@@ -319,7 +341,7 @@ export default {
         }, {
           title: '得分（修正A/B）',
           scopedSlots: { customRender: 'point_value' },
-          width: '126px',
+          width: '144px',
         }
       ],
     }
@@ -395,9 +417,9 @@ export default {
   -webkit-line-clamp: 2;
 }
 .video-title-member {
+  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 4px;
 }
 a {
   color: rgba(0, 0, 0, 0.65);
