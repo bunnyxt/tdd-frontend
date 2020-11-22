@@ -283,6 +283,37 @@ export default {
       }, delay);
     };
   },
+  colorLevel: function (value, separator) {
+    if (!separator || ['a', 'b', 'c', 'd'].map(prop => separator.hasOwnProperty(prop)).includes(false)) {
+      return 0;
+    }
+    if (value <= separator.a) {
+      return 1;
+    } else if (value <= separator.b) {
+      return 2;
+    } else if (value <= separator.c) {
+      return 3;
+    } else if (value <= separator.d) {
+      return 4;
+    } else {
+      return 5;
+    }
+  },
+  colorLevelOfIndex: function (index, total = 10000) {
+    if (index > total) {
+      return 0;
+    } else if (index >= total * 0.5) {
+      return 1;
+    } else if (index >= total * 0.1) {
+      return 2;
+    } else if (index >= total * 0.01) {
+      return 3;
+    } else if (index >= total * 0.001) {
+      return 4;
+    } else {
+      return 5;
+    }
+  },
   // abid.js
   a2b, b2a,
   // DataView.js
