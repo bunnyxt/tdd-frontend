@@ -7,6 +7,19 @@
     :scroll="{ x: 1300 }"
     size="small"
   >
+    <template slot="rank" slot-scope="item">
+      <div :title="`${item.index ? `增量排名：#${item.index}；` : ''}得分排名：#${item.rank}`">
+        <span v-if="item.index">
+          <span :class="[`color-${$util.colorLevelOfIndex(item.index)}`]">
+            {{ `#${item.index}` }}
+          </span>
+          /
+        </span>
+        <span :class="[`color-${$util.colorLevel(item.point, rankColor['point'])}`]">
+          {{ `#${item.rank}` }}
+        </span>
+      </div>
+    </template>
     <template slot="pic" slot-scope="item">
       <div v-if="item.video">
         <div style="position: relative">
@@ -19,7 +32,23 @@
             @click="videoPicClickHandler(item.video.aid)"
             style="cursor: pointer"
           />
-          <a-tag v-if="item.video.videos > 1" style="position: absolute; bottom: 2px; right: -9px">{{ item.video.videos }}P</a-tag>
+          <a-tag v-if="item.video.videos > 1" style="position: absolute; bottom: 2px; right: -7px">{{ item.video.videos }}P</a-tag>
+          <div
+            v-if="$store.getters.clientMode === 'MOBILE'"
+            :class="[`bg-color-${$util.colorLevel(item.point, rankColor['point'])}`]"
+            :title="`${item.index ? `增量排名：#${item.index}；` : ''}得分排名：#${item.rank}`"
+            style="background: #fafafa; border-radius: 4px; border: 1px solid #d9d9d9; font-size: 12px; padding: 0 4px; position: absolute; top: 2px; left: 2px"
+          >
+            <span v-if="item.index">
+              <span :class="[`color-${$util.colorLevelOfIndex(item.index)}`]">
+                {{ `#${item.index}` }}
+              </span>
+              /
+            </span>
+            <span :class="[`color-${$util.colorLevel(item.point, rankColor['point'])}`]">
+              {{ `#${item.rank}` }}
+            </span>
+          </div>
         </div>
       </div>
       <div v-else>
@@ -196,6 +225,7 @@ export default {
           title: '封面',
           scopedSlots: { customRender: 'pic' },
           width: '120px',
+          fixed: 'left',
         }, {
           title: '标题',
           scopedSlots: { customRender: 'videoTitleMemberPubdate' },
@@ -327,41 +357,36 @@ export default {
               }
             } : {};
           },
-        }, {
-          title: '得分 (修正A/B)',
-          scopedSlots: { customRender: 'point_value' },
-          width: '144px',
-        }
+        },
       ],
     }
   },
   computed: {
     columnsToShow: function () {
-      let headerColumns = [
-        {
-          title: '得分排名',
-          dataIndex: 'rank',
-          scopedSlots: { customRender: 'value' },
-          width: '76px',
-          fixed: this.useIndex ? '' : 'left',
-        },
-      ]
-      if (this.useIndex) {
-        headerColumns = [
-          {
-            title: '排名',
-            dataIndex: 'index',
-            scopedSlots: { customRender: 'value' },
-            width: '76px',
-            fixed: 'left',
-          },
-          ...headerColumns
-        ]
+      let columns = [];
+      
+      // add rank column
+      if (this.$store.getters.clientMode !== 'MOBILE') {
+        columns.push({
+          title: '排名',
+          scopedSlots: { customRender: 'rank' },
+          width: this.useIndex ? '108px' : '60px',
+          fixed: 'left',
+        });
       }
-      return [
-        ...headerColumns,
-        ...this.columns
-      ];
+      
+      // add middle columns
+      columns = columns.concat(this.columns)
+      
+      // add point column
+      columns.push({
+        title: '得分 (修正A/B)',
+        scopedSlots: { customRender: 'point_value' },
+        width: '144px',
+        fixed: this.$store.getters.clientMode !== 'MOBILE' ? 'right' : null,
+      });
+      
+      return columns;
     },
   },
   methods: {
