@@ -88,9 +88,9 @@
             <a @click="memberNameClickHandler(item.video.mid)">{{ item.video.member ? item.video.member.name : '' }}</a>
           </span>
           <span
-            :title="`投稿日期：${$util.tsToDateString(item.video.pubdate)}${
-              showTimespanString ? '' : `\n截至统计：${$util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added)}`
-            }`"
+            :title="`投稿日期：${$util.tsToDateString(item.video.pubdate)}
+统计时间：${$util.tsToDateString(archId === 0 ? item.now_added : item.arch_added)}
+总计时长：${$util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added)}`"
             style="flex-shrink: 0; cursor: help"
           >
             <a-icon type="calendar" style="margin-right: 4px" />
@@ -98,7 +98,9 @@
           </span>
           <span
             v-if="showTimespanString"
-            :title="`截至统计：${$util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added)}`"
+            :title="`投稿日期：${$util.tsToDateString(item.video.pubdate)}
+统计时间：${$util.tsToDateString(archId === 0 ? item.now_added : item.arch_added)}
+总计时长：${$util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added)}`"
             style="flex-shrink: 0; margin-left: 16px; width: 118px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; cursor: help"
           >
             <a-icon type="hourglass" style="margin-right: 4px" />
