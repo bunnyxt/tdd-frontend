@@ -85,16 +85,21 @@
             <a @click="memberNameClickHandler(item.video.mid)">{{ item.video.member ? item.video.member.name : '' }}</a>
           </span>
           <span
-            :title="`投稿日期：${$util.tsToDateString(item.video.pubdate)}`"
+            :title="`投稿日期：${$util.tsToDateString(item.video.pubdate)}${
+              showTimespanString ? '' : `\n截至统计：${$util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added)}`
+            }`"
             style="flex-shrink: 0"
           >
             <a-icon type="calendar" style="margin-right: 4px" />
-            <template v-if="$store.state.clientWidth < 1600">
-              {{ $util.tsToDateString(item.video.pubdate, 'yyyy-MM-dd') }}
-            </template>
-            <template v-else>
-              {{ $util.tsToDateString(item.video.pubdate) }}
-            </template>
+            {{ $util.tsToDateString(item.video.pubdate, 'yyyy-MM-dd') }}
+          </span>
+          <span
+            v-if="showTimespanString"
+            :title="`截至统计：${$util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added)}`"
+            style="flex-shrink: 0; margin-left: 16px; width: 118px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
+          >
+            <a-icon type="hourglass" style="margin-right: 4px" />
+            {{ $util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added) }}
           </span>
         </div>
       </div>
@@ -387,6 +392,9 @@ export default {
       });
       
       return columns;
+    },
+    showTimespanString: function () {
+      return this.$store.state.clientWidth > 1580;
     },
   },
   methods: {

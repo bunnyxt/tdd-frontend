@@ -95,6 +95,9 @@ export {
 export {
   default as FlagOutline
 } from '@ant-design/icons/lib/outline/FlagOutline';
+export {
+  default as HourglassOutline
+} from '@ant-design/icons/lib/outline/HourglassOutline';
 
 // export what antd other components need
 export {
