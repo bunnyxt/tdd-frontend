@@ -2,7 +2,7 @@
   <div>
     <div :class="[`color-${colorNum}`]">{{ point.toLocaleString() }}</div>
     <div style="display: flex; justify-content: space-between">
-      <div style="flex-grow:1; margin-right: 4px" title="修正A">
+      <div style="flex-grow:1; margin-right: 4px; cursor: help" title="修正A">
         <div
           style="height: 4px; display: flex; margin-top: 2px; margin-bottom: 2px"
         >
@@ -13,7 +13,7 @@
           {{ Number(xiua).toFixed(2) }}
         </div>
       </div>
-      <div style="flex-grow:1; margin-left: 4px" title="修正B">
+      <div style="flex-grow:1; margin-left: 4px; cursor: help" title="修正B">
         <div
           style="height: 4px; display: flex; margin-top: 2px; margin-bottom: 2px"
         >

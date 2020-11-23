@@ -4,7 +4,7 @@
       {{ total.toLocaleString() }}
     </div>
     <div
-      style="height: 4px; display: flex; margin-top: 2px; margin-bottom: 2px"
+      style="height: 4px; display: flex; margin-top: 2px; margin-bottom: 2px; cursor: help"
       :title="`增长占比：${Number(incrProportion * 100).toFixed(2)}%`"
     >
       <div :style="{ background: '#e8e8e8', width: `${(1 - incrProportion) * 100}%`, height: '100%' }"></div>

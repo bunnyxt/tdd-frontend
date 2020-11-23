@@ -8,7 +8,10 @@
     size="small"
   >
     <template slot="rank" slot-scope="item">
-      <div :title="`${item.index ? `增量排名：#${item.index}；` : ''}得分排名：#${item.rank}`">
+      <div
+        :title="`${item.index ? `增量排名：#${item.index}；` : ''}得分排名：#${item.rank}`"
+        style="cursor: help"
+      >
         <span v-if="item.index">
           <span :class="[`color-${$util.colorLevelOfIndex(item.index)}`]">
             {{ `#${item.index}` }}
@@ -88,7 +91,7 @@
             :title="`投稿日期：${$util.tsToDateString(item.video.pubdate)}${
               showTimespanString ? '' : `\n截至统计：${$util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added)}`
             }`"
-            style="flex-shrink: 0"
+            style="flex-shrink: 0; cursor: help"
           >
             <a-icon type="calendar" style="margin-right: 4px" />
             {{ $util.tsToDateString(item.video.pubdate, 'yyyy-MM-dd') }}
@@ -96,7 +99,7 @@
           <span
             v-if="showTimespanString"
             :title="`截至统计：${$util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added)}`"
-            style="flex-shrink: 0; margin-left: 16px; width: 118px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis"
+            style="flex-shrink: 0; margin-left: 16px; width: 118px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; cursor: help"
           >
             <a-icon type="hourglass" style="margin-right: 4px" />
             {{ $util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added) }}
