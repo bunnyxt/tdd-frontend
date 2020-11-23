@@ -314,6 +314,72 @@ export default {
       return 5;
     }
   },
+  addPaddingZero: function (num, width) {
+    return String(num).padStart(width, '0');
+  },
+  isLunarYear: function (year) {
+    if (year % 100 !== 0) {
+      if (year % 4 === 0) {
+        return true;
+      }
+    } else {
+      if (year % 400 === 0) {
+        return true;
+      }
+    }
+    return false;
+  },
+  countLunarYear: function (startTs, endTs) {
+    const startYear = new Date(startTs * 1000).getFullYear();
+    const endYear = new Date(endTs * 1000).getFullYear();
+    let currentYear = startYear;
+    let count = 0;
+    while (currentYear <= endYear) {
+      if (this.isLunarYear(currentYear)) {
+        const feb29StartDate = new Date(new Date().setFullYear(currentYear, 1, 29));
+        const feb29StartTs = Math.floor(feb29StartDate.setHours(0, 0, 0, 0) / 1000);
+        const feb29EndTS = feb29StartTs + 24 * 60 * 60;
+        if (startTs < feb29StartTs && endTs > feb29EndTS) {
+          count += 1;
+        }
+      }
+      currentYear += 1;
+    }
+    return count;
+  },
+  getTimespanStr: function (
+    startTs,
+    endTs = undefined,
+    yearFormat = false,
+    considerLunarYear = true,
+    paddingZero = false,
+  ) {
+    const timespan = (endTs ? endTs : Math.floor(new Date().valueOf() / 1000)) - startTs;
+    const days = Math.floor(timespan / (24 * 60 * 60));
+    const hours = Math.floor((timespan - days * (24 * 60 * 60)) / (60 * 60));
+    const minutes = Math.floor((timespan - days * (24 * 60 * 60) - hours * (60 * 60)) / 60);
+    let prefixStr = `${paddingZero ? this.addPaddingZero(days, 4) : days}日`;
+    if (yearFormat) {
+      let years = Math.floor(days / 365);
+      let daysLeft = days % 365;
+      if (considerLunarYear) {
+        // count lunar year, which actually count whole feb 29 days within the timespan
+        const lunarYearCount = this.countLunarYear(endTs, startTs);
+        daysLeft -= lunarYearCount;
+        if (daysLeft < 0) {
+          years -= 1;
+          daysLeft += 365;
+        }
+      }
+      prefixStr = `${years}年${daysLeft}日`;
+    }
+    const suffixStr = `${
+      paddingZero ? this.addPaddingZero(hours, 2) : hours
+    }时${
+      paddingZero ? this.addPaddingZero(minutes, 2) : minutes
+    }分`;
+    return `${prefixStr}${suffixStr}`;
+  },
   // abid.js
   a2b, b2a,
   // DataView.js
