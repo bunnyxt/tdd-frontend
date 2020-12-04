@@ -71,6 +71,7 @@ export default {
             rename: {},
             fold: [],
           },
+          showSliderLine: false,
         },
       };
       for (let { records, config } of this.videoCompareList) {
