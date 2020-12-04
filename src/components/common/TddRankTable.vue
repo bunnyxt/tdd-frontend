@@ -25,15 +25,12 @@
     </template>
     <template slot="pic" slot-scope="item">
       <div v-if="item.video">
-        <div style="position: relative">
+        <div class="to-bilibili-content" style="position: relative">
           <img
             width="108px"
             height="65px"
             alt="pic"
             :src="$util.httpS(item.video.pic)"
-            :title="`点击前往BiliBili「${item.video.title}」视频播放页面`"
-            @click="videoPicClickHandler(item.video.aid)"
-            style="cursor: pointer"
           />
           <a-tag v-if="item.video.videos > 1" style="position: absolute; bottom: 2px; right: -7px">{{ item.video.videos }}P</a-tag>
           <div
@@ -51,6 +48,14 @@
             <span :class="[`color-${$util.colorLevel(item.point, rankColor['point'])}`]">
               {{ `#${item.rank}` }}
             </span>
+          </div>
+          <div
+            class="to-bilibili-cover"
+            :title="`点击前往BiliBili「${item.video.title}」视频播放页面`"
+            @click="videoPicClickHandler(item.video.aid)"
+          >
+            <div class="to-bilibili-cover-background"></div>
+            <a-icon class="to-bilibili-cover-play-icon" type="play-circle"></a-icon>
           </div>
         </div>
       </div>
@@ -447,6 +452,38 @@ export default {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.to-bilibili-content {
+  transition: all .2s;
+}
+.to-bilibili-content:hover {
+  /*box-shadow: 0 0 20px #fc82a5;*/
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+}
+.to-bilibili-cover-background {
+  width: 108px;
+  height: 65px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transition: all .2s;
+  cursor: pointer;
+}
+.to-bilibili-cover:hover .to-bilibili-cover-background {
+  background-color: rgba(0, 0, 0, 0.65);
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.65);
+}
+.to-bilibili-cover-play-icon {
+  position: absolute;
+  top: 17px;
+  left: 39px;
+  font-size: 30px;
+  transition: all .2s;
+  color: rgba(0, 0, 0, 0);
+  cursor: pointer;
+}
+.to-bilibili-cover:hover .to-bilibili-cover-play-icon {
+  color: #fc82a5;
 }
 a {
   color: rgba(0, 0, 0, 0.65);
