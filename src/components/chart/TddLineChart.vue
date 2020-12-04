@@ -649,16 +649,31 @@ export default {
       }
     },
     draw: function () {
+      // console.time('draw');
       this.createChart();
       this.setData();
       this.setConfig();
       this.setAnnotation();
       this.setLayout();
       this.setLegendFilter();
+      // console.timeEnd('draw');
+      // console.time('render');
       this.chart.render();
+      // console.timeEnd('render');
     },
   },
+  beforeCreate() {
+    // console.time('create');
+  },
+  created() {
+    // console.timeEnd('create');
+  },
+  beforeMount() {
+    // console.time('mount');
+  },
   mounted() {
+    // console.timeEnd('mount');
+    // console.time('mounted');
     // sort via added
     this.data.sort((a, b) => a.added - b.added);
     
@@ -678,6 +693,7 @@ export default {
     ];
     // go draw
     this.draw();
+    // console.timeEnd('mounted');
   },
 }
 </script>
