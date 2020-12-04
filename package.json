@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@antv/g2": "^4.0.15",
-    "ant-design-vue": "^1.6.4",
+    "ant-design-vue": "^1.7.2",
     "axios": "^0.19.2",
     "js-md5": "^0.7.3",
     "moment": "^2.27.0",
