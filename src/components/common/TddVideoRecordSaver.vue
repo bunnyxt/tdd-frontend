@@ -64,12 +64,12 @@ export default {
     },
     columns: function () {
       let cols = [];
-      for (let i = 0; i < this.fields.length; i++) {
-        let field = this.fields[i];
-        if (this.enabledFields.indexOf(field) !== -1) {
+      for (const field of this.fields) {
+        if (this.enabledFields.includes(field)) {
           cols.push({
             title: this.fieldNames.get(field),
             dataIndex: this.fieldNames.get(field),
+            width: field === '时间(格式化)' ? '180px' : ['id', 'aid', '时间(时间戳)'].includes(field) ? '112px' : '80px',
           });
         }
       }
