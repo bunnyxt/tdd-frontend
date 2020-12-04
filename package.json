@@ -9,7 +9,7 @@
     "analyz": "NODE_ENV=production npm_config_report=true npm run build"
   },
   "dependencies": {
-    "@antv/g2": "^4.0.15",
+    "@antv/g2": "^4.1.0",
     "ant-design-vue": "^1.7.2",
     "axios": "^0.19.2",
     "js-md5": "^0.7.3",

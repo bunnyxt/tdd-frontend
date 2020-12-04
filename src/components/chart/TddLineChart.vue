@@ -175,6 +175,8 @@ export default {
           // dataLine: 'viewincr',  // single line support
           speedArea: null,  // default
           // speedArea: 'view',  // speed area prop
+          showSliderLine: true,  // default
+          // showSliderLine: false,  // disable slider line
         },
       },
     };
@@ -498,14 +500,11 @@ export default {
       
       // set slider
       if (!this.compact) {
-        // TODO update to newest version to fix this bug
         this.chart.option('slider', {
-          height: -30,
-          trendCfg: {
-            // data: this.data.map(v => -v.view)
-            data: []
-          },
-          formatter: added => this.$util.tsToDateString(Math.floor(added / 1000))
+          height: 30,
+          trendCfg: this.config.data.showSliderLine ? { } : { data: [] },
+          formatter: added => this.$util.tsToDateString(Math.floor(added / 1000)),
+          padding: [0, 0, 0, 0],
         });
       }
     },
