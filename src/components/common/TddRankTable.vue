@@ -419,24 +419,6 @@ export default {
     memberNameClickHandler: function (mid) {
       window.open(`/member/${mid}`);
     },
-    getColorClass: function (property, value) {
-      let abcd = this.rankColor[property];
-      if (!abcd) {
-        return 'color-0';
-      } else {
-        if (value <= abcd.a) {
-          return 'color-1';
-        } else if (value <= abcd.b) {
-          return 'color-2';
-        } else if (value <= abcd.c) {
-          return 'color-3';
-        } else if (value <= abcd.d) {
-          return 'color-4';
-        } else {
-          return 'color-5';
-        }
-      }
-    }
   }
 }
 </script>
