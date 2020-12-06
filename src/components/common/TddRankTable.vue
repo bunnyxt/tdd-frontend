@@ -410,9 +410,11 @@ export default {
   methods: {
     videoPicClickHandler: function (aid) {
       window.open(`https://www.bilibili.com/video/av${aid}`);
+      this.$service.reportInteraction('rank_click_video_pic', JSON.stringify({ aid }));
     },
     videoTitleClickHandler: function (aid) {
       window.open(`/video/av${aid}`);
+      this.$service.reportInteraction('rank_click_video_title', JSON.stringify({ aid }));
     },
     memberNameClickHandler: function (mid) {
       window.open(`/member/${mid}`);
