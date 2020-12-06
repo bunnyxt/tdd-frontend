@@ -424,6 +424,7 @@ export default {
     },
     archIdChangeHandler: function () {
       this.pushRouter(this.category[0], this.archId);
+      this.$service.reportInteraction('rank_weekly_change_archid', JSON.stringify({ archId: this.archId }));
     },
     archIdCascaderChangeHandler: function (e) {
       this.archId = e.pop();
@@ -431,6 +432,7 @@ export default {
     },
     orderRuleChangeHandler: function () {
       this.pushRouter(this.category[0], this.archId, this.orderRule);
+      this.$service.reportInteraction('rank_weekly_change_order', JSON.stringify({ orderRule: this.orderRule }));
     },
     pnChangeHandler: function () {
       this.pushRouter(this.category[0], this.archId, this.orderRule, this.pn);

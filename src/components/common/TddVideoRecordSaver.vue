@@ -162,6 +162,10 @@ export default {
       }
 
       this.$message.success('已开始下载！请留意浏览器的下载文件');
+      this.$service.reportInteraction(
+        'video_record_saver_download_click',
+        JSON.stringify({ aid: this.videoRecords[0].aid, enabledFields: this.enabledFields }),
+      );
       // check android
       const ua = navigator.userAgent.toLowerCase();
       if (ua.indexOf('linux') > -1) {

@@ -415,6 +415,7 @@ export default {
       const newVideoCompareList = [...videoCompareList.filter(video => video.aid !== newVideo.aid), newVideo];
       localStorage.setItem('videoCompareList', JSON.stringify(newVideoCompareList));
       this.inVideoCompareList = true;
+      this.$service.reportInteraction('video_add_to_compare_list', JSON.stringify({ aid: this.aid }));
     },
     removeFromVideoCompareListHandler: function () {
       const videoCompareListString = localStorage.getItem('videoCompareList') || '[]';
