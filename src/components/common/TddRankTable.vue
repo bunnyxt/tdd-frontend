@@ -73,11 +73,16 @@
     </template>
     <template slot="videoTitleMemberPubdate" slot-scope="item">
       <div v-if="item.video">
-        <div
-          :title="`点击前往天钿Daily「${item.video.title}」视频详情页面`"
-          class="video-title"
-        >
-          <a @click="videoTitleClickHandler(item.video.aid)">{{ item.video.title }}</a>
+        <div class="video-title">
+          <a-tooltip placement="topLeft">
+            <template slot="title">
+              <a-icon type="calendar" style="margin-right: 4px" />
+              {{ $util.tsToDateString(archId === 0 ? item.now_added : arch_added) }}
+              <tdd-video-stat-bar :stat="extractStat(item)" style="margin: 8px 0" />
+              点击查看视频详情
+            </template>
+            <a @click="videoTitleClickHandler(item.video.aid)">{{ item.video.title }}</a>
+          </a-tooltip>
         </div>
         <div style="margin-top: 4px; width: 100%; display: flex">
           <span
@@ -205,6 +210,7 @@
 <script>
 import TddRankTableIncrCell from "@/components/common/TddRankTableIncrCell";
 import TddRankTablePointCell from "@/components/common/TddRankTablePointCell";
+import TddVideoStatBar from "@/components/common/TddVideoStatBar";
 
 export default {
   name: 'TddRankTable',
@@ -232,6 +238,7 @@ export default {
   components: {
     TddRankTableIncrCell,
     TddRankTablePointCell,
+    TddVideoStatBar,
   },
   data: function () {
     return {
@@ -341,6 +348,18 @@ export default {
           backgroundColor: '#e6f7ff',
         },
       } : {};
+    },
+    extractStat: function (item) {
+      let prefix = 'now_';
+      if (item.hasOwnProperty('arch_view')) {
+        prefix = 'arch_';
+      }
+      const attributes = ['added', 'view', 'danmaku', 'reply', 'favorite', 'coin', 'share', 'like'];
+      const stat = {};
+      for (const attribute of attributes) {
+        stat[attribute] = item[`${prefix}${attribute}`];
+      }
+      return stat;
     },
   }
 }
