@@ -346,6 +346,7 @@ export default {
     },
     memberNameClickHandler: function (mid) {
       window.open(`/member/${mid}`);
+      this.$service.reportInteraction('rank_click_member_name', JSON.stringify({ mid }));
     },
     highlightColumn: function (columnName) {
       return this.highlight === columnName ? {
