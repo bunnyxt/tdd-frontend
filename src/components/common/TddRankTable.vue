@@ -250,128 +250,44 @@ export default {
           title: '播放',
           scopedSlots: { customRender: 'view_value' },
           width: '108px',
-          customHeaderCell: () => {
-            return this.highlight === 'view' ? {
-              style: {
-                backgroundColor: '#E6F7FF'
-              }
-            } : {};
-          },
-          customCell: () => {
-            return this.highlight === 'view' ? {
-              style: {
-                backgroundColor: '#E6F7FF'
-              }
-            } : {};
-          },
+          customHeaderCell: () => this.highlightColumn('view'),
+          customCell: () => this.highlightColumn('view'),
         }, {
           title: '弹幕',
           scopedSlots: { customRender: 'danmaku_value' },
           width: '96px',
-          customHeaderCell: () => {
-            return this.highlight === 'danmaku' ? {
-              style: {
-                backgroundColor: '#E6F7FF'
-              }
-            } : {};
-          },
-          customCell: () => {
-            return this.highlight === 'danmaku' ? {
-              style: {
-                backgroundColor: '#E6F7FF'
-              }
-            } : {};
-          },
+          customHeaderCell: () => this.highlightColumn('danmaku'),
+          customCell: () => this.highlightColumn('danmaku'),
         }, {
           title: '评论',
           scopedSlots: { customRender: 'reply_value' },
           width: '96px',
-          customHeaderCell: () => {
-            return this.highlight === 'reply' ? {
-              style: {
-                backgroundColor: '#E6F7FF'
-              }
-            } : {};
-          },
-          customCell: () => {
-            return this.highlight === 'reply' ? {
-              style: {
-                backgroundColor: '#E6F7FF'
-              }
-            } : {};
-          },
+          customHeaderCell: () => this.highlightColumn('reply'),
+          customCell: () => this.highlightColumn('reply'),
         }, {
           title: '收藏',
           scopedSlots: { customRender: 'favorite_value' },
           width: '96px',
-          customHeaderCell: () => {
-            return this.highlight === 'favorite' ? {
-              style: {
-                backgroundColor: '#E6F7FF'
-              }
-            } : {};
-          },
-          customCell: () => {
-            return this.highlight === 'favorite' ? {
-              style: {
-                backgroundColor: '#E6F7FF'
-              }
-            } : {};
-          },
+          customHeaderCell: () => this.highlightColumn('favorite'),
+          customCell: () => this.highlightColumn('favorite'),
         }, {
           title: '硬币',
           scopedSlots: { customRender: 'coin_value' },
           width: '96px',
-          customHeaderCell: () => {
-            return this.highlight === 'coin' ? {
-              style: {
-                backgroundColor: '#E6F7FF'
-              }
-            } : {};
-          },
-          customCell: () => {
-            return this.highlight === 'coin' ? {
-              style: {
-                backgroundColor: '#E6F7FF'
-              }
-            } : {};
-          },
+          customHeaderCell: () => this.highlightColumn('coin'),
+          customCell: () => this.highlightColumn('coin'),
         }, {
           title: '分享',
           scopedSlots: { customRender: 'share_value' },
           width: '96px',
-          customHeaderCell: () => {
-            return this.highlight === 'share' ? {
-              style: {
-                backgroundColor: '#E6F7FF'
-              }
-            } : {};
-          },
-          customCell: () => {
-            return this.highlight === 'share' ? {
-              style: {
-                backgroundColor: '#E6F7FF'
-              }
-            } : {};
-          },
+          customHeaderCell: () => this.highlightColumn('share'),
+          customCell: () => this.highlightColumn('share'),
         }, {
           title: '点赞',
           scopedSlots: { customRender: 'like_value' },
           width: '96px',
-          customHeaderCell: () => {
-            return this.highlight === 'like' ? {
-              style: {
-                backgroundColor: '#E6F7FF'
-              }
-            } : {};
-          },
-          customCell: () => {
-            return this.highlight === 'like' ? {
-              style: {
-                backgroundColor: '#E6F7FF'
-              }
-            } : {};
-          },
+          customHeaderCell: () => this.highlightColumn('like'),
+          customCell: () => this.highlightColumn('like'),
         },
       ],
     }
@@ -419,6 +335,13 @@ export default {
     memberNameClickHandler: function (mid) {
       window.open(`/member/${mid}`);
     },
+    highlightColumn: function (columnName) {
+      return this.highlight === columnName ? {
+        style: {
+          backgroundColor: '#e6f7ff',
+        },
+      } : {};
+    },
   }
 }
 </script>
@@ -441,7 +364,6 @@ export default {
   transition: all .2s;
 }
 .to-bilibili-content:hover {
-  /*box-shadow: 0 0 20px #fc82a5;*/
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
 }
 .to-bilibili-cover-background {
