@@ -52,10 +52,12 @@
           <div
             class="to-bilibili-cover"
             :title="`点击前往BiliBili「${item.video.title}」视频播放页面`"
-            @click="videoPicClickHandler(item.video.aid)"
+            @click.prevent="videoPicClickHandler(item.video.aid)"
           >
-            <div class="to-bilibili-cover-background"></div>
-            <a-icon class="to-bilibili-cover-play-icon" type="play-circle"></a-icon>
+            <a :href="`https://www.bilibili.com/video/av${item.video.aid}`">
+              <div class="to-bilibili-cover-background"></div>
+              <a-icon class="to-bilibili-cover-play-icon" type="play-circle"></a-icon>
+            </a>
           </div>
         </div>
       </div>
@@ -81,7 +83,10 @@
               <tdd-video-stat-bar :stat="extractStat(item)" style="margin: 8px 0" />
               点击查看视频详情
             </template>
-            <a @click="videoTitleClickHandler(item.video.aid)">{{ item.video.title }}</a>
+            <a
+              :href="`https://tdd.bunnyxt.com/video/av${item.video.aid}`"
+              @click.prevent="videoTitleClickHandler(item.video.aid)"
+            >{{ item.video.title }}</a>
           </a-tooltip>
         </div>
         <div style="margin-top: 4px; width: 100%; display: flex">
@@ -96,7 +101,10 @@
                 :size="16"
                 style="margin-right: 4px"
               />
-              <a @click="memberNameClickHandler(item.video.mid)">{{ item.video.member ? item.video.member.name : '' }}</a>
+              <a
+                :href="`https://tdd.bunnyxt.com/member/${item.video.mid}`"
+                @click.prevent="memberNameClickHandler(item.video.mid)"
+              >{{ item.video.member ? item.video.member.name : '' }}</a>
             </span>
           </a-tooltip>
           <a-tooltip style="flex-shrink: 0; cursor: help">
