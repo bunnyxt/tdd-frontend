@@ -85,18 +85,20 @@
           </a-tooltip>
         </div>
         <div style="margin-top: 4px; width: 100%; display: flex">
-          <span
-            class="video-title-member"
-            style="flex-grow: 1; margin-right: 8px"
-            :title="`UP主：${item.video.member ? item.video.member.name : ''}`"
-          >
-            <a-avatar
-              :src="item.video.member ? $util.httpS(item.video.member.face) : 'https://static.hdslb.com/images/member/noface.gif'"
-              :size="16"
-              style="margin-right: 4px"
-            />
-            <a @click="memberNameClickHandler(item.video.mid)">{{ item.video.member ? item.video.member.name : '' }}</a>
-          </span>
+          <a-tooltip placement="topLeft" style="flex-grow: 1; margin-right: 8px">
+            <div slot="title" style="margin: 4px">
+              <tdd-member-card :mid="item.video.mid" style="margin-bottom: 8px" />
+              点击查看UP主详情
+            </div>
+            <span class="video-title-member">
+              <a-avatar
+                :src="item.video.member ? $util.httpS(item.video.member.face) : 'https://static.hdslb.com/images/member/noface.gif'"
+                :size="16"
+                style="margin-right: 4px"
+              />
+              <a @click="memberNameClickHandler(item.video.mid)">{{ item.video.member ? item.video.member.name : '' }}</a>
+            </span>
+          </a-tooltip>
           <a-tooltip style="flex-shrink: 0; cursor: help">
             <template slot="title">
               投稿日期：{{ $util.tsToDateString(item.video.pubdate) }}<br/>
@@ -212,6 +214,7 @@
 import TddRankTableIncrCell from "@/components/common/TddRankTableIncrCell";
 import TddRankTablePointCell from "@/components/common/TddRankTablePointCell";
 import TddVideoStatBar from "@/components/common/TddVideoStatBar";
+import TddMemberCard from "@/components/common/TddMemberCard";
 
 export default {
   name: 'TddRankTable',
@@ -240,6 +243,7 @@ export default {
     TddRankTableIncrCell,
     TddRankTablePointCell,
     TddVideoStatBar,
+    TddMemberCard,
   },
   data: function () {
     return {
