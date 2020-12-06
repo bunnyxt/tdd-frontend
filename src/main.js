@@ -101,6 +101,9 @@ Vue.use(Cascader)
 import axios from './api/axios'
 Vue.prototype.$axios = axios;
 
+import service from "@/service";
+Vue.prototype.$service = service;
+
 // qs
 import qs from 'qs'
 Vue.prototype.$qs = qs;
