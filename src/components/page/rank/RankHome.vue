@@ -119,26 +119,59 @@
         <a-alert
           v-if="isLoadingRankList"
           message="加载中..."
-          :description="`${categories[category[0]]}，${rankArchiveOverview.find(a => a.id === archId) ? rankArchiveOverview.find(a => a.id === archId).name : `arch_id=${archId}`}，${orderRules[orderRule]}，第${pn}页`"
+          :description="`${categories[category[0]]}，${currentArchiveName}，${orderRules[orderRule]}，第${pn}页`"
           type="info"
           style="margin-top: 12px"
         />
         <div v-else>
-          <a-row style="margin-top: 16px">
-            <a-col :xs="24" :sm="12" :lg="8">
+          <div v-if="$store.getters.clientMode === 'MOBILE'" style="margin-top: 16px">
+            <a-alert style="padding: 0">
+              <a-collapse slot="description" :bordered="false" style="background-color: rgba(0, 0, 0, 0); border-width: 0">
+                <a-collapse-panel key="1" :header="currentArchiveName">
+                  <rank-home-description
+                    v-if="archId === 0"
+                    :start-ts="$util.getLatestSat0300Ts(rankList[0].now_added)"
+                    :end-ts="$util.getLatestHourStartTs(rankList[0].now_added)"
+                  />
+                  <rank-home-description
+                    v-else
+                    :start-ts="$util.getLatestSat0300Ts(currentArchive.start_ts)"
+                    :end-ts="$util.getLatestHourStartTs(currentArchive.end_ts)"
+                  />
+                </a-collapse-panel>
+                <a-collapse-panel key="2" header="颜色标记">
+                  TODO
+                </a-collapse-panel>
+              </a-collapse>
+            </a-alert>
+          </div>
+          <a-row v-else style="margin-top: 16px" :gutter="16">
+            <a-col :sm="12" :lg="8">
               <a-alert>
                 <template slot="message">
-                  {{ rankArchiveOverview.find(a => a.id === archId) ? rankArchiveOverview.find(a => a.id === archId).name : `arch_id=${archId}` }}
+                  {{ currentArchiveName }}
                 </template>
                 <template slot="description">
-                  <template v-if="archId === 0">
-                    开始时间：{{ $util.tsToDateString($util.getLatestSat0300Ts(rankList[0].now_added)) }}<br/>
-                    统计时间：{{ $util.tsToDateString($util.getLatestHourStartTs(rankList[0].now_added)) }}
-                  </template>
-                  <template v-else>
-                    开始时间：{{ $util.tsToDateString(rankArchiveOverview.find(a => a.id === archId).start_ts) }}<br/>
-                    统计时间：{{ $util.tsToDateString(rankArchiveOverview.find(a => a.id === archId).end_ts) }}
-                  </template>
+                  <rank-home-description
+                    v-if="archId === 0"
+                    :start-ts="$util.getLatestSat0300Ts(rankList[0].now_added)"
+                    :end-ts="$util.getLatestHourStartTs(rankList[0].now_added)"
+                  />
+                  <rank-home-description
+                    v-else
+                    :start-ts="$util.getLatestSat0300Ts(currentArchive.start_ts)"
+                    :end-ts="$util.getLatestHourStartTs(currentArchive.end_ts)"
+                  />
+                </template>
+              </a-alert>
+            </a-col>
+            <a-col :sm="12" :lg="16">
+              <a-alert>
+                <template slot="message">
+                  颜色标记
+                </template>
+                <template slot="description">
+                  TODO
                 </template>
               </a-alert>
             </a-col>
@@ -168,6 +201,7 @@
 
 <script>
 import TddRankTable from "../../common/TddRankTable";
+import RankHomeDescription from "@/components/page/rank/RankHomeDescription";
 
 export default {
   name: 'RankHome',
@@ -204,6 +238,7 @@ export default {
   },
   components: {
     TddRankTable,
+    RankHomeDescription,
   },
   watch: {
     $route: function (routeObj) {
@@ -300,6 +335,12 @@ export default {
       }
       
       return [];
+    },
+    currentArchive: function () {
+      return this.rankArchiveOverview.find(a => a.id === this.archId);
+    },
+    currentArchiveName: function () {
+      return this.currentArchive ? this.currentArchive.name : `arch_id=${this.archId}`;
     },
   },
   methods: {
