@@ -124,6 +124,25 @@
           style="margin-top: 12px"
         />
         <div v-else>
+          <a-row style="margin-top: 16px">
+            <a-col :xs="24" :sm="12" :lg="8">
+              <a-alert>
+                <template slot="message">
+                  {{ rankArchiveOverview.find(a => a.id === archId) ? rankArchiveOverview.find(a => a.id === archId).name : `arch_id=${archId}` }}
+                </template>
+                <template slot="description">
+                  <template v-if="archId === 0">
+                    开始时间：{{ $util.tsToDateString($util.getLatestSat0300Ts(rankList[0].now_added)) }}<br/>
+                    统计时间：{{ $util.tsToDateString($util.getLatestHourStartTs(rankList[0].now_added)) }}
+                  </template>
+                  <template v-else>
+                    开始时间：{{ $util.tsToDateString(rankArchiveOverview.find(a => a.id === archId).start_ts) }}<br/>
+                    统计时间：{{ $util.tsToDateString(rankArchiveOverview.find(a => a.id === archId).end_ts) }}
+                  </template>
+                </template>
+              </a-alert>
+            </a-col>
+          </a-row>
           <tdd-rank-table
             :rank-list="rankList"
             :rank-color="rankColor"
