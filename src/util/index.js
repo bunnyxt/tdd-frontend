@@ -380,6 +380,12 @@ export default {
     }分`;
     return `${prefixStr}${suffixStr}`;
   },
+  getLatestHourStartTs: function (ts) {
+    return ts - ts % (60 * 60);
+  },
+  getLatestSat0300Ts: function (ts) {
+    return ts - (ts - 154800) % (7 * 24 * 60 * 60);
+  },
   // abid.js
   a2b, b2a,
   // DataView.js
