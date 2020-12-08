@@ -107,6 +107,20 @@ export default {
   background-color: #ff5a8a !important;
 }
 
+/* limit lime */
+.line-1 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.line-2 {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
 /* color system */
 .color-0 {
   color: rgba(0, 0, 0, 0.65);
