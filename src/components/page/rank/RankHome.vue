@@ -8,7 +8,6 @@
       </a-breadcrumb>
     </div>
     <div class="section-block">
-      <a-alert message="WORK IN PROGRESS" style="margin-bottom: 16px" banner/>
       <div>
         <div style="display: flex">
           <a-menu
@@ -140,13 +139,13 @@
                   />
                 </a-collapse-panel>
                 <a-collapse-panel key="2" header="颜色标记">
-                  TODO
+                  <rank-home-color-mark :color="rankColor" />
                 </a-collapse-panel>
               </a-collapse>
             </a-alert>
           </div>
           <a-row v-else style="margin-top: 16px" :gutter="16">
-            <a-col :sm="12" :lg="8">
+            <a-col :sm="12" :lg="10" :xl="8">
               <a-alert>
                 <template slot="message">
                   {{ currentArchiveName }}
@@ -165,13 +164,13 @@
                 </template>
               </a-alert>
             </a-col>
-            <a-col :sm="12" :lg="16">
+            <a-col :sm="12" :lg="14" :xl="16">
               <a-alert>
                 <template slot="message">
                   颜色标记
                 </template>
                 <template slot="description">
-                  TODO
+                  <rank-home-color-mark :color="rankColor" />
                 </template>
               </a-alert>
             </a-col>
@@ -202,6 +201,7 @@
 <script>
 import TddRankTable from "../../common/TddRankTable";
 import RankHomeDescription from "@/components/page/rank/RankHomeDescription";
+import RankHomeColorMark from "@/components/page/rank/RankHomeColorMark";
 
 export default {
   name: 'RankHome',
@@ -239,6 +239,7 @@ export default {
   components: {
     TddRankTable,
     RankHomeDescription,
+    RankHomeColorMark,
   },
   watch: {
     $route: function (routeObj) {
