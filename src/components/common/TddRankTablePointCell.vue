@@ -45,7 +45,7 @@ export default {
       required: true,
     },
     separator: {
-      type: Object,
+      // type: Object,  // maybe undefined
       required: true,
     },
   },
