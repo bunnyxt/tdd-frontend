@@ -79,7 +79,7 @@
           <a-tooltip placement="topLeft">
             <template slot="title">
               <a-icon type="calendar" style="margin-right: 4px" />
-              {{ $util.tsToDateString(archId === 0 ? item.now_added : arch_added) }}
+              {{ $util.tsToDateString(archId === 0 ? item.now_added : item.arch_added) }}
               <tdd-video-stat-bar :stat="extractStat(item)" style="margin: 8px 0" />
               点击查看视频详情
             </template>
