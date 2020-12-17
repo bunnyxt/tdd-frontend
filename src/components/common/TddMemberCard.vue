@@ -1,9 +1,7 @@
 <template>
   <div>
     <div v-if="isLoadingMember">
-      <a-spin :spinning="true">
-        正在获取用户<a :href="`https://space.bilibili.com/${mid}`" target="_blank">{{ `mid_${mid}` }}</a>的信息
-      </a-spin>
+      <a-spin size="small" style="margin-right: 8px" />正在获取用户<a :href="`https://space.bilibili.com/${mid}`" target="_blank">{{ `mid_${mid}` }}</a>的信息
     </div>
     <div v-else>
       <div v-if="!member || Object.keys(member).length === 0">
