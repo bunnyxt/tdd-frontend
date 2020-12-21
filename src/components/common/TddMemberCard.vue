@@ -84,6 +84,7 @@ export default {
       this.isLoadingMember = true;
       
       let that = this;
+      // production
       this.$axios.get(`member/${mid}`)
         .then(function (response) {
           that.member = response.data;
@@ -94,6 +95,18 @@ export default {
         .finally(function () {
           that.isLoadingMember = false;
         });
+      
+      // // 1000 ms delay debug
+      // setTimeout(() => that.$axios.get(`member/${mid}`)
+      //   .then(function (response) {
+      //     that.member = response.data;
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   })
+      //   .finally(function () {
+      //     that.isLoadingMember = false;
+      //   }), 1000);
     },
   },
   created() {
