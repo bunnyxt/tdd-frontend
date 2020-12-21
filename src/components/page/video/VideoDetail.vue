@@ -460,6 +460,8 @@ export default {
     },
     getCurrentVideoRecordsTotal: function (aid) {
       this.isLoadingCurrentVideoRecordsTotal = true;
+      this.$service.reportInteraction('video_detail_get_current_video_records_total',
+        JSON.stringify({ aid }));
       
       const that = this;
       this.$axios.get(`video/${aid}/record`)
@@ -477,6 +479,8 @@ export default {
     },
     updateCurrentVideoRecords: function (aid) {
       this.isLoadingCurrentVideoRecordsTotal = true;
+      this.$service.reportInteraction('video_detail_update_current_video_records',
+        JSON.stringify({ aid, total: that.currentVideoRecordsTotalLoaded }));
       
       const that = this;
       const url = this.currentVideoRecordsTotalLoaded ? `video/${aid}/record` : `video/${aid}/record?last_count=1000`;
@@ -494,6 +498,10 @@ export default {
     },
     getHistoryVideoRecords: function (aid) {
       this.isLoadingHourlyVideoRecords = true;
+      if (this.hourlyVideoRecords.length > 0) {
+        this.$service.reportInteraction('video_detail_update_history_video_records',
+          JSON.stringify({ aid }));
+      }
       
       const that = this;
       this.$axios.get(`video/${aid}/record/hourly`)
@@ -552,11 +560,17 @@ export default {
     enableCurrentVideoRecordsCheckboxChangeHandler: function () {
       if (this.videoRecords.length === 0) {
         this.enableCurrentVideoRecords = true;
+      } else {
+        this.$service.reportInteraction('video_detail_change_current_video_records_checkbox',
+          JSON.stringify({ aid: this.aid, to: this.enableCurrentVideoRecords }));
       }
     },
     enableHistoryVideoRecordsCheckboxChangeHandler: function () {
       if (this.videoRecords.length === 0) {
         this.enableHourlyVideoRecords = true;
+      } else {
+        this.$service.reportInteraction('video_detail_change_hourly_video_records_checkbox',
+          JSON.stringify({ aid: this.aid, to: this.enableHourlyVideoRecords }));
       }
     },
   },
