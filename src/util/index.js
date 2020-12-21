@@ -236,7 +236,11 @@ export default {
     }
   },
   httpS: function (url) {
-    return url.replace(/^http:/, 'https:');
+    if (typeof url == 'string') {
+      return url.replace(/^http:/, 'https:');
+    } else {
+      return url;
+    }
   },
   getVideoCodeMessage: function (code) {
     switch (code) {
