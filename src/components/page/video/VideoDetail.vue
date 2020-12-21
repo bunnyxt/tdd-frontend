@@ -149,7 +149,7 @@
         </div>
         <div class="section-separator"></div>
         <div class="section-block">
-          <div v-if="isLoadingVideoRecords">
+          <div v-if="isLoadingCurrentVideoRecordsBrief">
             <a-spin :spinning="true">
               正在获取<video-detail-video-id-link :aid="aid" :bvid="bvid" :from-bvid="fromBvid" />的历史数据
             </a-spin>
@@ -161,41 +161,108 @@
               </a-alert>
             </div>
             <div v-else>
-              <a-menu v-model="currentDataCategory" mode="horizontal" style="margin-bottom: 16px">
-                <a-menu-item key="recordChart"> <a-icon type="line-chart" />历史趋势 </a-menu-item>
-                <a-menu-item key="recordTable"> <a-icon type="table" />详细数据 </a-menu-item>
-                <a-menu-item key="zkCalc"> <a-icon type="calculator" />周刊算分 </a-menu-item>
-                <a-menu-item key="recordSaver"> <a-icon type="download" />数据下载 </a-menu-item>
-              </a-menu>
-              <div v-show="currentDataCategory.indexOf('recordChart') !== -1">
-                <template v-if="recordChartEnterCount">
-                  <a-alert type="info" banner style="margin-bottom: 12px" closable>
-                    <template slot="message">
-                      新功能！想对比多个视频的历史趋势？将此视频<a-popover placement="bottom">
-                      <template slot="content">
-                        <template v-if="inVideoCompareList">
-                          已添加，点此<a @click="removeFromVideoCompareListHandler">移除</a>
+              <a-spin :spinning="isLoadingVideoRecords">
+                <div style="margin-bottom: 16px; display: flex">
+                  <a-menu
+                    v-model="currentDataCategory"
+                    mode="horizontal"
+                    :style="{ width: `calc(100% - ${$store.getters.clientMode === 'MOBILE' ? 46 : 122}px)` }"
+                  >
+                    <a-menu-item key="recordChart"> <a-icon type="line-chart" />历史趋势 </a-menu-item>
+                    <a-menu-item key="recordTable"> <a-icon type="table" />详细数据 </a-menu-item>
+                    <a-menu-item key="zkCalc"> <a-icon type="calculator" />周刊算分 </a-menu-item>
+                    <a-menu-item key="recordSaver"> <a-icon type="download" />数据下载 </a-menu-item>
+                  </a-menu>
+                  <div style="margin-top: 8px; padding-left: 12px; border-bottom: 1px solid #e8e8e8">
+                    <a-popover placement="bottomRight" trigger="click">
+                      <a-button>
+                        <a-icon type="filter" /> {{ $store.getters.clientMode === 'MOBILE' ? '' : '数据选择' }}
+                      </a-button>
+                      <div slot="content">
+                        <a-spin :spinning="isLoadingVideoRecords">
+                          <div style="margin-bottom: 12px">
+                            <a-checkbox
+                              v-model="enableCurrentVideoRecords"
+                              @change="enableCurrentVideoRecordsCheckboxChangeHandler"
+                              style="margin-bottom: 4px"
+                            >近期数据</a-checkbox>
+                            <div style="margin-bottom: 4px">
+                              共{{ currentVideoRecordsTotalCount }}条，已加载{{ currentVideoRecords.length }}条
+                            </div>
+                            <div>
+                              <a-button
+                                type="link"
+                                size="small"
+                                :disabled="currentVideoRecordsTotalLoaded"
+                                @click="getCurrentVideoRecordsTotal(aid)"
+                              >加载全部</a-button>
+                              <a-button
+                                type="link"
+                                size="small"
+                                @click="updateCurrentVideoRecords(aid)"
+                              >刷新数据</a-button>
+                            </div>
+                          </div>
+                          <div>
+                            <a-checkbox
+                              v-model="enableHourlyVideoRecords"
+                              :disabled="hourlyVideoRecords.length === 0"
+                              @change="enableHistoryVideoRecordsCheckboxChangeHandler"
+                              style="margin-bottom: 4px"
+                            >近三日每小时数据</a-checkbox>
+                            <div v-if="hourlyVideoRecords.length > 0" style="margin-bottom: 4px">
+                              共{{ hourlyVideoRecords.length }}条，已加载{{ hourlyVideoRecords.length }}条
+                            </div>
+                            <div>
+                              <a-button
+                                type="link"
+                                size="small"
+                                :disabled="hourlyVideoRecords.length !== 0"
+                                @click="getHistoryVideoRecords(aid)"
+                              >加载全部</a-button>
+                              <a-button
+                                type="link"
+                                size="small"
+                                :disabled="hourlyVideoRecords.length === 0"
+                                @click="getHistoryVideoRecords(aid)"
+                              >刷新数据</a-button>
+                            </div>
+                          </div>
+                        </a-spin>
+                      </div>
+                    </a-popover>
+                  </div>
+                </div>
+                <div v-show="currentDataCategory.indexOf('recordChart') !== -1">
+                  <template v-if="recordChartEnterCount">
+                    <a-alert type="info" banner style="margin-bottom: 12px" closable>
+                      <template slot="message">
+                        新功能！想对比多个视频的历史趋势？将此视频<a-popover placement="bottom">
+                        <template slot="content">
+                          <template v-if="inVideoCompareList">
+                            已添加，点此<a @click="removeFromVideoCompareListHandler">移除</a>
+                          </template>
+                          <template v-else>
+                            点此<a @click="addToVideoCompareListHandler">添加</a>
+                          </template>
                         </template>
-                        <template v-else>
-                          点此<a @click="addToVideoCompareListHandler">添加</a>
-                        </template>
+                        <a>添加到对比列表</a>
+                      </a-popover>，前往<router-link to="/tool/compare">视频对比工具</router-link>进行比较
                       </template>
-                      <a>添加到对比列表</a>
-                    </a-popover>，前往<router-link to="/tool/compare">视频对比工具</router-link>进行比较
-                    </template>
-                  </a-alert>
-                  <tdd-video-history-line-chart :videoRecords="videoRecords" :pubdate="video ? video.pubdate : 0" />
-                </template>
-              </div>
-              <div v-show="currentDataCategory.indexOf('recordTable') !== -1">
-                <video-detail-history-table :video-records="videoRecords" />
-              </div>
-              <div v-show="currentDataCategory.indexOf('zkCalc') !== -1">
-                <tdd-video-record-zk-calc :video-records="videoRecords" :page="video ? video.videos : 1" :pubdate="video ? video.pubdate : null" />
-              </div>
-              <div v-show="currentDataCategory.indexOf('recordSaver') !== -1">
-                <tdd-video-record-saver :video-records="videoRecords" />
-              </div>
+                    </a-alert>
+                    <tdd-video-history-line-chart :videoRecords="videoRecords" :pubdate="video ? video.pubdate : 0" />
+                  </template>
+                </div>
+                <div v-show="currentDataCategory.indexOf('recordTable') !== -1">
+                  <video-detail-history-table :video-records="videoRecords" />
+                </div>
+                <div v-show="currentDataCategory.indexOf('zkCalc') !== -1">
+                  <tdd-video-record-zk-calc :video-records="videoRecords" :page="video ? video.videos : 1" :pubdate="video ? video.pubdate : null" />
+                </div>
+                <div v-show="currentDataCategory.indexOf('recordSaver') !== -1">
+                  <tdd-video-record-saver :video-records="videoRecords" />
+                </div>
+              </a-spin>
             </div>
           </div>
         </div>
@@ -231,9 +298,20 @@ export default {
   data: function() {
     return {
       video: null,
-      videoRecords: null,
       isLoadingVideo: false,
-      isLoadingVideoRecords: false,
+      // video records related
+      // currentVideoRecords
+      currentVideoRecords: [],
+      isLoadingCurrentVideoRecordsBrief: false,
+      currentVideoRecordsTotalCount: 0,
+      isLoadingCurrentVideoRecordsTotal: false,
+      currentVideoRecordsTotalLoaded: false,
+      enableCurrentVideoRecords: true,
+      // hourlyVideoRecords
+      hourlyVideoRecords: [],
+      isLoadingHourlyVideoRecords: false,
+      enableHourlyVideoRecords: true,
+      // video records related end
       currentDataCategory: ['recordChart'],
       recordChartEnterCount: 1,
       // video compare list related
@@ -241,6 +319,26 @@ export default {
     }
   },
   computed: {
+    videoRecords: function () {
+      let records = [];
+      if (this.enableCurrentVideoRecords) {
+        records = records.concat(this.currentVideoRecords);
+      }
+      if (this.enableHourlyVideoRecords) {
+        const addedList = records.map(record => record.added);
+        this.hourlyVideoRecords.forEach(record => {
+          if (!addedList.includes(record.added)) {
+            records.push(record);
+          }
+        });
+      }
+      return records.sort((a, b) => a.added - b.added);
+    },
+    isLoadingVideoRecords: function () {
+      return this.isLoadingCurrentVideoRecordsBrief
+        || this.isLoadingCurrentVideoRecordsTotal
+        || this.isLoadingHourlyVideoRecords;
+    },
     fromBvid: function () {
       return !!this.$route.params.bvid;
     },
@@ -276,7 +374,8 @@ export default {
   watch: {
     aid: function(newAid) {
       this.getVideoInfo(newAid);
-      this.getVideoRecords(newAid);
+      this.initCurrentVideoRecords(newAid);
+      this.getHistoryVideoRecords(newAid);
       this.addVisitHistoryVideo(newAid);
       this.initVideoCompareListRelated(newAid);
     },
@@ -342,19 +441,74 @@ export default {
           });
       }
     },
-    getVideoRecords: function (aid, params = { last_count: 1000 }) {
-      this.isLoadingVideoRecords = true;
+    initCurrentVideoRecords: function (aid) {
+      this.isLoadingCurrentVideoRecordsBrief = true;
       
       const that = this;
-      this.$axios.get(`video/${aid}/record`, { params })
+      this.$axios.get(`video/${aid}/record?last_count=1000`)
         .then(function (response) {
-          that.videoRecords = response.data;
+          that.currentVideoRecords = response.data;
+          that.currentVideoRecordsTotalCount = response.headers['x-total-count'];
+          that.currentVideoRecordsTotalLoaded = that.currentVideoRecordsTotalCount <= 1000;
         })
         .catch(function (error) {
           console.log(error);
         })
         .finally(function () {
-          that.isLoadingVideoRecords = false;
+          that.isLoadingCurrentVideoRecordsBrief = false;
+        });
+    },
+    getCurrentVideoRecordsTotal: function (aid) {
+      this.isLoadingCurrentVideoRecordsTotal = true;
+      
+      const that = this;
+      this.$axios.get(`video/${aid}/record`)
+        .then(function (response) {
+          that.currentVideoRecords = response.data;
+          that.currentVideoRecordsTotalCount = response.headers['x-total-count'];
+          that.currentVideoRecordsTotalLoaded = true;
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingCurrentVideoRecordsTotal = false;
+        });
+    },
+    updateCurrentVideoRecords: function (aid) {
+      this.isLoadingCurrentVideoRecordsTotal = true;
+      
+      const that = this;
+      const url = this.currentVideoRecordsTotalLoaded ? `video/${aid}/record` : `video/${aid}/record?last_count=1000`;
+      this.$axios.get(url)
+        .then(function (response) {
+          that.currentVideoRecords = response.data;
+          that.currentVideoRecordsTotalCount = response.headers['x-total-count'];
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingCurrentVideoRecordsTotal = false;
+        });
+    },
+    getHistoryVideoRecords: function (aid) {
+      this.isLoadingHourlyVideoRecords = true;
+      
+      const that = this;
+      this.$axios.get(`video/${aid}/record/hourly`)
+        .then(function (response) {
+          that.hourlyVideoRecords = response.data.map(record => ({
+            ...record,
+            id: -record.added,  // add unique id
+            aid: aid,  // add aid
+          }));
+        })
+        .catch(function (error) {
+          console.log(error);
+        })
+        .finally(function () {
+          that.isLoadingHourlyVideoRecords = false;
         });
     },
     videoMemberNameClickHandler: function (mid) {
@@ -395,10 +549,21 @@ export default {
         this.inVideoCompareList = false;
       }
     },
+    enableCurrentVideoRecordsCheckboxChangeHandler: function () {
+      if (this.videoRecords.length === 0) {
+        this.enableCurrentVideoRecords = true;
+      }
+    },
+    enableHistoryVideoRecordsCheckboxChangeHandler: function () {
+      if (this.videoRecords.length === 0) {
+        this.enableHourlyVideoRecords = true;
+      }
+    },
   },
   created: function() {
     this.getVideoInfo(this.aid, true);
-    this.getVideoRecords(this.aid);
+    this.initCurrentVideoRecords(this.aid);
+    this.getHistoryVideoRecords(this.aid);
     this.addVisitHistoryVideo(this.aid);
     this.initVideoCompareListRelated(this.aid);
   },
