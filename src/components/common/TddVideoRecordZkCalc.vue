@@ -177,7 +177,7 @@ export default {
   },
   computed: {
     isValid: function () {
-      return this.videoRecords !== null && typeof(this.videoRecords) === typeof([]);
+      return this.videoRecords !== null && this.videoRecords instanceof Array && this.videoRecords.length > 0;
     },
     currentZkIssueValue: function () {
       return this.calcZkIssueValueViaTs(Math.floor(new Date().valueOf() / 1000));
