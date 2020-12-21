@@ -78,7 +78,7 @@
                       <a-menu-item :key="staff.mid">
                         <a @click="videoMemberNameClickHandler(staff.mid)">
                           <a-avatar size="small" :src="$util.httpS(staff.face)" style="margin-right: 8px" />
-                          {{ staff.name }}<a-tag :color="getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
+                          {{ staff.name }}<a-tag :color="$util.getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
                         </a>
                       </a-menu-item>
                     </template>
@@ -86,7 +86,7 @@
                       <a-menu-item :key="staff.mid">
                         <a @click="videoMemberNameClickHandler(staff.mid)">
                           <a-avatar size="small" :src="$util.httpS(staff.face)" style="margin-right: 8px" />
-                          {{ staff.name }}<a-tag :color="getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
+                          {{ staff.name }}<a-tag :color="$util.getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
                         </a>
                       </a-menu-item>
                     </template>
@@ -362,39 +362,6 @@ export default {
         .finally(function () {
           that.isLoadingVideoRecords = false;
         });
-    },
-    getStaffTitleColor: function (title) {
-      let color = '';
-      switch (title) {
-        case 'UP主':
-          color = 'red';
-          break;
-        case '作词':
-        case '填词':
-          color = 'pink';
-          break;
-        case '作曲':
-        case '编曲':
-          color = 'orange';
-          break;
-        case '调校':
-        case '调教':
-        case '调音':
-          color = 'green';
-          break;
-        case '曲绘':
-          color = 'cyan';
-          break;
-        case '策划':
-          color = 'blue';
-          break;
-        case '视频制作':
-        case '剪辑':
-        case '字幕':
-          color = 'purple';
-          break;
-      }
-      return color;
     },
     videoMemberNameClickHandler: function (mid) {
       this.$router.push('/member/' + mid);
