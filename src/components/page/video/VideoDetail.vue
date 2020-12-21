@@ -286,6 +286,7 @@ export default {
   watch: {
     aid: function(newAid) {
       this.getVideoInfo(newAid);
+      this.getVideoRecords(newAid);
       this.addVisitHistoryVideo(newAid);
       this.initVideoCompareListRelated(newAid);
     },
@@ -324,7 +325,6 @@ export default {
     },
     getVideoInfo: function(aid, checkVideoFromStore=false) {
       this.isLoadingVideo = true;
-      this.isLoadingVideoRecords = true;
 
       // check video from store
       let videoLoadedFromStore = false;
@@ -351,8 +351,12 @@ export default {
             that.isLoadingVideo = false;
           });
       }
-
-      this.$axios.get('video/' + aid + '/record')
+    },
+    getVideoRecords: function (aid, params = { last_count: 1000 }) {
+      this.isLoadingVideoRecords = true;
+      
+      const that = this;
+      this.$axios.get(`video/${aid}/record`, { params })
         .then(function (response) {
           that.videoRecords = response.data;
         })
@@ -404,6 +408,7 @@ export default {
   },
   created: function() {
     this.getVideoInfo(this.aid, true);
+    this.getVideoRecords(this.aid);
     this.addVisitHistoryVideo(this.aid);
     this.initVideoCompareListRelated(this.aid);
   },
