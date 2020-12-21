@@ -25,7 +25,7 @@
             </a-menu-item>
           </a-menu>
           <div style="margin-top: 8px; padding-left: 12px; border-bottom: 1px solid #e8e8e8">
-            <a-popover v-if="$store.state.clientWidth < 964" placement="bottom" trigger="click">
+            <a-popover v-if="$store.state.clientWidth < 964" placement="bottomRight" trigger="click">
 <!--            <a-popover v-if="$store.state.clientWidth < 864" placement="bottom" trigger="click">-->
               <a-button>
                 <a-icon type="filter" />
