@@ -12,10 +12,7 @@
     <div v-if="isLoadingVideo">
       <div class="section-block">
         <a-spin :spinning="true">
-          正在获取
-          <a v-if="fromBvid" :href="'https://www.bilibili.com/video/BV' + bvid" target="_blank">BV{{ bvid }}</a>
-          <a v-else :href="'https://www.bilibili.com/video/av' + aid" target="_blank">av{{ aid }}</a>
-          的视频信息
+          正在获取<video-detail-video-id-link :aid="aid" :bvid="bvid" :from-bvid="fromBvid" />的视频信息
         </a-spin>
       </div>
     </div>
@@ -23,10 +20,7 @@
       <div v-if="!video || Object.keys(video).length === 0">
         <div class="section-block">
           <p>
-            没有找到
-            <a v-if="fromBvid" :href="'https://www.bilibili.com/video/BV' + bvid" target="_blank">BV{{ bvid }}</a>
-            <a v-else :href="'https://www.bilibili.com/video/av' + aid" target="_blank">av{{ aid }}</a>
-            的视频信息
+            没有找到<video-detail-video-id-link :aid="aid" :bvid="bvid" :from-bvid="fromBvid" />的视频信息
           </p>
           <p>可能是因为该视频不在本站收录范围内</p>
           <a @click="$router.go(-1)">返回上一页</a>
@@ -157,19 +151,13 @@
         <div class="section-block">
           <div v-if="isLoadingVideoRecords">
             <a-spin :spinning="true">
-              正在获取
-              <a v-if="fromBvid" :href="'https://www.bilibili.com/video/BV' + bvid" target="_blank">BV{{ bvid }}</a>
-              <a v-else :href="'https://www.bilibili.com/video/av' + aid" target="_blank">av{{ aid }}</a>
-              的历史数据
+              正在获取<video-detail-video-id-link :aid="aid" :bvid="bvid" :from-bvid="fromBvid" />的历史数据
             </a-spin>
           </div>
           <div v-else>
             <div v-if="videoRecords.length === 0">
               <a-alert banner>
-                没有找到
-                <a v-if="fromBvid" :href="'https://www.bilibili.com/video/BV' + bvid" target="_blank">BV{{ bvid }}</a>
-                <a v-else :href="'https://www.bilibili.com/video/av' + aid" target="_blank">av{{ aid }}</a>
-                的历史数据
+                没有找到<video-detail-video-id-link :aid="aid" :bvid="bvid" :from-bvid="fromBvid" />的历史数据
               </a-alert>
             </div>
             <div v-else>
@@ -225,6 +213,7 @@ import TddVideoActionBar from "../../common/TddVideoActionBar";
 import TddVideoDataBlock from "@/components/common/TddVideoDataBlock";
 import TddVideoHistoryLineChart from "@/components/chart/TddVideoHistoryLineChart";
 import TddMoeGirlWikiWidget from "@/components/common/TddMoeGirlWikiWidget";
+import VideoDetailVideoIdLink from "@/components/page/video/VideoDetailVideoIdLink";
 
 export default {
   name: 'VideoDetail',
@@ -237,6 +226,7 @@ export default {
     TddVideoDataBlock,
     TddVideoHistoryLineChart,
     TddMoeGirlWikiWidget,
+    VideoDetailVideoIdLink,
   },
   data: function() {
     return {
