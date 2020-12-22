@@ -278,6 +278,7 @@ export default {
         });
     },
     goToBiliSpace: function (mid) {
+      this.$service.reportInteraction('member_action_bar_go_to_bili_space', JSON.stringify({ mid }));
       window.open('https://space.bilibili.com/'+mid);
     },
     getMemberLikeCount: function (mid) {
