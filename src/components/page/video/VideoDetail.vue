@@ -480,7 +480,7 @@ export default {
     updateCurrentVideoRecords: function (aid) {
       this.isLoadingCurrentVideoRecordsTotal = true;
       this.$service.reportInteraction('video_detail_update_current_video_records',
-        JSON.stringify({ aid, total: that.currentVideoRecordsTotalLoaded }));
+        JSON.stringify({ aid, total: this.currentVideoRecordsTotalLoaded }));
       
       const that = this;
       const url = this.currentVideoRecordsTotalLoaded ? `video/${aid}/record` : `video/${aid}/record?last_count=1000`;
