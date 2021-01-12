@@ -356,22 +356,7 @@ export default {
       let that = this;
       this.$axios.get('member/log?mid=' + mid)
         .then(function (response) {
-          let logs = response.data;
-          let logs_filtered = [];
-          for (let log of logs) {
-            if (log.attr === 'sign' && log.oldval === '' && log.newval !== '') {
-              continue;
-            }
-            if (log.attr === 'face') {
-              const oldval = log.oldval.slice(log.oldval.lastIndexOf('/') + 1);
-              const newval = log.newval.slice(log.newval.lastIndexOf('/') + 1);
-              if (oldval === newval) {
-                continue;
-              }
-            }
-            logs_filtered.push(log);
-          }
-          that.memberLogs = logs_filtered.reverse();
+          that.memberLogs = response.data.reverse();
         })
         .catch(function (error) {
           console.log(error);
