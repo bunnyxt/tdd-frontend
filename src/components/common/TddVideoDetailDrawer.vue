@@ -28,6 +28,16 @@
         style="margin-bottom: 12px;"
         banner
       />
+      <a-alert
+        v-if="video.state === -4"
+        type="error"
+        style="margin-bottom: 12px;"
+        banner
+      >
+        <template slot="message">
+          本视频与<a :href="`/video/av${video.forward}`" target="_blank">av{{video.forward}}</a>撞车，点击左侧链接前往原视频
+        </template>
+      </a-alert>
       <h3 style="margin-bottom: 14px">{{ video.title }}</h3>
       <div style="overflow: hidden">
         <div style="float: left; margin-right: 20px; margin-bottom: 12px">

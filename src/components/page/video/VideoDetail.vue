@@ -43,6 +43,16 @@
             style="margin-bottom: 12px;"
             banner
           />
+          <a-alert
+            v-if="video.state === -4"
+            type="error"
+            style="margin-bottom: 12px;"
+            banner
+          >
+            <template slot="message">
+              本视频与<a :href="`/video/av${video.forward}`" target="_blank">av{{video.forward}}</a>撞车，点击左侧链接前往原视频
+            </template>
+          </a-alert>
           <div v-if="$store.getters.clientMode === 'MOBILE'">
             <img :src="$util.httpS(video.pic)" alt="pic" width="100%" style="margin-bottom: 8px"/>
           </div>
