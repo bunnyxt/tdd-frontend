@@ -239,6 +239,9 @@
         <li>
           <router-link to="/tool/compare">视频对比</router-link>：视频数据对比。
         </li>
+        <li>
+          <router-link to="/tool/text-abid-description-replacement">文本av号/bv号与视频描述替换</router-link>：将文本中的av号或bv号替换为对应视频的描述信息（标题、UP主、播放数等等），支持自定义格式与微调。
+        </li>
       </ul>
     </div>
   </div>

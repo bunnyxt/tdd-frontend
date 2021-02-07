@@ -18,6 +18,7 @@ const ZkCalc = () => import("./components/page/tool/ZkCalc");
 const AidBvidConvert = () => import("./components/page/tool/AidBvidConvert");
 const TsConvert = () => import("./components/page/tool/TsConvert");
 const VideoCompare = () => import('./components/page/tool/VideoCompare');
+const TextAbidDescriptionReplacement = () => import('./components/page/tool/TextAbidDescriptionReplacement');
 const AboutHome = () => import("./components/page/about/AboutHome");
 const ContactUs = () => import("./components/page/about/ContactUs");
 const UpdateLog = () => import("./components/page/about/UpdateLog");
@@ -155,6 +156,12 @@ export default new VueRouter({
       component: VideoCompare,
       meta: {
         title: '视频对比 - ' + SITE_NAME
+      }
+    }, {
+      path: "/tool/text-abid-description-replacement",
+      component: TextAbidDescriptionReplacement,
+      meta: {
+        title: '文本av号/bv号与视频描述替换 - ' + SITE_NAME
       }
     }, {
       path: "/about",
