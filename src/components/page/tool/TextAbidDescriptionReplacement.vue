@@ -106,11 +106,11 @@ export default {
       }, {
         template: '::pubdate::',
         path: 'pubdate',
-        name: '发布时间（时间戳）',
+        name: '投稿时间（时间戳）',
       }, {
         template: '::pubdate_str::',
         path: 'pubdate',
-        name: '发布时间（字符串）',
+        name: '投稿时间（字符串）',
         callback: x => this.$util.tsToDateString(x),
       }, {
         template: '::desc::',
