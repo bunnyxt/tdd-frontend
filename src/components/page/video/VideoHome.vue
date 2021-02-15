@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
@@ -11,24 +12,15 @@
       <p>天钿Daily收录B站<a href="https://www.bilibili.com/v/music/vocaloid/" target="_blank">VOCALOID·UTAU</a>分区下的所有视频和部分其他分区中的VC视频。</p>
       <a-alert style="margin-bottom: 8px" message="播放、弹幕等数据并非时时数据，最低每24小时更新一次" banner />
       <a-alert style="margin-bottom: 8px" message="点击视频列表查看详细信息" banner type="info"/>
-    </div>
-    <div class="section-separator"></div>
-    <div class="section-block" style="display: flex; display: -webkit-flex">
-      <a-auto-complete
-        placeholder="视频aid"
-        v-model="videoAidInput"
-        @change="onAidInputChange"
-        optionLabelProp="text"
-        allowClear
-        style="margin-right: 8px; flex-grow: 1"
-      >
-        <template slot="dataSource">
-          <a-select-option v-for="item in videoAidTitleListStringified" :key="item.aid" :text="item.aid" >
-            {{ item.aid }} - {{ item.title }}
-          </a-select-option>
-        </template>
-      </a-auto-complete>
-      <a-button type="primary" @click="goAidJump" style="">跳转</a-button>
+      <div style="display: flex">
+        <tdd-video-abid-auto-complete v-model="jumpVideoTargetIdObj" />
+        <a-button
+          type="primary"
+          :disabled="typeof jumpVideoTargetIdObj.id === 'string' ? jumpVideoTargetIdObj.id.length === 0 : true"
+          @click="goJumpVideo"
+          style="margin-left: 8px"
+        >跳转</a-button>
+      </div>
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
@@ -211,17 +203,17 @@
 import { Modal } from 'ant-design-vue';
 import moment from 'moment';
 import TddVideoList from "../../common/TddVideoList";
+import TddVideoAbidAutoComplete from "@/components/common/TddVideoAbidAutoComplete";
 
 export default {
   name: "VideoHome",
   components: {
+    TddVideoAbidAutoComplete,
     TddVideoList
   },
   data: function() {
     return {
-      videoAidInput: undefined,
-      isLoadingVideoAidTitleList: false,
-      videoAidTitleList: [],
+      jumpVideoTargetIdObj: { id: '', type: 'aid' },
       videoList: [],
       isLoadingVideoList: false,
       lastLoadVideoListDate: null,
@@ -252,39 +244,10 @@ export default {
     }
   },
   methods: {
-    goAidJump: function () {
-      if (this.videoAidInput) {
-        this.$router.push('/video/av' + this.videoAidInput);
-      }
-    },
-    onAidInputChange: function () {
-      if (this.videoAidInput && this.videoAidInput.toLowerCase().startsWith('av')) {
-        this.videoAidInput = this.videoAidInput.slice(2);
-      }
-      if (this.videoAidInput && this.videoAidInput.length >= 4) {
-        this.fetchVideoAidTileList();
-      } else {
-        this.videoAidTitleList = [];
-      }
-    },
-    fetchVideoAidTileList: function () {
-      this.isLoadingVideoAidTitleList = true;
-      if ('' + parseInt(this.videoAidInput) !== this.videoAidInput) {
-        this.isLoadingVideoAidTitleList = false;
-        return;
-      }
-      let url = 'video/aidtitle?aid=' + this.videoAidInput;
-      let that = this;
-      this.$axios.get(url)
-        .then(function (response) {
-          that.videoAidTitleList = response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(function () {
-          that.isLoadingVideoAidTitleList = false;
-        });
+    goJumpVideo: function () {
+      this.$router.push(`/video/${
+        {aid: 'av', bvid: 'BV'}[this.jumpVideoTargetIdObj.type]
+      }${this.jumpVideoTargetIdObj.id}`);
     },
     videoListItemClickedHandler: function (item) {
       this.$store.commit('setVideoDetailDrawerVideo', item);

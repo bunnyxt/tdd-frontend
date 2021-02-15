@@ -142,22 +142,14 @@
         </div>
       </div>
       <p>本站收录的所有视频，包括B站UV分区下的所有视频和部分其他分区中的VC视频。</p>
-      <p style="display: flex; display: -webkit-flex">
-        <a-auto-complete
-          placeholder="视频aid"
-          v-model="videoAidInput"
-          @change="onAidInputChange"
-          optionLabelProp="text"
-          allowClear
-          style="margin-right: 8px; flex-grow: 1"
-        >
-          <template slot="dataSource">
-            <a-select-option v-for="item in videoAidTitleListStringified" :key="item.aid" :text="item.aid" >
-              {{ item.aid }} - {{ item.title }}
-            </a-select-option>
-          </template>
-        </a-auto-complete>
-        <a-button type="primary" @click="goAidJump" style="">跳转</a-button>
+      <p style="display: flex">
+        <tdd-video-abid-auto-complete v-model="jumpVideoTargetIdObj" />
+        <a-button
+          type="primary"
+          :disabled="typeof jumpVideoTargetIdObj.id === 'string' ? jumpVideoTargetIdObj.id.length === 0 : true"
+          @click="goJumpVideo"
+          style="margin-left: 8px"
+        >跳转</a-button>
       </p>
       <a-spin :spinning="isLoadingRandomVideoList">
         <tdd-video-list
@@ -253,6 +245,7 @@ import TddVideoList from "../common/TddVideoList"
 import TddMemberList from "../common/TddMemberList";
 import logo_max from '../../assets/img/logo_max.png'
 import qqgroup_qrcode from '../../assets/img/qrcode_1580391374617.jpg'
+import TddVideoAbidAutoComplete from "@/components/common/TddVideoAbidAutoComplete";
 
 export default {
   name: "Home",
@@ -260,6 +253,7 @@ export default {
     TddVideoList,
     TddMemberList,
     TddDonateLogList,
+    TddVideoAbidAutoComplete,
   },
   data: function () {
     return {
@@ -272,8 +266,7 @@ export default {
       updateLogList: [],
       isLoadingDonateLogList: false,
       donateLogList: [],
-      videoAidInput: undefined,
-      isLoadingVideoAidTitleList: false,
+      jumpVideoTargetIdObj: { id: '', type: 'aid' },
       videoAidTitleList: [],
       isLoadingRandomVideoList: false,
       randomVideoList: [],
@@ -386,10 +379,10 @@ export default {
     }
   },
   methods: {
-    goAidJump: function () {
-      if (this.videoAidInput) {
-        this.$router.push('/video/av' + this.videoAidInput);
-      }
+    goJumpVideo: function () {
+      this.$router.push(`/video/${
+        {aid: 'av', bvid: 'BV'}[this.jumpVideoTargetIdObj.type]
+      }${this.jumpVideoTargetIdObj.id}`);
     },
     onAidInputChange: function () {
       if (this.videoAidInput && this.videoAidInput.toLowerCase().startsWith('av')) {
