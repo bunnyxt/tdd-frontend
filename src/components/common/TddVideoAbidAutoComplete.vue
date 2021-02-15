@@ -29,6 +29,7 @@ export default {
     return {
       input: '',
       idTitleList: [],
+      typeDisplayString: '',
       debouncedUpdateIdList: this.$util.debounce(this.updateIdList, 500),
     };
   },
@@ -53,15 +54,6 @@ export default {
         return 'aid';
       }
     },
-    typeDisplayString: function () {
-      if (this.type === 'bvid') {
-        return 'BV';
-      } else if (this.type === 'aid') {
-        return 'av';
-      } else {
-        return '';
-      }
-    },
   },
   methods: {
     updateIdList: function (type, id) {
@@ -73,6 +65,7 @@ export default {
             id: x[type],
             title: x.title,
           }));
+          that.typeDisplayString = {aid: 'av', bvid: 'BV'}[type];
         })
         .catch(function (error) {
           console.log(error);
