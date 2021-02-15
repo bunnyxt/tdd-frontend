@@ -1,6 +1,5 @@
 <template>
   <div>
-    
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
@@ -231,16 +230,6 @@ export default {
       pagiCurrent: 1,
       videoTotalCount: 0,
       mainProp: 'view'
-    }
-  },
-  computed: {
-    videoAidTitleListStringified: function () {
-      return this.videoAidTitleList.map(x => {
-        let obj = {};
-        obj.aid = '' + x.aid;
-        obj.title = x.title;
-        return obj;
-      });
     }
   },
   methods: {
