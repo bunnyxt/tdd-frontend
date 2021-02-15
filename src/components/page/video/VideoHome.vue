@@ -31,9 +31,9 @@
                 视频分类
               </td>
               <td>
-                <a-radio-group name="isvcSelector" v-model="isvcValue">
-                  <a-radio :value="1">全部</a-radio>
-                  <a-radio :value="2">仅VC</a-radio>
+                <a-radio-group name="vcSelector" v-model="vcValue">
+                  <a-radio value="0">全部</a-radio>
+                  <a-radio value="1">仅VC</a-radio>
                 </a-radio-group>
               </td>
             </tr>
@@ -43,9 +43,10 @@
               </td>
               <td>
                 <a-radio-group name="activitySelector" v-model="activityValue">
-                  <a-radio :value="0">所有视频</a-radio>
-                  <a-radio :value="1">活跃视频</a-radio>
-                  <a-radio :value="2">热门视频</a-radio>
+                  <a-radio value="-1">所有视频</a-radio>
+                  <a-radio value="1">活跃视频</a-radio>
+                  <a-radio value="2">热门视频</a-radio>
+                  <a-radio value="0">其他视频</a-radio>
                 </a-radio-group>
               </td>
             </tr>
@@ -55,9 +56,10 @@
               </td>
               <td>
                 <a-radio-group name="recentSelector" v-model="recentValue">
-                  <a-radio :value="0">所有视频</a-radio>
-                  <a-radio :value="1">本周新作</a-radio>
-                  <a-radio :value="2">本日新作</a-radio>
+                  <a-radio value="-1">所有视频</a-radio>
+                  <a-radio value="1">本周新作</a-radio>
+                  <a-radio value="2">本日新作</a-radio>
+                  <a-radio value="0">其他视频</a-radio>
                 </a-radio-group>
               </td>
             </tr>
@@ -67,14 +69,14 @@
               </td>
               <td>
                 <a-radio-group name="orderSelector" v-model="orderValue">
-                  <a-radio :value="'pubdate'">投稿时间</a-radio>
-                  <a-radio :value="'view'">播放</a-radio>
-                  <a-radio :value="'danmaku'">弹幕</a-radio>
-                  <a-radio :value="'reply'">评论</a-radio>
-                  <a-radio :value="'favorite'">收藏</a-radio>
-                  <a-radio :value="'coin'">硬币</a-radio>
-                  <a-radio :value="'share'">分享</a-radio>
-                  <a-radio :value="'like'">点赞</a-radio>
+                  <a-radio value="pubdate">投稿时间</a-radio>
+                  <a-radio value="view">播放</a-radio>
+                  <a-radio value="danmaku">弹幕</a-radio>
+                  <a-radio value="reply">评论</a-radio>
+                  <a-radio value="favorite">收藏</a-radio>
+                  <a-radio value="coin">硬币</a-radio>
+                  <a-radio value="share">分享</a-radio>
+                  <a-radio value="like">点赞</a-radio>
                 </a-radio-group>
               </td>
             </tr>
@@ -84,8 +86,8 @@
               </td>
               <td>
                 <a-radio-group name="orderDescSelector" v-model="orderDescValue">
-                  <a-radio :value="0">从小到大</a-radio>
-                  <a-radio :value="1">从大到小</a-radio>
+                  <a-radio value="0">从小到大</a-radio>
+                  <a-radio value="1">从大到小</a-radio>
                 </a-radio-group>
               </td>
             </tr>
@@ -216,11 +218,11 @@ export default {
       videoList: [],
       isLoadingVideoList: false,
       lastLoadVideoListDate: null,
-      isvcValue: 2,
-      activityValue: 0,
-      recentValue: 0,
+      vcValue: '1',
+      activityValue: '-1',
+      recentValue: '-1',
       orderValue: 'pubdate',
-      orderDescValue: 1,
+      orderDescValue: '1',
       pubdateStartValue: null,
       pubdateEndValue: null,
       pubdateEndOpen: false,
@@ -229,7 +231,7 @@ export default {
       memberNameValue: '',
       pagiCurrent: 1,
       videoTotalCount: 0,
-      mainProp: 'view'
+      mainProp: 'view',
     }
   },
   methods: {
@@ -237,6 +239,36 @@ export default {
       this.$router.push(`/video/${
         {aid: 'av', bvid: 'BV'}[this.jumpVideoTargetIdObj.type]
       }${this.jumpVideoTargetIdObj.id}`);
+    },
+    init: function (queryObj) {
+      // set query rule to data
+      if (queryObj.hasOwnProperty('vc')) {
+        this.vcValue = queryObj.vc;
+      }
+      if (queryObj.hasOwnProperty('activity')) {
+        this.activityValue = queryObj.activity;
+      }
+      if (queryObj.hasOwnProperty('recent')) {
+        this.recentValue = queryObj.recent;
+      }
+      if (queryObj.hasOwnProperty('order_by')) {
+        this.orderValue = queryObj.order_by;
+      }
+      if (queryObj.hasOwnProperty('desc')) {
+        this.orderDescValue = queryObj.desc;
+      }
+      if (queryObj.hasOwnProperty('pubdate_start_ts')) {
+        this.pubdateStartValue = moment.unix(queryObj.pubdate_start_ts);
+      }
+      if (queryObj.hasOwnProperty('pubdate_end_ts')) {
+        this.pubdateEndValue = moment.unix(queryObj.pubdate_end_ts);
+      }
+      if (queryObj.hasOwnProperty('title')) {
+        this.titleValue = queryObj.title;
+      }
+      if (queryObj.hasOwnProperty('up_name')) {
+        this.memberNameValue = queryObj.up_name;
+      }
     },
     videoListItemClickedHandler: function (item) {
       this.$store.commit('setVideoDetailDrawerVideo', item);
@@ -249,15 +281,15 @@ export default {
     assembleQueryUrl: function() {
       let url = "video?";
       // vc
-      if (this.isvcValue === 2) {
+      if (this.vcValue === '1') {
         url += 'vc=1&';
       }
       // activity
-      if (this.activityValue) {
+      if (this.activityValue !== '-1') {
         url += 'activity=' + this.activityValue + '&';
       }
       // recent
-      if (this.recentValue) {
+      if (this.recentValue !== '-1') {
         url += 'recent=' + this.recentValue + '&';
       }
       // start_ts
@@ -279,7 +311,7 @@ export default {
       // order_by
       url += 'order_by=' + this.orderValue + '&';
       // desc
-      if (this.orderDescValue === 0) {
+      if (this.orderDescValue === '0') {
         url += 'desc=0&';
       } else {
         url += 'desc=1&';
@@ -383,7 +415,7 @@ export default {
       }
     },
     handleReloadButtonClick: function() {
-      this.isvcValue = 2;
+      this.vcValue = 2;
       this.orderValue = 'pubdate';
       this.orderDescValue = 1;
       this.pubdateStartValue = null;
@@ -399,6 +431,7 @@ export default {
     },
   },
   created() {
+    this.init(this.$route.query);
     this.fetchVideoList();
   }
 }
