@@ -509,7 +509,6 @@ export default {
   },
   created() {
     this.init(this.$route.query);
-    this.fetchVideoList();
   }
 }
 </script>
