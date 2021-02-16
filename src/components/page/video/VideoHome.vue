@@ -146,12 +146,7 @@
             okText="确定"
             cancelText="取消"
           >
-            <a-button
-              icon="reload"
-              style="margin-top: 8px; margin-left: 16px"
-            >
-              重置
-            </a-button>
+            <a-button icon="reload" style="margin-top: 8px; margin-left: 16px">重置</a-button>
           </a-popconfirm>
         </a-collapse-panel>
       </a-collapse>
