@@ -461,7 +461,7 @@ export default {
     },
     handlePubdateStartOpenChange(open) {
       if (!open) {
-        if (this.pubdateStartValue != null && this.pubdateEndValue == null) {
+        if (this.queryParameter.start_ts.value !== null && this.queryParameter.end_ts.value === null) {
           this.pubdateEndOpen = true;
         }
       }
