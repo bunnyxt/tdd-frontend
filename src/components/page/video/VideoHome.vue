@@ -142,7 +142,7 @@
           </a-button>
           <a-popconfirm
             title="确定重置所有条件？"
-            @confirm="handleReloadButtonClick"
+            @confirm="resetQueryParameters"
             okText="确定"
             cancelText="取消"
           >
@@ -500,16 +500,10 @@ export default {
         this.fetchVideoList();
       }
     },
-    handleReloadButtonClick: function() {
-      this.vcValue = 2;
-      this.orderValue = 'pubdate';
-      this.orderDescValue = 1;
-      this.pubdateStartValue = null;
-      this.pubdateEndValue = null;
-      this.pubdateEndOpen = false;
-      this.pubdateSelectValue = undefined;
-      this.titleValue = '';
-      this.memberNameValue = '';
+    resetQueryParameters: function() {
+      for (const parameter of Object.keys(this.queryParameter)) {
+        this.queryParameter[parameter].value = this.queryParameter[parameter].default;
+      }
     },
     onPagiChange: function (pagiClick) {
       this.pagiCurrent = pagiClick;
