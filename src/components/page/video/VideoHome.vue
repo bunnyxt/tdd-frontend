@@ -351,34 +351,49 @@ export default {
       }${this.jumpVideoTargetIdObj.id}`);
     },
     init: function (queryObj) {
-      // set query rule to data
-      if (queryObj.hasOwnProperty('vc')) {
-        this.vcValue = queryObj.vc;
+      // set page query entries to queryParameter
+      for (let [key, value] of Object.entries(queryObj)) {
+        if (Object.keys(this.queryParameter).includes(key)) {
+          // change value format
+          switch (this.queryParameter[key].type) {
+            case 'integer':
+              value = parseInt(value);
+              break;
+            case 'float':
+              value = parseFloat(value);
+              break;
+            case 'moment':
+              value = moment.unix(value);
+              break;
+            case 'category':
+            case 'text':
+            default:
+              break;
+          }
+          this.queryParameter[key].value = value;
+        }
       }
-      if (queryObj.hasOwnProperty('activity')) {
-        this.activityValue = queryObj.activity;
+      
+      // check queryParameter validity
+      if (this.queryParameterInvalidityList.length > 0) {
+        const that = this;
+        Modal.error({
+          title: '查询参数非法',
+          content: this.queryParameterInvalidityList.reduce(
+            ((prev, curr) => prev += `${curr.message}；`), ''
+          ).replace(/(；$)/g, '。'),
+          okText: '重制搜索参数',
+          onOk: function () {
+            that.$router.push('/video');
+            that.resetQueryParameters();
+            that.fetchVideoList();
+          },
+        });
+        return;
       }
-      if (queryObj.hasOwnProperty('recent')) {
-        this.recentValue = queryObj.recent;
-      }
-      if (queryObj.hasOwnProperty('order_by')) {
-        this.orderValue = queryObj.order_by;
-      }
-      if (queryObj.hasOwnProperty('desc')) {
-        this.orderDescValue = queryObj.desc;
-      }
-      if (queryObj.hasOwnProperty('pubdate_start_ts')) {
-        this.pubdateStartValue = moment.unix(queryObj.pubdate_start_ts);
-      }
-      if (queryObj.hasOwnProperty('pubdate_end_ts')) {
-        this.pubdateEndValue = moment.unix(queryObj.pubdate_end_ts);
-      }
-      if (queryObj.hasOwnProperty('title')) {
-        this.titleValue = queryObj.title;
-      }
-      if (queryObj.hasOwnProperty('up_name')) {
-        this.memberNameValue = queryObj.up_name;
-      }
+      
+      // go fetch video list
+      this.fetchVideoList();
     },
     videoListItemClickedHandler: function (item) {
       this.$store.commit('setVideoDetailDrawerVideo', item);
