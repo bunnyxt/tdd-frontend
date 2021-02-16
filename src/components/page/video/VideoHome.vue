@@ -315,6 +315,35 @@ export default {
       },
     }
   },
+  computed: {
+    queryParameterInvalidityList: function () {
+      // TODO finish other type
+      const invalidityList = [];
+      for (const [parameter, metadata] of Object.entries(this.queryParameter)) {
+        switch (metadata.type) {
+          case 'category':
+            if (!metadata.allowedValues.includes(metadata.value)) {
+              invalidityList.push({
+                name: parameter,
+                value: metadata.value,
+                message: `${metadata.label}的值${metadata.value}不在合法集合${metadata.allowedValues}内`,
+              });
+            }
+            break;
+          default:
+            break;
+        }
+      }
+      if (this.queryParameter.up_name.value === '1') {
+        invalidityList.push({
+          name: 'aaaa',
+          value: this.queryParameter.up_name.value,
+          message: 'bbb',
+        });
+      }
+      return invalidityList;
+    },
+  },
   methods: {
     goJumpVideo: function () {
       this.$router.push(`/video/${
