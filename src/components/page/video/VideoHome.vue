@@ -27,22 +27,18 @@
         <a-collapse-panel header="筛选搜索" key="1">
           <table class="filter-table">
             <tr>
+              <td>视频分类</td>
               <td>
-                视频分类
-              </td>
-              <td>
-                <a-radio-group name="vcSelector" v-model="vcValue">
+                <a-radio-group name="queryParameterVcRadioGroup" v-model="queryParameter.vc.value">
                   <a-radio value="0">全部</a-radio>
                   <a-radio value="1">仅VC</a-radio>
                 </a-radio-group>
               </td>
             </tr>
             <tr>
+              <td>活跃程度</td>
               <td>
-                活跃程度
-              </td>
-              <td>
-                <a-radio-group name="activitySelector" v-model="activityValue">
+                <a-radio-group name="queryParameterActivityRadioGroup" v-model="queryParameter.activity.value">
                   <a-radio value="-1">所有视频</a-radio>
                   <a-radio value="1">活跃视频</a-radio>
                   <a-radio value="2">热门视频</a-radio>
@@ -51,11 +47,9 @@
               </td>
             </tr>
             <tr>
+              <td>最近投稿</td>
               <td>
-                最近投稿
-              </td>
-              <td>
-                <a-radio-group name="recentSelector" v-model="recentValue">
+                <a-radio-group name="queryParameterRecentRadioGroup" v-model="queryParameter.recent.value">
                   <a-radio value="-1">所有视频</a-radio>
                   <a-radio value="1">本周新作</a-radio>
                   <a-radio value="2">本日新作</a-radio>
@@ -64,11 +58,9 @@
               </td>
             </tr>
             <tr>
+              <td>排序依据</td>
               <td>
-                排序依据
-              </td>
-              <td>
-                <a-radio-group name="orderSelector" v-model="orderValue">
+                <a-radio-group name="queryParameterOrderByRadioGroup" v-model="queryParameter.order_by.value">
                   <a-radio value="pubdate">投稿时间</a-radio>
                   <a-radio value="view">播放</a-radio>
                   <a-radio value="danmaku">弹幕</a-radio>
@@ -81,27 +73,23 @@
               </td>
             </tr>
             <tr>
+              <td>排序顺序</td>
               <td>
-                排序顺序
-              </td>
-              <td>
-                <a-radio-group name="orderDescSelector" v-model="orderDescValue">
+                <a-radio-group name="queryParameterDescRadioGroup" v-model="queryParameter.desc.value">
                   <a-radio value="0">从小到大</a-radio>
                   <a-radio value="1">从大到小</a-radio>
                 </a-radio-group>
               </td>
             </tr>
             <tr>
-              <td>
-                投稿时间
-              </td>
+              <td>投稿时间</td>
               <td>
                 <a-date-picker
                   :disabledDate="disabledStartDate"
                   showTime
                   format="YYYY-MM-DD HH:mm:ss"
                   placeholder="开始"
-                  v-model="pubdateStartValue"
+                  v-model="queryParameter.start_ts.value"
                   @change="handlePubdateStartChange"
                   @openChange="handlePubdateStartOpenChange"
                 />
@@ -111,7 +99,7 @@
                   showTime
                   format="YYYY-MM-DD HH:mm:ss"
                   placeholder="结束"
-                  v-model="pubdateEndValue"
+                  v-model="queryParameter.end_ts.value"
                   :open="pubdateEndOpen"
                   @change="handlePubdateEndChange"
                   @openChange="handlePubdateEndOpenChange"
@@ -131,27 +119,15 @@
               </td>
             </tr>
             <tr>
+              <td>视频标题</td>
               <td>
-                视频标题
-              </td>
-              <td>
-                <a-input
-                  v-model="titleValue"
-                  placeholder="视频标题"
-                  allowClear
-                />
+                <a-input v-model="queryParameter.title.value" placeholder="视频标题" allowClear />
               </td>
             </tr>
             <tr>
+              <td>UP主昵称</td>
               <td>
-                UP主
-              </td>
-              <td>
-                <a-input
-                  v-model="memberNameValue"
-                  placeholder="UP主"
-                  allowClear
-                />
+                <a-input v-model="queryParameter.up_name.value" placeholder="UP主昵称" allowClear />
               </td>
             </tr>
           </table>
@@ -188,7 +164,7 @@
         ></tdd-video-list>
         <a-pagination
           showQuickJumper
-          v-model="pagiCurrent"
+          v-model="queryParameter.pn.value"
           :total="videoTotalCount"
           :showTotal="total => `共 ${total} 个视频`"
           :pageSize="20"
@@ -217,21 +193,131 @@ export default {
       jumpVideoTargetIdObj: { id: '', type: 'aid' },
       videoList: [],
       isLoadingVideoList: false,
-      lastLoadVideoListDate: null,
-      vcValue: '1',
-      activityValue: '-1',
-      recentValue: '-1',
-      orderValue: 'pubdate',
-      orderDescValue: '1',
-      pubdateStartValue: null,
-      pubdateEndValue: null,
       pubdateEndOpen: false,
       pubdateSelectValue: undefined,
-      titleValue: '',
-      memberNameValue: '',
-      pagiCurrent: 1,
       videoTotalCount: 0,
       mainProp: 'view',
+      queryParameter: {
+        vc: {
+          label: '视频分类',
+          type: 'category',
+          allowedValues: ['0', '1'],
+          value: '1',
+          default: '1',
+          toQueryEntry: function (value) {
+            if (value === '1') {
+              return ['vc', '1'];
+            }
+            return null;
+          },
+        },
+        activity: {
+          label: '活跃程度',
+          type: 'category',
+          allowedValues: ['-1', '0', '1', '2'],
+          value: '-1',
+          default: '-1',
+          toQueryEntry: function (value) {
+            if (value === '-1') {
+              return null;
+            }
+            return ['activity', value];
+          },
+        },
+        recent: {
+          label: '最近投稿',
+          type: 'category',
+          allowedValues: ['-1', '0', '1', '2'],
+          value: '-1',
+          default: '-1',
+          toQueryEntry: function (value) {
+            if (value === '-1') {
+              return null;
+            }
+            return ['recent', value];
+          },
+        },
+        order_by: {
+          label: '排序依据',
+          type: 'category',
+          allowedValues: ['pubdate', 'view', 'danmaku', 'reply', 'favorite', 'coin', 'share', 'like'],
+          value: 'pubdate',
+          default: 'pubdate',
+          toQueryEntry: function (value) {
+            return ['order_by', value];
+          },
+        },
+        desc: {
+          label: '排序顺序',
+          type: 'category',
+          allowedValues: ['0', '1'],
+          value: '1',
+          default: '1',
+          toQueryEntry: function (value) {
+            return ['desc', value];
+          },
+        },
+        start_ts: {
+          label: '投稿时间（开始）',
+          type: 'moment',
+          value: null,
+          default: null,
+          toQueryEntry: function (value) {
+            if (value) {
+              return ['start_ts', Math.floor(value.toDate().valueOf() / 1000)];
+            }
+            return null;
+          },
+        },
+        end_ts: {
+          label: '投稿时间（结束）',
+          type: 'moment',
+          value: null,
+          default: null,
+          toQueryEntry: function (value) {
+            if (value) {
+              return ['end_ts', Math.floor(value.toDate().valueOf() / 1000)];
+            }
+            return null;
+          },
+        },
+        title: {
+          label: '视频标题',
+          type: 'text',
+          value: null,
+          default: null,
+          toQueryEntry: function (value) {
+            if (value) {
+              return ['title', value];
+            }
+            return null;
+          },
+        },
+        up_name: {
+          label: 'UP主昵称',
+          type: 'text',
+          value: null,
+          default: null,
+          toQueryEntry: function (value) {
+            if (value) {
+              return ['up', value];
+            }
+            return null;
+          },
+        },
+        pn: {
+          label: '页码',
+          type: 'integer',
+          value: 1,
+          default: 1,
+          toQueryEntry: function (value) {
+            if (value) {
+              return ['pn', value];
+            }
+            return null;
+          },
+        },
+      },
     }
   },
   methods: {
