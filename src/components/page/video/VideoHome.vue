@@ -399,84 +399,42 @@ export default {
       this.$store.commit('setVideoDetailDrawerVideo', item);
       this.$store.commit('setVideoDetailDrawerVisibility', true);
     },
-    checkParams: function() {
-      // TODO
-      return true;
-    },
-    assembleQueryUrl: function() {
-      let url = "video?";
-      // vc
-      if (this.vcValue === '1') {
-        url += 'vc=1&';
+    assembleQueryParams: function () {
+      const params = {};
+      for (const metadata of Object.values(this.queryParameter)) {
+        const queryEntry = metadata.toQueryEntry(metadata.value);
+        if (queryEntry) {
+          params[queryEntry[0]] = queryEntry[1];
+        }
       }
-      // activity
-      if (this.activityValue !== '-1') {
-        url += 'activity=' + this.activityValue + '&';
-      }
-      // recent
-      if (this.recentValue !== '-1') {
-        url += 'recent=' + this.recentValue + '&';
-      }
-      // start_ts
-      if (this.pubdateStartValue) {
-        url += 'start_ts=' + Math.floor(this.pubdateStartValue.toDate().valueOf() / 1000) + '&';
-      }
-      // end_ts
-      if (this.pubdateEndValue) {
-        url += 'end_ts=' + Math.floor(this.pubdateEndValue.toDate().valueOf() / 1000) + '&';
-      }
-      // title
-      if (this.titleValue) {
-        url += 'title=' + this.titleValue + '&';
-      }
-      // up
-      if (this.memberNameValue) {
-        url += 'up='+ this.memberNameValue + '&';
-      }
-      // order_by
-      url += 'order_by=' + this.orderValue + '&';
-      // desc
-      if (this.orderDescValue === '0') {
-        url += 'desc=0&';
-      } else {
-        url += 'desc=1&';
-      }
-      // pn
-      url += 'pn=' + this.pagiCurrent;
-      return url;
+      return params;
     },
     fetchVideoList: function () {
-      this.isLoadingVideoList = true;
-      if (!this.checkParams()) {
-        this.isLoadingVideoList = false;
+      if (this.queryParameterInvalidityList.length > 0) {
         return;
       }
-
-      let url = this.assembleQueryUrl();
-      let that = this;
-      this.$axios.get(url)
+      this.isLoadingVideoList = true;
+      const that = this;
+      const queryParams = this.assembleQueryParams();
+      this.$axios.get('video', { params: queryParams })
         .then(function (response) {
           that.videoList = response.data;
           that.videoTotalCount = parseInt(response.headers['x-total-count']);
-          that.lastLoadVideoListDate = new Date();
           // change mainProp
-          if (that.orderValue === 'pubdate') {
+          if (queryParams.order_by === 'pubdate') {
             that.mainProp = 'view';
           } else {
-            that.mainProp = that.orderValue;
+            that.mainProp = queryParams.order_by;
           }
         })
         .catch(function (error) {
-          let title = error.response.data.code + ' - ' + error.response.data.message;
+          let title = `${error.response.data.code} - ${error.response.data.message}`;
           let content = JSON.stringify(error.response.data.detail);
           if (error.response.data.code === 40001) {
             title = '请求参数出错';
             content = '请检查筛选搜索条件。' + JSON.stringify(error.response.data);
           }
-          Modal.error({
-            title: title,
-            content: content
-          });
+          Modal.error({ title, content });
         })
         .finally(function () {
           that.isLoadingVideoList = false;
