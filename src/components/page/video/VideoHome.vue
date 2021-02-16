@@ -27,7 +27,7 @@
         <a-collapse-panel header="筛选搜索" key="1">
           <table class="filter-table">
             <tr>
-              <td class="filter-table-label">
+              <td>
                 视频分类
               </td>
               <td>
@@ -38,7 +38,7 @@
               </td>
             </tr>
             <tr>
-              <td class="filter-table-label">
+              <td>
                 活跃程度
               </td>
               <td>
@@ -51,7 +51,7 @@
               </td>
             </tr>
             <tr>
-              <td class="filter-table-label">
+              <td>
                 最近投稿
               </td>
               <td>
@@ -64,7 +64,7 @@
               </td>
             </tr>
             <tr>
-              <td class="filter-table-label">
+              <td>
                 排序依据
               </td>
               <td>
@@ -81,7 +81,7 @@
               </td>
             </tr>
             <tr>
-              <td class="filter-table-label">
+              <td>
                 排序顺序
               </td>
               <td>
@@ -92,7 +92,7 @@
               </td>
             </tr>
             <tr>
-              <td class="filter-table-label">
+              <td>
                 投稿时间
               </td>
               <td>
@@ -131,7 +131,7 @@
               </td>
             </tr>
             <tr>
-              <td class="filter-table-label">
+              <td>
                 视频标题
               </td>
               <td>
@@ -143,7 +143,7 @@
               </td>
             </tr>
             <tr>
-              <td class="filter-table-label">
+              <td>
                 UP主
               </td>
               <td>
@@ -441,7 +441,7 @@ export default {
 .filter-table td {
   height: 40px;
 }
-.filter-table-label {
+.filter-table tr td:first-child {
   width: 80px;
   white-space: nowrap;
 }
