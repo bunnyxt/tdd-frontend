@@ -492,19 +492,50 @@ export default {
       }
     },
     handleSearchButtonClick: function() {
-      if (!this.isLoadingVideoList) {
-        this.pagiCurrent = 1;
-        this.fetchVideoList();
+      if (this.isLoadingVideoList) {
+        return;
       }
+      // reset pn to 1
+      this.queryParameter.pn.value = 1;
+      // assemble url based on this.queryParameter
+      let url = '/video?';
+      for (const [parameter, metadata] of Object.entries(this.queryParameter)) {
+        if (metadata.value !== metadata.default) {
+          url += `${parameter}=${encodeURI(String(metadata.value))}&`;
+        }
+      }
+      url = url.substring(0, url.length - 1);
+      // update url
+      this.$router.push(url);
+      // go fetch video list
+      this.fetchVideoList();  // TODO due to keepAlive: true we need this, remove this in the future
     },
     resetQueryParameters: function() {
       for (const parameter of Object.keys(this.queryParameter)) {
         this.queryParameter[parameter].value = this.queryParameter[parameter].default;
       }
     },
-    onPagiChange: function (pagiClick) {
-      this.pagiCurrent = pagiClick;
-      this.fetchVideoList();
+    onPagiChange: function (nextPnValue) {
+      if (this.isLoadingVideoList) {
+        return;
+      }
+      // set pn to next pn value
+      this.queryParameter.pn.value = nextPnValue;
+      // assemble url based on this.$route.query
+      let url = '/video?';
+      for (const [key, value] of Object.entries(this.$route.query)) {
+        if (key !== 'pn') {
+          url += `${key}=${encodeURI(String(value))}&`;
+        }
+      }
+      url += `pn=${nextPnValue}`;
+      // update url
+      this.$router.push(url);
+      // // go fetch video list
+      // this.fetchVideoList();
+      const route = { ...this.$route };
+      route.pn = nextPnValue;
+      this.init(route);  // TODO due to keepAlive: true we need this, remove this in the future
     },
   },
   created() {
