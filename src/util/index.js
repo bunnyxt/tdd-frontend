@@ -65,9 +65,15 @@ export default {
     let xiua = parseFloat((
       (view_point + _favorite) / (view_point + _favorite + _danmaku * 10 + _reply * 20)
     ).toFixed(2));
+    if (_danmaku < 0 || _reply < 0) {
+      xiua = 0;
+    }  // 负弹幕/评论按照0计算修正A
 
     let xiub = parseFloat((_favorite / _view * 250).toFixed(2));
     xiub = xiub > 50 ? 50 : xiub;
+    if (_favorite < 0) {
+      xiub = Math.abs(xiub)
+    }  // 负收藏以绝对值计算修正B，不受50上限和10反馈影响
 
     let view_point_final = xiub < 10 ? view_point * xiub * 0.1 : view_point;
     let point = Math.floor(view_point_final + (_reply * 25 + _danmaku) * xiua + _favorite * xiub);
