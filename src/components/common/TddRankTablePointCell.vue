@@ -1,26 +1,26 @@
 <template>
   <div>
     <div :class="[`color-${colorNum}`]">{{ point.toLocaleString() }}</div>
-    <div style="display: flex; justify-content: space-between">
-      <div style="flex-grow:1; margin-right: 4px; cursor: help" title="修正A">
+    <div>
+      <div class="xiu-block" style="width: calc(50% - 4px); margin-right: 4px" title="修正A">
         <div
           style="height: 4px; display: flex; margin-top: 2px; margin-bottom: 2px"
         >
-          <div :class="`bg-color-${colorNum}`" :style="{ width: `${xiua * 100}%`, height: '100%' }"></div>
-          <div :style="{ background: '#e8e8e8', width: `${(1 - xiua) * 100}%`, height: '100%' }"></div>
+          <div :class="`bg-color-${colorNum}`" :style="{ width: `${xiua_limited * 100}%`, height: '100%' }"></div>
+          <div :style="{ background: '#e8e8e8', width: `${(1 - xiua_limited) * 100}%`, height: '100%' }"></div>
         </div>
-        <div>
+        <div :class="[xiua === xiua_limited ? '' : 'invalid-xiu']">
           {{ Number(xiua).toFixed(2) }}
         </div>
       </div>
-      <div style="flex-grow:1; margin-left: 4px; cursor: help" title="修正B">
+      <div class="xiu-block" style="width: calc(50% - 4px); margin-left: 4px" title="修正B">
         <div
           style="height: 4px; display: flex; margin-top: 2px; margin-bottom: 2px"
         >
-          <div :style="{ background: '#e8e8e8', width: `${(1 - xiub / 50) * 100}%`, height: '100%' }"></div>
-          <div :class="`bg-color-${colorNum}`" :style="{ width: `${xiub / 50 * 100}%`, height: '100%' }"></div>
+          <div :style="{ background: '#e8e8e8', width: `${(1 - xiub_limited / 50) * 100}%`, height: '100%' }"></div>
+          <div :class="`bg-color-${colorNum}`" :style="{ width: `${xiub_limited / 50 * 100}%`, height: '100%' }"></div>
         </div>
-        <div style="display: flex; justify-content: flex-end">
+        <div :class="[xiub === xiub_limited ? '' : 'invalid-xiu']" style="display: flex; justify-content: flex-end">
           {{ Number(xiub).toFixed(2) }}
         </div>
       </div>
@@ -68,10 +68,22 @@ export default {
         return 5;
       }
     },
+    xiua_limited: function () {
+      return Math.min(Math.max(this.xiua, 0), 1);  // limited in [0, 1]
+    },
+    xiub_limited: function () {
+      return Math.min(Math.max(this.xiub, 0), 50);  // limited in [0, 50]
+    }
   },
 }
 </script>
 
 <style scoped>
-
+.xiu-block {
+  cursor: pointer;
+  display: inline-block;
+}
+.invalid-xiu {
+  color: #d32f2f;
+}
 </style>
