@@ -314,8 +314,8 @@ export default {
   debounce: function (func, delay) {
     return function (...args) {
       let that = this;
-      clearTimeout(func.timeoutId);
-      func.timeoutId = setTimeout(function () {
+      clearTimeout(func._debounceTimeoutId);
+      func._debounceTimeoutId = setTimeout(function () {
         func.call(that, ...args)
       }, delay);
     };
