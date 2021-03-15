@@ -311,12 +311,12 @@ export default {
     
     return result;
   },
-  debounce: function (fun, delay) {
+  debounce: function (func, delay) {
     return function (...args) {
       let that = this;
-      clearTimeout(fun.timeoutId);
-      fun.timeoutId = setTimeout(function () {
-        fun.call(that, ...args)
+      clearTimeout(func.timeoutId);
+      func.timeoutId = setTimeout(function () {
+        func.call(that, ...args)
       }, delay);
     };
   },
