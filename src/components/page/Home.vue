@@ -141,7 +141,7 @@
           <a-button size="small" @click="() => this.$router.push('/video')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
         </div>
       </div>
-      <p>本站收录的所有视频，包括B站UV分区下的所有视频和部分其他分区中的VC视频。</p>
+      <p>本站收录的所有视频，包括B站VU分区下的所有视频和部分其他分区中的VC视频。</p>
       <p style="display: flex">
         <tdd-video-abid-auto-complete v-model="jumpVideoTargetIdObj" />
         <a-button
