@@ -498,9 +498,13 @@ export default {
         if (metadata.value !== metadata.default) {
           let encodedValue;
           if (metadata.type === 'moment') {
-            encodedValue = metadata.value.unix();  // moment object to timestamp
+            encodedValue = encodeURI(metadata.value.unix());  // moment object to timestamp
           } else {
             encodedValue = encodeURI(String(metadata.value));
+          }
+          if (encodedValue === '') {
+            // not allow empty encoded value
+            continue;
           }
           url += `${parameter}=${encodedValue}&`;
         }
