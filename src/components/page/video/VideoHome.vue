@@ -135,6 +135,7 @@
             type="primary"
             icon="search"
             :loading="isLoadingVideoList"
+            :disable="queryParameterInvalidityList.length > 0"
             @click="handleSearchButtonClick"
             style="margin-top: 8px"
           >
@@ -255,7 +256,7 @@ export default {
         start_ts: {
           label: '投稿时间（开始）',
           type: 'moment',
-          value: null,
+          value: null,  // store moment object
           default: null,
           toQueryEntry: function (value) {
             if (value) {
@@ -267,7 +268,7 @@ export default {
         end_ts: {
           label: '投稿时间（结束）',
           type: 'moment',
-          value: null,
+          value: null,  // store moment object
           default: null,
           toQueryEntry: function (value) {
             if (value) {
@@ -326,20 +327,13 @@ export default {
               invalidityList.push({
                 name: parameter,
                 value: metadata.value,
-                message: `${metadata.label}的值${metadata.value}不在合法集合${metadata.allowedValues}内`,
+                message: `条件${metadata.label}的值${metadata.value}不在合法集合[${metadata.allowedValues}]内`,
               });
             }
             break;
           default:
             break;
         }
-      }
-      if (this.queryParameter.up_name.value === '1') {
-        invalidityList.push({
-          name: 'aaaa',
-          value: this.queryParameter.up_name.value,
-          message: 'bbb',
-        });
       }
       return invalidityList;
     },
@@ -363,7 +357,7 @@ export default {
               value = parseFloat(value);
               break;
             case 'moment':
-              value = moment.unix(value);
+              value = moment.unix(value);  // to moment object
               break;
             case 'category':
             case 'text':
@@ -382,7 +376,7 @@ export default {
           content: this.queryParameterInvalidityList.reduce(
             ((prev, curr) => prev += `${curr.message}；`), ''
           ).replace(/(；$)/g, '。'),
-          okText: '重制搜索参数',
+          okText: '重置搜索参数',
           onOk: function () {
             that.$router.push('/video');
             that.resetQueryParameters();
@@ -475,17 +469,18 @@ export default {
       this.pubdateEndOpen = open;
     },
     handlePubdateSelectChange(value) {
+      // TODO add last 1 day/week/month/year
       switch (value) {
         case 'custom':
-          this.pubdateStartValue = null;
-          this.pubdateEndValue = null;
+          this.queryParameter.start_ts.value = null;
+          this.queryParameter.end_ts.value = null;
           break;
         case 'day':
         case 'week':
         case 'month':
         case 'year':
-          this.pubdateStartValue = moment().startOf(value);
-          this.pubdateEndValue = moment().endOf(value);
+          this.queryParameter.start_ts.value = moment().startOf(value);
+          this.queryParameter.end_ts.value = moment().endOf(value);
           break;
         default:
           break;
@@ -501,7 +496,13 @@ export default {
       let url = '/video?';
       for (const [parameter, metadata] of Object.entries(this.queryParameter)) {
         if (metadata.value !== metadata.default) {
-          url += `${parameter}=${encodeURI(String(metadata.value))}&`;
+          let encodedValue;
+          if (metadata.type === 'moment') {
+            encodedValue = metadata.value.unix();  // moment object to timestamp
+          } else {
+            encodedValue = encodeURI(String(metadata.value));
+          }
+          url += `${parameter}=${encodedValue}&`;
         }
       }
       url = url.substring(0, url.length - 1);
@@ -519,23 +520,16 @@ export default {
       if (this.isLoadingVideoList) {
         return;
       }
-      // set pn to next pn value
-      this.queryParameter.pn.value = nextPnValue;
-      // assemble url based on this.$route.query
+      // assemble url based on this.$route.query, not this.queryParameter, ignore query rules (maybe) changed by user
       let url = '/video?';
-      for (const [key, value] of Object.entries(this.$route.query)) {
-        if (key !== 'pn') {
-          url += `${key}=${encodeURI(String(value))}&`;
-        }
+      for (const [key, value] of Object.entries(this.$route.query).filter(entry => entry[0] !== 'pn')) {
+        url += `${key}=${encodeURI(String(value))}&`;
       }
-      url += `pn=${nextPnValue}`;
+      url += `pn=${nextPnValue}`;  // only change pn
       // update url
       this.$router.push(url);
-      // // go fetch video list
-      // this.fetchVideoList();
-      const route = { ...this.$route };
-      route.pn = nextPnValue;
-      this.init(route);  // TODO due to keepAlive: true we need this, remove this in the future
+      // use new this.$route.query object, overwrite existed this.queryParameter and then this.fetchVideoList()
+      this.init(this.$route.query);  // TODO due to keepAlive: true we need this, remove this in the future
     },
   },
   created() {
