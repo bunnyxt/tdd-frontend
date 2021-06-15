@@ -156,21 +156,30 @@
         </a-collapse-panel>
       </a-collapse>
       <a-spin :spinning="isLoadingVideoList">
-        <tdd-video-list
-          :video-list="videoList"
-          :main-prop="mainProp"
-          mode="grid"
-          @item-clicked="videoListItemClickedHandler"
-        ></tdd-video-list>
-        <a-pagination
-          showQuickJumper
-          v-model="queryParameter.pn.value"
-          :total="videoTotalCount"
-          :showTotal="total => `共 ${total} 个视频`"
-          :pageSize="20"
-          style="margin-top: 8px"
-          @change="onPagiChange"
-        />
+<!--        <a-alert-->
+<!--          v-if="isLoadingVideoList"-->
+<!--          message="加载中..."-->
+<!--          :description="loadingDescription"-->
+<!--          type="info"-->
+<!--          style="margin-top: 12px"-->
+<!--        />-->
+<!--        <template v-else>-->
+          <tdd-video-list
+            :video-list="videoList"
+            :main-prop="mainProp"
+            mode="grid"
+            @item-clicked="videoListItemClickedHandler"
+          ></tdd-video-list>
+          <a-pagination
+            showQuickJumper
+            v-model="queryParameter.pn.value"
+            :total="videoTotalCount"
+            :showTotal="total => `共 ${total} 个视频`"
+            :pageSize="20"
+            style="margin-top: 8px"
+            @change="onPagiChange"
+          />
+<!--        </template>-->
       </a-spin>
     </div>
   </div>
@@ -340,6 +349,23 @@ export default {
         }
       }
       return invalidityList;
+    },
+    loadingDescription: function () {
+      // TODO need refactor
+      // const paramDescriptions = [];
+      // for (const metadata of Object.entries(this.queryParameter)) {
+      //   if (metadata.value !== metadata.default) {
+      //     let paramDescription;
+      //     if (metadata.type === 'moment') {
+      //       // TODO
+      //     } else {
+      //       // TODO
+      //     }
+      //     paramDescriptions.push(paramDescription);
+      //   }
+      // }
+      // return paramDescriptions.join('，');
+      return '';
     },
   },
   methods: {
