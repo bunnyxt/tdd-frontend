@@ -115,6 +115,10 @@
                   <a-select-option value="week">本周</a-select-option>
                   <a-select-option value="month">本月</a-select-option>
                   <a-select-option value="year">本年</a-select-option>
+                  <a-select-option value="last_day">近一日</a-select-option>
+                  <a-select-option value="last_week">近一周</a-select-option>
+                  <a-select-option value="last_month">近一月</a-select-option>
+                  <a-select-option value="last_year">近一年</a-select-option>
                 </a-select>
               </td>
             </tr>
@@ -469,7 +473,6 @@ export default {
       this.pubdateEndOpen = open;
     },
     handlePubdateSelectChange(value) {
-      // TODO add last 1 day/week/month/year
       switch (value) {
         case 'custom':
           this.queryParameter.start_ts.value = null;
@@ -481,6 +484,13 @@ export default {
         case 'year':
           this.queryParameter.start_ts.value = moment().startOf(value);
           this.queryParameter.end_ts.value = moment().endOf(value);
+          break;
+        case 'last_day':
+        case 'last_week':
+        case 'last_month':
+        case 'last_year':
+          this.queryParameter.start_ts.value = moment().add(-1, value.slice(5))
+          this.queryParameter.end_ts.value = moment();
           break;
         default:
           break;
