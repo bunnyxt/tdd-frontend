@@ -429,6 +429,15 @@ export default {
   getLatestSat0300Ts: function (ts) {
     return ts - (ts - 154800) % (7 * 24 * 60 * 60);
   },
+  getLatestMonth1Day0400Ts: function (ts) {
+    const date = new Date(ts * 1000);
+    date.setDate(1);
+    date.setHours(4);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date.setMilliseconds(0);
+    return Math.floor(date.valueOf() / 1000);
+  },
   // abid.js
   a2b, b2a,
   // DataView.js

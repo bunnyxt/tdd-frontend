@@ -128,14 +128,9 @@
               <a-collapse slot="description" :bordered="false" style="background-color: rgba(0, 0, 0, 0); border-width: 0">
                 <a-collapse-panel key="1" :header="currentArchiveName">
                   <rank-home-description
-                    v-if="archId === 0"
-                    :start-ts="$util.getLatestSat0300Ts(rankList[0].now_added)"
-                    :end-ts="$util.getLatestHourStartTs(rankList[0].now_added)"
-                  />
-                  <rank-home-description
-                    v-else
-                    :start-ts="$util.getLatestSat0300Ts(currentArchive.start_ts)"
-                    :end-ts="$util.getLatestHourStartTs(currentArchive.end_ts)"
+                    :rank-name="category[0]"
+                    :start-ts="rankStartTs"
+                    :end-ts="rankEndTs"
                   />
                 </a-collapse-panel>
                 <a-collapse-panel key="2" header="颜色标记">
@@ -152,14 +147,9 @@
                 </template>
                 <template slot="description">
                   <rank-home-description
-                    v-if="archId === 0"
-                    :start-ts="$util.getLatestSat0300Ts(rankList[0].now_added)"
-                    :end-ts="$util.getLatestHourStartTs(rankList[0].now_added)"
-                  />
-                  <rank-home-description
-                    v-else
-                    :start-ts="$util.getLatestSat0300Ts(currentArchive.start_ts)"
-                    :end-ts="$util.getLatestHourStartTs(currentArchive.end_ts)"
+                    :rank-name="category[0]"
+                    :start-ts="rankStartTs"
+                    :end-ts="rankEndTs"
                   />
                 </template>
               </a-alert>
@@ -215,7 +205,7 @@ export default {
         'monthly': '月榜',
         'yearly': '年榜',
       },
-      categoryEnabledList: ['weekly'],
+      categoryEnabledList: ['weekly', 'monthly'],
       archId: 0,
       rankList: [],
       rankTotalCount: 0,
@@ -342,6 +332,44 @@ export default {
     },
     currentArchiveName: function () {
       return this.currentArchive ? this.currentArchive.name : `arch_id=${this.archId}`;
+    },
+    rankStartTs: function () {
+      let startTs;
+      if (this.archId === 0) {
+        startTs = this.rankList[0].now_added;
+      } else {
+        startTs = this.currentArchive.start_ts;
+      }
+      switch (this.category[0]) {
+        case 'weekly':
+          startTs = this.$util.getLatestSat0300Ts(startTs);
+          break;
+        case 'monthly':
+          startTs = this.$util.getLatestMonth1Day0400Ts(startTs);
+          break;
+        default:
+          break;
+      }
+      return startTs;
+    },
+    rankEndTs: function () {
+      let endTs;
+      if (this.archId === 0) {
+        endTs = this.rankList[0].now_added;
+      } else {
+        endTs = this.currentArchive.end_ts;
+      }
+      switch (this.category[0]) {
+        case 'weekly':
+          endTs = this.$util.getLatestHourStartTs(endTs);
+          break;
+        case 'monthly':
+          endTs = this.$util.getLatestHourStartTs(endTs);
+          break;
+        default:
+          break;
+      }
+      return endTs;
     },
   },
   methods: {
@@ -480,12 +508,14 @@ export default {
       
       this.$router.push(url);
     },
-    categoryClickHandler: function () {
-      this.pushRouter(this.category[0]);
+    categoryClickHandler: function ({ key: category }) {
+      if (category !== this.category[0]) {
+        this.pushRouter(category);
+      }
     },
     archIdChangeHandler: function () {
       this.pushRouter(this.category[0], this.archId);
-      this.$service.reportInteraction('rank_weekly_change_archid', JSON.stringify({ archId: this.archId }));
+      this.$service.reportInteraction(`rank_change_archid`, JSON.stringify({ rank_name: this.category[0], archId: this.archId }));
     },
     archIdCascaderChangeHandler: function (e) {
       this.archId = e.pop();
@@ -493,7 +523,7 @@ export default {
     },
     orderRuleChangeHandler: function () {
       this.pushRouter(this.category[0], this.archId, this.orderRule);
-      this.$service.reportInteraction('rank_weekly_change_order', JSON.stringify({ orderRule: this.orderRule }));
+      this.$service.reportInteraction('rank_change_order', JSON.stringify({ rank_name: this.category[0], orderRule: this.orderRule }));
     },
     pnChangeHandler: function () {
       this.pushRouter(this.category[0], this.archId, this.orderRule, this.pn);
