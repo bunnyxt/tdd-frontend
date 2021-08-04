@@ -1,3 +1,6 @@
+// This file declares all required icons, thus make bundle size smaller.
+// See more: https://github.com/vueComponent/ant-design-vue/issues/1896#issuecomment-600530820
+
 // export what you need
 export {
   default as TableOutline

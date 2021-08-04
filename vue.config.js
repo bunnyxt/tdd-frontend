@@ -7,7 +7,7 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        '@ant-design/icons/lib/dist$': path.resolve(__dirname, './src/icons.js')
+        '@ant-design/icons/lib/dist$': path.resolve(__dirname, './src/icons.js')  // partial import icons
       }
     },
     plugins: [
