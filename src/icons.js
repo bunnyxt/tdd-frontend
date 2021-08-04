@@ -1,5 +1,7 @@
-// This file declares all required icons, thus make bundle size smaller.
-// See more: https://github.com/vueComponent/ant-design-vue/issues/1896#issuecomment-600530820
+// This file declares all required icons, thus allow partial import and then make bundle size smaller.
+// See more:
+// - https://github.com/vueComponent/ant-design-vue/issues/1896#issuecomment-600530820
+// - https://github.com/ant-design/ant-design/issues/12011#issuecomment-420038579
 
 // export what you need
 export {
