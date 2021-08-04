@@ -22,7 +22,11 @@
 
 ![天钿Daily整体结构](./tdd-structure.png '天钿Daily整体结构')
 
-本仓库为天钿Daily项目的前端部分，基于
+本仓库为天钿Daily项目的前端部分，即访问<https://tdd.bunnyxt.com>用户所看到的与之交互的部分，基于Vue.js，使用Ant Design框架，加上G2可视化工具，并进行了一系列针对移动端的适配。网站本身主要由以下几个部分组成：
+
+- [视频](https://tdd.bunnyxt.com/video)，根据条件对视频进行搜索、筛选、排序，查看视频详情以及历史数据趋势、互动比例、排名信息等
+- [UP主](https://tdd.bunnyxt.com/member)，根据条件对UP主进行搜索、筛选、排序，查看UP主详情以及其参与的视频列表、粉丝趋势、所有投稿的总数据趋势等
+- [排行](https://tdd.bunnyxt.com/rank)，提供周榜、月榜等阶段的数据统计、排名
 
 ## 快速开始
 
