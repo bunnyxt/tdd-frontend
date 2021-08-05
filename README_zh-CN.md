@@ -27,6 +27,11 @@
 - [视频](https://tdd.bunnyxt.com/video)，根据条件对视频进行搜索、筛选、排序，查看视频详情以及历史数据趋势、互动比例、排名信息等
 - [UP主](https://tdd.bunnyxt.com/member)，根据条件对UP主进行搜索、筛选、排序，查看UP主详情以及其参与的视频列表、粉丝趋势、所有投稿的总数据趋势等
 - [排行](https://tdd.bunnyxt.com/rank)，提供周榜、月榜等阶段的数据统计、排名
+- [传说助攻](https://tdd.bunnyxt.com/sprint)，集中展示接近传说的曲目的更详细的播放数趋势，方便助攻
+- [辅助工具](https://tdd.bunnyxt.com/tool)，泛VC数据记录与分享相关所需要的辅助工具
+- 用户系统，可以对视频、UP主进行点赞、关注等操作
+
+更多功能正在开发中，尽请期待。
 
 ## 快速开始
 
@@ -57,7 +62,7 @@ export {
 } from '@ant-design/icons/lib/outline/TableOutline';
 ```
 
-注意，我们项目中使用图标的方式是类似`<a-icon type="line-chart">`这样的，只需要制定图标类型`type`即可，而实际上我们并不清楚这个`line-chart`对应的是在哪个图标文件中，因此我编写了`script/get_icon_export.py`脚本，可以方便地根据图标类型`type`生成对应的`export`代码，使用方式如下所示：
+注意，我们项目中使用图标的方式是类似`<a-icon type="line-chart">`这样的，只需要指定图标类型`type`即可，而实际上我们并不清楚这个`line-chart`对应的是在哪个图标文件中，因此我编写了`script/get_icon_export.py`脚本，可以方便地根据图标类型`type`生成对应的`export`代码，使用方式如下所示：
 
 ```shell
 $ python get_icon_export.py line-chart
@@ -98,4 +103,4 @@ module.exports = {
 - Twitter [@bunnyxt29](https://twitter.com/bunnyxt29)
 - Email <a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
 
-by. bunnyxt 2021-08-04
+by. bunnyxt 2021-08-05
