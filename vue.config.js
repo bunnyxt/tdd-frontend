@@ -14,7 +14,7 @@ module.exports = {
       new BundleAnalyzerPlugin({
         analyzerPort: 8887
       }),
-      new IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new IgnorePlugin(/^\.\/locale$/, /moment$/),  // ignore moment.js locales
     ]
   }
 }

@@ -93,6 +93,24 @@ module.exports = {
 
 注意，每次使用之前没用过的新图标时，都要按照此方式添加图标引入。
 
+### 不引入`moment.js`的`locales`文件
+
+`moment.js`默认会引入很多`locale`文件，这些文件包含了多语言环境下对日期相关的翻译等，打包后占用了大量的空间，而本项目并不需要，因此参考<https://github.com/moment/moment/issues/2416#issuecomment-111713308>的方法，使用`IgnorePlugin`实现。
+
+在`vue.config.js`文件中，添加以下配置：
+
+```javascript
+const { IgnorePlugin } = require('webpack');
+
+module.exports = {
+  configureWebpack: {
+    plugins: [
+      new IgnorePlugin(/^\.\/locale$/, /moment$/),  // ignore moment.js locales
+    ]
+  }
+}
+```
+
 ## 声明
 
 本项目为本人的业余项目，限于能力与精力，项目本身难免存在很多疏漏，不能保证代码质量，欢迎各位大佬指点。
