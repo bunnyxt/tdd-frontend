@@ -97,6 +97,10 @@ Vue.use(Dropdown)
 Vue.use(Form)
 Vue.use(Cascader)
 
+// i18n
+import VueI18n from 'vue-i18n'
+Vue.use(VueI18n);
+
 // axios
 import axios from './api/axios'
 Vue.prototype.$axios = axios;
