@@ -1,3 +1,34 @@
+<i18n>
+{
+  "zh": {
+    "page_home_name": "首页",
+    "page_video_name": "视频",
+    "page_member_name": "UP主",
+    "page_rank_name": "排行",
+    "page_sprint_name": "传说助攻",
+    "page_tool_name": "辅助工具",
+    "page_about_name": "关于",
+    "page_me_name": "个人中心",
+    "page_me_setting_name": "设置",
+    "login": "登录",
+    "logout": "退出"
+},
+  "en": {
+    "page_home_name": "Home",
+    "page_video_name": "Video",
+    "page_member_name": "Uploader",
+    "page_rank_name": "Rank",
+    "page_sprint_name": "1M Sprint",
+    "page_tool_name": "Tool",
+    "page_about_name": "About",
+    "page_me_name": "My Zone",
+    "page_me_setting_name": "Setting",
+    "login": "Login",
+    "logout": "Logout"
+  }
+}
+</i18n>
+
 <template>
   <div v-if="this.$store.getters.clientMode === 'MOBILE'">
     <a-layout-header
@@ -31,19 +62,19 @@
             <a-menu-item>
               <router-link to="/me">
                 <a-icon type="home" style="margin-right: 8px"/>
-                个人中心
+                {{ $t('page_me_name') }}
               </router-link>
             </a-menu-item>
             <a-menu-item>
               <router-link to="/me/setting">
                 <a-icon type="setting" style="margin-right: 8px"/>
-                设置
+                {{ $t('page_me_setting_name') }}
               </router-link>
             </a-menu-item>
             <a-menu-item>
               <a href="javascript:;" @click="handleLogoutClick">
                 <a-icon type="logout" style="margin-right: 8px"/>
-                退出</a>
+                {{ $t('logout') }}</a>
             </a-menu-item>
           </a-menu>
         </a-dropdown>
@@ -64,25 +95,25 @@
         :style="{ lineHeight: '64px', float: 'left' }"
       >
         <a-menu-item key="home">
-          <router-link to="/">首页</router-link>
+          <router-link to="/">{{ $t('page_home_name') }}</router-link>
         </a-menu-item>
         <a-menu-item key="video">
-          <router-link to="/video">视频</router-link>
+          <router-link to="/video">{{ $t('page_video_name') }}</router-link>
         </a-menu-item>
         <a-menu-item key="member">
-          <router-link to="/member">UP主</router-link>
+          <router-link to="/member">{{ $t('page_member_name') }}</router-link>
         </a-menu-item>
         <a-menu-item key="rank">
-          <router-link to="/rank">排行</router-link>
+          <router-link to="/rank">{{ $t('page_rank_name') }}</router-link>
         </a-menu-item>
         <a-menu-item key="sprint">
-          <router-link to="/sprint">传说助攻</router-link>
+          <router-link to="/sprint">{{ $t('page_sprint_name') }}</router-link>
         </a-menu-item>
         <a-menu-item key="tool">
-          <router-link to="/tool">辅助工具</router-link>
+          <router-link to="/tool">{{ $t('page_tool_name') }}</router-link>
         </a-menu-item>
         <a-menu-item key="about">
-          <router-link to="/about">关于</router-link>
+          <router-link to="/about">{{ $t('page_about_name') }}</router-link>
         </a-menu-item>
       </a-menu>
       <div v-if="!this.$store.state.isUserLoggedIn">
@@ -91,7 +122,7 @@
           ghost
           @click="() => this.$store.commit('changeLoginSliderVisibility')"
         >
-          登录
+          {{ $t('login') }}
         </a-button>
       </div>
       <div v-else>
@@ -104,19 +135,19 @@
             <a-menu-item>
               <router-link to="/me">
                 <a-icon type="home" style="margin-right: 8px"/>
-                个人中心
+                {{ $t('page_me_name') }}
               </router-link>
             </a-menu-item>
             <a-menu-item>
               <router-link to="/me/setting">
                 <a-icon type="setting" style="margin-right: 8px"/>
-                设置
+                {{ $t('page_me_setting_name') }}
               </router-link>
             </a-menu-item>
             <a-menu-item>
               <a href="javascript:;" @click="handleLogoutClick">
                 <a-icon type="logout" style="margin-right: 8px"/>
-                退出</a>
+                {{ $t('logout') }}</a>
             </a-menu-item>
           </a-menu>
         </a-dropdown>
