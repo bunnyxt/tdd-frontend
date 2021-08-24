@@ -100,6 +100,12 @@ Vue.use(Cascader)
 // i18n
 import VueI18n from 'vue-i18n'
 Vue.use(VueI18n);
+const i18n = new VueI18n({
+  // locale: 'zh',
+  locale: 'en',  // for debug
+  fallbackLocale: 'zh',
+});
+store.commit('setI18n', i18n)
 
 // axios
 import axios from './api/axios'
@@ -157,5 +163,6 @@ router.beforeEach((to, from, next) => {
 new Vue({
   router,
   store,
+  i18n,
   render: h => h(App)
 }).$mount('#app')

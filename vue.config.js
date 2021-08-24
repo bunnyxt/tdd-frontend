@@ -16,5 +16,14 @@ module.exports = {
       }),
       new IgnorePlugin(/^\.\/locale$/, /moment$/),  // ignore moment.js locales
     ]
+  },
+  chainWebpack: config => {
+    config.module
+      .rule("i18n")
+      .resourceQuery(/blockType=i18n/)
+      .type('javascript/auto')
+      .use("i18n")
+      .loader("@kazupon/vue-i18n-loader")
+      .end();  // support i18n code block in single file component
   }
 }

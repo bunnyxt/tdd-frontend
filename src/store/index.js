@@ -16,6 +16,7 @@ const store = new Vuex.Store({
     clientWidth: 0,
     isUserLoggedIn: false,
     userDetail: null,
+    i18n: null,
   },
   mutations: {
     changeMenuSliderVisibility(state) {
@@ -50,6 +51,14 @@ const store = new Vuex.Store({
     },
     setUserDetail(state, detail) {
       state.userDetail = detail;
+    },
+    setI18n(state, i18n) {
+      state.i18n = i18n;
+    },
+    setI18nLocale(state, locale) {
+      if (state.i18n) {
+        state.i18n.locale = locale;
+      }
     },
   },
   getters: {
