@@ -1,33 +1,4 @@
-<i18n>
-{
-  "zh": {
-    "page_home_name": "首页",
-    "page_video_name": "视频",
-    "page_member_name": "UP主",
-    "page_rank_name": "排行",
-    "page_sprint_name": "传说助攻",
-    "page_tool_name": "辅助工具",
-    "page_about_name": "关于",
-    "page_me_name": "个人中心",
-    "page_me_setting_name": "设置",
-    "login": "登录",
-    "logout": "退出"
-  },
-  "en": {
-    "page_home_name": "Home",
-    "page_video_name": "Video",
-    "page_member_name": "Uploader",
-    "page_rank_name": "Rank",
-    "page_sprint_name": "1M Sprint",
-    "page_tool_name": "Tool",
-    "page_about_name": "About",
-    "page_me_name": "My Zone",
-    "page_me_setting_name": "Setting",
-    "login": "Login",
-    "logout": "Logout"
-  }
-}
-</i18n>
+<i18n src="@/i18n/common.json"></i18n>
 
 <template>
   <div>
