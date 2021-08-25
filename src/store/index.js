@@ -71,6 +71,9 @@ const store = new Vuex.Store({
         return 'LARGE_DESKTOP';  // TODO change name in future
       }
     },
+    i18nLocale: state => {
+      return state.i18n.locale;
+    }
   }
 });
 
