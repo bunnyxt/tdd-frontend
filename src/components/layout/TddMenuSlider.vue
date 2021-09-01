@@ -1,3 +1,5 @@
+<i18n src="@/i18n/common.json"></i18n>
+
 <template>
   <a-drawer
     placement="left"
@@ -14,13 +16,13 @@
         :selectedKeys="selectedKeys"
         @click="handleMenuClick"
       >
-        <a-menu-item key="home">首页</a-menu-item>
-        <a-menu-item key="video">视频</a-menu-item>
-        <a-menu-item key="member">UP主</a-menu-item>
-        <a-menu-item key="rank">排行</a-menu-item>
-        <a-menu-item key="sprint">传说助攻</a-menu-item>
-        <a-menu-item key="tool">辅助工具</a-menu-item>
-        <a-menu-item key="about">关于</a-menu-item>
+        <a-menu-item key="home">{{ $t('page_name.home') }}</a-menu-item>
+        <a-menu-item key="video">{{ $t('page_name.video') }}</a-menu-item>
+        <a-menu-item key="member">{{ $t('page_name.member') }}</a-menu-item>
+        <a-menu-item key="rank">{{ $t('page_name.rank') }}</a-menu-item>
+        <a-menu-item key="sprint">{{ $t('page_name.sprint') }}</a-menu-item>
+        <a-menu-item key="tool">{{ $t('page_name.tool') }}</a-menu-item>
+        <a-menu-item key="about">{{ $t('page_name.about') }}</a-menu-item>
       </a-menu>
     </div>
   </a-drawer>
