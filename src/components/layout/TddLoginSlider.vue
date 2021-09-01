@@ -1,3 +1,15 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "register_agreement": "点击注册，代表你已阅读并同意本站的用户协议与隐私政策"
+  },
+  "en": {
+    "register_agreement": "by click Register, it means that you have read and agree to the user agreement and privacy policy of this site"
+  }
+}
+</i18n>
+
 <template>
   <a-drawer
     placement="right"
@@ -9,32 +21,32 @@
     <div>
       <a-menu v-model="currentKeys" mode="horizontal">
         <a-menu-item key="login">
-          登录
+          {{ $t('login') }}
         </a-menu-item>
         <a-menu-item key="register">
-          注册
+          {{ $t('register') }}
         </a-menu-item>
       </a-menu>
       <div v-show="currentKeys.indexOf('login') !== -1">
         <div style="margin-top: 16px">
-          <div style="margin-bottom: 8px">用户名：</div>
+          <div style="margin-bottom: 8px">{{ $t('username') }}</div>
           <a-input
-            placeholder="用户名"
+            :placeholder="$t('username')"
             v-model="loginUsername"
             allowClear
             style="margin-bottom: 8px"
             @blur="firstEnterLoginUsername = false"
           />
-          <div style="margin-bottom: 8px">密码：</div>
+          <div style="margin-bottom: 8px">{{ $t('password') }}</div>
           <a-input-password
-            placeholder="密码"
+            :placeholder="$t('password')"
             v-model="loginPassword"
             allowClear
             style="margin-bottom: 12px"
             @blur="firstEnterLoginPassword = false"
           />
           <div v-if="loginPrompt.length > 0" style="margin-bottom: 12px">
-            <span style="color: red">{{loginPrompt}}</span>
+            <span style="color: red">{{ loginPrompt }}</span>
           </div>
           <vue-grecaptcha
             ref="loginRecaptcha"
@@ -50,16 +62,16 @@
               :loading="isLoginIn"
               :disabled="!canGoLogin"
               @click="onLoginButtonClick"
-            >登录</a-button>
+            >{{ $t('login') }}</a-button>
 <!--            <a-button style="float: left; margin-left: 12px">忘记密码</a-button>-->
           </div>
         </div>
       </div>
       <div v-show="currentKeys.indexOf('register') !== -1">
         <div style="margin-top: 16px">
-          <div style="margin-bottom: 8px">用户名：</div>
+          <div style="margin-bottom: 8px">{{ $t('username') }}</div>
           <a-input
-            placeholder="用户名"
+            :placeholder="$t('username')"
             v-model="registerUsername"
             allowClear
             style="margin-bottom: 8px"
@@ -67,35 +79,35 @@
           />
           <div style="margin-bottom: 8px; overflow: hidden">
             <div style="float: left">
-              密码：
+              {{ $t('password') }}
             </div>
             <div style="float: right">
-              强度：<span :style="registerPasswordStrongLevelStyle">{{registerPasswordStrongLevel}}</span>
+              {{ $t('password_complexity_level') }}{{ $t('colon') }}<span :style="registerPasswordStrongLevelStyle">{{ registerPasswordStrongLevelName }}</span>
             </div>
           </div>
           <a-input-password
-            placeholder="密码"
+            :placeholder="$t('password')"
             v-model="registerPassword"
             allowClear
             style="margin-bottom: 8px"
             @blur="firstEnterRegisterPassword = false"
           />
-          <div style="margin-bottom: 8px">验证方式：</div>
+          <div style="margin-bottom: 8px">{{ $t('validation_method') }}</div>
           <a-input-group compact style="margin-bottom: 12px">
-            <a-select defaultValue="email" v-model="registerValidationMethod">
-              <a-select-option value="email">邮箱</a-select-option>
-              <a-select-option value="phone">手机</a-select-option>
+            <a-select defaultValue="email" v-model="registerValidationMethod" style="width: 80px">
+              <a-select-option value="email">{{ $t('email') }}</a-select-option>
+              <a-select-option value="phone">{{ $t('phone') }}</a-select-option>
             </a-select>
             <a-input
               :placeholder="registerValidationMethodName"
               v-model="registerValidation"
               allowClear
-              style="width: calc(100% - 72px)"
+              style="width: calc(100% - 80px)"
               @blur="firstEnterRegisterValidation = false"
             />
           </a-input-group>
           <div v-if="registerPrompt.length > 0" style="margin-bottom: 12px">
-            <span style="color: red">{{registerPrompt}}</span>
+            <span style="color: red">{{ registerPrompt }}</span>
           </div>
           <vue-grecaptcha
             ref="registerRecaptcha"
@@ -110,10 +122,10 @@
             :loading="isSendingCode"
             @click="onRegisterSendCodeButtonClick"
           >{{ registerSendCodeButtonString }}</a-button>
-          <span v-if="codeSendingCd > 0" style="margin-left: 8px">没收到验证码？{{ codeSendingCd }}秒后重新获取</span>
-          <div style="margin-bottom: 8px; margin-top: 12px">验证码：</div>
+          <div v-if="codeSendingCd > 0" style="margin-top: 12px">{{ $t('validation_code_resend_prompt', { seconds: codeSendingCd }) }}</div>
+          <div style="margin-bottom: 8px; margin-top: 12px">{{ $t('validation_code') }}</div>
           <a-input
-            placeholder="验证码"
+            :placeholder="$t('validation_code')"
             v-model="registerCode"
             allowClear
             style="margin-bottom: 12px"
@@ -123,9 +135,9 @@
             type="primary"
             :disabled="!canGoSendRegButton"
             @click="onRegisterSendRegButtonClick"
-          >注册</a-button>
+          >{{ $t('register') }}</a-button>
           <div>
-            <small>*点击注册，代表你已阅读并同意本站的用户协议与隐私政策</small>
+            <div style="font-size: 10px; line-height: 10px; margin-top: 12px">*{{ $t('register_agreement') }}</div>
           </div>
         </div>
       </div>
@@ -221,8 +233,8 @@ export default {
     },
     registerValidationMethodName: function () {
       const nameDict = {
-        'email': '邮箱',
-        'phone': '手机'
+        'email': this.$t('email'),
+        'phone': this.$t('phone'),
       };
       return nameDict[this.registerValidationMethod];
     },
@@ -257,7 +269,7 @@ export default {
       if (!regex.test(password)) {
         return '密码中包含不支持的字符';
       }
-      if (this.registerPasswordStrongLevel === '弱') {
+      if (this.registerPasswordStrongLevel === 0) {
         return '密码强度太弱';
       }
       return 'ok';
@@ -271,32 +283,41 @@ export default {
         /[0-9]/g,
         /[!@#$%^&*()\-=_+[\]\\{}|;:'",./<>?`~]/g
       ];
-      let value = 0;
+      let level = 0;
       for (let regex of regexList) {
         if (regex.test(password)) {
-          value++;
+          level++;
         }
       }
       if (password.length > 10) {
-        value++;
+        level++;
       }
-      const levelList = ['弱', '弱', '中', '强', '非常强'];
-      return levelList[value];
+      return level;
+    },
+    registerPasswordStrongLevelName: function () {
+      return [
+        this.$t('password_complexity_level_low'),
+        this.$t('password_complexity_level_low'),
+        this.$t('password_complexity_level_medium'),
+        this.$t('password_complexity_level_high'),
+        this.$t('password_complexity_level_very_high'),
+      ][this.registerPasswordStrongLevel];
     },
     registerPasswordStrongLevelStyle: function () {
       let style = {};
       switch (this.registerPasswordStrongLevel) {
-        case '弱':
+        case 0:
+        case 1:
           style.color = 'red';
           break;
-        case '中':
+        case 2:
           style.color = 'orange';
           break;
-        case '强':
-          style.color = 'lightgreen';
+        case 3:
+          style.color = 'mediumseagreen';
           break;
-        case '非常强':
-          style.color = 'green';
+        case 4:
+          style.color = 'seagreen';
           break;
         default:
           break;
@@ -344,9 +365,9 @@ export default {
     },
     registerSendCodeButtonString: function () {
       if (this.codeSendingCd === 0) {
-        return '获取验证码';
+        return this.$t('validation_code_send');
       } else {
-        return '已发送';
+        return this.$t('validation_code_sent');
       }
     },
     canGoSendRegButton: function () {

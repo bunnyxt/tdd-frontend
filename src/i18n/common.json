@@ -1,5 +1,6 @@
 {
   "zh": {
+    "colon": "：",
     "tdd": "天钿Daily",
     "page_name":  {
       "home": "首页",
@@ -13,9 +14,25 @@
       "me_setting": "设置"
     },
     "login": "登录",
+    "register": "注册",
+    "username": "用户名",
+    "password": "密码",
+    "password_complexity_level": "强度",
+    "password_complexity_level_low": "弱",
+    "password_complexity_level_medium": "中",
+    "password_complexity_level_high": "强",
+    "password_complexity_level_very_high": "非常强",
+    "validation_method": "验证方式",
+    "email": "邮箱",
+    "phone": "手机",
+    "validation_code": "验证码",
+    "validation_code_send": "发送验证码",
+    "validation_code_sent": "验证码已发送",
+    "validation_code_resend_prompt": "没收到验证码？{seconds}秒后重新获取",
     "logout": "退出"
   },
   "en": {
+    "colon": ": ",
     "tdd": "TianDian Daily",
     "page_name":  {
       "home": "Home",
@@ -29,6 +46,21 @@
       "me_setting": "Setting"
     },
     "login": "Login",
+    "register": "Register",
+    "username": "Username",
+    "password": "Password",
+    "password_complexity_level": "Level",
+    "password_complexity_level_low": "Low",
+    "password_complexity_level_medium": "Medium",
+    "password_complexity_level_high": "High",
+    "password_complexity_level_very_high": "Very High",
+    "validation_method": "Validation Method",
+    "email": "E-mail",
+    "phone": "Phone",
+    "validation_code": "Validation Code",
+    "validation_code_send": "Send Validation Code",
+    "validation_code_sent": "Validation Code Sent",
+    "validation_code_resend_prompt": "Validation Code not received? Resend after {seconds} seconds",
     "logout": "Logout"
   }
 }
