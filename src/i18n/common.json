@@ -1,5 +1,6 @@
 {
   "zh": {
+    "tdd": "天钿Daily",
     "page_name":  {
       "home": "首页",
       "video": "视频",
@@ -15,6 +16,7 @@
     "logout": "退出"
   },
   "en": {
+    "tdd": "TianDian Daily",
     "page_name":  {
       "home": "Home",
       "video": "Video",
