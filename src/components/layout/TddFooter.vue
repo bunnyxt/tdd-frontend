@@ -25,7 +25,7 @@
     <a href="https://afdian.net/@bunnyxt" target="_blank">{{ $t('donate_tdd') }}</a> |
     <router-link to="/about/contactus">{{ $t('contact_us') }}</router-link>
     <br/>
-    2017~2020 © All Rights Reserved<br/>
+    2017~2021 © All Rights Reserved<br/>
     <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" target="_blank">苏ICP备17067742号-1</a>
   </a-layout-footer>
 </template>
