@@ -33,13 +33,13 @@
                 <a-menu-item>
                   <router-link to="/me">
                     <a-icon type="home" style="margin-right: 8px"/>
-                    {{ $t('page_me_name') }}
+                    {{ $t('page_name.me') }}
                   </router-link>
                 </a-menu-item>
                 <a-menu-item>
                   <router-link to="/me/setting">
                     <a-icon type="setting" style="margin-right: 8px"/>
-                    {{ $t('page_me_setting_name') }}
+                    {{ $t('page_name.me_setting') }}
                   </router-link>
                 </a-menu-item>
                 <a-menu-item>
@@ -68,25 +68,25 @@
           :style="{ lineHeight: '64px', float: 'left' }"
         >
           <a-menu-item key="home">
-            <router-link to="/">{{ $t('page_home_name') }}</router-link>
+            <router-link to="/">{{ $t('page_name.home') }}</router-link>
           </a-menu-item>
           <a-menu-item key="video">
-            <router-link to="/video">{{ $t('page_video_name') }}</router-link>
+            <router-link to="/video">{{ $t('page_name.video') }}</router-link>
           </a-menu-item>
           <a-menu-item key="member">
-            <router-link to="/member">{{ $t('page_member_name') }}</router-link>
+            <router-link to="/member">{{ $t('page_name.member') }}</router-link>
           </a-menu-item>
           <a-menu-item key="rank">
-            <router-link to="/rank">{{ $t('page_rank_name') }}</router-link>
+            <router-link to="/rank">{{ $t('page_name.rank') }}</router-link>
           </a-menu-item>
           <a-menu-item key="sprint">
-            <router-link to="/sprint">{{ $t('page_sprint_name') }}</router-link>
+            <router-link to="/sprint">{{ $t('page_name.sprint') }}</router-link>
           </a-menu-item>
           <a-menu-item key="tool">
-            <router-link to="/tool">{{ $t('page_tool_name') }}</router-link>
+            <router-link to="/tool">{{ $t('page_name.tool') }}</router-link>
           </a-menu-item>
           <a-menu-item key="about">
-            <router-link to="/about">{{ $t('page_about_name') }}</router-link>
+            <router-link to="/about">{{ $t('page_name.about') }}</router-link>
           </a-menu-item>
         </a-menu>
         <div v-if="!this.$store.state.isUserLoggedIn">
@@ -108,13 +108,13 @@
               <a-menu-item>
                 <router-link to="/me">
                   <a-icon type="home" style="margin-right: 8px"/>
-                  {{ $t('page_me_name') }}
+                  {{ $t('page_name.me') }}
                 </router-link>
               </a-menu-item>
               <a-menu-item>
                 <router-link to="/me/setting">
                   <a-icon type="setting" style="margin-right: 8px"/>
-                  {{ $t('page_me_setting_name') }}
+                  {{ $t('page_name.me_setting') }}
                 </router-link>
               </a-menu-item>
               <a-menu-item>
