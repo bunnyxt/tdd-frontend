@@ -31,7 +31,10 @@
     "validation_code_resend_prompt": "没收到验证码？{seconds}秒后重新获取",
     "logout": "退出",
     "qr_code": "二维码",
-    "till": "截至"
+    "till": "截至",
+    "refresh": "刷新",
+    "more": "更多",
+    "vocaloid_china_1m_song": "VOCALOID中文传说曲"
   },
   "en": {
     "colon": ": ",
@@ -65,6 +68,9 @@
     "validation_code_resend_prompt": "Validation Code not received? Resend after {seconds} seconds",
     "logout": "Logout",
     "qr_code": "QR Code",
-    "till": "Till "
+    "till": "Till ",
+    "refresh": "Refresh",
+    "more": "More",
+    "vocaloid_china_1m_song": "VOCALOID CHINA 1 Million Song"
   }
 }

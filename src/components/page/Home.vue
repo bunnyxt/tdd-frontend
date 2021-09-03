@@ -17,7 +17,14 @@
     "data_records_suffix": "条",
     "30_days_increment": "30日增幅",
     "recent_updates": "更新动态",
-    "see_more": "查看更多"
+    "see_more": "查看更多",
+    "go_jump": "跳转",
+    "page_brief_intro": {
+      "video": "本站收录的所有视频，包括B站VU分区下的所有视频和部分其他分区中的VC视频。",
+      "member": "本站收录的所有视频的B站UP主和staff们。",
+      "sprint": "VC传说冲刺曲目助攻计划，收录B站接近{0}要求的曲目视频，记录播放、收藏等数据变化，提供传说助攻参考。",
+      "tool": "泛VC数据记录与分享相关所需要的辅助工具。"
+    }
   },
   "en": {
     "tdd_introduction_brief": "Committed to enhance VOCALOID CHINA related data exchange, fetching VC related data regularly and show meaningful parts to everyone.",
@@ -26,7 +33,7 @@
     "qq_group": "QQ Group",
     "personal_email": "Personal E-mail",
     "donation_thanks": "Donation Thanks",
-    "donate_now": "Donate Now",
+    "donate_now": "Donate TDD Now",
     "tracked_videos": "Tracked Videos",
     "tracked_videos_suffix": " ",
     "covered_members": "Covered Uploaders",
@@ -35,7 +42,14 @@
     "data_records_suffix": " ",
     "30_days_increment": "30 Days Increment",
     "recent_updates": "Recent Updates",
-    "see_more": "See more"
+    "see_more": "See more",
+    "go_jump": "Go",
+    "page_brief_intro": {
+      "video": "All tracked videos, including all videos under VU category and some VC related videos in other categories.",
+      "member": "All uploaders and staff of all tracked videos.",
+      "sprint": "VC 1M videos sprint assistance project, tracking Biliili videos which near the requirements of {0}, monitoring trending of video data such as views, favorites etc. for sprint assistance reference",
+      "tool": "Usefull tools for pan VC data collecting and sharing."
+    }
   }
 }
 </i18n>
@@ -179,14 +193,14 @@
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
-          <h1>视频</h1>
+          <h1>{{ $t('page_name.video') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
           <a-button size="small" @click="fetchRandomVideoList(6)"><a-icon type="reload" />{{ refreshString }}</a-button>
           <a-button size="small" @click="() => this.$router.push('/video')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
         </div>
       </div>
-      <p>本站收录的所有视频，包括B站VU分区下的所有视频和部分其他分区中的VC视频。</p>
+      <p>{{ $t('page_brief_intro.video') }}</p>
       <p style="display: flex">
         <tdd-video-abid-auto-complete v-model="jumpVideoTargetIdObj" />
         <a-button
@@ -194,7 +208,7 @@
           :disabled="typeof jumpVideoTargetIdObj.id === 'string' ? jumpVideoTargetIdObj.id.length === 0 : true"
           @click="goJumpVideo"
           style="margin-left: 8px"
-        >跳转</a-button>
+        >{{ $t('go_jump') }}</a-button>
       </p>
       <a-spin :spinning="isLoadingRandomVideoList">
         <tdd-video-list
@@ -208,14 +222,14 @@
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
-          <h1>UP主</h1>
+          <h1>{{ $t('page_name.member') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
           <a-button size="small" @click="fetchRandomMemberList(6)"><a-icon type="reload" />{{ refreshString }}</a-button>
           <a-button size="small" @click="() => this.$router.push('/member')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
         </div>
       </div>
-      <p>本站收录的所有视频的B站UP主和staff们。</p>
+      <p>{{ $t('page_brief_intro.member') }}</p>
       <a-spin :spinning="isLoadingRandomMemberList">
         <tdd-member-list
           :member-list="randomMemberList.slice(0, listColNum)"
@@ -227,14 +241,18 @@
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
-          <h1>传说助攻</h1>
+          <h1>{{ $t('page_name.sprint') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
           <a-button size="small" @click="getSprintVideoListFiltered"><a-icon type="reload" />{{ refreshString }}</a-button>
           <a-button size="small" @click="() => this.$router.push('/sprint')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
         </div>
       </div>
-      <p>VC传说冲刺曲目助攻计划，收录B站接近<a href="https://zh.moegirl.org/Vocaloid中文传说曲" target="_blank">中文VOCALOID传说曲</a>要求的曲目视频，记录播放、收藏等数据变化，提供传说助攻参考。</p>
+      <p>
+        <i18n path="page_brief_intro.sprint" tag="label" for="vocaloid_china_1m_song">
+          <a href="https://zh.moegirl.org/Vocaloid中文传说曲" target="_blank">{{ $t('vocaloid_china_1m_song') }}</a>
+        </i18n>
+      </p>
       <a-spin :spinning="isLoadingSprintVideoList">
         <tdd-video-list
           :video-list="sprintVideoListFiltered.slice(0, listColNum)"
@@ -250,13 +268,13 @@
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
-          <h1>辅助工具</h1>
+          <h1>{{ $t('page_name.tool') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
           <a-button size="small" @click="() => this.$router.push('/tool')">{{ moreString }}<a-icon type="arrow-right" /></a-button>
         </div>
       </div>
-      <p>泛VC数据记录与分享相关所需要的辅助工具。</p>
+      <p>{{ $t('page_brief_intro.tool') }}</p>
       <ul>
         <li>
           <router-link to="/tool/datecalc">耗时计算</router-link>：输入起止时间，计算所消耗的时间长度，可用于计算曲目传说/殿堂耗时。
@@ -395,14 +413,14 @@ export default {
       if (this.$store.getters.clientMode === 'MOBILE') {
         return '';
       } else {
-        return '刷新';
+        return this.$t('refresh');
       }
     },
     moreString: function () {
       if (this.$store.getters.clientMode === 'MOBILE') {
         return '';
       } else {
-        return '更多';
+        return this.$t('more');
       }
     },
     listColNum: function () {
