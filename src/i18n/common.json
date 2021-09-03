@@ -29,7 +29,9 @@
     "validation_code_send": "发送验证码",
     "validation_code_sent": "验证码已发送",
     "validation_code_resend_prompt": "没收到验证码？{seconds}秒后重新获取",
-    "logout": "退出"
+    "logout": "退出",
+    "qr_code": "二维码",
+    "till": "截至"
   },
   "en": {
     "colon": ": ",
@@ -61,6 +63,8 @@
     "validation_code_send": "Send Validation Code",
     "validation_code_sent": "Validation Code Sent",
     "validation_code_resend_prompt": "Validation Code not received? Resend after {seconds} seconds",
-    "logout": "Logout"
+    "logout": "Logout",
+    "qr_code": "QR Code",
+    "till": "Till "
   }
 }

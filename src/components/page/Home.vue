@@ -1,24 +1,69 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "tdd_introduction_brief": "致力于推动VC相关数据交流，定期抓取VC相关数据，选取有意义的纬度展示。",
+    "know_more": "了解更多",
+    "contact_us": "联系我们",
+    "qq_group": "QQ群",
+    "personal_email": "个人邮箱",
+    "donation_thanks": "资助感谢",
+    "donate_now": "立刻资助本站",
+    "tracked_videos": "收录视频",
+    "tracked_videos_suffix": "个",
+    "covered_members": "覆盖P主",
+    "covered_members_suffix": "位",
+    "data_records": "数据记录",
+    "data_records_suffix": "条",
+    "30_days_increment": "30日增幅",
+    "recent_updates": "更新动态",
+    "see_more": "查看更多"
+  },
+  "en": {
+    "tdd_introduction_brief": "Committed to enhance VOCALOID CHINA related data exchange, fetching VC related data regularly and show meaningful parts to everyone.",
+    "know_more": "Know More",
+    "contact_us": "Contact Us",
+    "qq_group": "QQ Group",
+    "personal_email": "Personal E-mail",
+    "donation_thanks": "Donation Thanks",
+    "donate_now": "Donate Now",
+    "tracked_videos": "Tracked Videos",
+    "tracked_videos_suffix": " ",
+    "covered_members": "Covered Uploaders",
+    "covered_members_suffix": " ",
+    "data_records": "Data Records",
+    "data_records_suffix": " ",
+    "30_days_increment": "30 Days Increment",
+    "recent_updates": "Recent Updates",
+    "see_more": "See more"
+  }
+}
+</i18n>
+
 <template>
   <div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item>首页</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('page_name.home') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <a-carousel autoplay >
       <div class="carousel-page">
         <div class="carousel-page-container">
           <div class="carousel-p1-text">
-            <h1>天钿Daily</h1>
-            <p>致力于推动VC相关数据交流，定期抓取VC相关数据，选取有意义的纬度展示。</p>
+            <h1>{{ $t('tdd') }}</h1>
+            <div v-if="$store.getters.clientMode === 'MOBILE'" style="height: 42px; overflow-x: scroll">
+              {{ $t('tdd_introduction_brief') }}
+            </div>
+            <p v-else>{{ $t('tdd_introduction_brief') }}</p>
             <div style="margin-top: 20px">
-              <a-button type="primary" @click="() => this.$router.push('/about')">了解更多</a-button>
-              <a-popover title="联系我们" trigger="hover" placement="bottom">
+              <a-button type="primary" @click="() => this.$router.push('/about')">{{ $t('know_more') }}</a-button>
+              <a-popover :title="$t('contact_us')" trigger="hover" placement="bottom">
                 <div slot="content">
-                  QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/><a target="_blank" :href="qqgroup_qrcode">二维码</a><br/>
-                  个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
+                  {{ $t('qq_group') }}{{ $t('colon') }}<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/><a target="_blank" :href="qqgroup_qrcode">{{ $t('qr_code') }}</a><br/>
+                  {{ $t('personal_email') }}{{ $t('colon') }}<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
                 </div>
-                <a-button style="margin-left: 8px">联系我们</a-button>
+                <a-button style="margin-left: 8px">{{ $t('contact_us') }}</a-button>
               </a-popover>
             </div>
           </div>
@@ -29,12 +74,12 @@
       </div>
       <div class="carousel-page">
         <div class="carousel-page-container">
-          <h1>资助感谢</h1>
+          <h1>{{ $t('donation_thanks') }}</h1>
           <div class="carousel-p4-table-container">
             <tdd-donate-log-list :donate-log-list="donateLogList" />
             <div style="margin-top: 8px; overflow: hidden">
               <div style="float: right; margin-right: 8px">
-                立刻<a href="https://afdian.net/@bunnyxt" target="_blank" @click="$service.reportInteraction('home_donate_click', '')">资助本站</a>
+                <a href="https://afdian.net/@bunnyxt" target="_blank" @click="$service.reportInteraction('home_donate_click', '')">{{ $t('donate_now') }}</a>
               </div>
             </div>
           </div>
@@ -45,23 +90,23 @@
           <template v-if="this.$store.getters.clientMode === 'MOBILE'">
             <div style="overflow: hidden">
               <div class="carousel-p2-mobile-row1-col">
-                <a-statistic title="收录视频" :value="latestVideoCount">
+                <a-statistic :title="$t('tracked_videos')" :value="latestVideoCount">
                   <template v-slot:suffix>
-                    个
+                    {{ $t('tracked_videos_suffix') }}
                   </template>
                 </a-statistic>
               </div>
               <div class="carousel-p2-mobile-row1-col">
-                <a-statistic title="覆盖P主" :value="latestMemberCount">
+                <a-statistic :title="$t('covered_members')" :value="latestMemberCount">
                   <template v-slot:suffix>
-                    位
+                    {{ $t('covered_members_suffix') }}
                   </template>
                 </a-statistic>
               </div>
             </div>
-            <a-statistic title="数据记录" :value="latestVideoRecordCount">
+            <a-statistic :title="$t('data_records')" :value="latestVideoRecordCount">
               <template v-slot:suffix>
-                条
+                {{ $t('data_records_suffix') }}
               </template>
             </a-statistic>
           </template>
@@ -70,36 +115,36 @@
               <div style="margin-bottom: 12px">
               </div>
               <div class="carousel-p2-col-narrow">
-                <a-statistic title="收录视频" :value="latestVideoCount" style="padding: 8px 20px 0 20px">
+                <a-statistic :title="$t('tracked_videos')" :value="latestVideoCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
-                    个
+                    {{ $t('tracked_videos_suffix') }}
                   </template>
                 </a-statistic>
-                <a-statistic title="30日增幅" :value="last30DayVideoCount" style="padding: 8px 20px 0 20px">
+                <a-statistic :title="$t('30_days_increment')" :value="last30DayVideoCount" style="padding: 8px 20px 0 20px">
                   <template #prefix>
                     <a-icon type="arrow-up" />
                   </template>
                 </a-statistic>
               </div>
               <div class="carousel-p2-col-narrow">
-                <a-statistic title="覆盖P主" :value="latestMemberCount" style="padding: 8px 20px 0 20px">
+                <a-statistic :title="$t('covered_members')" :value="latestMemberCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
-                    位
+                    {{ $t('covered_members_suffix') }}
                   </template>
                 </a-statistic>
-                <a-statistic title="30日增幅" :value="last30DayMemberCount" style="padding: 8px 20px 0 20px">
+                <a-statistic :title="$t('30_days_increment')" :value="last30DayMemberCount" style="padding: 8px 20px 0 20px">
                   <template #prefix>
                     <a-icon type="arrow-up" />
                   </template>
                 </a-statistic>
               </div>
               <div class="carousel-p2-col-wide">
-                <a-statistic title="数据记录" :value="latestVideoRecordCount" style="padding: 8px 20px 0 20px">
+                <a-statistic :title="$t('data_records')" :value="latestVideoRecordCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
-                    条
+                    {{ $t('data_records_suffix') }}
                   </template>
                 </a-statistic>
-                <a-statistic title="30日增幅" :value="last30DayVideoRecordCount" style="padding: 8px 20px 0 20px">
+                <a-statistic :title="$t('30_days_increment')" :value="last30DayVideoRecordCount" style="padding: 8px 20px 0 20px">
                   <template #prefix>
                     <a-icon type="arrow-up" />
                   </template>
@@ -108,13 +153,13 @@
             </div>
           </template>
           <div style="text-align: right; color: rgba(0, 0, 0, 0.45); margin-top: 8px">
-            <p>*截至{{ latestStatDailyTimeStr }}</p>
+            <p>*{{ $t('till') }}{{ latestStatDailyTimeStr }}</p>
           </div>
         </div>
       </div>
       <div class="carousel-page">
         <div class="carousel-page-container">
-          <h1>更新动态</h1>
+          <h1>{{ $t('recent_updates') }}</h1>
           <div class="carousel-p3-timeline-container">
             <a-timeline>
               <a-timeline-item
@@ -124,7 +169,7 @@
               >
                 <b>{{ $util.tsToDateString(updateLog.added, 'yyyy-MM-dd') }}</b> {{ updateLog.content }}
               </a-timeline-item>
-              <a-button slot="pending" type="link" @click="() => this.$router.push('/about/updatelog')">查看更多...</a-button>
+              <a-button slot="pending" type="link" @click="() => this.$router.push('/about/updatelog')">{{ $t('see_more') }}...</a-button>
             </a-timeline>
           </div>
         </div>
