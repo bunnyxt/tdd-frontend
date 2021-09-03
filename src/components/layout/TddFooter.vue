@@ -8,10 +8,10 @@
     "contact_us": "联系我们"
   },
   "en": {
-    "api_doc": "api doc",
-    "source_code": "source code",
-    "donate_tdd": "donate tdd",
-    "contact_us": "contact us"
+    "api_doc": "Api Doc",
+    "source_code": "Source Code",
+    "donate_tdd": "Donate TDD",
+    "contact_us": "Contact Us"
   }
 }
 </i18n>
