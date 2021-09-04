@@ -18,9 +18,8 @@
     "30_days_increment": "30日增幅",
     "recent_updates": "更新动态",
     "see_more": "查看更多",
-    "go_jump": "跳转",
     "page_brief_intro": {
-      "video": "本站收录的所有视频，包括B站VU分区下的所有视频和部分其他分区中的VC视频。",
+      "video": "本站收录的所有视频，包括B站{0}分区下的所有视频和部分其他分区中的VC视频。",
       "member": "本站收录的所有视频的B站UP主和staff们。",
       "sprint": "VC传说冲刺曲目助攻计划，收录B站接近{0}要求的曲目视频，记录播放、收藏等数据变化，提供传说助攻参考。",
       "tool": "泛VC数据记录与分享相关所需要的辅助工具。"
@@ -43,9 +42,8 @@
     "30_days_increment": "30 Days Increment",
     "recent_updates": "Recent Updates",
     "see_more": "See more",
-    "go_jump": "Go",
     "page_brief_intro": {
-      "video": "All tracked videos, including all videos under VU category and some VC related videos in other categories.",
+      "video": "All tracked videos, including all videos under {0} category and some VC related videos in other categories.",
       "member": "All uploaders and staff of all tracked videos.",
       "sprint": "VC 1M videos sprint assistance project, tracking Biliili videos which near the requirements of {0}, monitoring trending of video data such as views, favorites etc. for sprint assistance reference",
       "tool": "Usefull tools for pan VC data collecting and sharing."
@@ -200,7 +198,11 @@
           <a-button size="small" @click="() => this.$router.push('/video')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
         </div>
       </div>
-      <p>{{ $t('page_brief_intro.video') }}</p>
+      <p>
+        <i18n path="page_brief_intro.video" tag="label">
+          <a href="https://www.bilibili.com/v/music/vocaloid/" target="_blank">VOCALOID·UTAU</a>
+        </i18n>
+      </p>
       <p style="display: flex">
         <tdd-video-abid-auto-complete v-model="jumpVideoTargetIdObj" />
         <a-button
