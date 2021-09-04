@@ -1,16 +1,140 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "page_intro_video": "天钿Daily收录B站{0}分区下的所有视频和部分其他分区中的VC视频。",
+    "update_interval_alert": "播放、收藏等数据并非时时数据，最低每24小时更新一次",
+    "click_to_view_detailed_info": "点击视频查看详细信息",
+    "pagi_total": "共 {total} 个视频",
+    "filter": {
+      "video_category": {
+        "label": "视频分类",
+        "all": "全部",
+        "vc_only": "仅VC"
+      },
+      "activity": {
+        "label": "活跃程度",
+        "all": "所有视频",
+        "active": "活跃视频",
+        "hot": "热门视频",
+        "others": "其他视频"
+      },
+      "recent": {
+        "label": "最近投稿",
+        "all": "所有视频",
+        "this_week": "本周新作",
+        "today": "本日新作",
+        "others": "其他视频"
+      },
+      "sort_by": {
+        "label": "排序依据"
+      },
+      "sort_order": {
+        "label": "排序顺序",
+        "asc": "从小到大",
+        "desc": "从大到小"
+      },
+      "pubdate": {
+        "label": "投稿时间",
+        "quick_select": {
+          "label": "快速选择",
+          "custom": "自定义",
+          "day": "本日",
+          "week": "本周",
+          "month": "本月",
+          "year": "本年",
+          "last_day": "近一日",
+          "last_week": "近一周",
+          "last_month": "近一月",
+          "last_year": "近一年"
+        }
+      },
+      "title": {
+        "label": "视频标题"
+      },
+      "member_name": {
+        "label": "UP主昵称"
+      }
+    },
+    "reset_confirm": "确定重置所有条件？"
+  },
+  "en": {
+    "page_intro_video": "TianDian Daily tracks all videos under Bilibili {0} category and some VC related videos in other categories.",
+    "update_interval_alert": "All data including view, favorite etc. may not up-to-date. They will be updated at least once per 24 hours.",
+    "click_to_view_detailed_info": "Click to view detailed info of video.",
+    "pagi_total": "{total} videos in total",
+    "filter": {
+      "video_category": {
+        "label": "Video Category",
+        "all": "All",
+        "vc_only": "VC Only"
+      },
+      "activity": {
+        "label": "Active Status",
+        "all": "All",
+        "active": "Active",
+        "hot": "Hot",
+        "others": "Others"
+      },
+      "recent": {
+        "label": "Recent Publish",
+        "all": "All",
+        "this_week": "This Week",
+        "today": "Today",
+        "others": "Others"
+      },
+      "sort_by": {
+        "label": "Sort By"
+      },
+      "sort_order": {
+        "label": "Sort Order",
+        "asc": "Asc",
+        "desc": "Desc"
+      },
+      "pubdate": {
+        "label": "Publish Date",
+        "quick_select": {
+          "label": "Quick Select",
+          "custom": "Custom",
+          "day": "Today",
+          "week": "This Week",
+          "month": "This Month",
+          "year": "This Year",
+          "last_day": "Last Day",
+          "last_week": "Last Week",
+          "last_month": "Last Month",
+          "last_year": "Last Year"
+        }
+      },
+      "title": {
+        "label": "Video Title"
+      },
+      "member_name": {
+        "label": "Uploader Name"
+      }
+    },
+    "reset_confirm": "Reset all search filters?"
+  }
+}
+</i18n>
+
 <template>
   <div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>视频</a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('page_name.video') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div class="section-block">
-      <h1>视频</h1>
-      <p>天钿Daily收录B站<a href="https://www.bilibili.com/v/music/vocaloid/" target="_blank">VOCALOID·UTAU</a>分区下的所有视频和部分其他分区中的VC视频。</p>
-      <a-alert style="margin-bottom: 8px" message="播放、弹幕等数据并非时时数据，最低每24小时更新一次" banner />
-      <a-alert style="margin-bottom: 8px" message="点击视频列表查看详细信息" banner type="info"/>
+      <h1>{{ $t('page_name.video') }}</h1>
+      <p>
+        <i18n path="page_intro_video" tag="label">
+          <a href="https://www.bilibili.com/v/music/vocaloid/" target="_blank">VOCALOID·UTAU</a>
+        </i18n>
+      </p>
+      <a-alert style="margin-bottom: 8px" :message="$t('update_interval_alert')" banner />
+      <a-alert style="margin-bottom: 8px" :message="$t('click_to_view_detailed_info')" banner type="info"/>
       <div style="display: flex">
         <tdd-video-abid-auto-complete v-model="jumpVideoTargetIdObj" />
         <a-button
@@ -18,77 +142,77 @@
           :disabled="typeof jumpVideoTargetIdObj.id === 'string' ? jumpVideoTargetIdObj.id.length === 0 : true"
           @click="goJumpVideo"
           style="margin-left: 8px"
-        >跳转</a-button>
+        >{{ $t('go_jump') }}</a-button>
       </div>
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
       <a-collapse :activeKey="[1]" style="margin-bottom: 8px">
-        <a-collapse-panel header="筛选搜索" key="1">
+        <a-collapse-panel :header="$t('search_filter')" key="1">
           <table class="filter-table">
             <tr>
-              <td>视频分类</td>
+              <td>{{ $t('filter.video_category.label') }}</td>
               <td>
                 <a-radio-group name="queryParameterVcRadioGroup" v-model="queryParameter.vc.value">
-                  <a-radio value="0">全部</a-radio>
-                  <a-radio value="1">仅VC</a-radio>
+                  <a-radio value="0">{{ $t('filter.video_category.all') }}</a-radio>
+                  <a-radio value="1">{{ $t('filter.video_category.vc_only') }}</a-radio>
                 </a-radio-group>
               </td>
             </tr>
             <tr>
-              <td>活跃程度</td>
+              <td>{{ $t('filter.activity.label') }}</td>
               <td>
                 <a-radio-group name="queryParameterActivityRadioGroup" v-model="queryParameter.activity.value">
-                  <a-radio value="-1">所有视频</a-radio>
-                  <a-radio value="1">活跃视频</a-radio>
-                  <a-radio value="2">热门视频</a-radio>
-                  <a-radio value="0">其他视频</a-radio>
+                  <a-radio value="-1">{{ $t('filter.activity.all') }}</a-radio>
+                  <a-radio value="1">{{ $t('filter.activity.active') }}</a-radio>
+                  <a-radio value="2">{{ $t('filter.activity.hot') }}</a-radio>
+                  <a-radio value="0">{{ $t('filter.activity.others') }}</a-radio>
                 </a-radio-group>
               </td>
             </tr>
             <tr>
-              <td>最近投稿</td>
+              <td>{{ $t('filter.recent.label') }}</td>
               <td>
                 <a-radio-group name="queryParameterRecentRadioGroup" v-model="queryParameter.recent.value">
-                  <a-radio value="-1">所有视频</a-radio>
-                  <a-radio value="1">本周新作</a-radio>
-                  <a-radio value="2">本日新作</a-radio>
-                  <a-radio value="0">其他视频</a-radio>
+                  <a-radio value="-1">{{ $t('filter.recent.all') }}</a-radio>
+                  <a-radio value="1">{{ $t('filter.recent.this_week') }}</a-radio>
+                  <a-radio value="2">{{ $t('filter.recent.today') }}</a-radio>
+                  <a-radio value="0">{{ $t('filter.recent.others') }}</a-radio>
                 </a-radio-group>
               </td>
             </tr>
             <tr>
-              <td>排序依据</td>
+              <td>{{ $t('filter.sort_by.label') }}</td>
               <td>
                 <a-radio-group name="queryParameterOrderByRadioGroup" v-model="queryParameter.order_by.value">
-                  <a-radio value="pubdate">投稿时间</a-radio>
-                  <a-radio value="view">播放</a-radio>
-                  <a-radio value="danmaku">弹幕</a-radio>
-                  <a-radio value="reply">评论</a-radio>
-                  <a-radio value="favorite">收藏</a-radio>
-                  <a-radio value="coin">硬币</a-radio>
-                  <a-radio value="share">分享</a-radio>
-                  <a-radio value="like">点赞</a-radio>
+                  <a-radio value="pubdate">{{ $t('pubdate') }}</a-radio>
+                  <a-radio value="view">{{ $t('view') }}</a-radio>
+                  <a-radio value="danmaku">{{ $t('danmaku') }}</a-radio>
+                  <a-radio value="reply">{{ $t('reply') }}</a-radio>
+                  <a-radio value="favorite">{{ $t('favorite') }}</a-radio>
+                  <a-radio value="coin">{{ $t('coin') }}</a-radio>
+                  <a-radio value="share">{{ $t('share') }}</a-radio>
+                  <a-radio value="like">{{ $t('like') }}</a-radio>
                 </a-radio-group>
               </td>
             </tr>
             <tr>
-              <td>排序顺序</td>
+              <td>{{ $t('filter.sort_order.label') }}</td>
               <td>
                 <a-radio-group name="queryParameterDescRadioGroup" v-model="queryParameter.desc.value">
-                  <a-radio value="0">从小到大</a-radio>
-                  <a-radio value="1">从大到小</a-radio>
+                  <a-radio value="0">{{ $t('filter.sort_order.asc') }}</a-radio>
+                  <a-radio value="1">{{ $t('filter.sort_order.desc') }}</a-radio>
                 </a-radio-group>
               </td>
             </tr>
             <tr>
-              <td>投稿时间</td>
+              <td>{{ $t('filter.pubdate.label') }}</td>
               <td>
                 <a-date-picker
                   :disabledDate="disabledStartDate"
                   showTime
                   format="YYYY-MM-DD HH:mm:ss"
-                  placeholder="开始"
+                  :placeholder="$t('start')"
                   v-model="queryParameter.start_ts.value"
                   @change="handlePubdateStartChange"
                   @openChange="handlePubdateStartOpenChange"
@@ -98,7 +222,7 @@
                   :disabledDate="disabledEndDate"
                   showTime
                   format="YYYY-MM-DD HH:mm:ss"
-                  placeholder="结束"
+                  :placeholder="$t('end')"
                   v-model="queryParameter.end_ts.value"
                   :open="pubdateEndOpen"
                   @change="handlePubdateEndChange"
@@ -106,32 +230,32 @@
                   style="margin-right: 8px"
                 />
                 <a-select
-                  style="width: 100px"
-                  placeholder="快速选择"
+                  :style="{ width: $store.getters.i18nLocale === 'en' ? '120px' : '100px' }"
+                  :placeholder="$t('filter.pubdate.quick_select.label')"
                   v-model="pubdateSelectValue"
                   @change="handlePubdateSelectChange">
-                  <a-select-option value="custom">自定义</a-select-option>
-                  <a-select-option value="day">本日</a-select-option>
-                  <a-select-option value="week">本周</a-select-option>
-                  <a-select-option value="month">本月</a-select-option>
-                  <a-select-option value="year">本年</a-select-option>
-                  <a-select-option value="last_day">近一日</a-select-option>
-                  <a-select-option value="last_week">近一周</a-select-option>
-                  <a-select-option value="last_month">近一月</a-select-option>
-                  <a-select-option value="last_year">近一年</a-select-option>
+                  <a-select-option value="custom">{{ $t("filter.pubdate.quick_select.custom") }}</a-select-option>
+                  <a-select-option value="day">{{ $t("filter.pubdate.quick_select.day") }}</a-select-option>
+                  <a-select-option value="week">{{ $t("filter.pubdate.quick_select.week") }}</a-select-option>
+                  <a-select-option value="month">{{ $t("filter.pubdate.quick_select.month") }}</a-select-option>
+                  <a-select-option value="year">{{ $t("filter.pubdate.quick_select.year") }}</a-select-option>
+                  <a-select-option value="last_day">{{ $t("filter.pubdate.quick_select.last_day") }}</a-select-option>
+                  <a-select-option value="last_week">{{ $t("filter.pubdate.quick_select.last_week") }}</a-select-option>
+                  <a-select-option value="last_month">{{ $t("filter.pubdate.quick_select.last_month") }}</a-select-option>
+                  <a-select-option value="last_year">{{ $t("filter.pubdate.quick_select.last_year") }}</a-select-option>
                 </a-select>
               </td>
             </tr>
             <tr>
-              <td>视频标题</td>
+              <td>{{ $t('filter.title.label') }}</td>
               <td>
-                <a-input v-model="queryParameter.title.value" placeholder="视频标题" allowClear />
+                <a-input v-model="queryParameter.title.value" :placeholder="$t('filter.title.label')" allowClear />
               </td>
             </tr>
             <tr>
-              <td>UP主昵称</td>
+              <td>{{ $t('filter.member_name.label') }}</td>
               <td>
-                <a-input v-model="queryParameter.up_name.value" placeholder="UP主昵称" allowClear />
+                <a-input v-model="queryParameter.up_name.value" :placeholder="$t('filter.member_name.label')" allowClear />
               </td>
             </tr>
           </table>
@@ -143,15 +267,15 @@
             @click="handleSearchButtonClick"
             style="margin-top: 8px"
           >
-            搜索
+            {{ $t('search') }}
           </a-button>
           <a-popconfirm
-            title="确定重置所有条件？"
+            :title="$t('reset_confirm')"
             @confirm="resetQueryParameters"
-            okText="确定"
-            cancelText="取消"
+            :okText="$t('ok')"
+            :cancelText="$t('cancel')"
           >
-            <a-button icon="reload" style="margin-top: 8px; margin-left: 16px">重置</a-button>
+            <a-button icon="reload" style="margin-top: 8px; margin-left: 16px">{{ $t('reset') }}</a-button>
           </a-popconfirm>
         </a-collapse-panel>
       </a-collapse>
@@ -174,7 +298,7 @@
             showQuickJumper
             v-model="queryParameter.pn.value"
             :total="videoTotalCount"
-            :showTotal="total => `共 ${total} 个视频`"
+            :showTotal="total => $t('pagi_total', { total })"
             :pageSize="20"
             style="margin-top: 8px"
             @change="onPagiChange"
@@ -585,5 +709,6 @@ export default {
 .filter-table tr td:first-child {
   width: 80px;
   white-space: nowrap;
+  padding-right: 16px;
 }
 </style>
