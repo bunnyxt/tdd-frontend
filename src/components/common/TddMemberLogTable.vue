@@ -1,3 +1,5 @@
+<i18n src="@/i18n/common.json"></i18n>
+
 <template>
   <a-table
     :columns="columns"
@@ -96,38 +98,38 @@ export default {
     return {
       columns: [
         {
-          title: '时间',
+          title: this.$t('time'),
           width: '15%',
           dataIndex: 'added',
           scopedSlots: { customRender: 'added' },
           sorter: (a, b) => a.added - b.added,
         }, {
-          title: '类别',
+          title: this.$t('category'),
           width: '11%',
           dataIndex: 'attr',
           scopedSlots: { customRender: 'attr' },
           filters: [
             {
-              text: '昵称',
+              text: this.$t('name'),
               value: 'name',
             }, {
-              text: '性别',
+              text: this.$t('gender'),
               value: 'sex',
             }, {
-              text: '头像',
+              text: this.$t('face'),
               value: 'face',
             }, {
-              text: '签名',
+              text: this.$t('sign'),
               value: 'sign',
             }
           ],
           onFilter: (value, record) => record.attr === value,
         }, {
-          title: '旧值',
+          title: this.$t('oldval'),
           width: '37%',
           scopedSlots: { customRender: 'oldval' },
         }, {
-          title: '新值',
+          title: this.$t('newval'),
           width: '37%',
           scopedSlots: { customRender: 'newval' },
         }
@@ -137,10 +139,10 @@ export default {
         pageSize: 5
       },
       attrDict: {
-        'name': '昵称',
-        'sex': '性别',
-        'face': '头像',
-        'sign': '签名',
+        'name': this.$t('name'),
+        'sex': this.$t('sex'),
+        'face': this.$t('face'),
+        'sign': this.$t('sign'),
       }
     }
   }

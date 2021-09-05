@@ -78,7 +78,14 @@
     "xiu_b": "修正B",
     "time": "时间",
     "ratio_suffix": "率",
-    "ratio": "占比"
+    "ratio": "占比",
+    "category": "类别",
+    "name": "昵称",
+    "sex": "性别",
+    "face": "头像",
+    "sign": "签名",
+    "oldval": "旧值",
+    "newval": "新值"
   },
   "en": {
     "colon": ": ",
@@ -159,6 +166,13 @@
     "xiu_b": "Adjust B",
     "time": "Time",
     "ratio_suffix": " Ratio",
-    "ratio": "Ratio"
+    "ratio": "Ratio",
+    "category": "Category",
+    "name": "Name",
+    "sex": "Gender",
+    "face": "Avatar",
+    "sign": "Sign",
+    "oldval": "Old Value",
+    "newval": "New Value"
   }
 }
