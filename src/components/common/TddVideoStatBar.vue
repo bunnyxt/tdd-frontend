@@ -1,3 +1,5 @@
+<i18n src="@/i18n/common.json"></i18n>
+
 <template>
   <div class="video-stat-bar">
     <span class="stat-item"><a-icon type="play-circle" class="stat-item-icon" />{{ view }}</span><span v-html="separator"></span>
@@ -18,19 +20,6 @@ export default {
     mode: String,
     showName: Boolean
   },
-  data: function () {
-    return {
-      nameDict: {
-        view: '播放',
-        danmaku: '弹幕',
-        reply: '评论',
-        favorite: '收藏',
-        coin: '硬币',
-        share: '分享',
-        like: '点赞'
-      }
-    }
-  },
   methods: {
     getStatValue: function (property) {
       if (this.stat && this.stat[property] !== undefined) {
@@ -41,7 +30,7 @@ export default {
     },
     getStatName: function (property) {
       if (this.showName) {
-        return this.nameDict[property] + '：';
+        return `${this.$t(property)}${this.$t('colon')}`;
       } else {
         return '';
       }

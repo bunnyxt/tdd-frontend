@@ -1,6 +1,17 @@
+<i18n>
+{
+  "zh": {
+    "video_aid_or_bvid": "视频AV号或BV号"
+  },
+  "en": {
+    "video_aid_or_bvid": "video aid or bvid"
+  }
+}
+</i18n>
+
 <template>
   <a-auto-complete
-    placeholder="视频AV号或BV号"
+    :placeholder="$t('video_aid_or_bvid')"
     v-model="input"
     @change="inputChangeHandler"
     optionLabelProp="text"

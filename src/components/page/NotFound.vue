@@ -1,16 +1,3 @@
-<i18n>
-{
-  "zh": {
-    "back_to_home": "返回首页",
-    "back_to_previous_page": "返回上一页"
-  },
-  "en": {
-    "back_to_home": "Back to Home",
-    "back_to_previous_page": "Back to Previous Page"
-  }
-}
-</i18n>
-
 <template>
   <div>
     <div class="section-block" :style="sectionBlockStyle">

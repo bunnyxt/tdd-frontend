@@ -1,3 +1,17 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "fetching_weekly_rank_info_prompt": "正在获取BV{bvid}的周榜排行信息...",
+    "use_zk_calc_prompt": "请使用视频详情页下方\"周刊算分\"功能计算得分"
+  },
+  "en": {
+    "fetching_weekly_rank_info_prompt": "Now fetching weekly rank info of video BV{bvid}...",
+    "use_zk_calc_prompt": "Please use 'Weekly Point Calc' below to calc point."
+  }
+}
+</i18n>
+
 <template>
   <a-table
     :columns="columns"

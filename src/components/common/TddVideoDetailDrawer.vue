@@ -1,3 +1,17 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "transfer_to": "转",
+    "detailed_data": "详细数据"
+  },
+  "en": {
+    "transfer_to": "To ",
+    "detailed_data": "Detailed Data"
+  }
+}
+</i18n>
+
 <template>
   <div v-if="video">
     <a-drawer
@@ -12,19 +26,19 @@
         <a-button
           size="small"
           @click="() => this.showBvid = !this.showBvid"
-        >转{{ this.showBvid ? 'aid' : 'bvid'}}</a-button>
+        >{{ $t('transfer_to') }}{{ this.showBvid ? 'aid' : 'bvid'}}</a-button>
       </template>
       <a-alert
         v-if="video.code !== 0 && video.code !== -403"
         type="error"
-        :message='`本视频已无法正常观看，错误代码：${video.code}，提示信息：${$util.getVideoCodeMessage(video.code)}`'
+        :message="$t('video_detail.error_not_accessible_prompt', { code: video.code, message: $util.getVideoCodeMessage(video.code) })"
         style="margin-bottom: 12px;"
         banner
       />
       <a-alert
         v-if="video.code === -403"
         type="warning"
-        :message='`本视频仅会员可见，登录B站后方可观看；由于B站限制，本站无法获取精确播放数`'
+        :message="$t('video_detail.error_member_only_prompt')"
         style="margin-bottom: 12px;"
         banner
       />
@@ -35,7 +49,9 @@
         banner
       >
         <template slot="message">
-          本视频与<a :href="`/video/av${video.forward}`" target="_blank">av{{video.forward}}</a>撞车，点击左侧链接前往原视频
+          <i18n path="video_detail.error_duplicated_prompt" tag="label">
+            <a :href="`/video/av${video.forward}`" target="_blank">av{{video.forward}}</a>
+          </i18n>
         </template>
       </a-alert>
       <h3 style="margin-bottom: 14px">{{ video.title }}</h3>
@@ -54,7 +70,7 @@
         </div>
         <div v-if="video.hasstaff === 1" style="float: left; margin-bottom: 12px">
           <a-dropdown :trigger="['click']" placement="bottomCenter">
-            <a class="ant-dropdown-link" href="#">创作团队 ({{ video.staff.length }}) <a-icon type="down" /> </a>
+            <a class="ant-dropdown-link" href="#">{{ $t('video_detail.staff') }} ({{ video.staff.length }}) <a-icon type="down" /> </a>
             <a-menu slot="overlay">
               <template v-for="staff in video.staff.filter( s => s.title === 'UP主')">
                 <a-menu-item :key="staff.mid">
@@ -100,7 +116,10 @@
           >
             <a-popover>
               <template slot="content">
-                对B站API提供的视频"attribute"属性的解释，仅供参考。<br/>详见<a href="https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/video/info.md#获取视频详细信息web端" target="_blank">此处</a>。
+                {{ $t('video_detail.attribute_prompt') }}<br/>
+                <i18n path="video_detail.attribute_reference" tag="label" for="video_detail.attribute_reference_here">
+                  <a href="https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/video/info.md#获取视频详细信息web端" target="_blank">{{ $t('video_detail.attribute_reference_here') }}</a>
+                </i18n>
               </template>
               <a-icon type="question-circle" />
             </a-popover>
@@ -111,9 +130,9 @@
       <tdd-moe-girl-wiki-widget v-if="$config.enableMoegirlWikiWidget" type="video" url="https://zh.moegirl.org.cn/普通DISCO" style="margin-bottom: 12px" />
       <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
       <a-tag>{{ video.videos }}P</a-tag>
-      <a-divider orientation="left">简介</a-divider>
+      <a-divider orientation="left">{{ $t('video_detail.introduction') }}</a-divider>
       <tdd-video-description :description="video.desc" :key="video.aid" />
-      <a-divider orientation="left">标签</a-divider>
+      <a-divider orientation="left">{{ $t('video_detail.tags') }}</a-divider>
       <a-tag
         v-for="tag in video.tags
               ? video.tags.split(';').slice(0, -1)
@@ -123,19 +142,19 @@
       >
         {{ tag }}
       </a-tag>
-      <a-divider orientation="left">数据</a-divider>
+      <a-divider orientation="left">{{ $t('video_detail.data') }}</a-divider>
       <tdd-video-data-block
         v-if="video.laststat"
         :stat="video.laststat"
         :size="this.$store.getters.clientMode === 'MOBILE' ? 'small' : 'middle'"
         :bvid="this.$util.a2b(video.aid)"
       />
-      <a-alert v-else type="error" message="暂无数据" />
+      <a-alert v-else type="error" :message="$t('video_detail.no_data')" />
       <div class="drawer-fake-footer"></div>
       <div class="drawer-footer" :style="{ width: videoDetailDrawerWidth + 'px', zIndex: 10 }">
         <router-link :to="'/video/av'+video.aid">
           <div @click="videoDetailClickHandler">
-            <a-icon type="line-chart" title="详细数据" style="margin-right: 8px"/>详细数据
+            <a-icon type="line-chart" :title="$t('detailed_data')" style="margin-right: 8px"/>{{ $t('detailed_data') }}
           </div>
         </router-link>
       </div>
