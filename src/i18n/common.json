@@ -85,7 +85,14 @@
     "face": "头像",
     "sign": "签名",
     "oldval": "旧值",
-    "newval": "新值"
+    "newval": "新值",
+    "total_prefix": "总",
+    "follower_count": "粉丝数",
+    "video_count": "投稿数",
+    "latest_video": "最新投稿",
+    "tdd_favorite_time": "关注时间",
+    "pic": "封面",
+    "title": "标题"
   },
   "en": {
     "colon": ": ",
@@ -173,6 +180,13 @@
     "face": "Avatar",
     "sign": "Sign",
     "oldval": "Old Value",
-    "newval": "New Value"
+    "newval": "New Value",
+    "total_prefix": "Total ",
+    "follower_count": "Follower Count",
+    "video_count": "Video Count",
+    "latest_video": "Latest Video",
+    "tdd_favorite_time": "Favorite Time",
+    "pic": "Cover",
+    "title": "Title"
   }
 }

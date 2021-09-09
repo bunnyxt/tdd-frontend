@@ -2,12 +2,10 @@
 <i18n>
 {
   "zh": {
-    "fetching_weekly_rank_info_prompt": "正在获取BV{bvid}的周榜排行信息...",
-    "use_zk_calc_prompt": "请使用视频详情页下方\"周刊算分\"功能计算得分"
+    "click_view_video_detail_prompt": "点击查看视频详情"
   },
   "en": {
-    "fetching_weekly_rank_info_prompt": "Now fetching weekly rank info of video BV{bvid}...",
-    "use_zk_calc_prompt": "Please use 'Weekly Point Calc' below to calc point."
+    "click_view_video_detail_prompt": "Click to view video detail."
   }
 }
 </i18n>
@@ -64,7 +62,7 @@
           <a-icon type="calendar" style="margin-right: 4px" />
           {{ $util.tsToDateString(video ? video.pubdate : 0) }}
           <tdd-video-stat-bar :stat="video ? video.laststat : null" style="margin: 8px 0" />
-          点击查看视频详情
+          {{ $t('click_view_video_detail_prompt') }}
         </template>
         <img
           width="108px"
@@ -103,65 +101,65 @@ export default {
     return {
       columns: [
         {
-          title: '头像',
+          title: this.$t('face'),
           scopedSlots: { customRender: 'face' },
           width: '68px',
           fixed: 'left',
         }, {
-          title: '昵称',
+          title: this.$t('name'),
           scopedSlots: { customRender: 'name' },
         }, {
-          title: '粉丝数',
+          title: `${this.$t('follower_count')}`,
           dataIndex: 'last_follower.follower',
           scopedSlots: { customRender: 'value' },
           width: '100px'
         }, {
-          title: '总投稿数',
+          title: `${this.$t('total_prefix')}${this.$t('video_count')}`,
           dataIndex: 'video_count',
           scopedSlots: { customRender: 'value' },
           width: '80px'
         }, {
-          title: '总播放',
+          title: `${this.$t('total_prefix')}${this.$t('view')}`,
           dataIndex: 'last_total_stat.view',
           scopedSlots: { customRender: 'value' },
           width: '100px'
         }, {
-          title: '总弹幕',
+          title: `${this.$t('total_prefix')}${this.$t('danmaku')}`,
           dataIndex: 'last_total_stat.danmaku',
           scopedSlots: { customRender: 'value' },
           width: '100px'
         }, {
-          title: '总评论',
+          title: `${this.$t('total_prefix')}${this.$t('reply')}`,
           dataIndex: 'last_total_stat.reply',
           scopedSlots: { customRender: 'value' },
           width: '100px'
         }, {
-          title: '总收藏',
+          title: `${this.$t('total_prefix')}${this.$t('favorite')}`,
           dataIndex: 'last_total_stat.favorite',
           scopedSlots: { customRender: 'value' },
           width: '100px'
         }, {
-          title: '总硬币',
+          title: `${this.$t('total_prefix')}${this.$t('coin')}`,
           dataIndex: 'last_total_stat.coin',
           scopedSlots: { customRender: 'value' },
           width: '100px'
         }, {
-          title: '总分享',
+          title: `${this.$t('total_prefix')}${this.$t('share')}`,
           dataIndex: 'last_total_stat.share',
           scopedSlots: { customRender: 'value' },
           width: '100px'
         }, {
-          title: '总点赞',
+          title: `${this.$t('total_prefix')}${this.$t('like')}`,
           dataIndex: 'last_total_stat.like',
           scopedSlots: { customRender: 'value' },
           width: '100px'
         }, {
-          title: '最新投稿',
+          title: this.$t('latest_video'),
           dataIndex: 'last_video',
           scopedSlots: { customRender: 'lastVideo' },
           width: '120px',
         }, {
-          title: '关注时间',
+          title: this.$t('tdd_favorite_time'),
           dataIndex: 'favorite_added',
           scopedSlots: { customRender: 'added' },
           width: '108px',
