@@ -1,13 +1,34 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "fetching_member_info_prompt": "正在获取用户{0}的信息...",
+    "member_info_not_found_prompt": "没有找到用户{0}的信息",
+    "member_not_tracked_prompt": "可能是因为该用户的视频投稿不在本站收录范围内"
+  },
+  "en": {
+    "fetching_member_info_prompt": "Now fetching info of member {0}...",
+    "member_info_not_found_prompt": "Info of member {0} not found.",
+    "member_not_tracked_prompt": "It may be due to this member's videos not satisfied the tracking requirements of this site."
+  }
+}
+</i18n>
+
 <template>
   <div>
     <div v-if="isLoadingMember">
-      <a-spin size="small" style="margin-right: 8px" />正在获取用户<a :href="`https://space.bilibili.com/${mid}`" target="_blank">{{ `mid_${mid}` }}</a>的信息
+      <a-spin size="small" style="margin-right: 8px" />
+      <i18n path="fetching_member_info_prompt" tag="label">
+        <a :href="`https://space.bilibili.com/${mid}`" target="_blank">{{ `mid_${mid}` }}</a>
+      </i18n>
     </div>
     <div v-else>
       <div v-if="!member || Object.keys(member).length === 0">
         <div class="section-block">
-          <p>没有找到用户<a :href="`https://space.bilibili.com/${mid}`" target="_blank">{{ `mid_${mid}` }}</a>的信息</p>
-          <p>可能是因为改用户的视频投稿不在本站收录范围内</p>
+          <i18n path="member_info_not_found_prompt" tag="label">
+            <a :href="`https://space.bilibili.com/${mid}`" target="_blank">{{ `mid_${mid}` }}</a>
+          </i18n>
+          <p>{{ $t('member_not_tracked_prompt') }}</p>
         </div>
       </div>
       <div v-else>

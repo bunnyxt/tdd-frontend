@@ -1,73 +1,121 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "page_intro_member": "天钿Daily收录的所有视频的B站UP主和staff们。",
+    "update_interval_alert": "UP主信息、粉丝数、数据总计等并非实时，最低每24小时更新一次",
+    "pagi_total": "共 {total} 位UP主",
+    "filter": {
+      "sort_by": {
+        "label": "排序依据",
+        "member_prefix": "UP主"
+      },
+      "sort_order": {
+        "label": "排序顺序",
+        "asc": "从小到大",
+        "desc": "从大到小"
+      },
+      "sex": {
+        "all": "不限",
+        "secret": "保密"
+      }
+    },
+    "reset_confirm": "确定重置所有条件？"
+  },
+  "en": {
+    "page_intro_member": "All uploader and staff of all tracked videos.",
+    "update_interval_alert": "All data including uploader info, followers, all video statistics etc. may not up-to-date. They will be updated at least once per 24 hours.",
+    "pagi_total": "{total} uploaders in total",
+    "filter": {
+      "sort_by": {
+        "label": "Sort By",
+        "member_prefix": "Uploader "
+      },
+      "sort_order": {
+        "label": "Sort Order",
+        "asc": "Asc",
+        "desc": "Desc"
+      },
+      "sex": {
+        "all": "All",
+        "secret": "Secret"
+      }
+    },
+    "reset_confirm": "Reset all search filters?"
+  }
+}
+</i18n>
+
 <template>
   <div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>UP主</a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('page_name.member') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div class="section-block">
-      <h1>UP主</h1>
-      <p>天钿Daily收录的所有视频的B站UP主和staff们。</p>
-      <a-alert style="margin-bottom: 8px" message="UP主信息、粉丝数、数据总计等并非实时，最低每24小时更新一次" banner />
+      <h1>{{ $t('page_name.member') }}</h1>
+      <p>{{ $t('page_intro_member') }}</p>
+      <a-alert style="margin-bottom: 8px" :message="$t('update_interval_alert')" banner />
     </div>
     <div class="section-separator"></div>
     <div class="section-block">
       <a-collapse :activeKey="[1]" style="margin-bottom: 8px">
-        <a-collapse-panel header="筛选搜索" key="1">
+        <a-collapse-panel :header="$t('search_filter')" key="1">
           <table class="filter-table">
             <tr>
               <td class="filter-table-label">
-                排序依据
+                {{ $t('filter.sort_by.label') }}
               </td>
               <td>
                 <a-radio-group name="orderSelector" v-model="orderValue">
-                  <a-radio :value="'mid'">用户mid</a-radio>
-                  <a-radio :value="'video_count'">投稿总数</a-radio>
-                  <a-radio :value="'v_pubdate'">最近投稿</a-radio>
-                  <a-radio :value="'fr_follower'">粉丝数</a-radio><br>
-                  <a-radio :value="'sr_view'">总播放数</a-radio>
-                  <a-radio :value="'sr_danmaku'">总弹幕数</a-radio>
-                  <a-radio :value="'sr_reply'">总评论数</a-radio>
-                  <a-radio :value="'sr_favorite'">总收藏数</a-radio>
-                  <a-radio :value="'sr_coin'">总硬币数</a-radio>
-                  <a-radio :value="'sr_share'">总分享数</a-radio>
-                  <a-radio :value="'sr_like'">总点赞数</a-radio>
+                  <a-radio value="mid">{{ $t('filter.sort_by.member_prefix') }}mid</a-radio>
+                  <a-radio value="video_count">{{ $t('total_prefix')}}{{ $t('video_count') }}</a-radio>
+                  <a-radio value="v_pubdate">{{ $t('latest_video') }}</a-radio>
+                  <a-radio value="fr_follower">{{ $t('total_prefix')}}{{ $t('follower_count') }}</a-radio><br>
+                  <a-radio value="sr_view">{{ $t('total_prefix')}}{{ $t('view') }}</a-radio>
+                  <a-radio value="sr_danmaku">{{ $t('total_prefix')}}{{ $t('danmaku') }}</a-radio>
+                  <a-radio value="sr_reply">{{ $t('total_prefix')}}{{ $t('reply') }}</a-radio>
+                  <a-radio value="sr_favorite">{{ $t('total_prefix')}}{{ $t('favorite') }}</a-radio>
+                  <a-radio value="sr_coin">{{ $t('total_prefix')}}{{ $t('coin') }}</a-radio>
+                  <a-radio value="sr_share">{{ $t('total_prefix')}}{{ $t('share') }}</a-radio>
+                  <a-radio value="sr_like">{{ $t('total_prefix')}}{{ $t('like') }}</a-radio>
                 </a-radio-group>
               </td>
             </tr>
             <tr>
               <td class="filter-table-label">
-                排序顺序
+                {{ $t('filter.sort_order.label') }}
               </td>
               <td>
                 <a-radio-group name="orderDescSelector" v-model="orderDescValue">
-                  <a-radio :value="0">从小到大</a-radio>
-                  <a-radio :value="1">从大到小</a-radio>
+                  <a-radio :value="0">{{ $t('filter.sort_order.asc') }}</a-radio>
+                  <a-radio :value="1">{{ $t('filter.sort_order.desc') }}</a-radio>
                 </a-radio-group>
               </td>
             </tr>
             <tr>
               <td class="filter-table-label">
-                性别
+                {{ $t('sex') }}
               </td>
               <td>
                 <a-radio-group name="sexSelector" v-model="sexValue">
-                  <a-radio :value="'不限'">不限</a-radio>
-                  <a-radio :value="'男'">男</a-radio>
-                  <a-radio :value="'女'">女</a-radio>
-                  <a-radio :value="'保密'">保密</a-radio>
+                  <a-radio value="不限">{{ $t('filter.sex.all') }}</a-radio>
+                  <a-radio value="男">{{ $t('male') }}</a-radio>
+                  <a-radio value="女">{{ $t('female') }}</a-radio>
+                  <a-radio value="保密">{{ $t('filter.sex.secret') }}</a-radio>
                 </a-radio-group>
               </td>
             </tr>
             <tr>
               <td class="filter-table-label">
-                昵称
+                {{ $t('name') }}
               </td>
               <td>
                 <a-input
                   v-model="nameValue"
-                  placeholder="UP主"
+                  :placeholder="$t('name')"
                   allowClear
                 />
               </td>
@@ -80,19 +128,19 @@
             @click="handleSearchButtonClick"
             style="margin-top: 8px"
           >
-            搜索
+            {{ $t('search') }}
           </a-button>
           <a-popconfirm
-            title="确定重置所有条件？"
+            :title="$t('reset_confirm')"
             @confirm="handleReloadButtonClick"
-            okText="确定"
-            cancelText="取消"
+            :okText="$t('ok')"
+            :cancelText="$t('cancel')"
           >
             <a-button
               icon="reload"
               style="margin-top: 8px; margin-left: 16px"
             >
-              重置
+              {{ $t('reset') }}
             </a-button>
           </a-popconfirm>
         </a-collapse-panel>
@@ -107,7 +155,7 @@
           showQuickJumper
           v-model="pagiCurrent"
           :total="memberTotalCount"
-          :showTotal="total => `共 ${total} 位UP主`"
+          :showTotal="total => $t('pagi_total', { total })"
           :pageSize="20"
           style="margin-top: 8px"
           @change="onPagiChange"
