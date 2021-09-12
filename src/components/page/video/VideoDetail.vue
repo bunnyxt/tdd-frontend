@@ -4,12 +4,38 @@
   "zh": {
     "fetching_video_info_prompt": "正在获取{0}的视频信息...",
     "video_info_not_found_prompt": "没有找到{0}的视频信息",
-    "video_not_tracked_prompt": "可能是因为该视频不在本站收录范围内"
+    "video_not_tracked_prompt": "可能是因为该视频不在本站收录范围内",
+    "data_selection": "数据选择",
+    "recent_data": "近期数据",
+    "last_3_days_hourly_data": "近三日每小时数据",
+    "load_all": "加载全部",
+    "refresh_data": "刷新数据",
+    "data_total_already_loaded_prompt": "共{total}条，已加载{loaded}条",
+    "compare_banner": "新功能！想对比多个视频的历史趋势？将此视频{add_to_compare_list}，前往{compare_tool}进行比较",
+    "add_to_compare_list": "添加到对比列表",
+    "compare_tool": "视频对比工具",
+    "compare_banner_click_to": "点此",
+    "compare_banner_click_to_add": "添加",
+    "compare_banner_added_click_to": "已添加，点此",
+    "compare_banner_added_click_to_remove": "移除"
   },
   "en": {
     "fetching_video_info_prompt": "Now fetching info of video {0}...",
     "video_info_not_found_prompt": "Info of video {0} not found.",
-    "video_not_tracked_prompt": "It may be due to this video not satisfied the tracking requirements of this site."
+    "video_not_tracked_prompt": "It may be due to this video not satisfied the tracking requirements of this site.",
+    "data_selection": "Data Selection",
+    "recent_data": "Recent Data",
+    "last_3_days_hourly_data": "Last 3 Days Hourly Data",
+    "load_all": "Load All",
+    "refresh_data": "Refresh",
+    "data_total_already_loaded_prompt": "{total} records in total, {loaded} already loaded",
+    "compare_banner": "New feature! Wanna compare trending between videos? {add_to_compare_list}, then go to {compare_tool} for comparison.",
+    "add_to_compare_list": "Add this video to compare list",
+    "compare_tool": "video compare tool",
+    "compare_banner_click_to": "Click to ",
+    "compare_banner_click_to_add": "add",
+    "compare_banner_added_click_to": "Added, click to ",
+    "compare_banner_added_click_to_remove": "remove"
   }
 }
 </i18n>
@@ -211,7 +237,7 @@
                   <div style="margin-top: 8px; padding-left: 12px; border-bottom: 1px solid #e8e8e8">
                     <a-popover placement="bottomRight" trigger="click">
                       <a-button>
-                        <a-icon type="filter" /> {{ $store.getters.clientMode === 'MOBILE' ? '' : '数据选择' }}
+                        <a-icon type="filter" /> {{ $store.getters.clientMode === 'MOBILE' ? '' : $t('data_selection') }}
                       </a-button>
                       <div slot="content">
                         <a-spin :spinning="isLoadingVideoRecords">
@@ -220,9 +246,9 @@
                               v-model="enableCurrentVideoRecords"
                               @change="enableCurrentVideoRecordsCheckboxChangeHandler"
                               style="margin-bottom: 4px"
-                            >近期数据</a-checkbox>
+                            >{{ $t('recent_data') }}</a-checkbox>
                             <div style="margin-bottom: 4px">
-                              共{{ currentVideoRecordsTotalCount }}条，已加载{{ currentVideoRecords.length }}条
+                              {{ $t('data_total_already_loaded_prompt', { total: currentVideoRecordsTotalCount, loaded: currentVideoRecords.length }) }}
                             </div>
                             <div>
                               <a-button
@@ -230,12 +256,12 @@
                                 size="small"
                                 :disabled="currentVideoRecordsTotalLoaded"
                                 @click="getCurrentVideoRecordsTotal(aid)"
-                              >加载全部</a-button>
+                              >{{ $t('load_all') }}</a-button>
                               <a-button
                                 type="link"
                                 size="small"
                                 @click="updateCurrentVideoRecords(aid)"
-                              >刷新数据</a-button>
+                              >{{ $t('refresh_data') }}</a-button>
                             </div>
                           </div>
                           <div>
@@ -244,9 +270,9 @@
                               :disabled="hourlyVideoRecords.length === 0"
                               @change="enableHistoryVideoRecordsCheckboxChangeHandler"
                               style="margin-bottom: 4px"
-                            >近三日每小时数据</a-checkbox>
+                            >{{ $t('last_3_days_hourly_data') }}</a-checkbox>
                             <div v-if="hourlyVideoRecords.length > 0" style="margin-bottom: 4px">
-                              共{{ hourlyVideoRecords.length }}条，已加载{{ hourlyVideoRecords.length }}条
+                              {{ $t('data_total_already_loaded_prompt', { total: hourlyVideoRecords.length, loaded: hourlyVideoRecords.length }) }}
                             </div>
                             <div>
                               <a-button
@@ -254,13 +280,13 @@
                                 size="small"
                                 :disabled="hourlyVideoRecords.length !== 0"
                                 @click="getHistoryVideoRecords(aid)"
-                              >加载全部</a-button>
+                              >{{ $t('load_all') }}</a-button>
                               <a-button
                                 type="link"
                                 size="small"
                                 :disabled="hourlyVideoRecords.length === 0"
                                 @click="getHistoryVideoRecords(aid)"
-                              >刷新数据</a-button>
+                              >{{ $t('refresh_data') }}</a-button>
                             </div>
                           </div>
                         </a-spin>
@@ -272,17 +298,20 @@
                   <template v-if="recordChartEnterCount">
                     <a-alert type="info" banner style="margin-bottom: 12px" closable>
                       <template slot="message">
-                        新功能！想对比多个视频的历史趋势？将此视频<a-popover placement="bottom">
-                        <template slot="content">
-                          <template v-if="inVideoCompareList">
-                            已添加，点此<a @click="removeFromVideoCompareListHandler">移除</a>
-                          </template>
-                          <template v-else>
-                            点此<a @click="addToVideoCompareListHandler">添加</a>
-                          </template>
-                        </template>
-                        <a>添加到对比列表</a>
-                      </a-popover>，前往<router-link to="/tool/compare">视频对比工具</router-link>进行比较
+                        <i18n path="compare_banner">
+                          <a-popover place="add_to_compare_list" placement="bottom">
+                            <template slot="content">
+                              <template v-if="inVideoCompareList">
+                                {{ $t('compare_banner_added_click_to') }}<a @click="removeFromVideoCompareListHandler">{{ $t('compare_banner_added_click_to_remove') }}</a>
+                              </template>
+                              <template v-else>
+                                {{ $t('compare_banner_click_to') }}<a @click="addToVideoCompareListHandler">{{ $t('compare_banner_click_to_add') }}</a>
+                              </template>
+                            </template>
+                            <a>{{ $t('add_to_compare_list') }}</a>
+                          </a-popover>
+                          <router-link place="compare_tool" to="/tool/compare">{{ $t('compare_tool') }}</router-link>
+                        </i18n>
                       </template>
                     </a-alert>
                     <tdd-video-history-line-chart :videoRecords="videoRecords" :pubdate="video ? video.pubdate : 0" />
