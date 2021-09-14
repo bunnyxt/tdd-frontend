@@ -1,6 +1,7 @@
 {
   "zh": {
     "colon": "：",
+    "semicolon": "；",
     "tdd": "天钿Daily",
     "pubdate": "投稿时间",
     "view": "播放",
@@ -94,10 +95,12 @@
     "latest_video": "最新投稿",
     "tdd_favorite_time": "关注时间",
     "pic": "封面",
-    "title": "标题"
+    "title": "标题",
+    "loading": "加载中"
   },
   "en": {
     "colon": ": ",
+    "semicolon": "; ",
     "tdd": "TianDian Daily",
     "pubdate": "Pubdate",
     "view": "View",
@@ -191,6 +194,7 @@
     "latest_video": "Latest Video",
     "tdd_favorite_time": "Favorite Time",
     "pic": "Cover",
-    "title": "Title"
+    "title": "Title",
+    "loading": "Loading"
   }
 }

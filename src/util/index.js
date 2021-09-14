@@ -423,6 +423,20 @@ export default {
     }分`;
     return `${prefixStr}${suffixStr}`;
   },
+  getTimespanStrEn: function (
+    startTs,
+    endTs = undefined,
+    yearFormat = false,
+    considerLunarYear = true,
+    paddingZero = false,
+  ) {
+    return this.getTimespanStr(startTs, endTs, yearFormat, considerLunarYear, paddingZero)
+      .replace('年', 'Y')
+      .replace('月', 'M')
+      .replace('日', 'D')
+      .replace('时', 'h')
+      .replace('分', 'm');
+  },
   getLatestHourStartTs: function (ts) {
     return ts - ts % (60 * 60);
   },

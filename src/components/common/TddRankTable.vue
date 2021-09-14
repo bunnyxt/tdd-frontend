@@ -1,3 +1,37 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "incr_rank": "增量排名：#",
+    "point_ranking": "得分排名：#",
+    "click_go_bilibili_watch_prompt": "点击前往BiliBili「{title}」视频播放页面",
+    "click_to_view_video_detailed_info_prompt": "点击查看视频详情",
+    "click_to_view_member_detailed_info_prompt": "点击查看UP主详情",
+    "record_time": "统计时间",
+    "total_timespan": "总计时长",
+    "no_longer_tracked_video_name": "__不再收录的视频__",
+    "this_video": "此视频",
+    "no_longer_track_prompt": "现在已不再符合本站收录条件，故不再显示",
+    "uploader_of_no_longer_tracked_video_name": "__不再收录的视频的UP主__",
+    "point_with_xiua_xiub": "得分 (修正A/B)"
+  },
+  "en": {
+    "incr_rank": "Increment Ranking: #",
+    "point_ranking": "Point Ranking: #",
+    "click_go_bilibili_watch_prompt": "Click to watch video 「{title}」 on BiliBili",
+    "click_to_view_video_detailed_info_prompt": "Click to view video detailed info.",
+    "click_to_view_member_detailed_info_prompt": "Click to view uploader detailed info.",
+    "record_time": "Recorded",
+    "total_timespan": "Timespan",
+    "no_longer_tracked_video_name": "__no_longer_tracked_video__",
+    "this_video": "This video",
+    "no_longer_track_prompt": " now not satisfied the video tracking requirements, so will not display any more.",
+    "uploader_of_no_longer_tracked_video_name": "__uploader_of_no_longer_tracked_video__",
+    "point_with_xiua_xiub": "Point (Adjust A/B)"
+  }
+}
+</i18n>
+
 <template>
   <a-table
     :columns="columnsToShow"
@@ -9,7 +43,7 @@
   >
     <template slot="rank" slot-scope="item">
       <div
-        :title="`${item.index ? `增量排名：#${item.index}；` : ''}得分排名：#${item.rank}`"
+        :title="`${item.index ? `${$t('incr_rank')}${item.index}${$t('semicolon')}` : ''}${$t('point_ranking')}${item.rank}`"
         style="cursor: help"
       >
         <span v-if="item.index">
@@ -36,7 +70,7 @@
           <div
             v-if="$store.getters.clientMode === 'MOBILE'"
             :class="[`bg-color-${$util.colorLevel(item.point, rankColor['point'])}`]"
-            :title="`${item.index ? `增量排名：#${item.index}；` : ''}得分排名：#${item.rank}`"
+            :title="`${item.index ? `${$t('incr_rank')}${item.index}${$t('semicolon')}` : ''}${$t('point_ranking')}${item.rank}`"
             style="background: #fafafa; border-radius: 4px; border: 1px solid #d9d9d9; font-size: 12px; padding: 0 4px; position: absolute; top: 2px; left: 2px"
           >
             <span v-if="item.index">
@@ -51,7 +85,7 @@
           </div>
           <div
             class="to-bilibili-cover"
-            :title="`点击前往BiliBili「${item.video.title}」视频播放页面`"
+            :title="$t('click_go_bilibili_watch_prompt', { title: item.video.title })"
             @click.prevent="videoPicClickHandler(item.video.aid)"
           >
             <a :href="`https://www.bilibili.com/video/av${item.video.aid}`">
@@ -81,7 +115,7 @@
               <a-icon type="calendar" style="margin-right: 4px" />
               {{ $util.tsToDateString(archId === 0 ? item.now_added : item.arch_added) }}
               <tdd-video-stat-bar :stat="extractStat(item)" style="margin: 8px 0" />
-              点击查看视频详情
+              {{ $t('click_to_view_video_detailed_info_prompt') }}
             </template>
             <a
               :href="`https://tdd.bunnyxt.com/video/av${item.video.aid}`"
@@ -93,7 +127,7 @@
           <a-tooltip placement="topLeft" style="flex-grow: 1; margin-right: 8px">
             <div slot="title" style="margin: 4px">
               <tdd-member-card :mid="item.video.mid" style="margin-bottom: 8px" />
-              点击查看UP主详情
+              {{ $t('click_to_view_member_detailed_info_prompt') }}
             </div>
             <span class="video-title-member">
               <a-avatar
@@ -109,9 +143,9 @@
           </a-tooltip>
           <a-tooltip style="flex-shrink: 0; cursor: help">
             <template slot="title">
-              投稿日期：{{ $util.tsToDateString(item.video.pubdate) }}<br/>
-              统计时间：{{ $util.tsToDateString(archId === 0 ? item.now_added : item.arch_added) }}<br/>
-              总计时长：{{ $util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added) }}
+              {{ $t('pubdate') }}{{ $t('colon') }}{{ $util.tsToDateString(item.video.pubdate) }}<br/>
+              {{ $t('record_time') }}{{ $t('colon') }}{{ $util.tsToDateString(archId === 0 ? item.now_added : item.arch_added) }}<br/>
+              {{ $t('total_timespan') }}{{ $t('colon') }}{{ $store.getters.i18nLocale === 'en' ? $util.getTimespanStrEn(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added) : $util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added) }}
             </template>
             <span style="display: flex">
               <span>
@@ -123,7 +157,7 @@
                 style="display: inline; margin-left: 16px; width: 118px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; cursor: help"
               >
                 <a-icon type="hourglass" style="margin-right: 4px" />
-                {{ $util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added) }}
+                {{ $store.getters.i18nLocale === 'en' ? $util.getTimespanStrEn(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added) : $util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added) }}
               </span>
             </span>
           </a-tooltip>
@@ -131,10 +165,10 @@
       </div>
       <div v-else>
         <div class="video-title">
-          __不再收录的视频__
-          <a-popover title="__不再收录的视频__">
+          {{ $t('no_longer_tracked_video_name') }}
+          <a-popover :title="$t('no_longer_tracked_video_name')">
             <template slot="content">
-              <a :href="`https://www.bilibili.com/video/BV${item.bvid}`" target="_blank" style="color: #1890ff">此视频</a>现在已不再符合本站收录条件，故不再显示
+              <a :href="`https://www.bilibili.com/video/BV${item.bvid}`" target="_blank" style="color: #1890ff">{{ $t('this_video') }}</a>{{ $t('no_longer_track_prompt') }}
             </template>
             <a-icon type="question-circle" />
           </a-popover>
@@ -145,7 +179,7 @@
             :size="16"
             style="margin-right: 4px"
           />
-          __不再收录的视频的UP主__
+          {{ $t('uploader_of_no_longer_tracked_video_name') }}
         </div>
       </div>
     </template>
@@ -213,7 +247,7 @@
       />
     </template>
     <template slot="more">
-      更多
+      {{ $t('more') }}
     </template>
   </a-table>
 </template>
@@ -257,53 +291,53 @@ export default {
     return {
       columns: [
         {
-          title: '封面',
+          title: this.$t('pic'),
           scopedSlots: { customRender: 'pic' },
           width: '120px',
           fixed: 'left',
         }, {
-          title: '标题',
+          title: this.$t('title'),
           scopedSlots: { customRender: 'videoTitleMemberPubdate' },
           // width: '200px',
         },
         {
-          title: '播放',
+          title: this.$t('view'),
           scopedSlots: { customRender: 'view_value' },
           width: '108px',
           customHeaderCell: () => this.highlightColumn('view'),
           customCell: () => this.highlightColumn('view'),
         }, {
-          title: '弹幕',
+          title: this.$t('danmaku'),
           scopedSlots: { customRender: 'danmaku_value' },
           width: '96px',
           customHeaderCell: () => this.highlightColumn('danmaku'),
           customCell: () => this.highlightColumn('danmaku'),
         }, {
-          title: '评论',
+          title: this.$t('reply'),
           scopedSlots: { customRender: 'reply_value' },
           width: '96px',
           customHeaderCell: () => this.highlightColumn('reply'),
           customCell: () => this.highlightColumn('reply'),
         }, {
-          title: '收藏',
+          title: this.$t('favorite'),
           scopedSlots: { customRender: 'favorite_value' },
           width: '96px',
           customHeaderCell: () => this.highlightColumn('favorite'),
           customCell: () => this.highlightColumn('favorite'),
         }, {
-          title: '硬币',
+          title: this.$t('coin'),
           scopedSlots: { customRender: 'coin_value' },
           width: '96px',
           customHeaderCell: () => this.highlightColumn('coin'),
           customCell: () => this.highlightColumn('coin'),
         }, {
-          title: '分享',
+          title: this.$t('share'),
           scopedSlots: { customRender: 'share_value' },
           width: '96px',
           customHeaderCell: () => this.highlightColumn('share'),
           customCell: () => this.highlightColumn('share'),
         }, {
-          title: '点赞',
+          title: this.$t('like'),
           scopedSlots: { customRender: 'like_value' },
           width: '96px',
           customHeaderCell: () => this.highlightColumn('like'),
@@ -319,7 +353,7 @@ export default {
       // add rank column
       if (this.$store.getters.clientMode !== 'MOBILE') {
         columns.push({
-          title: '排名',
+          title: this.$t('rank_order'),
           scopedSlots: { customRender: 'rank' },
           width: this.useIndex ? '108px' : '60px',
           fixed: 'left',
@@ -331,7 +365,7 @@ export default {
       
       // add point column
       columns.push({
-        title: '得分 (修正A/B)',
+        title: this.$t('point_with_xiua_xiub'),
         scopedSlots: { customRender: 'point_value' },
         width: '144px',
         fixed: this.$store.getters.clientMode !== 'MOBILE' ? 'right' : null,
