@@ -22,6 +22,7 @@
 
 <script>
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
+import enUS from 'ant-design-vue/lib/locale-provider/en_US';
 import TddHeader from "./components/layout/TddHeader.vue";
 import TddMenuSlider from "./components/layout/TddMenuSlider.vue";
 import TddLoginSlider from "./components/layout/TddLoginSlider.vue";
@@ -37,18 +38,17 @@ export default {
     TddVideoDetailDrawer,
     TddFooter
   },
-  data: function() {
-    return {
-      locale: zhCN
-    }
-  },
   computed: {
     layoutPadding: function () {
       return this.$util.calcLayoutPadding(this.$store.state.clientWidth);
     },
     layoutMarginTop: function () {
       return this.$store.getters.clientMode === 'MOBILE' ? '64px' : '0';
-    }
+    },
+    locale: function () {
+      console.log(this.$store.getters.i18nLocale);
+      return this.$store.getters.i18nLocale === 'zh' ? zhCN : enUS;
+    },
   },
   mounted: function(){
     let that = this;
