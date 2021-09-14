@@ -25,6 +25,9 @@
         <a-menu-item key="about">{{ $t('page_name.about') }}</a-menu-item>
       </a-menu>
     </div>
+    <div class="bottom-wrapper">
+      <a-icon type="global" @click="handleLanguageButtonClick" />
+    </div>
   </a-drawer>
 </template>
 
@@ -83,13 +86,28 @@ export default {
         default:
           break;
       }
-    }
+    },
+    handleLanguageButtonClick: function () {
+      console.log('first');
+      this.$emit('toggle-language-banner-visibility');
+    },
   }
 };
 </script>
 
 <style>
+.ant-drawer-body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .menu-wrapper {
   margin-left: -24px;
+  flex-grow: 1;
+}
+.bottom-wrapper {
+  height: 64px;
+  line-height: 64px;
+  margin-bottom: -24px;
 }
 </style>

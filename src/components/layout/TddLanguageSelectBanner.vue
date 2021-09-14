@@ -1,5 +1,5 @@
 <template>
-  <a-alert v-if="showI18nLocaleSelect" type="info" banner closable>
+  <a-alert v-if="showI18nLocaleSelect" type="info" banner closable @close="close">
     <div slot="message">
       Select Language:
       <a-select :value="i18nLocale" @change="handleI18nLocaleSelectChange" size="small" style="width: 92px">
@@ -28,7 +28,10 @@ export default {
       this.i18nLocale = locale;
       this.$store.commit('setI18nLocale', locale);
       localStorage.setItem('tddLocale', locale);
-    }
+    },
+    close: function () {
+      this.showI18nLocaleSelect = false;
+    },
   },
   mounted() {
     // init locale

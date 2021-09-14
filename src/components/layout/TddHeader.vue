@@ -4,7 +4,7 @@
   <div>
     <template v-if="this.$store.getters.clientMode === 'MOBILE'">
       <div :style="{ position: 'fixed', zIndex: 30, width: '100%' }">
-        <tdd-language-select-banner /><!-- bug: will lead to cover some content -->
+        <tdd-language-select-banner ref="banner" /><!-- bug: will lead to cover some content -->
         <a-layout-header class="mobile-header">
           <a-icon
             class="trigger mobile-header-menu-icon"
@@ -54,7 +54,7 @@
       </div>
     </template>
     <template v-else>
-      <tdd-language-select-banner />
+      <tdd-language-select-banner ref="banner" />
       <a-layout-header :style="{padding: layoutPadding}">
         <img
           class="desktop-header-logo"
@@ -87,6 +87,9 @@
           </a-menu-item>
           <a-menu-item key="about">
             <router-link to="/about">{{ $t('page_name.about') }}</router-link>
+          </a-menu-item>
+          <a-menu-item key="language" @click="handleLanguageButtonClick">
+            <a-icon type="global" />
           </a-menu-item>
         </a-menu>
         <div v-if="!this.$store.state.isUserLoggedIn">
@@ -209,6 +212,9 @@ export default {
         .catch(function (error) {
           that.$message.error(error.response.data);
         })
+    },
+    handleLanguageButtonClick: function () {
+      this.$refs.banner.showI18nLocaleSelect = !this.$refs.banner.showI18nLocaleSelect;  // bad design
     },
   },
 }

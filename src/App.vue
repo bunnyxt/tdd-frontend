@@ -1,11 +1,11 @@
 <template>
   <a-config-provider :locale="locale">
     <a-layout class="layout" style="min-height:100%">
-      <tdd-menu-slider />
+      <tdd-menu-slider @toggle-language-banner-visibility="toggleLanguageBannerVisibility" />
       <tdd-login-slider />
       <tdd-video-detail-drawer />
       <a-layout>
-        <tdd-header />
+        <tdd-header ref="header" />
         <a-layout-content :style="{padding: layoutPadding, marginTop: layoutMarginTop, marginBottom: '-120px'}">
           <keep-alive>
             <router-view v-if="$route.meta.keepAlive" v-wechat-title="$route.meta.title"></router-view>
@@ -50,7 +50,12 @@ export default {
       return this.$store.getters.i18nLocale === 'zh' ? zhCN : enUS;
     },
   },
-  mounted: function(){
+  methods: {
+    toggleLanguageBannerVisibility: function () {
+      this.$refs.header.$refs.banner.showI18nLocaleSelect = !this.$refs.header.$refs.banner.showI18nLocaleSelect;  // bad design
+    },
+  },
+  mounted: function () {
     let that = this;
     // global client mode
     let width = (document && document.body && document.body.clientWidth) || -1;
@@ -63,7 +68,7 @@ export default {
         that.$store.commit('setClientWidth', width);
       }
     });
-  }
+  },
 };
 </script>
 
