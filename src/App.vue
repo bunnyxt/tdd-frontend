@@ -46,7 +46,6 @@ export default {
       return this.$store.getters.clientMode === 'MOBILE' ? '64px' : '0';
     },
     locale: function () {
-      console.log(this.$store.getters.i18nLocale);
       return this.$store.getters.i18nLocale === 'zh' ? zhCN : enUS;
     },
   },
