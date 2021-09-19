@@ -1,14 +1,17 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n src="@/i18n/tool.json"></i18n>
+
 <template>
   <div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/tool">辅助工具</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>文本av号/bv号与视频描述替换</a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/tool">{{ $t('page_name.tool') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('tool_info.text-abid-description-replacement.name') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div class="section-block">
-      <h1>文本av号/bv号与视频描述替换</h1>
+      <h1>{{ $t('tool_info.text-abid-description-replacement.name') }}</h1>
       <p>将文本中的av号或bv号替换为对应视频的描述信息（标题、UP主、播放数等等），支持自定义格式与微调。</p>
       <h3>步骤1：粘贴文本</h3>
       <a-textarea

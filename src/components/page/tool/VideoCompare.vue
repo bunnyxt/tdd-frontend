@@ -1,15 +1,18 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n src="@/i18n/tool.json"></i18n>
+
 <template>
   <div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/tool">辅助工具</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>视频对比</a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/tool">{{ $t('page_name.tool') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('tool_info.compare.name') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div class="section-block">
       <a-alert message="WORK IN PROGRESS" style="margin-bottom: 16px" banner/>
-      <h1>视频对比</h1>
+      <h1>{{ $t('tool_info.compare.name') }}</h1>
       <p>想对比多个视频的历史趋势？前往视频详情页面，点击"历史趋势"下的"添加到对比列表"按钮，或直接在下方"添加视频"输入框中添加，回到本页面，即可查看。注意：当前只支持视频的最近200条记录。</p>
       <h3>添加视频</h3>
       <div style="margin-bottom: 12px">

@@ -1,14 +1,17 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n src="@/i18n/tool.json"></i18n>
+
 <template>
   <div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/tool">辅助工具</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>Bilibili av号/bv号转换工具</a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/tool">{{ $t('page_name.tool') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('tool_info.abid.name') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div class="section-block">
-      <h1>Bilibili av号/bv号转换工具</h1>
+      <h1>{{ $t('tool_info.abid.name') }}</h1>
       <div style="overflow: hidden; margin-bottom: 12px">
         <a-radio-group v-model="method" buttonStyle="solid">
           <a-radio-button value="api">API转换</a-radio-button>
