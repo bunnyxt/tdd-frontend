@@ -21,7 +21,9 @@
       "tool": "辅助工具",
       "about": "关于",
       "me": "个人中心",
-      "me_setting": "设置"
+      "me_setting": "设置",
+      "me_favored_video": "关注视频",
+      "me_favored_member": "关注UP主"
     },
     "login": "登录",
     "register": "注册",
@@ -121,7 +123,9 @@
       "tool": "Tool",
       "about": "About",
       "me": "Me",
-      "me_setting": "Setting"
+      "me_setting": "Setting",
+      "me_favored_video": "Favored Video",
+      "me_favored_member": "Favored Uploader"
     },
     "login": "Login",
     "register": "Register",
