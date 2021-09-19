@@ -1,11 +1,13 @@
+<i18n src="@/i18n/common.json"></i18n>
+
 <template>
   <div>
     <div v-wechat-title="$route.meta.title='助攻日报'+this.$route.params.date+' - 天钿Daily'"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/sprint">传说助攻</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/sprint/daily">助攻日报</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/sprint">{{ $t('page_name.sprint') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/sprint/daily">{{ $t('page_name.sprint_daily') }}</router-link></a-breadcrumb-item>
         <a-breadcrumb-item>{{ this.$route.params.date }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>

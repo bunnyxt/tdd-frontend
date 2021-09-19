@@ -1,10 +1,12 @@
+<i18n src="@/i18n/common.json"></i18n>
+
 <template>
   <div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/sprint">传说助攻</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>助攻日报</a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/sprint">{{ $t('page_name.sprint') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('page_name.sprint_daily') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div class="section-block">

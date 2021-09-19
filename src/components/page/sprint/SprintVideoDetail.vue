@@ -1,10 +1,12 @@
+<i18n src="@/i18n/common.json"></i18n>
+
 <template>
   <div>
     <div v-wechat-title="$route.meta.title='av'+this.$route.params.aid+' - 助攻详情 - 天钿Daily'"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/sprint">传说助攻</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/sprint">{{ $t('page_name.sprint') }}</router-link></a-breadcrumb-item>
         <a-breadcrumb-item>{{ video.title }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
