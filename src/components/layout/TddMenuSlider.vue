@@ -95,7 +95,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .ant-drawer-body {
   height: 100%;
   display: flex;
