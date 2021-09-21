@@ -55,6 +55,7 @@
 
 <template>
   <div>
+    <div v-wechat-title="$t('page_title.home')"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item>{{ $t('page_name.home') }}</a-breadcrumb-item>

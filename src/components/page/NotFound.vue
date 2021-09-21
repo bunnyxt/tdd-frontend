@@ -1,5 +1,8 @@
+<i18n src="@/i18n/common.json"></i18n>
+
 <template>
   <div>
+    <div v-wechat-title="$t('page_title.404')"></div>
     <div class="section-block" :style="sectionBlockStyle">
       <h1>404 NOT FOUND</h1>
       <a-icon type="home" style="margin-right: 8px"/>

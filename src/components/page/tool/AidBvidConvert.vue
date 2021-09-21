@@ -3,6 +3,7 @@
 
 <template>
   <div>
+    <div v-wechat-title="`${$t('tool_info.abid.name')} - ${$t('page_title._tdd')}`"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>

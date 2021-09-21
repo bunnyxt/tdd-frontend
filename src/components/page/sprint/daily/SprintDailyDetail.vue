@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    <div v-wechat-title="$route.meta.title='助攻日报'+this.$route.params.date+' - 天钿Daily'"></div>
+    <div v-wechat-title="$t('page_title.sprint_daily_detail', { id: this.$route.params.date })"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>

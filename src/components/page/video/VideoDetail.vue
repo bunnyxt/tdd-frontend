@@ -42,7 +42,7 @@
 
 <template>
   <div>
-    <div v-wechat-title="$route.meta.title='av'+aid+' - 视频详情 - 天钿Daily'"></div>
+    <div v-wechat-title="$route.meta.title=$t('page_title.video_detail', { title: fromBvid ? `BV${bvid}` : `av${aid}` })"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
@@ -73,7 +73,7 @@
         </div>
       </div>
       <div v-else>
-        <div v-wechat-title="$route.meta.title=video.title+' - 视频详情 - 天钿Daily'"></div>
+        <div v-wechat-title="$route.meta.title=$t('page_title.video_detail', { title: video.title })"></div>
         <div class="section-block">
           <a-alert
             v-if="video.code !== 0 && video.code !== -403"

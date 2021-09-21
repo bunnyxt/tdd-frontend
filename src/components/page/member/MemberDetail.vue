@@ -60,7 +60,7 @@
 
 <template>
   <div>
-    <div v-wechat-title="$route.meta.title='mid_'+this.$route.params.mid+' - UP主详情 - 天钿Daily'"></div>
+    <div v-wechat-title="$route.meta.title=$t('page_title.member_detail', { name: `mid_${this.$route.params.mid}` })"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
@@ -88,7 +88,7 @@
         </div>
       </div>
       <div v-else>
-        <div v-wechat-title="$route.meta.title=member.name+' - UP主详情 - 天钿Daily'"></div>
+        <div v-wechat-title="$route.meta.title=$t('page_title.member_detail', { name: member.name })"></div>
         <div class="section-block">
           <div class="tdd-member-detail-header">
             <a-avatar

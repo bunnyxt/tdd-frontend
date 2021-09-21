@@ -13,6 +13,7 @@
 
 <template>
   <div>
+    <div v-wechat-title="$t('page_title.tool')"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
