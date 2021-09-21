@@ -20,6 +20,8 @@
       "sprint_daily": "助攻日报",
       "tool": "辅助工具",
       "about": "关于",
+      "about_contactus": "联系我们",
+      "about_updatelog": "更新动态",
       "me": "个人中心",
       "me_setting": "设置",
       "me_favored_video": "关注视频",
@@ -99,7 +101,8 @@
     "tdd_favorite_time": "关注时间",
     "pic": "封面",
     "title": "标题",
-    "loading": "加载中"
+    "loading": "加载中",
+    "afdian": "爱发电"
   },
   "en": {
     "colon": ": ",
@@ -122,6 +125,8 @@
       "sprint_daily": "Sprint Daily",
       "tool": "Tool",
       "about": "About",
+      "about_contactus": "Contact Us",
+      "about_updatelog": "Update Log",
       "me": "Me",
       "me_setting": "Setting",
       "me_favored_video": "Favored Video",
@@ -201,6 +206,7 @@
     "tdd_favorite_time": "Favorite Time",
     "pic": "Cover",
     "title": "Title",
-    "loading": "Loading"
+    "loading": "Loading",
+    "afdian": "Afdian"
   }
 }
