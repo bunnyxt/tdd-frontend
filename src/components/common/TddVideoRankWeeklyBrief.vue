@@ -1,31 +1,45 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "fetching_weekly_rank_info_prompt": "正在获取BV{bvid}的周榜排行信息...",
+    "use_zk_calc_prompt": "请使用视频详情页下方\"周刊算分\"功能计算得分"
+  },
+  "en": {
+    "fetching_weekly_rank_info_prompt": "Now fetching weekly rank info of video BV{bvid}...",
+    "use_zk_calc_prompt": "Please use 'Weekly Point Calc' below to calc point."
+  }
+}
+</i18n>
+
 <template>
   <div>
     <div v-if="isLoading">
       <a-spin :spinning="true">
-        正在获取BV{{ bvid }}的周榜排行信息
+        {{ $t('fetching_weekly_rank_info_prompt', { bvid }) }}
       </a-spin>
     </div>
     <div v-else>
       <div v-if="Object.keys(rankInfo).length === 0">
         <div class="rank-point-bar">
           <div style="display: flex; flex-wrap: nowrap">
-            <a-statistic title="排名" value="10,000+" style="margin-right: 16px" />
-            <a-statistic title="得分" value="***" />
+            <a-statistic :title="$t('rank_order')" value="10,000+" style="margin-right: 16px" />
+            <a-statistic :title="$t('point')" value="***" />
           </div>
         </div>
-        *请使用视频详情页下方"周刊算分"功能计算得分
+        *{{ $t('use_zk_calc_prompt') }}
       </div>
       <div v-else>
         <div class="rank-point-bar">
           <div style="display: flex; flex-wrap: nowrap; justify-content: space-between">
-            <a-statistic title="排名" :value="rankInfo" style="margin-right: 16px" >
+            <a-statistic :title="$t('rank_order')" :value="rankInfo" style="margin-right: 16px" >
               <template slot="formatter">
                 <div style="min-width: 28px">
                   {{ rankInfo.rank.toLocaleString() }}
                 </div>
               </template>
             </a-statistic>
-            <a-statistic title="得分" :value="rankInfo" style="margin-right: 16px">
+            <a-statistic :title="$t('point')" :value="rankInfo" style="margin-right: 16px">
               <template slot="formatter">
                 <div style="min-width: 28px">
                   <span :class="[getColorClass('point', rankInfo.point)]">
@@ -34,14 +48,14 @@
                 </div>
               </template>
             </a-statistic>
-            <a-statistic title="修正A" :value="rankInfo" style="margin-right: 16px">
+            <a-statistic :title="$t('xiu_a')" :value="rankInfo" style="margin-right: 16px">
               <template slot="formatter">
                 <div style="min-width: 38px">
                   {{ rankInfo.xiua.toLocaleString() }}
                 </div>
               </template>
             </a-statistic>
-            <a-statistic title="修正B" :value="rankInfo.xiub">
+            <a-statistic :title="$t('xiu_b')" :value="rankInfo.xiub">
               <template slot="formatter">
                 <div style="min-width: 38px">
                   {{ rankInfo.xiub.toLocaleString() }}
@@ -51,7 +65,7 @@
           </div>
         </div>
         <a-carousel autoplay>
-          <a-statistic title="播放" :value="rankInfo">
+          <a-statistic :title="$t('view')" :value="rankInfo">
             <template slot="formatter">
               <div class="rank-prop">
                 {{ rankInfo.now_view.toLocaleString() }} (
@@ -61,7 +75,7 @@
               </div>
             </template>
           </a-statistic>
-          <a-statistic title="弹幕" :value="rankInfo">
+          <a-statistic :title="$t('danmaku')" :value="rankInfo">
             <template slot="formatter">
               <div class="rank-prop">
                 {{ rankInfo.now_danmaku.toLocaleString() }} (
@@ -71,7 +85,7 @@
               </div>
             </template>
           </a-statistic>
-          <a-statistic title="评论" :value="rankInfo">
+          <a-statistic :title="$t('reply')" :value="rankInfo">
             <template slot="formatter">
               <div class="rank-prop">
                 {{ rankInfo.now_reply.toLocaleString() }} (
@@ -81,7 +95,7 @@
               </div>
             </template>
           </a-statistic>
-          <a-statistic title="收藏" :value="rankInfo">
+          <a-statistic :title="$t('favorite')" :value="rankInfo">
             <template slot="formatter">
               <div class="rank-prop">
                 {{ rankInfo.now_favorite.toLocaleString() }} (
@@ -91,7 +105,7 @@
               </div>
             </template>
           </a-statistic>
-          <a-statistic title="硬币" :value="rankInfo">
+          <a-statistic :title="$t('coin')" :value="rankInfo">
             <template slot="formatter">
               <div class="rank-prop">
                 {{ rankInfo.now_coin.toLocaleString() }} (
@@ -101,7 +115,7 @@
               </div>
             </template>
           </a-statistic>
-          <a-statistic title="分享" :value="rankInfo">
+          <a-statistic :title="$t('share')" :value="rankInfo">
             <template slot="formatter">
               <div class="rank-prop">
                 {{ rankInfo.now_share.toLocaleString() }} (
@@ -111,7 +125,7 @@
               </div>
             </template>
           </a-statistic>
-          <a-statistic title="点赞" :value="rankInfo">
+          <a-statistic :title="$t('like')" :value="rankInfo">
             <template slot="formatter">
               <div class="rank-prop">
                 {{ rankInfo.now_like.toLocaleString() }} (
@@ -122,7 +136,7 @@
             </template>
           </a-statistic>
         </a-carousel>
-        *{{ $util.tsToDateString(rankInfo.now_added) }}更新
+        *{{ $util.tsToDateString(rankInfo.now_added) }}{{ $t('updated_suffix') }}
       </div>
     </div>
   </div>

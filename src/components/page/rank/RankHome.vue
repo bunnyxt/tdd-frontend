@@ -1,10 +1,80 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "rank_category": {
+      "hourly": "小时榜",
+      "daily": "日榜",
+      "weekly": "周榜",
+      "monthly": "月榜",
+      "yearly": "年榜"
+    },
+    "sort_by": "按{rule}",
+    "sort_by_rank": "按得分排名",
+    "incr_suffix": "增量",
+    "real-time_ranking": "实时排行",
+    "year_suffix": "年",
+    "month": {
+      "1": "1月",
+      "2": "2月",
+      "3": "3月",
+      "4": "4月",
+      "5": "5月",
+      "6": "6月",
+      "7": "7月",
+      "8": "8月",
+      "9": "9月",
+      "10": "10月",
+      "11": "11月",
+      "12": "12月"
+    },
+    "color_mark": "颜色标记",
+    "pagi_total": "第{from}名 - 第{to}名",
+    "loading_prompt": "{category}，{arch}, {rule}, 第{pn}页",
+    "select_arch_prompt": "请选择排名期数"
+  },
+  "en": {
+    "rank_category": {
+      "hourly": "Hourly",
+      "daily": "Daily",
+      "weekly": "Weekly",
+      "monthly": "Monthly",
+      "yearly": "Yearly"
+    },
+    "sort_by": "By {rule}",
+    "sort_by_rank": "By Point",
+    "incr_suffix": " Increment",
+    "real-time_ranking": "Real-time Ranking",
+    "year_suffix": " ",
+    "month": {
+      "1": "Jan",
+      "2": "Feb",
+      "3": "Mar",
+      "4": "Apr",
+      "5": "May",
+      "6": "Jun",
+      "7": "Jul",
+      "8": "Aug",
+      "9": "Sep",
+      "10": "Oct",
+      "11": "Nov",
+      "12": "Dec"
+    },
+    "color_mark": "Color Mark",
+    "pagi_total": "Rank {from} - {to}",
+    "loading_prompt": "{category}, {arch}, {rule}, Page {pn}",
+    "select_arch_prompt": "Select Ranking Archive"
+  }
+}
+</i18n>
+
 <template>
   <div>
     <div v-wechat-title="$route.meta.title=`${archId === 0 ? '' : (rankArchiveOverview.find(x => x.id === archId) ? rankArchiveOverview.find(x => x.id === archId).name : archId) + ' - '}${categories[category[0]]} - 排行 - 天钿Daily`"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>排行</a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('page_name.rank') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div class="section-block">
@@ -67,7 +137,7 @@
                   :value="archIdCascader"
                   :options="rankArchiveOverviewOptions"
                   :disabled="archIdCascader === []"
-                  placeholder="请选择排名期数"
+                  :placeholder="$t('select_arch_prompt')"
                   @change="archIdCascaderChangeHandler"
                   style="width: 280px"
                 />
@@ -106,7 +176,7 @@
                 :value="archIdCascader"
                 :options="rankArchiveOverviewOptions"
                 :disabled="archIdCascader === []"
-                placeholder="请选择排名期数"
+                :placeholder="$t('select_arch_prompt')"
                 @change="archIdCascaderChangeHandler"
                 style="width: 280px"
               />
@@ -117,8 +187,8 @@
       <a-spin :spinning="isLoadingRankList">
         <a-alert
           v-if="isLoadingRankList"
-          message="加载中..."
-          :description="`${categories[category[0]]}，${currentArchiveName}，${orderRules[orderRule]}，第${pn}页`"
+          :message="`${$t('loading')}...`"
+          :description="$t('loading_prompt', { category: categories[category[0]], arch: currentArchiveName, rule: orderRules[orderRule], pn })"
           type="info"
           style="margin-top: 12px"
         />
@@ -133,7 +203,7 @@
                     :end-ts="rankEndTs"
                   />
                 </a-collapse-panel>
-                <a-collapse-panel key="2" header="颜色标记">
+                <a-collapse-panel key="2" :header="$t('color_mark')">
                   <rank-home-color-mark :color="rankColor" />
                 </a-collapse-panel>
               </a-collapse>
@@ -157,7 +227,7 @@
             <a-col :sm="12" :lg="14" :xl="16">
               <a-alert>
                 <template slot="message">
-                  颜色标记
+                  {{ $t('color_mark') }}
                 </template>
                 <template slot="description">
                   <rank-home-color-mark :color="rankColor" />
@@ -199,11 +269,11 @@ export default {
     return {
       category: ['weekly'],
       categories: {
-        'hourly': '小时榜',
-        'daily': '日榜',
-        'weekly': '周榜',
-        'monthly': '月榜',
-        'yearly': '年榜',
+        'hourly': this.$t('rank_category.hourly'),
+        'daily': this.$t('rank_category.daily'),
+        'weekly': this.$t('rank_category.weekly'),
+        'monthly': this.$t('rank_category.monthly'),
+        'yearly': this.$t('rank_category.yearly'),
       },
       categoryEnabledList: ['weekly', 'monthly'],
       archId: 0,
@@ -211,17 +281,17 @@ export default {
       rankTotalCount: 0,
       isLoadingRankList: false,
       rankColor: {},
-      rankArchiveOverview: [{ id: 0, name: '实时排行' }],
+      rankArchiveOverview: [{ id: 0, name: this.$t('real-time_ranking') }],
       orderRule: 'rank',
       orderRules: {
-        'rank': '按得分排名',
-        'incr_view': '按播放增量',
-        'incr_danmaku': '按弹幕增量',
-        'incr_reply': '按评论增量',
-        'incr_favorite': '按收藏增量',
-        'incr_coin': '按硬币增量',
-        'incr_share': '按分享增量',
-        'incr_like': '按点赞增量',
+        'rank': this.$t('sort_by_rank'),
+        'incr_view': this.$t('sort_by', { rule: `${this.$t('view')}${this.$t('incr_suffix')}` }),
+        'incr_danmaku': this.$t('sort_by', { rule: `${this.$t('danmaku')}${this.$t('incr_suffix')}` }),
+        'incr_reply': this.$t('sort_by', { rule: `${this.$t('reply')}${this.$t('incr_suffix')}` }),
+        'incr_favorite': this.$t('sort_by', { rule: `${this.$t('favorite')}${this.$t('incr_suffix')}` }),
+        'incr_coin': this.$t('sort_by', { rule: `${this.$t('coin')}${this.$t('incr_suffix')}` }),
+        'incr_share': this.$t('sort_by', { rule: `${this.$t('share')}${this.$t('incr_suffix')}` }),
+        'incr_like': this.$t('sort_by', { rule: `${this.$t('like')}${this.$t('incr_suffix')}` }),
       },
       pn: 1,
     }
@@ -253,7 +323,7 @@ export default {
       const options = [
         {
           value: 0,
-          label: '实时排行',
+          label: this.$t('real-time_ranking'),
         },
       ];
       
@@ -267,7 +337,7 @@ export default {
         if (!yearChildrenList) {
           const newYearOption = {
             value: year,
-            label: `${year}年`,
+            label: `${year}${this.$t('year_suffix')}`,
             children: [],
           };
           yearChildrenList = newYearOption.children;
@@ -284,7 +354,7 @@ export default {
         if (!monthChildrenList) {
           const newMonthOption = {
             value: month,
-            label: `${month}月`,
+            label: this.$t(`month.${month}`),
             children: [],
           };
           monthChildrenList = newMonthOption.children;
@@ -471,7 +541,7 @@ export default {
           }
           that.rankTotalCount = parseInt(rankListResponse.headers['x-total-count']);
           that.rankColor = rankColorResponse.data;
-          that.rankArchiveOverview = [{ id: 0, name: '实时排行' }, ...rankArchiveOverviewResponse.data.reverse()];
+          that.rankArchiveOverview = [{ id: 0, name: that.$t('real-time_ranking') }, ...rankArchiveOverviewResponse.data.reverse()];
         }))
         .catch(function (error) {
           console.log(error);
@@ -483,7 +553,7 @@ export default {
     getPagiTotalPrompt: function () {
       const from = 30 * (this.pn - 1) + 1;
       const to = Math.min(from + 30 - 1, 10000);
-      return `第${from}名 - 第${to}名`;
+      return this.$t('pagi_total', { from, to });
     },
     pushRouter: function (category, archId, order, pn) {
       let url = '/rank';

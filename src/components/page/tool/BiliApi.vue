@@ -1,14 +1,17 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n src="@/i18n/tool.json"></i18n>
+
 <template>
   <div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/tool">辅助工具</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>Bilibili API传送门</a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/tool">{{ $t('page_name.tool') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('tool_info.biliapi.name') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div class="section-block">
-      <h1>Bilibili API传送门</h1>
+      <h1>{{ $t('tool_info.biliapi.name') }}</h1>
       <p>常用Bilibili API传送门</p>
       <p>强烈推荐安装Chrome插件<a href="https://chrome.google.com/webstore/detail/json-viewer/gbmdgpbipfallnflgajpaliibnhdgobh" target="_blank">JSON Viewer</a>以方便查看JSON格式的API。</p>
       <p>推荐使用Python包<a href="https://pypi.org/project/pybiliapi/" target="_blank">pybiliapi</a>实现本地调用API。</p>

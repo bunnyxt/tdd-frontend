@@ -1,16 +1,37 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "page_intro_updatelog": "本页面记录本项目自创建开始以来的较大更新动态。记录项由站长手动维护，可能有一定的延迟。",
+    "know_more_update_prompt": "欲知最新的项目动态，请加QQ群：{0} {1} {2} 或移步本项目的 {3} 主页。"
+  },
+  "en": {
+    "page_intro_updatelog": "Major updates of this site. Records are manually maintained by the webmaster so some delay may occur.",
+    "know_more_update_prompt": "Please join QQ group: {0} {1} {2} or visit {3} for more detailed updated info."
+  }
+}
+</i18n>
+
 <template>
   <div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/about">关于</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>更新动态</a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/about">{{ $t('page_name.about') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('page_name.about_updatelog') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div class="section-block">
-      <h1>更新动态</h1>
-      <p>本页面记录本项目自创建开始以来的较大更新动态。记录项由站长手动维护，可能有一定的延迟。</p>
-      <p>欲知最新的项目动态，请加QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/><a target="_blank" :href="qqgroup_qrcode">二维码</a> 或移步本项目的 <a target="_blank" href="https://github.com/users/bunnyxt/projects/1">GitHub Project</a> 主页。</p>
+      <h1>{{ $t('page_name.about_updatelog') }}</h1>
+      <p>{{ $t('page_intro_updatelog') }}</p>
+      <p>
+        <i18n path="know_more_update_prompt" tag="label">
+          <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>
+          <a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/>
+          <a target="_blank" :href="qqgroup_qrcode">{{ $t('qr_code') }}</a>
+          <a target="_blank" href="https://github.com/users/bunnyxt/projects/1">GitHub Project</a>
+        </i18n>
+      </p>
     </div>
     <div class="section-separator"></div>
     <div class="section-block">

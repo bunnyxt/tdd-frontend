@@ -1,13 +1,31 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "api_doc": "接口文档",
+    "source_code": "项目源码",
+    "donate_tdd": "资助本站",
+    "contact_us": "联系我们"
+  },
+  "en": {
+    "api_doc": "Api Doc",
+    "source_code": "Source Code",
+    "donate_tdd": "Donate TDD",
+    "contact_us": "Contact Us"
+  }
+}
+</i18n>
+
 <template>
   <a-layout-footer class="tdd-footer">
-    天钿Daily by
+    {{ $t('tdd') }} by
     <a href="https://www.bunnyxt.com" target="_blank">bunnyxt</a><br/>
-    <a href="https://api.bunnyxt.com/tdd/doc" target="_blank">接口文档</a> |
-    <a href="https://github.com/users/bunnyxt/projects/1" target="_blank">项目源码</a> |
-    <a href="https://afdian.net/@bunnyxt" target="_blank">资助本站</a> |
-    <router-link to="/about/contactus">联系我们</router-link>
+    <a href="https://api.bunnyxt.com/tdd/doc" target="_blank">{{ $t('api_doc') }}</a> |
+    <a href="https://github.com/users/bunnyxt/projects/1" target="_blank">{{ $t('source_code') }}</a> |
+    <a href="https://afdian.net/@bunnyxt" target="_blank">{{ $t('donate_tdd') }}</a> |
+    <router-link to="/about/contactus">{{ $t('contact_us') }}</router-link>
     <br/>
-    2017~2020 © All Rights Reserved<br/>
+    2017~2021 © All Rights Reserved<br/>
     <a href="http://www.beian.miit.gov.cn/publish/query/indexFirst.action" target="_blank">苏ICP备17067742号-1</a>
   </a-layout-footer>
 </template>

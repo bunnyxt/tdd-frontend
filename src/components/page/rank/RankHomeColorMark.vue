@@ -1,7 +1,23 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "color_mark_intro": "将参与排名的所有视频的单一属性排序，按比例划分为5类，分别用不同的颜色标记",
+    "current_separation_property_prompt": "当前临界数据显示：",
+    "incr_suffix": "增量"
+  },
+  "en": {
+    "color_mark_intro": "Sort all ranking videos by single property, divide them into 5 categories proportionally, and mark them with different colors.",
+    "current_separation_property_prompt": "Current Separation Property: ",
+    "incr_suffix": " Increment"
+  }
+}
+</i18n>
+
 <template>
   <div>
-    <div class="line-1" style="margin-bottom: 8px">
-      将参与排名的所有视频的单一属性排序，按比例划分为5类，分别用不同的颜色标记
+    <div class="line-1" :title="$t('color_mark_intro')" style="margin-bottom: 8px">
+      {{ $t('color_mark_intro') }}
     </div>
     <div style="display: flex">
       <div class="bg-color-5 color-mark-block" title="x > list[size * 0.1%]">0.1%</div>
@@ -25,7 +41,7 @@
       <div class="color-mark-number line-1">{{ currentColor.a.toLocaleString() }}</div>
     </div>
     <div class="line-1" style="text-align: center; margin-top: 8px">
-      当前临界数据显示：
+      {{ $t('current_separation_property_prompt') }}
       <a-dropdown>
         <a class="ant-dropdown-link" @click="e => e.preventDefault()">
           {{ getPropertyName(currentProperty) }} <a-icon type="down" />
@@ -53,14 +69,14 @@ export default {
     return {
       currentProperty: 'incr_view',
       propertyNameMapper: {
-        'incr_view': '播放增量',
-        'incr_danmaku': '弹幕增量',
-        'incr_reply': '评论增量',
-        'incr_favorite': '收藏增量',
-        'incr_coin': '硬币增量',
-        'incr_share': '分享增量',
-        'incr_like': '点赞增量',
-        'point': '得分',
+        'incr_view': `${this.$t('view')}${this.$t('incr_suffix')}`,
+        'incr_danmaku': `${this.$t('danmaku')}${this.$t('incr_suffix')}`,
+        'incr_reply': `${this.$t('reply')}${this.$t('incr_suffix')}`,
+        'incr_favorite': `${this.$t('favorite')}${this.$t('incr_suffix')}`,
+        'incr_coin': `${this.$t('coin')}${this.$t('incr_suffix')}`,
+        'incr_share': `${this.$t('share')}${this.$t('incr_suffix')}`,
+        'incr_like': `${this.$t('like')}${this.$t('incr_suffix')}`,
+        'point': this.$t('point'),
       },
     };
   },

@@ -1,14 +1,17 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n src="@/i18n/tool.json"></i18n>
+
 <template>
   <div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/tool">辅助工具</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>时间戳转换</a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/tool">{{ $t('page_name.tool') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('tool_info.ts.name') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div class="section-block">
-      <h1>时间戳转换</h1>
+      <h1>{{ $t('tool_info.ts.name') }}</h1>
       <div style="max-width: 800px; min-width: 520px">
         <div style="font-weight: bold; margin-bottom: 8px">
           <a-row>

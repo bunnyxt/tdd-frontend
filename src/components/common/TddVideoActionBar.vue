@@ -1,7 +1,22 @@
+<i18n>
+{
+  "zh": {
+    "go_like": "点赞",
+    "go_follow": "关注",
+    "go_bilibili_watch": "去B站观看"
+  },
+  "en": {
+    "go_like": "Like",
+    "go_follow": "Follow",
+    "go_bilibili_watch": "Watch On Bilibili"
+  }
+}
+</i18n>
+
 <template>
   <div class="video-action-bar" :style="actionBarStyle">
     <a-button
-      title="点赞"
+      :title="$t('go_like')"
       :style="videoLikeButtonStyle"
       :loading="isLoadingVideoLikeCount || isPostingVideoLike || isDeletingVideoLike"
       @click="videoLikeButtonClickHandler(aid)"
@@ -9,7 +24,7 @@
       <span :style="videoLikeDisplayStyle"><a-icon type="like" /> {{ videoLikeCount }}</span>
     </a-button>
     <a-button
-      title="关注"
+      :title="$t('go_follow')"
       :style="videoFavoriteButtonStyle"
       :loading="isLoadingVideoFavoriteCount || isPostingVideoFavorite || isDeletingVideoFavorite"
       @click="videoFavoriteButtonClickHandler(aid)"
@@ -18,7 +33,7 @@
     </a-button>
     <a-button
       class="bili-btn"
-      title="去B站观看"
+      :title="$t('go_bilibili_watch')"
       :style="videoPlayButtonStyle"
       @click="goToBiliAv(aid)"
     >

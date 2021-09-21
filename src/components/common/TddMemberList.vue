@@ -1,3 +1,14 @@
+<i18n>
+{
+  "zh": {
+    "click_go_video_detail_prompt": "点击查看视频详情"
+  },
+  "en": {
+    "click_go_video_detail_prompt": "Click to see video detail."
+  }
+}
+</i18n>
+
 <template>
   <a-list
     :data-source="memberList"
@@ -132,7 +143,7 @@
               <a-icon type="calendar" style="margin-right: 4px" />
               {{ $util.tsToDateString(item.last_video ? item.last_video.pubdate : 0) }}
               <tdd-video-stat-bar :stat="item.last_video ? item.last_video.laststat : null" style="margin: 8px 0" />
-              点击查看视频详情
+              {{ $t('click_go_video_detail_prompt') }}
             </template>
             <div
               class="tdd-member-item-desktop-grid-last-video"

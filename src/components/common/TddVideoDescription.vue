@@ -1,10 +1,12 @@
+<i18n src="@/i18n/common.json"></i18n>
+
 <template>
   <div class="tdd-video-description" style="position: relative">
     <div ref="text" :style="textStyle">
       <span v-html="descriptionHtml"></span>
     </div>
     <div class="show-all" v-if="!showAll && textHeight > 100" @click="() => this.showAll = true">
-      显示全部
+      {{ $t('show_all') }}
     </div>
     <div class="show-all-mask" v-if="!showAll && textHeight > 100"></div>
   </div>

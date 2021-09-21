@@ -1,3 +1,5 @@
+<i18n src="@/i18n/common.json"></i18n>
+
 <template>
   <div>
     <div id="video-proportion-chart"></div>
@@ -29,11 +31,11 @@ export default {
       const share = this.stat.share;
       const like = this.stat.like;
       return [
-        { prop: '点赞率', percent: like / view },
-        { prop: '分享率', percent: share / view },
-        { prop: '投币率', percent: coin / view },
-        { prop: '收藏率', percent: favorite / view },
-        { prop: '评论率', percent: reply / view },
+        { prop: `${this.$t('like')}${this.$t('ratio_suffix')}`, percent: like / view },
+        { prop: `${this.$t('share')}${this.$t('ratio_suffix')}`, percent: share / view },
+        { prop: `${this.$t('coin')}${this.$t('ratio_suffix')}`, percent: coin / view },
+        { prop: `${this.$t('favorite')}${this.$t('ratio_suffix')}`, percent: favorite / view },
+        { prop: `${this.$t('reply')}${this.$t('ratio_suffix')}`, percent: reply / view },
       ]; // read from outer to inner
     }
   },
@@ -66,7 +68,7 @@ export default {
         .color('prop', [ '#926bb8', '#88cae9', '#716cf1', '#efc14e', '#697795' ])
         .tooltip('percent', val => {
           return {
-            name: '占比',
+            name: this.$t('ratio'),
             value: (val * 100).toFixed(2) + '%'
           };
         });

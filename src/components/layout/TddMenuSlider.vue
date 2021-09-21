@@ -1,3 +1,5 @@
+<i18n src="@/i18n/common.json"></i18n>
+
 <template>
   <a-drawer
     placement="left"
@@ -14,14 +16,17 @@
         :selectedKeys="selectedKeys"
         @click="handleMenuClick"
       >
-        <a-menu-item key="home">首页</a-menu-item>
-        <a-menu-item key="video">视频</a-menu-item>
-        <a-menu-item key="member">UP主</a-menu-item>
-        <a-menu-item key="rank">排行</a-menu-item>
-        <a-menu-item key="sprint">传说助攻</a-menu-item>
-        <a-menu-item key="tool">辅助工具</a-menu-item>
-        <a-menu-item key="about">关于</a-menu-item>
+        <a-menu-item key="home">{{ $t('page_name.home') }}</a-menu-item>
+        <a-menu-item key="video">{{ $t('page_name.video') }}</a-menu-item>
+        <a-menu-item key="member">{{ $t('page_name.member') }}</a-menu-item>
+        <a-menu-item key="rank">{{ $t('page_name.rank') }}</a-menu-item>
+        <a-menu-item key="sprint">{{ $t('page_name.sprint') }}</a-menu-item>
+        <a-menu-item key="tool">{{ $t('page_name.tool') }}</a-menu-item>
+        <a-menu-item key="about">{{ $t('page_name.about') }}</a-menu-item>
       </a-menu>
+    </div>
+    <div class="bottom-wrapper">
+      <a-icon type="global" @click="handleLanguageButtonClick" />
     </div>
   </a-drawer>
 </template>
@@ -81,13 +86,28 @@ export default {
         default:
           break;
       }
-    }
+    },
+    handleLanguageButtonClick: function () {
+      console.log('first');
+      this.$emit('toggle-language-banner-visibility');
+    },
   }
 };
 </script>
 
-<style>
+<style scoped>
+.ant-drawer-body {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .menu-wrapper {
   margin-left: -24px;
+  flex-grow: 1;
+}
+.bottom-wrapper {
+  height: 64px;
+  line-height: 64px;
+  margin-bottom: -24px;
 }
 </style>

@@ -1,3 +1,15 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "pagi_total": "共 {total} 条记录"
+  },
+  "en": {
+    "pagi_total": "{total} records in total"
+  }
+}
+</i18n>
+
 <template>
   <a-table
     :columns="columns"
@@ -29,7 +41,7 @@ export default {
     return {
       columns: [
         {
-          title: '时间',
+          title: this.$t('time'),
           dataIndex: 'added',
           scopedSlots: { customRender: 'added' },
           sorter: (a, b) => a.added - b.added,
@@ -37,31 +49,31 @@ export default {
           width: '168px',
           fixed: 'left',
         }, {
-          title: '播放',
+          title: this.$t('view'),
           dataIndex: 'view',
           scopedSlots: { customRender: 'value' },
         }, {
-          title: '弹幕',
+          title: this.$t('danmaku'),
           dataIndex: 'danmaku',
           scopedSlots: { customRender: 'value' },
         }, {
-          title: '评论',
+          title: this.$t('reply'),
           dataIndex: 'reply',
           scopedSlots: { customRender: 'value' },
         }, {
-          title: '收藏',
+          title: this.$t('favorite'),
           dataIndex: 'favorite',
           scopedSlots: { customRender: 'value' },
         }, {
-          title: '硬币',
+          title: this.$t('coin'),
           dataIndex: 'coin',
           scopedSlots: { customRender: 'value' },
         }, {
-          title: '分享',
+          title: this.$t('share'),
           dataIndex: 'share',
           scopedSlots: { customRender: 'value' },
         }, {
-          title: '点赞',
+          title: this.$t('like'),
           dataIndex: 'like',
           scopedSlots: { customRender: 'value' },
         }
@@ -69,7 +81,7 @@ export default {
       pagination: {
         size: 'big',
         showQuickJumper: true,
-        showTotal: total => `共 ${total} 条记录`
+        showTotal: total => this.$t('pagi_total', { total })
       }
     }
   }

@@ -1,14 +1,17 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n src="@/i18n/tool.json"></i18n>
+
 <template>
   <div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/tool">辅助工具</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>耗时计算</a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/tool">{{ $t('page_name.tool') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('tool_info.datecalc.name') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div class="section-block">
-      <h1>耗时计算</h1>
+      <h1>{{ $t('tool_info.datecalc.name') }}</h1>
       <p>输入起止时间，计算所消耗的时间长度，可用于计算曲目传说/殿堂耗时。</p>
       <p>开始时间：
         <a-input placeholder="yyyy-MM-dd HH:mm:ss" v-model="startTimeString" style="width: 180px"></a-input>

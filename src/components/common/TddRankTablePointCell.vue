@@ -1,8 +1,10 @@
+<i18n src="@/i18n/common.json"></i18n>
+
 <template>
   <div>
     <div :class="[`color-${colorNum}`]">{{ point.toLocaleString() }}</div>
     <div>
-      <div class="xiu-block" style="width: calc(50% - 4px); margin-right: 4px" title="修正A">
+      <div class="xiu-block" style="width: calc(50% - 4px); margin-right: 4px" :title="$t('xiu_a')">
         <div
           style="height: 4px; display: flex; margin-top: 2px; margin-bottom: 2px"
         >
@@ -13,7 +15,7 @@
           {{ Number(xiua).toFixed(2) }}
         </div>
       </div>
-      <div class="xiu-block" style="width: calc(50% - 4px); margin-left: 4px" title="修正B">
+      <div class="xiu-block" style="width: calc(50% - 4px); margin-left: 4px" :title="$t('xiu_b')">
         <div
           style="height: 4px; display: flex; margin-top: 2px; margin-bottom: 2px"
         >

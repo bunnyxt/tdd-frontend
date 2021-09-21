@@ -1,11 +1,11 @@
 <template>
   <a-config-provider :locale="locale">
     <a-layout class="layout" style="min-height:100%">
-      <tdd-menu-slider />
+      <tdd-menu-slider @toggle-language-banner-visibility="toggleLanguageBannerVisibility" />
       <tdd-login-slider />
       <tdd-video-detail-drawer />
       <a-layout>
-        <tdd-header />
+        <tdd-header ref="header" />
         <a-layout-content :style="{padding: layoutPadding, marginTop: layoutMarginTop, marginBottom: '-120px'}">
           <keep-alive>
             <router-view v-if="$route.meta.keepAlive" v-wechat-title="$route.meta.title"></router-view>
@@ -22,6 +22,7 @@
 
 <script>
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
+import enUS from 'ant-design-vue/lib/locale-provider/en_US';
 import TddHeader from "./components/layout/TddHeader.vue";
 import TddMenuSlider from "./components/layout/TddMenuSlider.vue";
 import TddLoginSlider from "./components/layout/TddLoginSlider.vue";
@@ -37,20 +38,23 @@ export default {
     TddVideoDetailDrawer,
     TddFooter
   },
-  data: function() {
-    return {
-      locale: zhCN
-    }
-  },
   computed: {
     layoutPadding: function () {
       return this.$util.calcLayoutPadding(this.$store.state.clientWidth);
     },
     layoutMarginTop: function () {
       return this.$store.getters.clientMode === 'MOBILE' ? '64px' : '0';
-    }
+    },
+    locale: function () {
+      return this.$store.getters.i18nLocale === 'zh' ? zhCN : enUS;
+    },
   },
-  mounted: function(){
+  methods: {
+    toggleLanguageBannerVisibility: function () {
+      this.$refs.header.$refs.banner.showI18nLocaleSelect = !this.$refs.header.$refs.banner.showI18nLocaleSelect;  // bad design
+    },
+  },
+  mounted: function () {
     let that = this;
     // global client mode
     let width = (document && document.body && document.body.clientWidth) || -1;
@@ -63,7 +67,7 @@ export default {
         that.$store.commit('setClientWidth', width);
       }
     });
-  }
+  },
 };
 </script>
 

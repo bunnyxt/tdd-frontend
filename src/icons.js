@@ -103,6 +103,9 @@ export {
 export {
   default as HourglassOutline
 } from '@ant-design/icons/lib/outline/HourglassOutline';
+export {
+  default as GlobalOutline
+} from '@ant-design/icons/lib/outline/GlobalOutline';
 
 // export what antd other components need
 export {

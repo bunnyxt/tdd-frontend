@@ -1,136 +1,148 @@
+<i18n src="@/i18n/common.json"></i18n>
+
 <template>
-  <div v-if="this.$store.getters.clientMode === 'MOBILE'">
-    <a-layout-header
-      class="mobile-header"
-      :style="{ position: 'fixed', zIndex: 30, width: '100%' }"
-    >
-      <a-icon
-        class="trigger mobile-header-menu-icon"
-        :type="this.$store.state.isMenuSliderVisible ? 'menu-fold' : 'menu-unfold'"
-        @click="() => this.$store.commit('changeMenuSliderVisibility')"
-      />
-      <img
-        class="mobile-header-logo"
-        :src="logo_small"
-        @click="() => this.$router.push('/')"
-      />
-      <div v-if="!this.$store.state.isUserLoggedIn">
-        <a-icon
-          class="mobile-header-user-avatar"
-          type="user"
-          @click="() => this.$store.commit('changeLoginSliderVisibility')"
+  <div>
+    <template v-if="this.$store.getters.clientMode === 'MOBILE'">
+      <div :style="{ position: 'fixed', zIndex: 30, width: '100%' }">
+        <tdd-language-select-banner ref="banner" /><!-- bug: will lead to cover some content -->
+        <a-layout-header class="mobile-header">
+          <a-icon
+            class="trigger mobile-header-menu-icon"
+            :type="this.$store.state.isMenuSliderVisible ? 'menu-fold' : 'menu-unfold'"
+            @click="() => this.$store.commit('changeMenuSliderVisibility')"
+          />
+          <img
+            class="mobile-header-logo"
+            :src="logo_small"
+            @click="() => this.$router.push('/')"
+          />
+          <div v-if="!this.$store.state.isUserLoggedIn">
+            <a-icon
+              class="mobile-header-user-avatar"
+              type="user"
+              @click="() => this.$store.commit('changeLoginSliderVisibility')"
+            />
+          </div>
+          <div v-else>
+            <a-dropdown key="mobile">
+              <a-avatar
+                class="mobile-header-user-avatar"
+                :src="$util.httpS(avatarUrl)"
+              />
+              <a-menu slot="overlay" style="margin-top: 4px">
+                <a-menu-item>
+                  <router-link to="/me">
+                    <a-icon type="home" style="margin-right: 8px"/>
+                    {{ $t('page_name.me') }}
+                  </router-link>
+                </a-menu-item>
+                <a-menu-item>
+                  <router-link to="/me/setting">
+                    <a-icon type="setting" style="margin-right: 8px"/>
+                    {{ $t('page_name.me_setting') }}
+                  </router-link>
+                </a-menu-item>
+                <a-menu-item>
+                  <a href="javascript:;" @click="handleLogoutClick">
+                    <a-icon type="logout" style="margin-right: 8px"/>
+                    {{ $t('logout') }}</a>
+                </a-menu-item>
+              </a-menu>
+            </a-dropdown>
+          </div>
+        </a-layout-header>
+      </div>
+    </template>
+    <template v-else>
+      <tdd-language-select-banner ref="banner" />
+      <a-layout-header :style="{padding: layoutPadding}">
+        <img
+          class="desktop-header-logo"
+          :src="logo_small"
+          @click="() => this.$router.push('/')"
         />
-      </div>
-      <div v-else>
-        <a-dropdown key="mobile">
-          <a-avatar
-            class="mobile-header-user-avatar"
-            :src="$util.httpS(avatarUrl)"
-          />
-          <a-menu slot="overlay" style="margin-top: 4px">
-            <a-menu-item>
-              <router-link to="/me">
-                <a-icon type="home" style="margin-right: 8px"/>
-                个人中心
-              </router-link>
-            </a-menu-item>
-            <a-menu-item>
-              <router-link to="/me/setting">
-                <a-icon type="setting" style="margin-right: 8px"/>
-                设置
-              </router-link>
-            </a-menu-item>
-            <a-menu-item>
-              <a href="javascript:;" @click="handleLogoutClick">
-                <a-icon type="logout" style="margin-right: 8px"/>
-                退出</a>
-            </a-menu-item>
-          </a-menu>
-        </a-dropdown>
-      </div>
-    </a-layout-header>
-  </div>
-  <div v-else>
-    <a-layout-header :style="{padding: layoutPadding}">
-      <img
-        class="desktop-header-logo"
-        :src="logo_small"
-        @click="() => this.$router.push('/')"
-      />
-      <a-menu
-        theme="dark"
-        mode="horizontal"
-        :selectedKeys="selectedKeys"
-        :style="{ lineHeight: '64px', float: 'left' }"
-      >
-        <a-menu-item key="home">
-          <router-link to="/">首页</router-link>
-        </a-menu-item>
-        <a-menu-item key="video">
-          <router-link to="/video">视频</router-link>
-        </a-menu-item>
-        <a-menu-item key="member">
-          <router-link to="/member">UP主</router-link>
-        </a-menu-item>
-        <a-menu-item key="rank">
-          <router-link to="/rank">排行</router-link>
-        </a-menu-item>
-        <a-menu-item key="sprint">
-          <router-link to="/sprint">传说助攻</router-link>
-        </a-menu-item>
-        <a-menu-item key="tool">
-          <router-link to="/tool">辅助工具</router-link>
-        </a-menu-item>
-        <a-menu-item key="about">
-          <router-link to="/about">关于</router-link>
-        </a-menu-item>
-      </a-menu>
-      <div v-if="!this.$store.state.isUserLoggedIn">
-        <a-button
-          class="desktop-header-login-button"
-          ghost
-          @click="() => this.$store.commit('changeLoginSliderVisibility')"
+        <a-menu
+          theme="dark"
+          mode="horizontal"
+          :selectedKeys="selectedKeys"
+          :style="{ lineHeight: '64px', float: 'left' }"
         >
-          登录
-        </a-button>
-      </div>
-      <div v-else>
-        <a-dropdown key="desktop">
-          <a-avatar
-            class="desktop-header-user-avatar"
-            :src="$util.httpS(avatarUrl)"
-          />
-          <a-menu slot="overlay" style="margin-top: 4px">
-            <a-menu-item>
-              <router-link to="/me">
-                <a-icon type="home" style="margin-right: 8px"/>
-                个人中心
-              </router-link>
-            </a-menu-item>
-            <a-menu-item>
-              <router-link to="/me/setting">
-                <a-icon type="setting" style="margin-right: 8px"/>
-                设置
-              </router-link>
-            </a-menu-item>
-            <a-menu-item>
-              <a href="javascript:;" @click="handleLogoutClick">
-                <a-icon type="logout" style="margin-right: 8px"/>
-                退出</a>
-            </a-menu-item>
-          </a-menu>
-        </a-dropdown>
-      </div>
-    </a-layout-header>
+          <a-menu-item key="home">
+            <router-link to="/">{{ $t('page_name.home') }}</router-link>
+          </a-menu-item>
+          <a-menu-item key="video">
+            <router-link to="/video">{{ $t('page_name.video') }}</router-link>
+          </a-menu-item>
+          <a-menu-item key="member">
+            <router-link to="/member">{{ $t('page_name.member') }}</router-link>
+          </a-menu-item>
+          <a-menu-item key="rank">
+            <router-link to="/rank">{{ $t('page_name.rank') }}</router-link>
+          </a-menu-item>
+          <a-menu-item key="sprint">
+            <router-link to="/sprint">{{ $t('page_name.sprint') }}</router-link>
+          </a-menu-item>
+          <a-menu-item key="tool">
+            <router-link to="/tool">{{ $t('page_name.tool') }}</router-link>
+          </a-menu-item>
+          <a-menu-item key="about">
+            <router-link to="/about">{{ $t('page_name.about') }}</router-link>
+          </a-menu-item>
+          <a-menu-item key="language" @click="handleLanguageButtonClick">
+            <a-icon type="global" />
+          </a-menu-item>
+        </a-menu>
+        <div v-if="!this.$store.state.isUserLoggedIn">
+          <a-button
+            class="desktop-header-login-button"
+            ghost
+            @click="() => this.$store.commit('changeLoginSliderVisibility')"
+          >
+            {{ $t('login') }}
+          </a-button>
+        </div>
+        <div v-else>
+          <a-dropdown key="desktop">
+            <a-avatar
+              class="desktop-header-user-avatar"
+              :src="$util.httpS(avatarUrl)"
+            />
+            <a-menu slot="overlay" style="margin-top: 4px">
+              <a-menu-item>
+                <router-link to="/me">
+                  <a-icon type="home" style="margin-right: 8px"/>
+                  {{ $t('page_name.me') }}
+                </router-link>
+              </a-menu-item>
+              <a-menu-item>
+                <router-link to="/me/setting">
+                  <a-icon type="setting" style="margin-right: 8px"/>
+                  {{ $t('page_name.me_setting') }}
+                </router-link>
+              </a-menu-item>
+              <a-menu-item>
+                <a href="javascript:;" @click="handleLogoutClick">
+                  <a-icon type="logout" style="margin-right: 8px"/>
+                  {{ $t('logout') }}</a>
+              </a-menu-item>
+            </a-menu>
+          </a-dropdown>
+        </div>
+      </a-layout-header>
+    </template>
   </div>
 </template>
 
 <script>
 import logo_small from '../../assets/img/logo_32S.png'
 import md5 from 'js-md5';
+import TddLanguageSelectBanner from "@/components/layout/TddLanguageSelectBanner";
 
 export default {
   name: 'TddHeader',
+  components: {
+    TddLanguageSelectBanner,
+  },
   data: function () {
     return {
       logo_small: logo_small
@@ -200,8 +212,11 @@ export default {
         .catch(function (error) {
           that.$message.error(error.response.data);
         })
-    }
-  }
+    },
+    handleLanguageButtonClick: function () {
+      this.$refs.banner.showI18nLocaleSelect = !this.$refs.banner.showI18nLocaleSelect;  // bad design
+    },
+  },
 }
 </script>
 

@@ -111,6 +111,110 @@ module.exports = {
 }
 ```
 
+### 静态内容国际化
+
+基于[vue-i18n](https://kazupon.github.io/vue-i18n/zh/)实现静态内容国际化，配置与约定规范如下。
+
+首先`npm install vue-i18n`安装，之后在[main.js](src/main.js)中引入项目。
+
+```javascript
+// i18n
+import VueI18n from 'vue-i18n'
+Vue.use(VueI18n);
+```
+
+#### 全局存放`VueI18n`实例状态
+
+由于需要支持语言环境切换（逻辑与实现在[TddLanguageSelectBanner](src/components/layout/TddLanguageSelectBanner.vue)中），因此需要全局存放`VueI18n`实例，这里使用`Vuex`管理该实例的状态，见[store创建处](src/store/index.js)。
+
+```javascript
+const store = new Vuex.Store({
+  state: {
+    i18n: null,
+    // ...
+  },
+  mutations: {
+    setI18n(state, i18n) {
+      state.i18n = i18n;
+    },
+    setI18nLocale(state, locale) {
+      if (state.i18n) {
+        state.i18n.locale = locale;
+      }
+    },
+    // ...
+  },
+  getters: {
+    i18nLocale: state => {
+      return state.i18n.locale;
+    }
+    // ...
+  }
+});
+```
+
+显然，`i18n`状态即存放上述实例，并配有`setI18n`和`setI18nLocale`两个`mutations`和`i18nLocale`一个`getter`。
+
+在[main.js](src/main.js)中引入`vue-i18n`之后，紧接着就需要创建该实例，并存入`i18n`状态中，代码如下。
+
+```javascript
+const i18n = new VueI18n({
+  locale: 'zh',
+  fallbackLocale: 'zh',
+});
+store.commit('setI18n', i18n);
+```
+
+#### 国际化内容配置
+
+首先，为了支持在单文件组件中使用`i18n`代码块，需要先`npm i --save-dev @kazupon/vue-i18n-loader`安装`vue-i18n-loader`，之后在[vue.config.js](vue.config.js)中添加以下配置。
+
+```javascript
+module.exports = {
+  chainWebpack: config => {
+    config.module
+      .rule("i18n")
+      .resourceQuery(/blockType=i18n/)
+      .type('javascript/auto')
+      .use("i18n")
+      .loader("@kazupon/vue-i18n-loader")
+      .end();  // support i18n code block in single file component
+  }
+}
+```
+
+配置完之后，就可以在单组建文件（即`.vue`文件）中使用`i18n`代码块了。配置内容为JSON格式，大致为以下格式。
+
+```
+<i18n>
+{
+  "zh": {
+    "hello": "你好",
+    "world": "世界"
+  },
+  "en": {
+    "hello": "hello",
+    "world": "world"
+  }
+}
+</i18n>
+```
+
+这样，在组件中就可以这这样使用。
+
+```html
+<p>{{ $t("hello") }}</p>
+<p>{{ $t("world") }}</p>
+```
+
+为了方便复用，可以在组件中使用以下方式引入存放在`src/i18n`文件夹下的JSON配置文件。
+
+```
+<i18n src="@/i18n/common.json"></i18n>
+```
+
+为了方便复用，也为了简化复用逻辑，建议现阶段非单个组建独有的国际化内容配置项全部放在[src/i18n/common.json](src/i18n/common.json)文件内。
+
 ## 声明
 
 本项目为本人的业余项目，限于能力与精力，项目本身难免存在很多疏漏，不能保证代码质量，欢迎各位大佬指点。
@@ -121,4 +225,4 @@ module.exports = {
 - Twitter [@bunnyxt29](https://twitter.com/bunnyxt29)
 - Email <a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
 
-by. bunnyxt 2021-08-05
+by. bunnyxt 2021-08-29

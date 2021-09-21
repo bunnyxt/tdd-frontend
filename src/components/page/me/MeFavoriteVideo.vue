@@ -1,10 +1,12 @@
+<i18n src="@/i18n/common.json"></i18n>
+
 <template>
   <div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/me">个人中心</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item>关注视频</a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/me">{{ $t('page_name.me') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('page_name.me_favored_video') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div class="section-block">

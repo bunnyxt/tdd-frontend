@@ -1,24 +1,82 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n src="@/i18n/tool.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "tdd_introduction_brief": "致力于推动VC相关数据交流，定期抓取VC相关数据，选取有意义的纬度展示。",
+    "know_more": "了解更多",
+    "contact_us": "联系我们",
+    "qq_group": "QQ群",
+    "personal_email": "个人邮箱",
+    "donation_thanks": "资助感谢",
+    "donate_now": "立刻资助本站",
+    "tracked_videos": "收录视频",
+    "tracked_videos_suffix": "个",
+    "covered_members": "覆盖P主",
+    "covered_members_suffix": "位",
+    "data_records": "数据记录",
+    "data_records_suffix": "条",
+    "30_days_increment": "30日增幅",
+    "recent_updates": "更新动态",
+    "see_more": "查看更多",
+    "page_brief_intro": {
+      "video": "本站收录的所有视频，包括B站{0}分区下的所有视频和部分其他分区中的VC视频。",
+      "member": "本站收录的所有视频的B站UP主和staff们。",
+      "sprint": "VC传说冲刺曲目助攻计划，收录B站接近{0}要求的曲目视频，记录播放、收藏等数据变化，提供传说助攻参考。",
+      "tool": "泛VC数据记录与分享相关所需要的辅助工具。"
+    }
+  },
+  "en": {
+    "tdd_introduction_brief": "Committed to enhance VOCALOID CHINA related data exchange, fetching VC related data regularly and show meaningful parts to everyone.",
+    "know_more": "Know More",
+    "contact_us": "Contact Us",
+    "qq_group": "QQ Group",
+    "personal_email": "Personal E-mail",
+    "donation_thanks": "Donation Thanks",
+    "donate_now": "Donate TDD Now",
+    "tracked_videos": "Tracked Videos",
+    "tracked_videos_suffix": " ",
+    "covered_members": "Covered Uploaders",
+    "covered_members_suffix": " ",
+    "data_records": "Data Records",
+    "data_records_suffix": " ",
+    "30_days_increment": "30 Days Increment",
+    "recent_updates": "Recent Updates",
+    "see_more": "See more",
+    "page_brief_intro": {
+      "video": "All tracked videos, including all videos under {0} category and some VC related videos in other categories.",
+      "member": "All uploaders and staff of all tracked videos.",
+      "sprint": "VC 1M videos sprint assistance project, tracking Biliili videos which near the requirements of {0}, monitoring trending of video data such as views, favorites etc. for sprint assistance reference",
+      "tool": "Usefull tools for pan VC data collecting and sharing."
+    }
+  }
+}
+</i18n>
+
 <template>
   <div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item>首页</a-breadcrumb-item>
+        <a-breadcrumb-item>{{ $t('page_name.home') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <a-carousel autoplay >
       <div class="carousel-page">
         <div class="carousel-page-container">
           <div class="carousel-p1-text">
-            <h1>天钿Daily</h1>
-            <p>致力于推动VC相关数据交流，定期抓取VC相关数据，选取有意义的纬度展示。</p>
+            <h1>{{ $t('tdd') }}</h1>
+            <div v-if="$store.getters.clientMode === 'MOBILE'" style="height: 42px; overflow-x: scroll">
+              {{ $t('tdd_introduction_brief') }}
+            </div>
+            <p v-else>{{ $t('tdd_introduction_brief') }}</p>
             <div style="margin-top: 20px">
-              <a-button type="primary" @click="() => this.$router.push('/about')">了解更多</a-button>
-              <a-popover title="联系我们" trigger="hover" placement="bottom">
+              <a-button type="primary" @click="() => this.$router.push('/about')">{{ $t('know_more') }}</a-button>
+              <a-popover :title="$t('contact_us')" trigger="hover" placement="bottom">
                 <div slot="content">
-                  QQ群：<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/><a target="_blank" :href="qqgroup_qrcode">二维码</a><br/>
-                  个人邮箱：<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
+                  {{ $t('qq_group') }}{{ $t('colon') }}<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/><a target="_blank" :href="qqgroup_qrcode">{{ $t('qr_code') }}</a><br/>
+                  {{ $t('personal_email') }}{{ $t('colon') }}<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
                 </div>
-                <a-button style="margin-left: 8px">联系我们</a-button>
+                <a-button style="margin-left: 8px">{{ $t('contact_us') }}</a-button>
               </a-popover>
             </div>
           </div>
@@ -29,12 +87,12 @@
       </div>
       <div class="carousel-page">
         <div class="carousel-page-container">
-          <h1>资助感谢</h1>
+          <h1>{{ $t('donation_thanks') }}</h1>
           <div class="carousel-p4-table-container">
             <tdd-donate-log-list :donate-log-list="donateLogList" />
             <div style="margin-top: 8px; overflow: hidden">
               <div style="float: right; margin-right: 8px">
-                立刻<a href="https://afdian.net/@bunnyxt" target="_blank" @click="$service.reportInteraction('home_donate_click', '')">资助本站</a>
+                <a href="https://afdian.net/@bunnyxt" target="_blank" @click="$service.reportInteraction('home_donate_click', '')">{{ $t('donate_now') }}</a>
               </div>
             </div>
           </div>
@@ -45,23 +103,23 @@
           <template v-if="this.$store.getters.clientMode === 'MOBILE'">
             <div style="overflow: hidden">
               <div class="carousel-p2-mobile-row1-col">
-                <a-statistic title="收录视频" :value="latestVideoCount">
+                <a-statistic :title="$t('tracked_videos')" :value="latestVideoCount">
                   <template v-slot:suffix>
-                    个
+                    {{ $t('tracked_videos_suffix') }}
                   </template>
                 </a-statistic>
               </div>
               <div class="carousel-p2-mobile-row1-col">
-                <a-statistic title="覆盖P主" :value="latestMemberCount">
+                <a-statistic :title="$t('covered_members')" :value="latestMemberCount">
                   <template v-slot:suffix>
-                    位
+                    {{ $t('covered_members_suffix') }}
                   </template>
                 </a-statistic>
               </div>
             </div>
-            <a-statistic title="数据记录" :value="latestVideoRecordCount">
+            <a-statistic :title="$t('data_records')" :value="latestVideoRecordCount">
               <template v-slot:suffix>
-                条
+                {{ $t('data_records_suffix') }}
               </template>
             </a-statistic>
           </template>
@@ -70,36 +128,36 @@
               <div style="margin-bottom: 12px">
               </div>
               <div class="carousel-p2-col-narrow">
-                <a-statistic title="收录视频" :value="latestVideoCount" style="padding: 8px 20px 0 20px">
+                <a-statistic :title="$t('tracked_videos')" :value="latestVideoCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
-                    个
+                    {{ $t('tracked_videos_suffix') }}
                   </template>
                 </a-statistic>
-                <a-statistic title="30日增幅" :value="last30DayVideoCount" style="padding: 8px 20px 0 20px">
+                <a-statistic :title="$t('30_days_increment')" :value="last30DayVideoCount" style="padding: 8px 20px 0 20px">
                   <template #prefix>
                     <a-icon type="arrow-up" />
                   </template>
                 </a-statistic>
               </div>
               <div class="carousel-p2-col-narrow">
-                <a-statistic title="覆盖P主" :value="latestMemberCount" style="padding: 8px 20px 0 20px">
+                <a-statistic :title="$t('covered_members')" :value="latestMemberCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
-                    位
+                    {{ $t('covered_members_suffix') }}
                   </template>
                 </a-statistic>
-                <a-statistic title="30日增幅" :value="last30DayMemberCount" style="padding: 8px 20px 0 20px">
+                <a-statistic :title="$t('30_days_increment')" :value="last30DayMemberCount" style="padding: 8px 20px 0 20px">
                   <template #prefix>
                     <a-icon type="arrow-up" />
                   </template>
                 </a-statistic>
               </div>
               <div class="carousel-p2-col-wide">
-                <a-statistic title="数据记录" :value="latestVideoRecordCount" style="padding: 8px 20px 0 20px">
+                <a-statistic :title="$t('data_records')" :value="latestVideoRecordCount" style="padding: 8px 20px 0 20px">
                   <template v-slot:suffix>
-                    条
+                    {{ $t('data_records_suffix') }}
                   </template>
                 </a-statistic>
-                <a-statistic title="30日增幅" :value="last30DayVideoRecordCount" style="padding: 8px 20px 0 20px">
+                <a-statistic :title="$t('30_days_increment')" :value="last30DayVideoRecordCount" style="padding: 8px 20px 0 20px">
                   <template #prefix>
                     <a-icon type="arrow-up" />
                   </template>
@@ -108,13 +166,13 @@
             </div>
           </template>
           <div style="text-align: right; color: rgba(0, 0, 0, 0.45); margin-top: 8px">
-            <p>*截至{{ latestStatDailyTimeStr }}</p>
+            <p>*{{ $t('till') }}{{ latestStatDailyTimeStr }}</p>
           </div>
         </div>
       </div>
       <div class="carousel-page">
         <div class="carousel-page-container">
-          <h1>更新动态</h1>
+          <h1>{{ $t('recent_updates') }}</h1>
           <div class="carousel-p3-timeline-container">
             <a-timeline>
               <a-timeline-item
@@ -124,7 +182,7 @@
               >
                 <b>{{ $util.tsToDateString(updateLog.added, 'yyyy-MM-dd') }}</b> {{ updateLog.content }}
               </a-timeline-item>
-              <a-button slot="pending" type="link" @click="() => this.$router.push('/about/updatelog')">查看更多...</a-button>
+              <a-button slot="pending" type="link" @click="() => this.$router.push('/about/updatelog')">{{ $t('see_more') }}...</a-button>
             </a-timeline>
           </div>
         </div>
@@ -134,14 +192,18 @@
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
-          <h1>视频</h1>
+          <h1>{{ $t('page_name.video') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
           <a-button size="small" @click="fetchRandomVideoList(6)"><a-icon type="reload" />{{ refreshString }}</a-button>
           <a-button size="small" @click="() => this.$router.push('/video')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
         </div>
       </div>
-      <p>本站收录的所有视频，包括B站VU分区下的所有视频和部分其他分区中的VC视频。</p>
+      <p>
+        <i18n path="page_brief_intro.video" tag="label">
+          <a href="https://www.bilibili.com/v/music/vocaloid/" target="_blank">VOCALOID·UTAU</a>
+        </i18n>
+      </p>
       <p style="display: flex">
         <tdd-video-abid-auto-complete v-model="jumpVideoTargetIdObj" />
         <a-button
@@ -149,7 +211,7 @@
           :disabled="typeof jumpVideoTargetIdObj.id === 'string' ? jumpVideoTargetIdObj.id.length === 0 : true"
           @click="goJumpVideo"
           style="margin-left: 8px"
-        >跳转</a-button>
+        >{{ $t('go_jump') }}</a-button>
       </p>
       <a-spin :spinning="isLoadingRandomVideoList">
         <tdd-video-list
@@ -163,14 +225,14 @@
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
-          <h1>UP主</h1>
+          <h1>{{ $t('page_name.member') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
           <a-button size="small" @click="fetchRandomMemberList(6)"><a-icon type="reload" />{{ refreshString }}</a-button>
           <a-button size="small" @click="() => this.$router.push('/member')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
         </div>
       </div>
-      <p>本站收录的所有视频的B站UP主和staff们。</p>
+      <p>{{ $t('page_brief_intro.member') }}</p>
       <a-spin :spinning="isLoadingRandomMemberList">
         <tdd-member-list
           :member-list="randomMemberList.slice(0, listColNum)"
@@ -182,14 +244,18 @@
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
-          <h1>传说助攻</h1>
+          <h1>{{ $t('page_name.sprint') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
           <a-button size="small" @click="getSprintVideoListFiltered"><a-icon type="reload" />{{ refreshString }}</a-button>
           <a-button size="small" @click="() => this.$router.push('/sprint')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
         </div>
       </div>
-      <p>VC传说冲刺曲目助攻计划，收录B站接近<a href="https://zh.moegirl.org/Vocaloid中文传说曲" target="_blank">中文VOCALOID传说曲</a>要求的曲目视频，记录播放、收藏等数据变化，提供传说助攻参考。</p>
+      <p>
+        <i18n path="page_brief_intro.sprint" tag="label" for="vocaloid_china_1m_song">
+          <a href="https://zh.moegirl.org/Vocaloid中文传说曲" target="_blank">{{ $t('vocaloid_china_1m_song') }}</a>
+        </i18n>
+      </p>
       <a-spin :spinning="isLoadingSprintVideoList">
         <tdd-video-list
           :video-list="sprintVideoListFiltered.slice(0, listColNum)"
@@ -205,34 +271,34 @@
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
-          <h1>辅助工具</h1>
+          <h1>{{ $t('page_name.tool') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
           <a-button size="small" @click="() => this.$router.push('/tool')">{{ moreString }}<a-icon type="arrow-right" /></a-button>
         </div>
       </div>
-      <p>泛VC数据记录与分享相关所需要的辅助工具。</p>
+      <p>{{ $t('page_brief_intro.tool') }}</p>
       <ul>
         <li>
-          <router-link to="/tool/datecalc">耗时计算</router-link>：输入起止时间，计算所消耗的时间长度，可用于计算曲目传说/殿堂耗时。
+          <router-link to="/tool/datecalc">{{ $t('tool_info.datecalc.name') }}</router-link>{{ $t('colon') }}{{ $t('tool_info.datecalc.brief_intro') }}
         </li>
         <li>
-          <router-link to="/tool/biliapi">Bilibili API传送门</router-link>：常用Bilibili API传送门。
+          <router-link to="/tool/biliapi">{{ $t('tool_info.biliapi.name') }}</router-link>{{ $t('colon') }}{{ $t('tool_info.biliapi.brief_intro') }}
         </li>
         <li>
-          <router-link to="/tool/zkcalc">周刊算分</router-link>：周刊VOCALOID中文排行榜计分规则计算器。
+          <router-link to="/tool/zkcalc">{{ $t('tool_info.zkcalc.name') }}</router-link>{{ $t('colon') }}{{ $t('tool_info.zkcalc.brief_intro') }}
         </li>
         <li>
-          <router-link to="/tool/abid">av号/bv号转换</router-link>：Bilibili av号/bv号转换工具。
+          <router-link to="/tool/abid">{{ $t('tool_info.abid.name') }}</router-link>{{ $t('colon') }}{{ $t('tool_info.abid.brief_intro') }}
         </li>
         <li>
-          <router-link to="/tool/ts">时间戳转换</router-link>：时间戳与时间字符串转换工具。
+          <router-link to="/tool/ts">{{ $t('tool_info.ts.name') }}</router-link>{{ $t('colon') }}{{ $t('tool_info.ts.brief_intro') }}
         </li>
         <li>
-          <router-link to="/tool/compare">视频对比</router-link>：视频数据对比。
+          <router-link to="/tool/compare">{{ $t('tool_info.compare.name') }}</router-link>{{ $t('colon') }}{{ $t('tool_info.compare.brief_intro') }}
         </li>
         <li>
-          <router-link to="/tool/text-abid-description-replacement">文本av号/bv号与视频描述替换</router-link>：将文本中的av号或bv号替换为对应视频的描述信息（标题、UP主、播放数等等），支持自定义格式与微调。
+          <router-link to="/tool/text-abid-description-replacement">{{ $t('tool_info.text-abid-description-replacement.name') }}</router-link>{{ $t('colon') }}{{ $t('tool_info.text-abid-description-replacement.brief_intro') }}
         </li>
       </ul>
     </div>
@@ -350,14 +416,14 @@ export default {
       if (this.$store.getters.clientMode === 'MOBILE') {
         return '';
       } else {
-        return '刷新';
+        return this.$t('refresh');
       }
     },
     moreString: function () {
       if (this.$store.getters.clientMode === 'MOBILE') {
         return '';
       } else {
-        return '更多';
+        return this.$t('more');
       }
     },
     listColNum: function () {

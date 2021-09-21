@@ -1,10 +1,52 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "fetching_video_info_prompt": "正在获取{0}的视频信息...",
+    "video_info_not_found_prompt": "没有找到{0}的视频信息",
+    "video_not_tracked_prompt": "可能是因为该视频不在本站收录范围内",
+    "data_selection": "数据选择",
+    "recent_data": "近期数据",
+    "last_3_days_hourly_data": "近三日每小时数据",
+    "load_all": "加载全部",
+    "refresh_data": "刷新数据",
+    "data_total_already_loaded_prompt": "共{total}条，已加载{loaded}条",
+    "compare_banner": "新功能！想对比多个视频的历史趋势？将此视频{add_to_compare_list}，前往{compare_tool}进行比较",
+    "add_to_compare_list": "添加到对比列表",
+    "compare_tool": "视频对比工具",
+    "compare_banner_click_to": "点此",
+    "compare_banner_click_to_add": "添加",
+    "compare_banner_added_click_to": "已添加，点此",
+    "compare_banner_added_click_to_remove": "移除"
+  },
+  "en": {
+    "fetching_video_info_prompt": "Now fetching info of video {0}...",
+    "video_info_not_found_prompt": "Info of video {0} not found.",
+    "video_not_tracked_prompt": "It may be due to this video not satisfied the tracking requirements of this site.",
+    "data_selection": "Data Selection",
+    "recent_data": "Recent Data",
+    "last_3_days_hourly_data": "Last 3 Days Hourly Data",
+    "load_all": "Load All",
+    "refresh_data": "Refresh",
+    "data_total_already_loaded_prompt": "{total} records in total, {loaded} already loaded",
+    "compare_banner": "New feature! Wanna compare trending between videos? {add_to_compare_list}, then go to {compare_tool} for comparison.",
+    "add_to_compare_list": "Add this video to compare list",
+    "compare_tool": "video compare tool",
+    "compare_banner_click_to": "Click to ",
+    "compare_banner_click_to_add": "add",
+    "compare_banner_added_click_to": "Added, click to ",
+    "compare_banner_added_click_to_remove": "remove"
+  }
+}
+</i18n>
+
 <template>
   <div>
     <div v-wechat-title="$route.meta.title='av'+aid+' - 视频详情 - 天钿Daily'"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/video">视频</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/video">{{ $t('page_name.video') }}</router-link></a-breadcrumb-item>
         <a-breadcrumb-item v-if="fromBvid">BV{{ bvid }} - av{{ aid }}</a-breadcrumb-item>
         <a-breadcrumb-item v-else>av{{ aid }} - BV{{ bvid }}</a-breadcrumb-item>
       </a-breadcrumb>
@@ -12,7 +54,9 @@
     <div v-if="isLoadingVideo">
       <div class="section-block">
         <a-spin :spinning="true">
-          正在获取<video-detail-video-id-link :aid="aid" :bvid="bvid" :from-bvid="fromBvid" />的视频信息
+          <i18n path="fetching_video_info_prompt" tag="label">
+            <video-detail-video-id-link :aid="aid" :bvid="bvid" :from-bvid="fromBvid" />
+          </i18n>
         </a-spin>
       </div>
     </div>
@@ -20,10 +64,12 @@
       <div v-if="!video || Object.keys(video).length === 0">
         <div class="section-block">
           <p>
-            没有找到<video-detail-video-id-link :aid="aid" :bvid="bvid" :from-bvid="fromBvid" />的视频信息
+            <i18n path="video_info_not_found_prompt" tag="label">
+              <video-detail-video-id-link :aid="aid" :bvid="bvid" :from-bvid="fromBvid" />
+            </i18n>
           </p>
-          <p>可能是因为该视频不在本站收录范围内</p>
-          <a @click="$router.go(-1)">返回上一页</a>
+          <p>{{ $t('video_not_tracked_prompt') }}</p>
+          <a @click="$router.go(-1)">{{ $t('back_to_previous_page') }}</a>
         </div>
       </div>
       <div v-else>
@@ -32,14 +78,14 @@
           <a-alert
             v-if="video.code !== 0 && video.code !== -403"
             type="error"
-            :message='`本视频已无法正常观看，错误代码：${video.code}，提示信息：${$util.getVideoCodeMessage(video.code)}`'
+            :message="$t('video_detail.error_not_accessible_prompt', { code: video.code, message: $util.getVideoCodeMessage(video.code) })"
             style="margin-bottom: 12px;"
             banner
           />
           <a-alert
             v-if="video.code === -403"
             type="warning"
-            :message='`本视频仅会员可见，登录B站后方可观看；由于B站限制，本站无法获取精确播放数`'
+            :message="$t('video_detail.error_member_only_prompt')"
             style="margin-bottom: 12px;"
             banner
           />
@@ -50,7 +96,9 @@
             banner
           >
             <template slot="message">
-              本视频与<a :href="`/video/av${video.forward}`" target="_blank">av{{video.forward}}</a>撞车，点击左侧链接前往原视频
+              <i18n path="video_detail.error_duplicated_prompt" tag="label">
+                <a :href="`/video/av${video.forward}`" target="_blank">av{{video.forward}}</a>
+              </i18n>
             </template>
           </a-alert>
           <div v-if="$store.getters.clientMode === 'MOBILE'">
@@ -76,7 +124,7 @@
               </div>
               <div v-if="video.hasstaff === 1" style="float: left; margin-bottom: 12px">
                 <a-dropdown :trigger="['click']" placement="bottomCenter">
-                  <a class="ant-dropdown-link" href="#">创作团队 ({{ video.staff.length }}) <a-icon type="down" /> </a>
+                  <a class="ant-dropdown-link" href="#">{{ $t('video_detail.staff') }} ({{ video.staff.length }}) <a-icon type="down" /> </a>
                   <a-menu slot="overlay">
                     <template v-for="staff in video.staff.filter( s => s.title === 'UP主')">
                       <a-menu-item :key="staff.mid">
@@ -122,7 +170,10 @@
                 >
                   <a-popover>
                     <template slot="content">
-                      对B站API提供的视频"attribute"属性的解释，仅供参考。<br/>详见<a href="https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/video/info.md#获取视频详细信息web端" target="_blank">此处</a>。
+                      {{ $t('video_detail.attribute_prompt') }}<br/>
+                      <i18n path="video_detail.attribute_reference" tag="label" for="video_detail.attribute_reference_here">
+                        <a href="https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/video/info.md#获取视频详细信息web端" target="_blank">{{ $t('video_detail.attribute_reference_here') }}</a>
+                      </i18n>
                     </template>
                     <a-icon type="question-circle" />
                   </a-popover>
@@ -136,9 +187,9 @@
               <a-tag>{{ video.videos }}P</a-tag>
             </div>
           </div>
-          <a-divider orientation="left">简介</a-divider>
+          <a-divider orientation="left">{{ $t('video_detail.introduction') }}</a-divider>
           <tdd-video-description :description="video.desc" />
-          <a-divider orientation="left">标签</a-divider>
+          <a-divider orientation="left">{{ $t('video_detail.tags') }}</a-divider>
           <a-tag
             v-for="tag in video.tags
                    ? video.tags.split(';').slice(0, -1)
@@ -148,14 +199,14 @@
           >
             {{ tag }}
           </a-tag>
-          <a-divider orientation="left">数据</a-divider>
+          <a-divider orientation="left">{{ $t('video_detail.data' )}}</a-divider>
           <tdd-video-data-block
             v-if="video.laststat"
             :stat="video.laststat"
             :size="this.$store.getters.clientMode === 'MOBILE' ? 'middle' : 'large'"
             :bvid="bvid"
           />
-          <a-alert v-else type="error" message="暂无数据" />
+          <a-alert v-else type="error" :message="$t('video_detail.no_data')" />
         </div>
         <div class="section-separator"></div>
         <div class="section-block">
@@ -178,15 +229,15 @@
                     mode="horizontal"
                     :style="{ width: `calc(100% - ${$store.getters.clientMode === 'MOBILE' ? 46 : 122}px)` }"
                   >
-                    <a-menu-item key="recordChart"> <a-icon type="line-chart" />历史趋势 </a-menu-item>
-                    <a-menu-item key="recordTable"> <a-icon type="table" />详细数据 </a-menu-item>
-                    <a-menu-item key="zkCalc"> <a-icon type="calculator" />周刊算分 </a-menu-item>
-                    <a-menu-item key="recordSaver"> <a-icon type="download" />数据下载 </a-menu-item>
+                    <a-menu-item key="recordChart"> <a-icon type="line-chart" />{{ $t('video_detail.history_trending') }} </a-menu-item>
+                    <a-menu-item key="recordTable"> <a-icon type="table" />{{ $t('video_detail.detailed_data') }} </a-menu-item>
+                    <a-menu-item key="zkCalc"> <a-icon type="calculator" />{{ $t('video_detail.zk_calc') }} </a-menu-item>
+                    <a-menu-item key="recordSaver"> <a-icon type="download" />{{ $t('video_detail.data_download') }} </a-menu-item>
                   </a-menu>
                   <div style="margin-top: 8px; padding-left: 12px; border-bottom: 1px solid #e8e8e8">
                     <a-popover placement="bottomRight" trigger="click">
                       <a-button>
-                        <a-icon type="filter" /> {{ $store.getters.clientMode === 'MOBILE' ? '' : '数据选择' }}
+                        <a-icon type="filter" /> {{ $store.getters.clientMode === 'MOBILE' ? '' : $t('data_selection') }}
                       </a-button>
                       <div slot="content">
                         <a-spin :spinning="isLoadingVideoRecords">
@@ -195,9 +246,9 @@
                               v-model="enableCurrentVideoRecords"
                               @change="enableCurrentVideoRecordsCheckboxChangeHandler"
                               style="margin-bottom: 4px"
-                            >近期数据</a-checkbox>
+                            >{{ $t('recent_data') }}</a-checkbox>
                             <div style="margin-bottom: 4px">
-                              共{{ currentVideoRecordsTotalCount }}条，已加载{{ currentVideoRecords.length }}条
+                              {{ $t('data_total_already_loaded_prompt', { total: currentVideoRecordsTotalCount, loaded: currentVideoRecords.length }) }}
                             </div>
                             <div>
                               <a-button
@@ -205,12 +256,12 @@
                                 size="small"
                                 :disabled="currentVideoRecordsTotalLoaded"
                                 @click="getCurrentVideoRecordsTotal(aid)"
-                              >加载全部</a-button>
+                              >{{ $t('load_all') }}</a-button>
                               <a-button
                                 type="link"
                                 size="small"
                                 @click="updateCurrentVideoRecords(aid)"
-                              >刷新数据</a-button>
+                              >{{ $t('refresh_data') }}</a-button>
                             </div>
                           </div>
                           <div>
@@ -219,9 +270,9 @@
                               :disabled="hourlyVideoRecords.length === 0"
                               @change="enableHistoryVideoRecordsCheckboxChangeHandler"
                               style="margin-bottom: 4px"
-                            >近三日每小时数据</a-checkbox>
+                            >{{ $t('last_3_days_hourly_data') }}</a-checkbox>
                             <div v-if="hourlyVideoRecords.length > 0" style="margin-bottom: 4px">
-                              共{{ hourlyVideoRecords.length }}条，已加载{{ hourlyVideoRecords.length }}条
+                              {{ $t('data_total_already_loaded_prompt', { total: hourlyVideoRecords.length, loaded: hourlyVideoRecords.length }) }}
                             </div>
                             <div>
                               <a-button
@@ -229,13 +280,13 @@
                                 size="small"
                                 :disabled="hourlyVideoRecords.length !== 0"
                                 @click="getHistoryVideoRecords(aid)"
-                              >加载全部</a-button>
+                              >{{ $t('load_all') }}</a-button>
                               <a-button
                                 type="link"
                                 size="small"
                                 :disabled="hourlyVideoRecords.length === 0"
                                 @click="getHistoryVideoRecords(aid)"
-                              >刷新数据</a-button>
+                              >{{ $t('refresh_data') }}</a-button>
                             </div>
                           </div>
                         </a-spin>
@@ -247,17 +298,20 @@
                   <template v-if="recordChartEnterCount">
                     <a-alert type="info" banner style="margin-bottom: 12px" closable>
                       <template slot="message">
-                        新功能！想对比多个视频的历史趋势？将此视频<a-popover placement="bottom">
-                        <template slot="content">
-                          <template v-if="inVideoCompareList">
-                            已添加，点此<a @click="removeFromVideoCompareListHandler">移除</a>
-                          </template>
-                          <template v-else>
-                            点此<a @click="addToVideoCompareListHandler">添加</a>
-                          </template>
-                        </template>
-                        <a>添加到对比列表</a>
-                      </a-popover>，前往<router-link to="/tool/compare">视频对比工具</router-link>进行比较
+                        <i18n path="compare_banner">
+                          <a-popover place="add_to_compare_list" placement="bottom">
+                            <template slot="content">
+                              <template v-if="inVideoCompareList">
+                                {{ $t('compare_banner_added_click_to') }}<a @click="removeFromVideoCompareListHandler">{{ $t('compare_banner_added_click_to_remove') }}</a>
+                              </template>
+                              <template v-else>
+                                {{ $t('compare_banner_click_to') }}<a @click="addToVideoCompareListHandler">{{ $t('compare_banner_click_to_add') }}</a>
+                              </template>
+                            </template>
+                            <a>{{ $t('add_to_compare_list') }}</a>
+                          </a-popover>
+                          <router-link place="compare_tool" to="/tool/compare">{{ $t('compare_tool') }}</router-link>
+                        </i18n>
                       </template>
                     </a-alert>
                     <tdd-video-history-line-chart :videoRecords="videoRecords" :pubdate="video ? video.pubdate : 0" />

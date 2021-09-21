@@ -1,3 +1,15 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "increment_ratio": "增长占比"
+  },
+  "en": {
+    "increment_ratio": "Increment Ratio"
+  }
+}
+</i18n>
+
 <template>
   <div>
     <div>
@@ -5,7 +17,7 @@
     </div>
     <div
       style="height: 4px; display: flex; margin-top: 2px; margin-bottom: 2px; cursor: help"
-      :title="`增长占比：${Number(incrProportion * 100).toFixed(2)}%`"
+      :title="`${$t('increment_ratio')}${$t('colon')}${Number(incrProportion * 100).toFixed(2)}%`"
     >
       <div :style="{ background: '#e8e8e8', width: `${(1 - incrProportion) * 100}%`, height: '100%' }"></div>
       <div :class="`bg-color-${colorNum}`" :style="{ width: `${incrProportion * 100}%`, height: '100%' }"></div>

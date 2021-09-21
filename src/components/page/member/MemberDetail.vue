@@ -1,26 +1,90 @@
+<i18n src="@/i18n/common.json"></i18n>
+<i18n>
+{
+  "zh": {
+    "fetching_member_info_prompt": "正在获取用户{0}的信息...",
+    "member_info_not_found_prompt": "没有找到用户{0}的信息",
+    "member_not_tracked_prompt": "可能是因为该用户的视频投稿不在本站收录范围内",
+    "statistics_summary": "数据总计",
+    "info_history": "信息变更",
+    "fetching_member_info_history_prompt": "正在获取用户{0}的个人信息变更历史数据...",
+    "member_info_history_prompt": "UP主信息不定时更新；若您是本UP主且不希望自己的历史信息变更记录被公开，请{0}",
+    "contact_admin": "联系站长",
+    "member_info_history_visibility_prompt": "历史信息变更记录仅{0}后可见哦~",
+    "followers_trending": "粉丝趋势",
+    "statistics_summary_trending": "数据总计趋势",
+    "fetching_member_follower_history_prompt": "正在获取用户{0}的历史粉丝数据...",
+    "fetching_member_statistics_summary_history_prompt": "正在获取用户{0}的历史数据总计数据...",
+    "pagi_total": "共 {total} 个视频",
+    "filter": {
+      "sort_by": {
+        "label": "排序依据"
+      },
+      "sort_order": {
+        "label": "排序顺序",
+        "asc": "从小到大",
+        "desc": "从大到小"
+      }
+    },
+    "reset_confirm": "确定重置所有条件？"
+  },
+  "en": {
+    "fetching_member_info_prompt": "Now fetching info of member {0}...",
+    "member_info_not_found_prompt": "Info of member {0} not found.",
+    "member_not_tracked_prompt": "It may be due to this member's videos not satisfied the tracking requirements of this site.",
+    "statistics_summary": "Statistics Summary",
+    "info_history": "Info History",
+    "fetching_member_info_history_prompt": "Now fetching info history of member {0}...",
+    "member_info_history_prompt": "Uploader Info updated from time to time. If you are the uploader and do not want these info be public, please {0}.",
+    "contact_admin": "contact admin",
+    "member_info_history_visibility_prompt": "Info history only available after {0}.",
+    "followers_trending": "Followers Trending",
+    "statistics_summary_trending": "Statistics Summary Trending",
+    "fetching_member_follower_history_prompt": "Now fetching follower history of member {0}...",
+    "fetching_member_statistics_summary_history_prompt": "Now fetching statistics summary history of member {0}...",
+    "pagi_total": "{total} videos in total",
+    "filter": {
+      "sort_by": {
+        "label": "Sort By"
+      },
+      "sort_order": {
+        "label": "Sort Order",
+        "asc": "Asc",
+        "desc": "Desc"
+      }
+    },
+    "reset_confirm": "Reset all search filters?"
+  }
+}
+</i18n>
+
 <template>
   <div>
     <div v-wechat-title="$route.meta.title='mid_'+this.$route.params.mid+' - UP主详情 - 天钿Daily'"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
-        <a-breadcrumb-item><router-link to="/">首页</router-link></a-breadcrumb-item>
-        <a-breadcrumb-item><router-link to="/member">UP主</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/">{{ $t('page_name.home') }}</router-link></a-breadcrumb-item>
+        <a-breadcrumb-item><router-link to="/member">{{ $t('page_name.member') }}</router-link></a-breadcrumb-item>
         <a-breadcrumb-item>{{ this.$route.params.mid }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
     <div v-if="isLoadingMember">
       <div class="section-block">
         <a-spin :spinning="true">
-          正在获取用户<a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>的信息
+          <i18n path="fetching_member_info_prompt" tag="label">
+            <a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>
+          </i18n>
         </a-spin>
       </div>
     </div>
     <div v-else>
       <div v-if="!member || Object.keys(member).length === 0">
         <div class="section-block">
-          <p>没有找到用户<a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>的信息</p>
-          <p>可能是因为改用户的视频投稿不在本站收录范围内</p>
-          <a @click="$router.go(-1)">返回上一页</a>
+          <i18n path="member_info_not_found_prompt" tag="label">
+            <a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>
+          </i18n>
+          <p>{{ $t('member_not_tracked_prompt') }}</p>
+          <a @click="$router.go(-1)">{{ $t('back_to_previous_page') }}</a>
         </div>
       </div>
       <div v-else>
@@ -64,24 +128,28 @@
             <tdd-member-action-bar :mid="mid" />
           </div>
           <a-menu v-model="currentInfoCategory" mode="horizontal" style="margin-bottom: 16px">
-            <a-menu-item key="overview"> <a-icon type="line-chart" />数据总计 </a-menu-item>
-            <a-menu-item key="history"> <a-icon type="history" />信息变更 </a-menu-item>
+            <a-menu-item key="overview"> <a-icon type="line-chart" />{{ $t('statistics_summary') }} </a-menu-item>
+            <a-menu-item key="history"> <a-icon type="history" />{{ $t('info_history') }} </a-menu-item>
           </a-menu>
           <div v-show="currentInfoCategory.indexOf('overview') !== -1">
             <tdd-video-stat-bar :stat="member.last_total_stat" :mode="'vertical'" :show-name="true" />
-            *{{ $util.tsToDateString(member.last_total_stat.added) }}更新
+            *{{ $util.tsToDateString(member.last_total_stat.added) }}{{ $t('updated_suffix') }}
           </div>
           <div v-show="currentInfoCategory.indexOf('history') !== -1">
             <div v-if="isLoadingMemberLogs">
               <a-spin :spinning="true">
-                正在获取用户<a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>的个人信息变更历史数据
+                <i18n path="fetching_member_info_history_prompt" tag="label">
+                  <a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>
+                </i18n>
               </a-spin>
             </div>
             <div v-else>
               <template v-if="$store.state.isUserLoggedIn">
                 <a-alert type="warning" banner closable style="margin-bottom: 16px">
                   <template slot="message">
-                    UP主信息每天更新一次；若您是本UP主且不希望自己的历史信息变更记录被公开，请<router-link to="/about/contactus">联系站长</router-link>
+                    <i18n path="member_info_history_prompt" tag="label">
+                      <router-link to="/about/contactus">{{ $t('contact_admin') }}</router-link>
+                    </i18n>
                   </template>
                 </a-alert>
                 <tdd-member-log-table :member-logs="memberLogs" />
@@ -89,7 +157,9 @@
               <template v-else>
                 <a-alert type="error" banner>
                   <template slot="message">
-                    历史信息变更记录仅<a @click="() => this.$store.commit('changeLoginSliderVisibility')">登录</a>后可见哦~
+                    <i18n path="member_info_history_visibility_prompt" tag="label">
+                      <a @click="() => this.$store.commit('changeLoginSliderVisibility')">{{ $t('login') }}</a>
+                    </i18n>
                   </template>
                 </a-alert>
               </template>
@@ -99,13 +169,15 @@
         <div class="section-separator"></div>
         <div class="section-block">
           <a-menu v-model="currentDataCategory" mode="horizontal" style="margin-bottom: 16px">
-            <a-menu-item key="follower"> <a-icon type="team" />粉丝趋势 </a-menu-item>
-            <a-menu-item key="totalStat"> <a-icon type="line-chart" />数据总计趋势 </a-menu-item>
+            <a-menu-item key="follower"> <a-icon type="team" />{{ $t('followers_trending') }} </a-menu-item>
+            <a-menu-item key="totalStat"> <a-icon type="line-chart" />{{ $t('statistics_summary_trending') }} </a-menu-item>
           </a-menu>
           <div v-show="currentDataCategory.indexOf('follower') !== -1">
             <div v-if="isLoadingFollowerRecords">
               <a-spin :spinning="true">
-                正在获取用户<a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>的历史粉丝数据
+                <i18n path="fetching_member_follower_history_prompt" tag="label">
+                  <a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>
+                </i18n>
               </a-spin>
             </div>
             <div v-else>
@@ -117,7 +189,9 @@
           <div v-show="currentDataCategory.indexOf('totalStat') !== -1">
             <div v-if="isLoadingTotalStatRecords">
               <a-spin :spinning="true">
-                正在获取用户<a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>的历史数据总计数据
+                <i18n path="fetching_member_statistics_summary_history_prompt" tag="label">
+                  <a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>
+                </i18n>
               </a-spin>
             </div>
             <div v-else>
@@ -130,33 +204,33 @@
         <div class="section-separator"></div>
         <div class="section-block">
           <a-collapse :activeKey="[1]" style="margin-bottom: 8px">
-            <a-collapse-panel header="筛选搜索" key="1">
+            <a-collapse-panel :header="$t('search_filter')" key="1">
               <table class="filter-table">
                 <tr>
                   <td class="filter-table-label">
-                    排序依据
+                    {{ $t('filter.sort_by.label') }}
                   </td>
                   <td>
                     <a-radio-group name="orderSelector" v-model="orderValue">
-                      <a-radio :value="'pubdate'">投稿时间</a-radio>
-                      <a-radio :value="'view'">播放</a-radio>
-                      <a-radio :value="'danmaku'">弹幕</a-radio>
-                      <a-radio :value="'reply'">评论</a-radio>
-                      <a-radio :value="'favorite'">收藏</a-radio>
-                      <a-radio :value="'coin'">硬币</a-radio>
-                      <a-radio :value="'share'">分享</a-radio>
-                      <a-radio :value="'like'">点赞</a-radio>
+                      <a-radio value="pubdate">{{ $t('pubdate') }}</a-radio>
+                      <a-radio value="view">{{ $t('view') }}</a-radio>
+                      <a-radio value="danmaku">{{ $t('danmaku') }}</a-radio>
+                      <a-radio value="reply">{{ $t('reply') }}</a-radio>
+                      <a-radio value="favorite">{{ $t('favorite') }}</a-radio>
+                      <a-radio value="coin">{{ $t('coin') }}</a-radio>
+                      <a-radio value="share">{{ $t('share') }}</a-radio>
+                      <a-radio value="like">{{ $t('like') }}</a-radio>
                     </a-radio-group>
                   </td>
                 </tr>
                 <tr>
                   <td class="filter-table-label">
-                    排序顺序
+                    {{ $t('filter.sort_order.label') }}
                   </td>
                   <td>
                     <a-radio-group name="orderDescSelector" v-model="orderDescValue">
-                      <a-radio :value="0">从小到大</a-radio>
-                      <a-radio :value="1">从大到小</a-radio>
+                      <a-radio :value="0">{{ $t('filter.sort_order.asc') }}</a-radio>
+                      <a-radio :value="1">{{ $t('filter.sort_order.desc') }}</a-radio>
                     </a-radio-group>
                   </td>
                 </tr>
@@ -168,19 +242,19 @@
                 @click="handleSearchButtonClick"
                 style="margin-top: 8px"
               >
-                搜索
+                {{ $t('search') }}
               </a-button>
               <a-popconfirm
-                title="确定重置所有条件？"
+                :title="$t('reset_confirm')"
                 @confirm="handleReloadButtonClick"
-                okText="确定"
-                cancelText="取消"
+                :okText="$t('ok')"
+                :cancelText="$t('cancel')"
               >
                 <a-button
                   icon="reload"
                   style="margin-top: 8px; margin-left: 16px"
                 >
-                  重置
+                  {{ $t('reset') }}
                 </a-button>
               </a-popconfirm>
             </a-collapse-panel>
@@ -195,7 +269,7 @@
               showQuickJumper
               v-model="pagiCurrent"
               :total="memberVideoTotalCount"
-              :showTotal="total => `共 ${total} 个视频`"
+              :showTotal="total => $t('pagi_total', { total })"
               :pageSize="20"
               style="margin-top: 8px"
               @change="onPagiChange"
