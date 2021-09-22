@@ -11,7 +11,7 @@
   "dependencies": {
     "@antv/g2": "^4.1.0",
     "ant-design-vue": "^1.7.2",
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "js-md5": "^0.7.3",
     "moment": "^2.27.0",
     "vue": "^2.6.11",
