@@ -88,7 +88,6 @@ export default {
       }
     },
     handleLanguageButtonClick: function () {
-      console.log('first');
       this.$emit('toggle-language-banner-visibility');
     },
   }
