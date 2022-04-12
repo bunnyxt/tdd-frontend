@@ -258,6 +258,14 @@ export default {
         return null;
     }
   },
+  getMemberCodeMessage: function (code) {
+    switch (code) {
+      case -404:
+        return '啥都木有';
+      default:
+        return null;
+    }
+  },
   getVideoAttributeFlags: function (attribute) {
     const flags = [];
     // ref: https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/video/info.md

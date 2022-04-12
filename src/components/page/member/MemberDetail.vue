@@ -5,6 +5,7 @@
     "fetching_member_info_prompt": "正在获取用户{0}的信息...",
     "member_info_not_found_prompt": "没有找到用户{0}的信息",
     "member_not_tracked_prompt": "可能是因为该用户的视频投稿不在本站收录范围内",
+    "member_code_error_prompt": "本用户空间已无法访问，错误代码：{code}，提示信息：{message}",
     "statistics_summary": "数据总计",
     "info_history": "信息变更",
     "fetching_member_info_history_prompt": "正在获取用户{0}的个人信息变更历史数据...",
@@ -32,6 +33,7 @@
     "fetching_member_info_prompt": "Now fetching info of member {0}...",
     "member_info_not_found_prompt": "Info of member {0} not found.",
     "member_not_tracked_prompt": "It may be due to this member's videos not satisfied the tracking requirements of this site.",
+    "member_code_error_prompt": "This member is not accessible now. Error Code: {code}, Message: {message}.",
     "statistics_summary": "Statistics Summary",
     "info_history": "Info History",
     "fetching_member_info_history_prompt": "Now fetching info history of member {0}...",
@@ -90,6 +92,13 @@
       <div v-else>
         <div v-wechat-title="$route.meta.title=$t('page_title.member_detail', { name: member.name })"></div>
         <div class="section-block">
+          <a-alert
+            v-if="member.code !== 0"
+            type="error"
+            :message="$t('member_code_error_prompt', { code: member.code, message: $util.getMemberCodeMessage(member.code) })"
+            style="margin-bottom: 12px;"
+            banner
+          />
           <div class="tdd-member-detail-header">
             <a-avatar
               class="tdd-member-detail-header-avatar"
