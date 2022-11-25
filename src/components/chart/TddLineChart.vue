@@ -317,7 +317,7 @@ export default {
       // TODO maybe have bug
       const optionToConfig = function (option, config) {
         for (let key in option) {
-          if (option.hasOwnProperty(key)) {
+          if (Object.prototype.hasOwnProperty.call(option, key)) {
             if (typeof option[key] !== 'object' || option[key] == null) {
               config[key] = option[key];
             } else if (option[key] instanceof Array) {

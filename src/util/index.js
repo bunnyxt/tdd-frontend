@@ -317,7 +317,7 @@ export default {
     }
     
     for (let key in obj) {
-      if (obj.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
         // ensure key not a property from proto
         result[key] = this.deepClone(obj[key]); // go recursive
       }
@@ -335,7 +335,7 @@ export default {
     };
   },
   colorLevel: function (value, separator) {
-    if (!separator || ['a', 'b', 'c', 'd'].map(prop => separator.hasOwnProperty(prop)).includes(false)) {
+    if (!separator || ['a', 'b', 'c', 'd'].map(prop => Object.prototype.hasOwnProperty.call(separator, prop)).includes(false)) {
       return 0;
     }
     if (value <= separator.a) {

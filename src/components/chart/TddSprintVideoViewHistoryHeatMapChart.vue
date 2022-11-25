@@ -76,7 +76,7 @@ export default {
           ts_end = r2.added > currentHourEndTs ? currentHourEndTs : r2.added;
         } while (ts_start >= currentHourStartTs);
         hourCells.forEach(({ index, week, hour, view }) => {
-          if (!matrices.hasOwnProperty(index)) {
+          if (!Object.prototype.hasOwnProperty.call(matrices, index)) {
             matrices[index] = this.makeWeekMatrix();
           }
           matrices[index][week][hour] += view;

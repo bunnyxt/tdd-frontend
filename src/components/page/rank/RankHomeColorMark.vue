@@ -88,7 +88,7 @@ export default {
       const candidateList = ['incr_view', 'incr_danmaku', 'incr_reply', 'incr_favorite', 'incr_coin', 'incr_share', 'incr_like', 'point'];
       const existedList = [];
       for (const property of candidateList) {
-        if (this.color.hasOwnProperty(property)) {
+        if (Object.prototype.hasOwnProperty.call(this.color, property)) {
           existedList.push(property);
         }
       }
@@ -109,7 +109,7 @@ export default {
       this.$service.reportInteraction('rank_home_color_mark_change_property', JSON.stringify({ property: e.key }));
     },
     initCurrentProperty: function () {
-      if (this.color.hasOwnProperty('point')) {
+      if (Object.prototype.hasOwnProperty.call(this.color, 'point')) {
         this.currentProperty = 'point';
       } else {
         this.currentProperty = 'view_incr';

@@ -46,7 +46,7 @@ class DataView {
     this.rows.forEach(row => {
       const leftFields = Object.keys(row).filter(rowKey => !fields.includes(rowKey));
       for (let field of fields) {
-        if (row.hasOwnProperty(field)) {
+        if (Object.prototype.hasOwnProperty.call(row, field)) {
           const transformedRow = {};
           for (let leftField of leftFields) {
             transformedRow[leftField] = row[leftField];

@@ -399,7 +399,7 @@ export default {
     },
     extractStat: function (item) {
       let prefix = 'now_';
-      if (item.hasOwnProperty('arch_view')) {
+      if (Object.prototype.hasOwnProperty.call(item, 'arch_view')) {
         prefix = 'arch_';
       }
       const attributes = ['added', 'view', 'danmaku', 'reply', 'favorite', 'coin', 'share', 'like'];
