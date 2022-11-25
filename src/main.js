@@ -173,3 +173,7 @@ import App from './AppNew.vue'
 const app = createApp(App)
 
 app.mount('#app')
+// store
+import store from './store';
+app.use(store);
+

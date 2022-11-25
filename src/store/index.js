@@ -1,22 +1,25 @@
-import Vue from "vue"
-import Vuex from 'vuex'
+// import Vue from "vue"
+// import Vuex from 'vuex'
+import { createStore } from 'vuex';
 
-Vue.use(Vuex);
+// Vue.use(Vuex);
 
-const store = new Vuex.Store({
-  state: {
-    apiBase: "https://api.bunnyxt.com/tdd/",
-    //apiBase: "http://localhost/tdd/", // debug
-    isMenuSliderVisible: false,
-    isLoginSliderVisible: false,
-    isVideoDetailDrawerVisible: false,
-    videoDetailDrawerVideo: null,
-    videoDetailVideo: null,
-    memberDetailMember: null,
-    clientWidth: 0,
-    isUserLoggedIn: false,
-    userDetail: null,
-    i18n: null,
+const store = createStore({
+  state() {
+    return {
+      apiBase: "https://api.bunnyxt.com/tdd/",
+      //apiBase: "http://localhost/tdd/", // debug
+      isMenuSliderVisible: false,
+      isLoginSliderVisible: false,
+      isVideoDetailDrawerVisible: false,
+      videoDetailDrawerVideo: null,
+      videoDetailVideo: null,
+      memberDetailMember: null,
+      clientWidth: 0,
+      isUserLoggedIn: false,
+      userDetail: null,
+      i18n: null,
+    };
   },
   mutations: {
     changeMenuSliderVisibility(state) {
@@ -77,4 +80,4 @@ const store = new Vuex.Store({
   }
 });
 
-export default store
+export default store;
