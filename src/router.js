@@ -1,5 +1,4 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+import { createRouter, createWebHistory } from 'vue-router';
 
 const Home = () => import('./components/page/Home');
 const VideoHome = () => import('./components/page/video/VideoHome');
@@ -28,11 +27,8 @@ const MeFavoriteVideo = () => import('./components/page/me/MeFavoriteVideo');
 const MeFavoriteMember = () => import('./components/page/me/MeFavoriteMember');
 const NotFound = () => import('./components/page/NotFound');
 
-Vue.use(VueRouter);
-
-export default new VueRouter({
-  mode: 'history',
-  base: import.meta.env.BASE_URL,
+const router =  createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
@@ -145,3 +141,5 @@ export default new VueRouter({
     }
   ]
 });
+
+export default router;
