@@ -165,14 +165,12 @@
 //   render: (h) => h(App),
 // }).$mount('#app');
 
-import { createApp } from 'vue'
+import { createApp } from 'vue';
 
-// import App from './App.vue'
-import App from './AppNew.vue'
+import App from './App.vue';
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.mount('#app')
 // store
 import store from './store';
 app.use(store);
@@ -198,3 +196,4 @@ app.config.globalProperties.$util = util;
 import config from './config';
 app.config.globalProperties.$config = config;
 
+app.mount('#app');
