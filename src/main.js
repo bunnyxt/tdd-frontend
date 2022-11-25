@@ -186,6 +186,10 @@ const i18n = createI18n({
 app.use(i18n);
 store.commit('setI18n', i18n);
 
+// router
+import router from './router';
+app.use(router);
+
 // util
 import util from './util';
 app.config.globalProperties.$util = util;
