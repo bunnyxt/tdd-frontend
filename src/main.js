@@ -177,6 +177,15 @@ app.mount('#app')
 import store from './store';
 app.use(store);
 
+// i18n
+import { createI18n } from 'vue-i18n';
+const i18n = createI18n({
+  locale: 'zh',
+  fallbackLocale: 'zh',
+});
+app.use(i18n);
+store.commit('setI18n', i18n);
+
 // util
 import util from './util';
 app.config.globalProperties.$util = util;
