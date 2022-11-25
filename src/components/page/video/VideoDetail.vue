@@ -126,16 +126,16 @@
                 <a-dropdown :trigger="['click']" placement="bottomCenter">
                   <a class="ant-dropdown-link" href="#">{{ $t('video_detail.staff') }} ({{ video.staff.length }}) <a-icon type="down" /> </a>
                   <a-menu slot="overlay">
-                    <template v-for="staff in video.staff.filter( s => s.title === 'UP主')">
-                      <a-menu-item :key="staff.mid">
+                    <template v-for="staff in video.staff.filter( s => s.title === 'UP主')" :key="staff.mid">
+                      <a-menu-item>
                         <a @click="videoMemberNameClickHandler(staff.mid)">
                           <a-avatar size="small" :src="$util.httpS(staff.face)" style="margin-right: 8px" />
                           {{ staff.name }}<a-tag :color="$util.getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
                         </a>
                       </a-menu-item>
                     </template>
-                    <template v-for="staff in video.staff.filter( s => s.title !== 'UP主')">
-                      <a-menu-item :key="staff.mid">
+                    <template v-for="staff in video.staff.filter( s => s.title !== 'UP主')" :key="staff.mid">
+                      <a-menu-item>
                         <a @click="videoMemberNameClickHandler(staff.mid)">
                           <a-avatar size="small" :src="$util.httpS(staff.face)" style="margin-right: 8px" />
                           {{ staff.name }}<a-tag :color="$util.getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
