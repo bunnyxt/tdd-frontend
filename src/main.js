@@ -181,3 +181,7 @@ app.use(store);
 import util from './util';
 app.config.globalProperties.$util = util;
 
+// config
+import config from './config';
+app.config.globalProperties.$config = config;
+
