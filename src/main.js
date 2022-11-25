@@ -177,3 +177,7 @@ app.mount('#app')
 import store from './store';
 app.use(store);
 
+// util
+import util from './util';
+app.config.globalProperties.$util = util;
+
