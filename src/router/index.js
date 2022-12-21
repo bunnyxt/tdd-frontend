@@ -1,31 +1,31 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-const Home = () => import('./components/page/Home');
-const VideoHome = () => import('./components/page/video/VideoHome');
-const VideoDetail = () => import('./components/page/video/VideoDetail');
-const MemberHome = () => import('./components/page/member/MemberHome');
-const MemberDetail = () => import('./components/page/member/MemberDetail');
-const RankHome = () => import('./components/page/rank/RankHome')
-const SprintHome = () => import('./components/page/sprint/SprintHome');
-const SprintVideoDetail = () => import('./components/page/sprint/SprintVideoDetail');
-const SprintDailyHome = () => import('./components/page/sprint/daily/SprintDailyHome');
-const SprintDailyDetail = () => import('./components/page/sprint/daily/SprintDailyDetail');
-const ToolHome = () => import('./components/page/tool/ToolHome');
-const DateCalc = () => import('./components/page/tool/DateCalc');
-const BiliApi = () => import('./components/page/tool/BiliApi');
-const ZkCalc = () => import('./components/page/tool/ZkCalc');
-const AidBvidConvert = () => import('./components/page/tool/AidBvidConvert');
-const TsConvert = () => import('./components/page/tool/TsConvert');
-const VideoCompare = () => import('./components/page/tool/VideoCompare');
-const TextAbidDescriptionReplacement = () => import('./components/page/tool/TextAbidDescriptionReplacement');
-const AboutHome = () => import('./components/page/about/AboutHome');
-const ContactUs = () => import('./components/page/about/ContactUs');
-const UpdateLog = () => import('./components/page/about/UpdateLog');
-const MeHome = () => import('./components/page/me/MeHome');
-const MeSetting = () => import('./components/page/me/MeSetting');
-const MeFavoriteVideo = () => import('./components/page/me/MeFavoriteVideo');
-const MeFavoriteMember = () => import('./components/page/me/MeFavoriteMember');
-const NotFound = () => import('./components/page/NotFound');
+const Home = () => import('../components/page/Home');
+const VideoHome = () => import('../components/page/video/VideoHome');
+const VideoDetail = () => import('../components/page/video/VideoDetail');
+const MemberHome = () => import('../components/page/member/MemberHome');
+const MemberDetail = () => import('../components/page/member/MemberDetail');
+const RankHome = () => import('../components/page/rank/RankHome')
+const SprintHome = () => import('../components/page/sprint/SprintHome');
+const SprintVideoDetail = () => import('../components/page/sprint/SprintVideoDetail');
+const SprintDailyHome = () => import('../components/page/sprint/daily/SprintDailyHome');
+const SprintDailyDetail = () => import('../components/page/sprint/daily/SprintDailyDetail');
+const ToolHome = () => import('../components/page/tool/ToolHome');
+const DateCalc = () => import('../components/page/tool/DateCalc');
+const BiliApi = () => import('../components/page/tool/BiliApi');
+const ZkCalc = () => import('../components/page/tool/ZkCalc');
+const AidBvidConvert = () => import('../components/page/tool/AidBvidConvert');
+const TsConvert = () => import('../components/page/tool/TsConvert');
+const VideoCompare = () => import('../components/page/tool/VideoCompare');
+const TextAbidDescriptionReplacement = () => import('../components/page/tool/TextAbidDescriptionReplacement');
+const AboutHome = () => import('../components/page/about/AboutHome');
+const ContactUs = () => import('../components/page/about/ContactUs');
+const UpdateLog = () => import('../components/page/about/UpdateLog');
+const MeHome = () => import('../components/page/me/MeHome');
+const MeSetting = () => import('../components/page/me/MeSetting');
+const MeFavoriteVideo = () => import('../components/page/me/MeFavoriteVideo');
+const MeFavoriteMember = () => import('../components/page/me/MeFavoriteMember');
+const NotFound = () => import('../components/page/NotFound');
 
 const router =  createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
