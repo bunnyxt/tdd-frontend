@@ -13,11 +13,11 @@
             数据原点显示：<a-switch @change="toggleShowBasePoint" />
           </div>
         </div>
-        <span style="cursor: pointer"><a-icon type="setting" /> 图表设置</span>
+        <span style="cursor: pointer"><setting-outlined /> 图表设置</span>
       </a-popover>
       <template v-if="config.dateRangePanel">
         <div v-if="compact" style="float: right" @click="onAddedRangeMobileClick">
-          <span style="cursor: pointer">时间范围 <a-icon type="calendar" /></span>
+          <span style="cursor: pointer">时间范围 <calendar-outlined /></span>
           <a-modal title="时间范围" v-model="addedRangeMobileVisibility">
             <template slot="footer">
               <a-button type="primary" @click="onAddedRangeMobileClick">确定</a-button>
@@ -75,7 +75,7 @@
               </template>
             </a-alert>
           </template>
-          <span style="cursor: pointer">时间范围 <a-icon type="calendar" /></span>
+          <span style="cursor: pointer">时间范围 <calendar-outlined /></span>
         </a-popover>
       </template>
     </div>
@@ -85,10 +85,15 @@
 
 <script>
 import { Chart } from '@antv/g2';
+import { SettingOutlined, CalendarOutlined } from '@ant-design/icons-vue';
 import moment from "moment";
 
 export default {
   name: 'TddLineChart',
+  components: {
+    SettingOutlined,
+    CalendarOutlined,
+  },
   props: {
     id: {
       type: String,

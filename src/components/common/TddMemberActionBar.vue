@@ -6,7 +6,7 @@
       :loading="isLoadingMemberLikeCount || isPostingMemberLike || isDeletingMemberLike"
       @click="memberLikeButtonClickHandler(mid)"
     >
-      <span :style="memberLikeDisplayStyle"><a-icon type="like" /> {{ memberLikeCount }}</span>
+      <span :style="memberLikeDisplayStyle"><like-outlined /> {{ memberLikeCount }}</span>
     </a-button>
     <a-button
       title="关注"
@@ -14,7 +14,7 @@
       :loading="isLoadingMemberFavoriteCount || isPostingMemberFavorite || isDeletingMemberFavorite"
       @click="memberFavoriteButtonClickHandler(mid)"
     >
-      <span :style="memberFavoriteDisplayStyle"><a-icon type="plus" /> {{ memberFavoriteCount }}</span>
+      <span :style="memberFavoriteDisplayStyle"><plus-outlined /> {{ memberFavoriteCount }}</span>
     </a-button>
     <a-button
       class="bili-btn"
@@ -22,14 +22,21 @@
       :style="memberHomeButtonStyle"
       @click="goToBiliSpace(mid)"
     >
-      <a-icon type="home" />
+      <home-outlined />
     </a-button>
   </div>
 </template>
 
 <script>
+import { HomeOutlined, LikeOutlined, PlusOutlined } from '@ant-design/icons-vue';
+
 export default {
   name: 'TddMemberActionBar',
+  components: {
+    HomeOutlined,
+    LikeOutlined,
+    PlusOutlined,
+  },
   props: {
     mid: {
       type: Number,

@@ -42,8 +42,8 @@
           size="small"
           @click="() => templateExpanded = !templateExpanded"
         >
-          <a-icon v-if="templateExpanded" type="left" />
-          <a-icon v-else type="right" />
+          <left-outlined v-if="templateExpanded" />
+          <right-outlined v-else />
         </a-button>
       </div>
       <h3>步骤3：点击<a-button size="small" @click="replace" style="margin-left: 4px">替换</a-button></h3>
@@ -60,11 +60,16 @@
 </template>
 
 <script>
+import { LeftOutlined, RightOutlined } from '@ant-design/icons-vue';
 import axios from 'axios'
 axios.defaults.withCredentials = false;
 
 export default {
   name: 'TextAbidDescriptionReplacement',
+  components: {
+    LeftOutlined,
+    RightOutlined,
+  },
   data: function () {
     return {
       inputText: 'av3905462是继BV1zs411S7sz之后的第二首达成神话（一千万播放量）的VC曲目。',

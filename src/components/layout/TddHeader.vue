@@ -6,9 +6,14 @@
       <div :style="{ position: 'fixed', zIndex: 30, width: '100%' }">
         <tdd-language-select-banner ref="banner" /><!-- bug: will lead to cover some content -->
         <a-layout-header class="mobile-header">
-          <a-icon
+          <menu-fold-outlined
+            v-if="this.$store.state.isMenuSliderVisible"
             class="trigger mobile-header-menu-icon"
-            :type="this.$store.state.isMenuSliderVisible ? 'menu-fold' : 'menu-unfold'"
+            @click="() => this.$store.commit('changeMenuSliderVisibility')"
+          />
+          <menu-unfold-outlined
+            v-else
+            class="trigger mobile-header-menu-icon"
             @click="() => this.$store.commit('changeMenuSliderVisibility')"
           />
           <img
@@ -17,9 +22,8 @@
             @click="() => this.$router.push('/')"
           />
           <div v-if="!this.$store.state.isUserLoggedIn">
-            <a-icon
+            <user-outlined
               class="mobile-header-user-avatar"
-              type="user"
               @click="() => this.$store.commit('changeLoginSliderVisibility')"
             />
           </div>
@@ -89,7 +93,7 @@
             <router-link to="/about">{{ $t('page_name.about') }}</router-link>
           </a-menu-item>
           <a-menu-item key="language" @click="handleLanguageButtonClick">
-            <a-icon type="global" />
+            <global-outlined />
           </a-menu-item>
         </a-menu>
         <div v-if="!this.$store.state.isUserLoggedIn">
@@ -137,11 +141,19 @@
 import logo_small from '../../assets/img/logo_32S.png'
 import md5 from 'js-md5';
 import TddLanguageSelectBanner from "@/components/layout/TddLanguageSelectBanner";
+import { MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined, HomeOutlined, SettingOutlined, GlobalOutlined, LogoutOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'TddHeader',
   components: {
     TddLanguageSelectBanner,
+    MenuFoldOutlined,
+    MenuUnfoldOutlined,
+    UserOutlined,
+    HomeOutlined,
+    SettingOutlined,
+    GlobalOutlined,
+    LogoutOutlined,
   },
   data: function () {
     return {

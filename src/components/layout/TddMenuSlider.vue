@@ -26,14 +26,19 @@
       </a-menu>
     </div>
     <div class="bottom-wrapper">
-      <a-icon type="global" @click="handleLanguageButtonClick" />
+      <global-outlined @click="handleLanguageButtonClick" />
     </div>
   </a-drawer>
 </template>
 
 <script>
+import { GlobalOutlined } from '@ant-design/icons-vue';
+
 export default {
   name: "TddMenuSlider",
+  components: {
+    GlobalOutlined,
+  },
   computed: {
     selectedKeys: function() {
       let path = this.$route.fullPath;

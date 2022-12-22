@@ -21,7 +21,7 @@
       @close="() => $store.commit('setVideoDetailDrawerVisibility', false)"
       :width="videoDetailDrawerWidth + 'px'"
     >
-      <template slot="title">
+      <template #title>
         {{ idString }}
         <a-button
           size="small"
@@ -48,7 +48,7 @@
         style="margin-bottom: 12px;"
         banner
       >
-        <template slot="message">
+        <template #message>
           <i18n path="video_detail.error_duplicated_prompt" tag="label">
             <a :href="`/video/av${video.forward}`" target="_blank">av{{video.forward}}</a>
           </i18n>
@@ -70,7 +70,6 @@
         </div>
         <div v-if="video.hasstaff === 1" style="float: left; margin-bottom: 12px">
           <a-dropdown :trigger="['click']" placement="bottomCenter">
-            <a class="ant-dropdown-link" href="#">{{ $t('video_detail.staff') }} ({{ video.staff.length }}) <a-icon type="down" /> </a>
             <a-menu slot="overlay">
               <template v-for="staff in video.staff.filter( s => s.title === 'UP主')" :key="staff.mid">
                 <a-menu-item>
@@ -89,14 +88,15 @@
                 </a-menu-item>
               </template>
             </a-menu>
+            <a class="ant-dropdown-link" href="#">{{ $t('video_detail.staff') }} ({{ video.staff.length }}) <down-outlined /> </a>
           </a-dropdown>
         </div>
       </div>
-      <p><a-icon type="calendar" style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
-      <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
+      <p><calendar-outlined style="margin-right: 12px" />{{ $util.tsToDateString(video.pubdate) }}</p>
+      <p><database-outlined style="margin-right: 12px" />{{ video.tname }}</p>
       <template v-if="$config.enableVideoAttributeFlags && videoAttributeFlags.length > 0 && $store.state.isUserLoggedIn">
         <p>
-          <a-icon type="flag" style="margin-right: 12px" />
+          <flag-outlined style="margin-right: 12px" />
           <a-tag
             v-for="flag in videoAttributeFlags"
             :key="flag.name"
@@ -121,7 +121,7 @@
                   <a href="https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/video/info.md#获取视频详细信息web端" target="_blank">{{ $t('video_detail.attribute_reference_here') }}</a>
                 </i18n>
               </template>
-              <a-icon type="question-circle" />
+              <question-circle-outlined />
             </a-popover>
           </a-tag>
         </p>
@@ -154,7 +154,7 @@
       <div class="drawer-footer" :style="{ width: videoDetailDrawerWidth + 'px', zIndex: 10 }">
         <router-link :to="'/video/av'+video.aid">
           <div @click="videoDetailClickHandler">
-            <a-icon type="line-chart" :title="$t('detailed_data')" style="margin-right: 8px"/>{{ $t('detailed_data') }}
+            <line-chart-outlined :title="$t('detailed_data')" style="margin-right: 8px" />{{ $t('detailed_data') }}
           </div>
         </router-link>
       </div>
@@ -167,6 +167,7 @@ import TddVideoDescription from "./TddVideoDescription";
 import TddVideoActionBar from "./TddVideoActionBar";
 import TddVideoDataBlock from "@/components/common/TddVideoDataBlock";
 import TddMoeGirlWikiWidget from "@/components/common/TddMoeGirlWikiWidget";
+import { DownOutlined, CalendarOutlined, DatabaseOutlined, FlagOutlined, QuestionCircleOutlined, LineChartOutlined } from "@ant-design/icons-vue";
 
 export default {
   name: 'TddVideoDetailDrawer',
@@ -175,6 +176,12 @@ export default {
     TddVideoActionBar,
     TddVideoDataBlock,
     TddMoeGirlWikiWidget,
+    DownOutlined,
+    CalendarOutlined,
+    DatabaseOutlined,
+    FlagOutlined,
+    QuestionCircleOutlined,
+    LineChartOutlined,
   },
   data: function () {
     return {

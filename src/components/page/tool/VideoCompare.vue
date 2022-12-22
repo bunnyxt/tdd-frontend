@@ -95,14 +95,14 @@
             @click="moveVideoInVideoCompareList(item.aid, 'up')"
             style="margin-right: 12px"
           >
-            <a-icon type="arrow-up" />
+            <arrow-up-outlined />
           </a-button>
           <a-button
             title="下移"
             @click="moveVideoInVideoCompareList(item.aid, 'down')"
             style="margin-right: 12px"
           >
-            <a-icon type="arrow-down" />
+            <arrow-down-outlined />
           </a-button>
           <a-popconfirm
             :title="`确定删除av${item.aid}？`"
@@ -113,7 +113,7 @@
             <a-button
               title="删除"
             >
-              <a-icon type="delete" />
+              <delete-outlined />
             </a-button>
           </a-popconfirm>
         </template>
@@ -126,11 +126,15 @@
 
 <script>
 import TddVideoHistoryCompareLineChart from "@/components/chart/TddVideoHistoryCompareLineChart";
+import { ArrowUpOutlined, ArrowDownOutlined, DeleteOutlined } from "@ant-design/icons-vue";
 
 export default {
   name: 'VideoCompare',
   components: {
     TddVideoHistoryCompareLineChart,
+    ArrowUpOutlined,
+    ArrowDownOutlined,
+    DeleteOutlined,
   },
   data: function () {
     return {
