@@ -28,7 +28,7 @@
       <p>
         <i18n-t keypath="know_more_update_prompt" tag="label">
           <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>
-          <a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/>
+          <qrcode-outlined style="margin-right: 8px; margin-right: 4px" />
           <a target="_blank" :href="qqgroup_qrcode">{{ $t('qr_code') }}</a>
           <a target="_blank" href="https://github.com/users/bunnyxt/projects/1">GitHub Project</a>
         </i18n-t>
@@ -56,9 +56,13 @@
 
 <script>
 import qqgroup_qrcode from '../../../assets/img/qrcode_1580391374617.jpg'
+import { QrcodeOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'UpdateLog',
+  components: {
+    QrcodeOutlined,
+  },
   data: function () {
     return {
       qqgroup_qrcode: qqgroup_qrcode,

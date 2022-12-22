@@ -8,8 +8,7 @@
           @change="tsValChangeHandler"
         >
           <template #suffix>
-            <a-icon
-              type="copy"
+            <copy-outlined
               title="复制"
               @click="copyTsVal"
               style="cursor: pointer"
@@ -24,8 +23,7 @@
           @change="tsStrChangeHandler"
         >
           <template #suffix>
-            <a-icon
-              type="copy"
+            <copy-outlined
               title="复制"
               @click="copyTsStr"
               style="cursor: pointer"
@@ -35,10 +33,10 @@
       </a-col>
       <a-col :span="5">
         <a-button title="复制" :disabled="!canAddNew" @click="duplicateItemHandler" style="margin-right: 8px">
-          <a-icon type="plus" />
+          <plus-outlined />
         </a-button>
         <a-button title="删除" @click="deleteItemHandler">
-          <a-icon type="delete" />
+          <delete-outlined />
         </a-button>
       </a-col>
     </a-row>
@@ -46,8 +44,15 @@
 </template>
 
 <script>
+import { CopyOutlined, PlusOutlined, DeleteOutlined } from '@ant-design/icons-vue';
+
 export default {
   name: 'TsConvertItem',
+  components: {
+    CopyOutlined,
+    PlusOutlined,
+    DeleteOutlined,
+  },
   props: {
     id: {
       type: Number,

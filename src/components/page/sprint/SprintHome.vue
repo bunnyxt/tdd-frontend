@@ -16,8 +16,8 @@
           <p>VC传说冲刺曲目助攻计划，收录B站接近<a href="https://zh.moegirl.org/Vocaloid中文传说曲" target="_blank">中文VOCALOID传说曲</a>要求的曲目视频，目前以<strong>80万</strong>播放数作为收录标准。</p>
           <p>曲目信息每10分钟更新一次，存在一定的延迟。移动端访问本站可能出现图表较小、查看不便等问题，可尝试将设备横过来，使用<strong>横屏浏览</strong>。</p>
           <p>
-            点击<a-icon type="play-circle" title="立刻助攻"/>跳转至B站视频页进行助攻<br/>
-            点击<a-icon type="line-chart" title="查看详情"/>查看本站记录的冲刺数据详情
+            点击<play-circle-outlined title="立刻助攻" />跳转至B站视频页进行助攻<br/>
+            点击<line-chart-outlined title="查看详情" />查看本站记录的冲刺数据详情
           </p>
           <p>
             数据交流与系统反馈
@@ -145,12 +145,15 @@
 <script>
 import SprintVideoBrief from "./SprintVideoBrief.vue";
 import SprintVideoInfo from './SprintVideoInfo.vue';
+import { PlayCircleOutlined, LineChartOutlined } from "@ant-design/icons-vue";
 
 export default {
   name: "SprintHome",
   components: {
     SprintVideoBrief,
-    SprintVideoInfo
+    SprintVideoInfo,
+    PlayCircleOutlined,
+    LineChartOutlined,
   },
   data: function() {
     return {

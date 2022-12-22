@@ -48,7 +48,7 @@
         <li>
           <i18n-t keypath="contact_official_qq_group" tag="label">
             <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>
-            <a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/>
+            <qrcode-outlined style="margin-right: 8px; margin-left: 4px;"
             <a target="_blank" :href="qqgroup_qrcode">{{ $t('qr_code') }}</a>
           </i18n-t>
         </li>
@@ -101,9 +101,13 @@
 
 <script>
 import qqgroup_qrcode from '../../../assets/img/qrcode_1580391374617.jpg'
+import { QrcodeOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'ContactUs',
+  components: {
+    QrcodeOutlined,
+  },
   data: function () {
     return {
       qqgroup_qrcode: qqgroup_qrcode

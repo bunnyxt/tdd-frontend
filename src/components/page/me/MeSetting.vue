@@ -142,7 +142,7 @@
                       ]"
                     >
                       <template v-if="bindEmailRecaptchaPassed">
-                        <a-icon type="check-circle" style="margin-right: 8px" />已通过
+                        <check-circle-outlined style="margin-right: 8px" />已通过
                         <a-button
                           type="primary"
                           style="margin-left: 8px"
@@ -266,7 +266,7 @@
                       ]"
                     >
                       <template v-if="bindPhoneRecaptchaPassed">
-                        <a-icon type="check-circle" style="margin-right: 8px" />已通过
+                        <check-circle-outlined style="margin-right: 8px" />已通过
                         <a-button
                           type="primary"
                           style="margin-left: 8px"
@@ -371,9 +371,14 @@
 
 <script>
 import VueGrecaptcha from 'vue-recaptcha'
+import { CheckCircleOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'MeSetting',
+  components: {
+    VueGrecaptcha,
+    CheckCircleOutlined,
+  },
   data: function () {
     return {
       recaptchaSiteKey: this.$config.recaptchaSiteKey,
@@ -416,9 +421,6 @@ export default {
       changePasswordForm: this.$form.createForm(this, { name: 'changePasswordForm' }),
       isChangingPassword: false,
     }
-  },
-  components: {
-    VueGrecaptcha
   },
   watch: {
 

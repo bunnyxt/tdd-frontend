@@ -2,19 +2,30 @@
 
 <template>
   <div class="video-stat-bar">
-    <span class="stat-item"><a-icon type="play-circle" class="stat-item-icon" />{{ view }}</span><span v-html="separator"></span>
-    <span class="stat-item"><a-icon type="profile" class="stat-item-icon" />{{ danmaku }}</span><span v-html="separator"></span>
-    <span class="stat-item"><a-icon type="message" class="stat-item-icon" />{{ reply }}</span><span v-html="separator"></span>
-    <span class="stat-item"><a-icon type="star" class="stat-item-icon" />{{ favorite }}</span><span v-html="separator"></span>
-    <span class="stat-item"><a-icon type="dollar" class="stat-item-icon" />{{ coin }}</span><span v-html="separator"></span>
-    <span class="stat-item"><a-icon type="share-alt" class="stat-item-icon" />{{ share }}</span><span v-html="separator"></span>
-    <span class="stat-item"><a-icon type="like" class="stat-item-icon" />{{ like }}</span>
+    <span class="stat-item"><play-circle-outlined class="stat-item-icon" />{{ view }}</span><span v-html="separator"></span>
+    <span class="stat-item"><profile-outlined class="stat-item-icon" />{{ danmaku }}</span><span v-html="separator"></span>
+    <span class="stat-item"><message-outlined class="stat-item-icon" />{{ reply }}</span><span v-html="separator"></span>
+    <span class="stat-item"><star-outlined class="stat-item-icon" />{{ favorite }}</span><span v-html="separator"></span>
+    <span class="stat-item"><dollar-outlined class="stat-item-icon" />{{ coin }}</span><span v-html="separator"></span>
+    <span class="stat-item"><share-alt-outlined class="stat-item-icon" />{{ share }}</span><span v-html="separator"></span>
+    <span class="stat-item"><like-outlined class="stat-item-icon" />{{ like }}</span>
   </div>
 </template>
 
 <script>
+import { PlayCircleOutlined, ProfileOutlined, MessageOutlined, StarOutlined, DollarOutlined, ShareAltOutlined, LikeOutlined } from '@ant-design/icons-vue';
+
 export default {
   name: 'TddVideoStatBar',
+  components: {
+    PlayCircleOutlined,
+    ProfileOutlined,
+    MessageOutlined,
+    StarOutlined,
+    DollarOutlined,
+    ShareAltOutlined,
+    LikeOutlined,
+  },
   props: {
     stat: Object,
     mode: String,

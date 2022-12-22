@@ -75,7 +75,7 @@
               <a-popover :title="$t('contact_us')" trigger="hover" placement="bottom">
                 <template #content>
                   <div>
-                    {{ $t('qq_group') }}{{ $t('colon') }}<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/><a target="_blank" :href="qqgroup_qrcode">{{ $t('qr_code') }}</a><br/>
+                    {{ $t('qq_group') }}{{ $t('colon') }}<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><qrcode-outlined style="margin-left: 8px; margin-right: 4px"/><a target="_blank" :href="qqgroup_qrcode">{{ $t('qr_code') }}</a><br/>
                     {{ $t('personal_email') }}{{ $t('colon') }}<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
                   </div>
                 </template>
@@ -138,7 +138,7 @@
                 </a-statistic>
                 <a-statistic :title="$t('30_days_increment')" :value="last30DayVideoCount" style="padding: 8px 20px 0 20px">
                   <template #prefix>
-                    <a-icon type="arrow-up" />
+                    <arrow-up-outlined />
                   </template>
                 </a-statistic>
               </div>
@@ -150,7 +150,7 @@
                 </a-statistic>
                 <a-statistic :title="$t('30_days_increment')" :value="last30DayMemberCount" style="padding: 8px 20px 0 20px">
                   <template #prefix>
-                    <a-icon type="arrow-up" />
+                    <arrow-up-outlined />
                   </template>
                 </a-statistic>
               </div>
@@ -162,7 +162,7 @@
                 </a-statistic>
                 <a-statistic :title="$t('30_days_increment')" :value="last30DayVideoRecordCount" style="padding: 8px 20px 0 20px">
                   <template #prefix>
-                    <a-icon type="arrow-up" />
+                    <arrow-up-outlined />
                   </template>
                 </a-statistic>
               </div>
@@ -205,8 +205,8 @@
           <h1>{{ $t('page_name.video') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
-          <a-button size="small" @click="fetchRandomVideoList(6)"><a-icon type="reload" />{{ refreshString }}</a-button>
-          <a-button size="small" @click="() => this.$router.push('/video')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
+          <a-button size="small" @click="fetchRandomVideoList(6)"><reload-outlined />{{ refreshString }}</a-button>
+          <a-button size="small" @click="() => this.$router.push('/video')" style="margin-left: 8px">{{ moreString }}<arrow-right-outlined /></a-button>
         </div>
       </div>
       <p>
@@ -238,8 +238,8 @@
           <h1>{{ $t('page_name.member') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
-          <a-button size="small" @click="fetchRandomMemberList(6)"><a-icon type="reload" />{{ refreshString }}</a-button>
-          <a-button size="small" @click="() => this.$router.push('/member')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
+          <a-button size="small" @click="fetchRandomMemberList(6)"><reload-outlined />{{ refreshString }}</a-button>
+          <a-button size="small" @click="() => this.$router.push('/member')" style="margin-left: 8px">{{ moreString }}<arrow-right-outlined /></a-button>
         </div>
       </div>
       <p>{{ $t('page_brief_intro.member') }}</p>
@@ -257,8 +257,8 @@
           <h1>{{ $t('page_name.sprint') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
-          <a-button size="small" @click="getSprintVideoListFiltered"><a-icon type="reload" />{{ refreshString }}</a-button>
-          <a-button size="small" @click="() => this.$router.push('/sprint')" style="margin-left: 8px">{{ moreString }}<a-icon type="arrow-right" /></a-button>
+          <a-button size="small" @click="getSprintVideoListFiltered"><reload-outlined />{{ refreshString }}</a-button>
+          <a-button size="small" @click="() => this.$router.push('/sprint')" style="margin-left: 8px">{{ moreString }}<arrow-right-outlined /></a-button>
         </div>
       </div>
       <p>
@@ -284,7 +284,7 @@
           <h1>{{ $t('page_name.tool') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
-          <a-button size="small" @click="() => this.$router.push('/tool')">{{ moreString }}<a-icon type="arrow-right" /></a-button>
+          <a-button size="small" @click="() => this.$router.push('/tool')">{{ moreString }}<arrow-right-outlined /></a-button>
         </div>
       </div>
       <p>{{ $t('page_brief_intro.tool') }}</p>
@@ -322,6 +322,7 @@ import TddMemberList from "../common/TddMemberList";
 import logo_max from '../../assets/img/logo_max.png'
 import qqgroup_qrcode from '../../assets/img/qrcode_1580391374617.jpg'
 import TddVideoAbidAutoComplete from "@/components/common/TddVideoAbidAutoComplete";
+import { QrcodeOutlined, ArrowUpOutlined, ReloadOutlined, ArrowRightOutlined } from "@ant-design/icons-vue";
 
 export default {
   name: "Home",
@@ -330,6 +331,10 @@ export default {
     TddMemberList,
     TddDonateLogList,
     TddVideoAbidAutoComplete,
+    QrcodeOutlined,
+    ArrowUpOutlined,
+    ReloadOutlined,
+    ArrowRightOutlined,
   },
   data: function () {
     return {

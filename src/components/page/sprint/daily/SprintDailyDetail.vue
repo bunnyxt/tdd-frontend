@@ -29,7 +29,7 @@
           <div v-else>
             <a-alert type="error" :message="daily.comment" banner style="margin-bottom: 12px"/>
           </div>
-          <p>传送门：<a-icon type="arrow-left" />助攻日报<a :href="'/sprint/daily/'+lastDate">#{{ lastDate }}</a> 助攻日报<a :href="'/sprint/daily/'+nextDate">#{{ nextDate }}</a><a-icon type="arrow-right" /></p>
+          <p>传送门：<arrow-left-outlined />助攻日报<a :href="'/sprint/daily/'+lastDate">#{{ lastDate }}</a> 助攻日报<a :href="'/sprint/daily/'+nextDate">#{{ nextDate }}</a><arrow-right-outlined /></p>
         </div>
         <div class="section-separator"></div>
 
@@ -74,12 +74,15 @@
 <script>
 import SprintVideoBriefTable from "../SprintVideoBriefTable.vue"
 import SprintDailyDetailTable from "./SprintDailyDetailTable.vue"
+import { ArrowLeftOutlined, ArrowRightOutlined } from "@ant-design/icons-vue";
 
 export default {
   name: "SprintDailyDetail",
   components: {
     SprintVideoBriefTable,
-    SprintDailyDetailTable
+    SprintDailyDetailTable,
+    ArrowLeftOutlined,
+    ArrowRightOutlined,
   },
   data: function() {
     return {

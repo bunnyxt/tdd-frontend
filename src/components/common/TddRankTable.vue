@@ -90,7 +90,7 @@
           >
             <a :href="`https://www.bilibili.com/video/av${item.video.aid}`">
               <div class="to-bilibili-cover-background"></div>
-              <a-icon class="to-bilibili-cover-play-icon" type="play-circle"></a-icon>
+              <play-circle-outlined class="to-bilibili-cover-play-icon" />
             </a>
           </div>
         </div>
@@ -112,7 +112,7 @@
         <div class="video-title">
           <a-tooltip placement="topLeft">
             <template #title>
-              <a-icon type="calendar" style="margin-right: 4px" />
+              <calendar-outlined style="margin-right: 4px" />
               {{ $util.tsToDateString(archId === 0 ? item.now_added : item.arch_added) }}
               <tdd-video-stat-bar :stat="extractStat(item)" style="margin: 8px 0" />
               {{ $t('click_to_view_video_detailed_info_prompt') }}
@@ -151,14 +151,14 @@
             </template>
             <span style="display: flex">
               <span>
-                <a-icon type="calendar" style="margin-right: 4px" />
+                <calendar-outlined style="margin-right: 4px" />
                 {{ $util.tsToDateString(item.video.pubdate, 'yyyy-MM-dd') }}
               </span>
               <span
                 v-if="showTimespanString"
                 style="display: inline; margin-left: 16px; width: 118px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; cursor: help"
               >
-                <a-icon type="hourglass" style="margin-right: 4px" />
+                <hourglass-outlined style="margin-right: 4px" />
                 {{ $store.getters.i18nLocale === 'en' ? $util.getTimespanStrEn(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added) : $util.getTimespanStr(item.video.pubdate, archId === 0 ? item.now_added : item.arch_added) }}
               </span>
             </span>
@@ -172,7 +172,7 @@
             <template #content>
               <a :href="`https://www.bilibili.com/video/BV${item.bvid}`" target="_blank" style="color: #1890ff">{{ $t('this_video') }}</a>{{ $t('no_longer_track_prompt') }}
             </template>
-            <a-icon type="question-circle" />
+            <question-circle-outlined />
           </a-popover>
         </div>
         <div class="video-title-member">
@@ -259,9 +259,20 @@ import TddRankTableIncrCell from "@/components/common/TddRankTableIncrCell";
 import TddRankTablePointCell from "@/components/common/TddRankTablePointCell";
 import TddVideoStatBar from "@/components/common/TddVideoStatBar";
 import TddMemberCard from "@/components/common/TddMemberCard";
+import { PlayCircleOutlined, CalendarOutlined, HourglassOutlined, QuestionCircleOutlined } from "@ant-design/icons-vue";
 
 export default {
   name: 'TddRankTable',
+  components: {
+    TddRankTableIncrCell,
+    TddRankTablePointCell,
+    TddVideoStatBar,
+    TddMemberCard,
+    PlayCircleOutlined,
+    CalendarOutlined,
+    HourglassOutlined,
+    QuestionCircleOutlined,
+  },
   props: {
     rankList: {
       type: Array,
@@ -282,12 +293,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  components: {
-    TddRankTableIncrCell,
-    TddRankTablePointCell,
-    TddVideoStatBar,
-    TddMemberCard,
   },
   data: function () {
     return {

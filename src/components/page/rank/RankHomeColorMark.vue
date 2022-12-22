@@ -44,7 +44,7 @@
       {{ $t('current_separation_property_prompt') }}
       <a-dropdown>
         <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-          {{ getPropertyName(currentProperty) }} <a-icon type="down" />
+          {{ getPropertyName(currentProperty) }} <down-outlined />
         </a>
         <template #overlay>
           <a-menu @click="changeCurrentProperty">
@@ -59,8 +59,13 @@
 </template>
 
 <script>
+import { DownOutlined } from '@ant-design/icons-vue';
+
 export default {
   name: 'RankHomeColorMark',
+  components: {
+    DownOutlined,
+  },
   props: {
     color: {
       type: Object,

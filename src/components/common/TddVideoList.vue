@@ -30,35 +30,35 @@
                 </div>
                 <div v-if="showMobileView">
                   <template v-if="mainProp === 'view'">
-                    <a-icon type="play-circle" class="stat-item-icon" />
+                    <play-circle-outlined class="stat-item-icon" />
                     {{ item.laststat ? item.laststat.view.toLocaleString() : -1 }}
                   </template>
                   <template v-else-if="mainProp === 'danmaku'">
-                    <a-icon type="profile" class="stat-item-icon" />
+                    <profile-outlined class="stat-item-icon" />
                     {{ item.laststat ? item.laststat.danmaku.toLocaleString() : -1 }}
                   </template>
                   <template v-else-if="mainProp === 'reply'">
-                    <a-icon type="message" class="stat-item-icon" />
+                    <message-outlined class="stat-item-icon" />
                     {{ item.laststat ? item.laststat.reply.toLocaleString() : -1 }}
                   </template>
                   <template v-else-if="mainProp === 'favorite'">
-                    <a-icon type="star" class="stat-item-icon" />
+                    <star-outlined class="stat-item-icon" />
                     {{ item.laststat ? item.laststat.favorite.toLocaleString() : -1 }}
                   </template>
                   <template v-else-if="mainProp === 'coin'">
-                    <a-icon type="dollar" class="stat-item-icon" />
+                    <dollar-outlined class="stat-item-icon" />
                     {{ item.laststat ? item.laststat.coin.toLocaleString() : -1 }}
                   </template>
                   <template v-else-if="mainProp === 'share'">
-                    <a-icon type="share-alt" class="stat-item-icon" />
+                    <share-alt-outlined class="stat-item-icon" />
                     {{ item.laststat ? item.laststat.share.toLocaleString() : -1 }}
                   </template>
                   <template v-else-if="mainProp === 'like'">
-                    <a-icon type="like" class="stat-item-icon" />
+                    <like-outlined class="stat-item-icon" />
                     {{ item.laststat ? item.laststat.like.toLocaleString() : -1 }}
                   </template>
                   <template v-else-if="mainProp === 'pubdate'">
-                    <a-icon type="calendar" class="stat-item-icon" />
+                    <calendar-outlined class="stat-item-icon" />
                     {{ $util.tsToDateString(item.pubdate, 'HH:mm:ss') }}
                   </template>
                 </div>
@@ -103,7 +103,7 @@
                     style="margin-right: 4px; margin-bottom: 1px"
                   />
                   {{ item.member ? item.member.name : 'mid'+item.mid}}
-                  <a-icon type="calendar" style="margin-left: 8px; margin-right: 4px"/>
+                  <calendar-outlined style="margin-left: 8px; margin-right: 4px"/>
                   {{ $util.tsToDateString(item.pubdate) }}
                 </div>
                 <div v-if="showStatBar">
@@ -142,7 +142,7 @@
                     style="margin-right: 4px; margin-bottom: 1px"
                   />
                   {{ item.member ? item.member.name : 'mid'+item.mid}}<br>
-                  <a-icon type="calendar" style="margin-right: 4px"/>
+                  <calendar-outlined style="margin-right: 4px"/>
                   {{ $util.tsToDateString(item.pubdate) }}
                 </div>
                 <a-tooltip>
@@ -188,9 +188,22 @@
 <script>
 import TddVideoStatBar from "./TddVideoStatBar.vue";
 import TddVideoCover from "./TddVideoCover";
+import { PlayCircleOutlined, ProfileOutlined, MessageOutlined, StarOutlined, DollarOutlined, ShareAltOutlined, LikeOutlined, CalendarOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'TddVideoList',
+  components: {
+    TddVideoStatBar,
+    TddVideoCover,
+    PlayCircleOutlined,
+    ProfileOutlined,
+    MessageOutlined,
+    StarOutlined,
+    DollarOutlined,
+    ShareAltOutlined,
+    LikeOutlined,
+    CalendarOutlined,
+  },
   props: {
     videoList: {
       type: Array,
@@ -218,10 +231,6 @@ export default {
       type: Boolean,
       default: false
     }
-  },
-  components: {
-    TddVideoStatBar,
-    TddVideoCover
   },
   data: function () {
     return {

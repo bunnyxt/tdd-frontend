@@ -124,7 +124,7 @@
               </div>
               <div v-if="video.hasstaff === 1" style="float: left; margin-bottom: 12px">
                 <a-dropdown :trigger="['click']" placement="bottomCenter">
-                  <a class="ant-dropdown-link" href="#">{{ $t('video_detail.staff') }} ({{ video.staff.length }}) <a-icon type="down" /> </a>
+                  <a class="ant-dropdown-link" href="#">{{ $t('video_detail.staff') }} ({{ video.staff.length }}) <down-outlined /> </a>
                   <template #overlay>
                     <a-menu>
                       <template v-for="staff in video.staff.filter( s => s.title === 'UP主')" :key="staff.mid">
@@ -148,11 +148,11 @@
                 </a-dropdown>
               </div>
             </div>
-            <p><a-icon type="calendar" style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
-            <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
+            <p><calendar-outlined style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
+            <p><database-outlined style="margin-right: 12px"/>{{ video.tname }}</p>
             <template v-if="$config.enableVideoAttributeFlags && videoAttributeFlags.length > 0 && $store.state.isUserLoggedIn">
               <p>
-                <a-icon type="flag" style="margin-right: 12px" />
+                <flag-outlined style="margin-right: 12px" />
                 <a-tag
                   v-for="flag in videoAttributeFlags"
                   :key="flag.name"
@@ -177,7 +177,7 @@
                         <a href="https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/video/info.md#获取视频详细信息web端" target="_blank">{{ $t('video_detail.attribute_reference_here') }}</a>
                       </i18n-t>
                     </template>
-                    <a-icon type="question-circle" />
+                    <question-circle-outlined />
                   </a-popover>
                 </a-tag>
               </p>
@@ -231,15 +231,15 @@
                     mode="horizontal"
                     :style="{ width: `calc(100% - ${$store.getters.clientMode === 'MOBILE' ? 46 : 122}px)` }"
                   >
-                    <a-menu-item key="recordChart"> <a-icon type="line-chart" />{{ $t('video_detail.history_trending') }} </a-menu-item>
-                    <a-menu-item key="recordTable"> <a-icon type="table" />{{ $t('video_detail.detailed_data') }} </a-menu-item>
-                    <a-menu-item key="zkCalc"> <a-icon type="calculator" />{{ $t('video_detail.zk_calc') }} </a-menu-item>
-                    <a-menu-item key="recordSaver"> <a-icon type="download" />{{ $t('video_detail.data_download') }} </a-menu-item>
+                    <a-menu-item key="recordChart"> <line-chart-outlined />{{ $t('video_detail.history_trending') }} </a-menu-item>
+                    <a-menu-item key="recordTable"> <table-outlined />{{ $t('video_detail.detailed_data') }} </a-menu-item>
+                    <a-menu-item key="zkCalc"> <calculator-outlined />{{ $t('video_detail.zk_calc') }} </a-menu-item>
+                    <a-menu-item key="recordSaver"> <download-outlined />{{ $t('video_detail.data_download') }} </a-menu-item>
                   </a-menu>
                   <div style="margin-top: 8px; padding-left: 12px; border-bottom: 1px solid #e8e8e8">
                     <a-popover placement="bottomRight" trigger="click">
                       <a-button>
-                        <a-icon type="filter" /> {{ $store.getters.clientMode === 'MOBILE' ? '' : $t('data_selection') }}
+                        <filter-outlined /> {{ $store.getters.clientMode === 'MOBILE' ? '' : $t('data_selection') }}
                       </a-button>
                       <template #content>
                         <div>
@@ -349,6 +349,7 @@ import TddVideoDataBlock from "@/components/common/TddVideoDataBlock";
 import TddVideoHistoryLineChart from "@/components/chart/TddVideoHistoryLineChart";
 import TddMoeGirlWikiWidget from "@/components/common/TddMoeGirlWikiWidget";
 import VideoDetailVideoIdLink from "@/components/page/video/VideoDetailVideoIdLink";
+import { DownOutlined, CalendarOutlined, DatabaseOutlined, FlagOutlined, QuestionCircleOutlined, LineChartOutlined, TableOutlined, CalculatorOutlined, DownloadOutlined, FilterOutlined } from "@ant-design/icons-vue";
 
 export default {
   name: 'VideoDetail',
@@ -362,6 +363,16 @@ export default {
     TddVideoHistoryLineChart,
     TddMoeGirlWikiWidget,
     VideoDetailVideoIdLink,
+    DownOutlined,
+    CalendarOutlined,
+    DatabaseOutlined,
+    FlagOutlined,
+    QuestionCircleOutlined,
+    LineChartOutlined,
+    TableOutlined,
+    CalculatorOutlined,
+    DownloadOutlined,
+    FilterOutlined,
   },
   data: function() {
     return {

@@ -98,7 +98,7 @@
             <a-popover v-if="$store.state.clientWidth < 964" placement="bottomRight" trigger="click">
 <!--            <a-popover v-if="$store.state.clientWidth < 864" placement="bottom" trigger="click">-->
               <a-button>
-                <a-icon type="filter" />
+                <filter-outlined />
               </a-button>
 <!--              <template #content><div style="width: 312px"></template>-->
               <template #content>
@@ -266,9 +266,16 @@
 import TddRankTable from "../../common/TddRankTable";
 import RankHomeDescription from "@/components/page/rank/RankHomeDescription";
 import RankHomeColorMark from "@/components/page/rank/RankHomeColorMark";
+import { FilterOutlined } from "@ant-design/icons-vue";
 
 export default {
   name: 'RankHome',
+  components: {
+    TddRankTable,
+    RankHomeDescription,
+    RankHomeColorMark,
+    FilterOutlined,
+  },
   data: function () {
     return {
       category: ['weekly'],
@@ -299,11 +306,6 @@ export default {
       },
       pn: 1,
     }
-  },
-  components: {
-    TddRankTable,
-    RankHomeDescription,
-    RankHomeColorMark,
   },
   watch: {
     $route: function (routeObj) {

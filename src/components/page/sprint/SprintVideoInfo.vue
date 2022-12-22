@@ -37,8 +37,8 @@
               </template>
               <template #actions>
                 <div class="ant-card-actions">
-                  <a-icon type="play-circle" title="立刻助攻" @click="handlePlayCircleClick"/>
-                  <a-icon type="line-chart" title="查看详情" @click="handleLineChartClick"/>
+                  <play-circle-outlined title="立刻助攻" @click="handlePlayCircleClick"/>
+                  <line-chart-outlined title="查看详情" @click="handleLineChartClick"/>
                 </div>
               </template>
             </a-card>
@@ -50,8 +50,14 @@
 </template>
 
 <script>
+import { PlayCircleOutlined, LineChartOutlined } from '@ant-design/icons-vue';
+
 export default {
   name: "SprintVideoInfo",
+  components: {
+    PlayCircleOutlined,
+    LineChartOutlined,
+  },
   props: {
     video: Object,
     promotionReason: String,

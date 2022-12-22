@@ -48,44 +48,44 @@
               </div>
               <div class="tdd-member-item-mobile-right-content-footer">
                 <div style="width: 40%">
-                  <a-icon type="video-camera" class="stat-item-icon" />
+                  <video-camera-outlined class="stat-item-icon" />
                   {{ item.video_count.toLocaleString() }}
                 </div>
                 <div style="width: 60%">
                   <template v-if="mainProp === 'sr_view'">
-                    <a-icon type="play-circle" class="stat-item-icon" />
+                    <play-circle-outlined class="stat-item-icon" />
                     {{ item.last_total_stat ? item.last_total_stat.view.toLocaleString() : -1 }}
                   </template>
                   <template v-else-if="mainProp === 'sr_danmaku'">
-                    <a-icon type="profile" class="stat-item-icon" />
+                    <profile-outlined class="stat-item-icon" />
                     {{ item.last_total_stat ? item.last_total_stat.danmaku.toLocaleString() : -1 }}
                   </template>
                   <template v-else-if="mainProp === 'sr_reply'">
-                    <a-icon type="message" class="stat-item-icon" />
+                    <message-outlined class="stat-item-icon" />
                     {{ item.last_total_stat ? item.last_total_stat.reply.toLocaleString() : -1 }}
                   </template>
                   <template v-else-if="mainProp === 'sr_favorite'">
-                    <a-icon type="star" class="stat-item-icon" />
+                    <star-outlined class="stat-item-icon" />
                     {{ item.last_total_stat ? item.last_total_stat.favorite.toLocaleString() : -1 }}
                   </template>
                   <template v-else-if="mainProp === 'sr_coin'">
-                    <a-icon type="dollar" class="stat-item-icon" />
+                    <dollar-outlined class="stat-item-icon" />
                     {{ item.last_total_stat ? item.last_total_stat.coin.toLocaleString() : -1 }}
                   </template>
                   <template v-else-if="mainProp === 'sr_share'">
-                    <a-icon type="share-alt" class="stat-item-icon" />
+                    <share-alt-outlined class="stat-item-icon" />
                     {{ item.last_total_stat ? item.last_total_stat.share.toLocaleString() : -1 }}
                   </template>
                   <template v-else-if="mainProp === 'sr_like'">
-                    <a-icon type="like" class="stat-item-icon" />
+                    <like-outlined class="stat-item-icon" />
                     {{ item.last_total_stat ? item.last_total_stat.like.toLocaleString() : -1 }}
                   </template>
                   <template v-else-if="mainProp === 'v_pubdate'">
-                    <a-icon type="calendar" class="stat-item-icon" />
+                    <calendar-outlined class="stat-item-icon" />
                     {{ $util.tsToDateString(item.last_video ? item.last_video.pubdate : 0, 'MM-dd HH:mm:ss') }}
                   </template>
                   <template v-else-if="mainProp === 'fr_follower'">
-                    <a-icon type="team" class="stat-item-icon" />
+                    <team-outlined class="stat-item-icon" />
                     {{ item.last_follower ? item.last_follower.follower.toLocaleString() : -1 }}
                   </template>
                 </div>
@@ -121,9 +121,12 @@
                   </template>
                 </div>
                 <div class="tdd-member-item-desktop-grid-follower">
-                  <a-icon type="video-camera" class="stat-item-icon" />
+                  <video-camera-outlined class="stat-item-icon" />
                   {{ item.video_count.toLocaleString() }}
-                  <a-icon type="team" class="stat-item-icon" style="margin-left: 12px" />
+                  <team-outlined
+                    class="stat-item-icon"
+                    style="margin-left: 12px"
+                  />
                   {{ item.last_follower ? item.last_follower.follower.toLocaleString() : -1 }}
                 </div>
               </div>
@@ -139,7 +142,8 @@
             <a-tooltip>
               <template #title>
                 {{ item.last_video ? item.last_video.title : '' }}<br>
-                <a-icon type="calendar" style="margin-right: 4px" />
+                <calendar-outlined style="margin-right: 4px" />
+                {{ $util.tsToDateString(item.last_video ? item.last_video.pubdate : 0) }}
                 {{ $util.tsToDateString(item.last_video ? item.last_video.pubdate : 0) }}
                 <tdd-video-stat-bar :stat="item.last_video ? item.last_video.laststat : null" style="margin: 8px 0" />
                 {{ $t('click_go_video_detail_prompt') }}
@@ -158,7 +162,7 @@
                     {{ item.last_video ? item.last_video.title : null }}
                   </div>
                   <div class="tdd-member-item-desktop-grid-last-video-pubdate">
-                    <a-icon type="calendar" style="margin-right: 4px" />
+                    <calendar-outlined style="margin-right: 4px" />
                     {{ $util.tsToDateString(item.last_video ? item.last_video.pubdate : 0) }}
                   </div>
                 </div>
@@ -173,6 +177,7 @@
 
 <script>
 import { Icon } from 'ant-design-vue';
+import { VideoCameraOutlined, PlayCircleOutlined, ProfileOutlined, MessageOutlined, StarOutlined, DollarOutlined, ShareAltOutlined, LikeOutlined, CalendarOutlined, TeamOutlined } from '@ant-design/icons-vue';
 import TddVideoStatBar from "./TddVideoStatBar";
 
 const IconFont = Icon.createFromIconfontCN({
@@ -181,6 +186,20 @@ const IconFont = Icon.createFromIconfontCN({
 
 export default {
   name: 'TddMemberList',
+  components: {
+    IconFont,
+    TddVideoStatBar,
+    VideoCameraOutlined,
+    PlayCircleOutlined,
+    ProfileOutlined,
+    MessageOutlined,
+    StarOutlined,
+    DollarOutlined,
+    ShareAltOutlined,
+    LikeOutlined,
+    CalendarOutlined,
+    TeamOutlined,
+  },
   props: {
     memberList: {
       type: Array,
@@ -192,10 +211,6 @@ export default {
         return 'sr_view';
       }
     }
-  },
-  components: {
-    IconFont,
-    TddVideoStatBar
   },
   data: function () {
     return {

@@ -29,8 +29,7 @@
                 placeholder="1359631780"
               >
                 <template #suffix>
-                  <a-icon
-                    type="copy"
+                  <copy-outlined
                     title="复制"
                     @click="copyCurrentTsVal"
                     style="cursor: pointer"
@@ -44,8 +43,7 @@
                 placeholder="2013-01-31 19:29:40"
               >
                 <template #suffix>
-                  <a-icon
-                    type="copy"
+                  <copy-outlined
                     title="复制"
                     @click="copyCurrentTsStr"
                     style="cursor: pointer"
@@ -55,10 +53,10 @@
             </a-col>
             <a-col :span="5">
               <a-button title="复制" @click="duplicateCurrentItemHandler" style="margin-right: 8px">
-                <a-icon type="plus" />
+                <plus-outlined />
               </a-button>
               <a-button title="不可以删除当前时间" disabled>
-                <a-icon type="delete" />
+                <delete-outlined />
               </a-button>
             </a-col>
           </a-row>
@@ -95,10 +93,10 @@
                 :disabled="!canAddNew"
                 style="margin-right: 8px"
               >
-                <a-icon type="plus" />
+                <plus-outlined />
               </a-button>
               <a-button title="清空" @click="clearNewTsInput">
-                <a-icon type="reload" />
+                <reload-outlined />
               </a-button>
             </a-col>
           </a-row>
@@ -139,11 +137,16 @@
 
 <script>
 import TsConvertItem from "./TsConvertItem";
+import { CopyOutlined, PlusOutlined, DeleteOutlined, ReloadOutlined } from "@ant-design/icons-vue";
 
 export default {
   name: 'TsConvert.vue',
   components: {
-    TsConvertItem
+    TsConvertItem,
+    CopyOutlined,
+    PlusOutlined,
+    DeleteOutlined,
+    ReloadOutlined,
   },
   data: function () {
     return {

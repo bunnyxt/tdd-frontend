@@ -58,9 +58,15 @@
               </template>
             </div>
             <div class="tdd-member-card-header-video-count-follower">
-              <a-icon type="video-camera" class="stat-item-icon" style="margin-right: 4px" />
+              <video-camera-outlined
+                class="stat-item-icon"
+                style="margin-right: 4px"
+              />
               {{ member.video_count.toLocaleString() }}
-              <a-icon type="team" class="stat-item-icon" style="margin-left: 12px; margin-right: 4px" />
+              <team-outlined
+                class="stat-item-icon"
+                style="margin-left: 12px; margin-right: 4px"
+              />
               {{ member.last_follower ? member.last_follower.follower.toLocaleString() : -1 }}
             </div>
           </div>
@@ -72,6 +78,7 @@
 </template>
 
 <script>
+import { VideoCameraOutlined, TeamOutlined } from "@ant-design/icons-vue";
 import {Icon} from "ant-design-vue";
 
 const IconFont = Icon.createFromIconfontCN({
@@ -80,14 +87,16 @@ const IconFont = Icon.createFromIconfontCN({
 
 export default {
   name: 'TddMemberCard',
+  components: {
+    IconFont,
+    VideoCameraOutlined,
+    TeamOutlined,
+  },
   props: {
     mid: {
       type: Number,
       required: true,
     }
-  },
-  components: {
-    IconFont,
   },
   data: function () {
     return {

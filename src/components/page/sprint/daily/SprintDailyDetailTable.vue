@@ -12,15 +12,21 @@
       {{ day }}天
     </template>
     <template #actionRender="aid">
-      <a-button title="立刻助攻" @click="handlePlayCircleClick(aid)" style="margin-right: 8px"><a-icon type="play-circle"/></a-button>
-      <a-button title="查看详情" @click="handleLineChartClick(aid)"><a-icon type="line-chart"/></a-button>
+      <a-button title="立刻助攻" @click="handlePlayCircleClick(aid)" style="margin-right: 8px"><play-circle-outlined /></a-button>
+      <a-button title="查看详情" @click="handleLineChartClick(aid)"><line-chart-outlined /></a-button>
     </template>
   </a-table>
 </template>
 
 <script>
+import { PlayCircleOutlined, LineChartOutlined } from "@ant-design/icons-vue";
+
 export default {
   name: "SprintDailyDetailTable",
+  components: {
+    PlayCircleOutlined,
+    LineChartOutlined,
+  },
   props: {
     sprintDailyRecordList: Array
   },

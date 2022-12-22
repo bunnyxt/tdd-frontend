@@ -59,7 +59,7 @@
       <a-tooltip>
         <template #title>
           {{ video ? video.title : '' }}<br>
-          <a-icon type="calendar" style="margin-right: 4px" />
+          <calendar-outlined style="margin-right: 4px" />
           {{ $util.tsToDateString(video ? video.pubdate : 0) }}
           <tdd-video-stat-bar :stat="video ? video.laststat : null" style="margin: 8px 0" />
           {{ $t('click_view_video_detail_prompt') }}
@@ -79,6 +79,7 @@
 
 <script>
 import { Icon } from 'ant-design-vue';
+import { CalendarOutlined } from '@ant-design/icons-vue';
 import TddVideoStatBar from "./TddVideoStatBar";
 
 const IconFont = Icon.createFromIconfontCN({
@@ -87,15 +88,16 @@ const IconFont = Icon.createFromIconfontCN({
 
 export default {
   name: 'TddMemberTable',
+  components: {
+    IconFont,
+    TddVideoStatBar,
+    CalendarOutlined,
+  },
   props: {
     memberList: {
       type: Array,
       required: true
     }
-  },
-  components: {
-    IconFont,
-    TddVideoStatBar
   },
   data: function () {
     return {

@@ -21,7 +21,7 @@
       :loading="isLoadingVideoLikeCount || isPostingVideoLike || isDeletingVideoLike"
       @click="videoLikeButtonClickHandler(aid)"
     >
-      <span :style="videoLikeDisplayStyle"><a-icon type="like" /> {{ videoLikeCount }}</span>
+      <span :style="videoLikeDisplayStyle"><like-outlined /> {{ videoLikeCount }}</span>
     </a-button>
     <a-button
       :title="$t('go_follow')"
@@ -29,7 +29,7 @@
       :loading="isLoadingVideoFavoriteCount || isPostingVideoFavorite || isDeletingVideoFavorite"
       @click="videoFavoriteButtonClickHandler(aid)"
     >
-      <span :style="videoFavoriteDisplayStyle"><a-icon type="plus" /> {{ videoFavoriteCount }}</span>
+      <span :style="videoFavoriteDisplayStyle"><plus-outlined /> {{ videoFavoriteCount }}</span>
     </a-button>
     <a-button
       class="bili-btn"
@@ -37,14 +37,21 @@
       :style="videoPlayButtonStyle"
       @click="goToBiliAv(aid)"
     >
-      <a-icon type="play-circle" />
+      <play-circle-outlined />
     </a-button>
   </div>
 </template>
 
 <script>
+import { LikeOutlined, PlusOutlined, PlayCircleOutlined } from '@ant-design/icons-vue';
+
 export default {
   name: 'TddVideoActionBar',
+  components: {
+    LikeOutlined,
+    PlusOutlined,
+    PlayCircleOutlined,
+  },
   props: {
     aid: {
       type: Number,

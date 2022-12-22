@@ -86,8 +86,8 @@
                 </div>
               </div>
               <div style="margin-top: 4px">
-                <a-icon type="pay-circle" style="margin-right: 4px" /> 积分：{{ user.point.toLocaleString() }}
-                <a-icon type="rocket" style="margin-left: 12px; margin-right: 4px" /> 经验：{{ user.exp.toLocaleString() }}
+                <play-circle-outlined style="margin-right: 4px" /> 积分：{{ user.point.toLocaleString() }}
+                <rocket-outlined style="margin-left: 12px; margin-right: 4px" /> 经验：{{ user.exp.toLocaleString() }}
               </div>
             </div>
             <div v-if="$store.getters.clientMode !== 'MOBILE'" style="float: right">
@@ -148,15 +148,15 @@
           mode="horizontal"
           :style="meFavoriteMenuStyle"
         >
-          <a-menu-item key="video"><a-icon type="video-camera" />关注视频</a-menu-item>
-          <a-menu-item key="member"><a-icon type="user" />关注UP主</a-menu-item>
+          <a-menu-item key="video"><video-camera-outlined />关注视频</a-menu-item>
+          <a-menu-item key="member"><user-outlined />关注UP主</a-menu-item>
         </a-menu>
         <div style="margin-top: 8px">
           <a-button
             size="small"
             @click="() => this.$router.push('/me/favorite/' + this.favoriteCurrent[0])"
             style="margin-top: 4px"
-          >{{ moreString }}<a-icon type="arrow-right" /></a-button>
+          >{{ moreString }}<arrow-right-outlined /></a-button>
         </div>
       </div>
       <template v-if="favoriteCurrent.includes('video')">
@@ -194,12 +194,18 @@ import md5 from 'js-md5';
   import moment from 'moment';
   import TddVideoList from "../../common/TddVideoList";
   import TddMemberList from "../../common/TddMemberList";
+import { PlayCircleOutlined, RocketOutlined, VideoCameraOutlined, UserOutlined, ArrowRightOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'MeHome',
   components: {
     TddVideoList,
-    TddMemberList
+    TddMemberList,
+    PlayCircleOutlined,
+    RocketOutlined,
+    VideoCameraOutlined,
+    UserOutlined,
+    ArrowRightOutlined,
   },
   data: function () {
     return {

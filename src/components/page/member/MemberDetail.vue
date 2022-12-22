@@ -125,9 +125,9 @@
                 </template>
               </div>
               <div class="tdd-member-detail-header-video-count-follower">
-                <a-icon type="video-camera" class="stat-item-icon" style="margin-right: 4px" />
+                <video-camera-outlined class="stat-item-icon" style="margin-right: 4px" />
                 {{ member.video_count.toLocaleString() }}
-                <a-icon type="team" class="stat-item-icon" style="margin-left: 12px; margin-right: 4px" />
+                <team-outlined class="stat-item-icon" style="margin-left: 12px; margin-right: 4px" />
                 {{ member.last_follower ? member.last_follower.follower.toLocaleString() : -1 }}
               </div>
             </div>
@@ -137,8 +137,8 @@
             <tdd-member-action-bar :mid="mid" />
           </div>
           <a-menu v-model="currentInfoCategory" mode="horizontal" style="margin-bottom: 16px">
-            <a-menu-item key="overview"> <a-icon type="line-chart" />{{ $t('statistics_summary') }} </a-menu-item>
-            <a-menu-item key="history"> <a-icon type="history" />{{ $t('info_history') }} </a-menu-item>
+            <a-menu-item key="overview"> <line-chart-outlined />{{ $t('statistics_summary') }} </a-menu-item>
+            <a-menu-item key="history"> <history-outlined />{{ $t('info_history') }} </a-menu-item>
           </a-menu>
           <div v-show="currentInfoCategory.indexOf('overview') !== -1">
             <tdd-video-stat-bar :stat="member.last_total_stat" :mode="'vertical'" :show-name="true" />
@@ -178,8 +178,8 @@
         <div class="section-separator"></div>
         <div class="section-block">
           <a-menu v-model="currentDataCategory" mode="horizontal" style="margin-bottom: 16px">
-            <a-menu-item key="follower"> <a-icon type="team" />{{ $t('followers_trending') }} </a-menu-item>
-            <a-menu-item key="totalStat"> <a-icon type="line-chart" />{{ $t('statistics_summary_trending') }} </a-menu-item>
+            <a-menu-item key="follower"> <team-outlined />{{ $t('followers_trending') }} </a-menu-item>
+            <a-menu-item key="totalStat"> <line-chart-outlined />{{ $t('statistics_summary_trending') }} </a-menu-item>
           </a-menu>
           <div v-show="currentDataCategory.indexOf('follower') !== -1">
             <div v-if="isLoadingFollowerRecords">
@@ -298,6 +298,7 @@ import TddMemberActionBar from "../../common/TddMemberActionBar";
 import TddMemberLogTable from "../../common/TddMemberLogTable";
 import TddMemberFollowerHistoryLineChart from "@/components/chart/TddMemberFollowerHistoryLineChart";
 import TddMemberTotalStatHistoryLineChart from "@/components/chart/TddMemberTotalStatHistoryLineChart";
+import { VideoCameraOutlined, TeamOutlined, LineChartOutlined, HistoryOutlined } from '@ant-design/icons-vue';
 
 const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
@@ -305,6 +306,19 @@ const IconFont = Icon.createFromIconfontCN({
 
 export default {
   name: 'MemberDetail',
+  components: {
+    TddMemberFollowerHistoryLineChart,
+    TddVideoList,
+    IconFont,
+    TddVideoStatBar,
+    TddMemberActionBar,
+    TddMemberLogTable,
+    TddMemberTotalStatHistoryLineChart,
+    VideoCameraOutlined,
+    TeamOutlined,
+    LineChartOutlined,
+    HistoryOutlined,
+  },
   data: function () {
     return {
       member: null,
@@ -326,15 +340,6 @@ export default {
       followerCategoryEnterCount: 1,
       totalStatCategoryEnterCount: 0
     }
-  },
-  components: {
-    TddMemberFollowerHistoryLineChart,
-    TddVideoList,
-    IconFont,
-    TddVideoStatBar,
-    TddMemberActionBar,
-    TddMemberLogTable,
-    TddMemberTotalStatHistoryLineChart,
   },
   computed: {
     mid: function () {
