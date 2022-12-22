@@ -1,6 +1,6 @@
 <template>
   <a-alert v-if="showI18nLocaleSelect" type="info" banner closable @close="close">
-    <div slot="message">
+    <template #message>
       Select Language:
       <a-select :value="i18nLocale" @change="handleI18nLocaleSelectChange" size="small" style="width: 92px">
         <a-select-option value="zh">
@@ -10,7 +10,7 @@
           English
         </a-select-option>
       </a-select>
-    </div>
+    </template>
   </a-alert>
 </template>
 

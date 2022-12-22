@@ -33,25 +33,27 @@
                 class="mobile-header-user-avatar"
                 :src="$util.httpS(avatarUrl)"
               />
-              <a-menu slot="overlay" style="margin-top: 4px">
-                <a-menu-item>
-                  <router-link to="/me">
-                    <a-icon type="home" style="margin-right: 8px"/>
-                    {{ $t('page_name.me') }}
-                  </router-link>
-                </a-menu-item>
-                <a-menu-item>
-                  <router-link to="/me/setting">
-                    <a-icon type="setting" style="margin-right: 8px"/>
-                    {{ $t('page_name.me_setting') }}
-                  </router-link>
-                </a-menu-item>
-                <a-menu-item>
-                  <a href="javascript:;" @click="handleLogoutClick">
-                    <a-icon type="logout" style="margin-right: 8px"/>
-                    {{ $t('logout') }}</a>
-                </a-menu-item>
-              </a-menu>
+              <template #overlay>
+                <a-menu style="margin-top: 4px">
+                  <a-menu-item>
+                    <router-link to="/me">
+                      <home-outlined style="margin-right: 8px" />
+                      {{ $t('page_name.me') }}
+                    </router-link>
+                  </a-menu-item>
+                  <a-menu-item>
+                    <router-link to="/me/setting">
+                      <setting-outlined style="margin-right: 8px" />
+                      {{ $t('page_name.me_setting') }}
+                    </router-link>
+                  </a-menu-item>
+                  <a-menu-item>
+                    <a href="javascript:;" @click="handleLogoutClick">
+                      <logout-outlined style="margin-right: 8px" />
+                      {{ $t('logout') }}</a>
+                  </a-menu-item>
+                </a-menu>
+              </template>
             </a-dropdown>
           </div>
         </a-layout-header>
@@ -111,25 +113,27 @@
               class="desktop-header-user-avatar"
               :src="$util.httpS(avatarUrl)"
             />
-            <a-menu slot="overlay" style="margin-top: 4px">
-              <a-menu-item>
-                <router-link to="/me">
-                  <a-icon type="home" style="margin-right: 8px"/>
-                  {{ $t('page_name.me') }}
-                </router-link>
-              </a-menu-item>
-              <a-menu-item>
-                <router-link to="/me/setting">
-                  <a-icon type="setting" style="margin-right: 8px"/>
-                  {{ $t('page_name.me_setting') }}
-                </router-link>
-              </a-menu-item>
-              <a-menu-item>
-                <a href="javascript:;" @click="handleLogoutClick">
-                  <a-icon type="logout" style="margin-right: 8px"/>
-                  {{ $t('logout') }}</a>
-              </a-menu-item>
-            </a-menu>
+            <template #overlay>
+              <a-menu style="margin-top: 4px">
+                <a-menu-item>
+                  <router-link to="/me">
+                    <home-outlined style="margin-right: 8px" />
+                    {{ $t('page_name.me') }}
+                  </router-link>
+                </a-menu-item>
+                <a-menu-item>
+                  <router-link to="/me/setting">
+                    <setting-outlined style="margin-right: 8px" />
+                    {{ $t('page_name.me_setting') }}
+                  </router-link>
+                </a-menu-item>
+                <a-menu-item>
+                  <a href="javascript:;" @click="handleLogoutClick">
+                    <logout-outlined style="margin-right: 8px" />
+                    {{ $t('logout') }}</a>
+                </a-menu-item>
+              </a-menu>
+            </template>
           </a-dropdown>
         </div>
       </a-layout-header>

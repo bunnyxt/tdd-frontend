@@ -70,25 +70,27 @@
         </div>
         <div v-if="video.hasstaff === 1" style="float: left; margin-bottom: 12px">
           <a-dropdown :trigger="['click']" placement="bottomCenter">
-            <a-menu slot="overlay">
-              <template v-for="staff in video.staff.filter( s => s.title === 'UP主')" :key="staff.mid">
-                <a-menu-item>
-                  <a @click="videoMemberNameClickHandler(staff.mid)">
-                    <a-avatar size="small" :src="$util.httpS(staff.face)" style="margin-right: 8px" />
-                    {{ staff.name }}<a-tag :color="$util.getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
-                  </a>
-                </a-menu-item>
-              </template>
-              <template v-for="staff in video.staff.filter( s => s.title !== 'UP主')" :key="staff.mid">
-                <a-menu-item>
-                  <a @click="videoMemberNameClickHandler(staff.mid)">
-                    <a-avatar size="small" :src="$util.httpS(staff.face)" style="margin-right: 8px" />
-                    {{ staff.name }}<a-tag :color="$util.getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
-                  </a>
-                </a-menu-item>
-              </template>
-            </a-menu>
             <a class="ant-dropdown-link" href="#">{{ $t('video_detail.staff') }} ({{ video.staff.length }}) <down-outlined /> </a>
+            <template #overlay>
+              <a-menu>
+                <template v-for="staff in video.staff.filter( s => s.title === 'UP主')" :key="staff.mid">
+                  <a-menu-item>
+                    <a @click="videoMemberNameClickHandler(staff.mid)">
+                      <a-avatar size="small" :src="$util.httpS(staff.face)" style="margin-right: 8px" />
+                      {{ staff.name }}<a-tag :color="$util.getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
+                    </a>
+                  </a-menu-item>
+                </template>
+                <template v-for="staff in video.staff.filter( s => s.title !== 'UP主')" :key="staff.mid">
+                  <a-menu-item>
+                    <a @click="videoMemberNameClickHandler(staff.mid)">
+                      <a-avatar size="small" :src="$util.httpS(staff.face)" style="margin-right: 8px" />
+                      {{ staff.name }}<a-tag :color="$util.getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
+                    </a>
+                  </a-menu-item>
+                </template>
+              </a-menu>
+            </template>
           </a-dropdown>
         </div>
       </div>
@@ -104,7 +106,7 @@
             style="margin-bottom: 4px; cursor: pointer"
           >
             <a-popover>
-              <template slot="content">
+              <template #content>
                 {{ flag.message }}
               </template>
               {{ flag.name }}
@@ -115,7 +117,7 @@
             style="margin-bottom: 4px; cursor: pointer"
           >
             <a-popover>
-              <template slot="content">
+              <template #content>
                 {{ $t('video_detail.attribute_prompt') }}<br/>
                 <i18n path="video_detail.attribute_reference" tag="label" for="video_detail.attribute_reference_here">
                   <a href="https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/video/info.md#获取视频详细信息web端" target="_blank">{{ $t('video_detail.attribute_reference_here') }}</a>
