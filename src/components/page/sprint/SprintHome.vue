@@ -106,13 +106,15 @@
           :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
           :dataSource="sprintVideoListFiltered"
         >
-          <a-list-item class="sprint-video-item" slot="renderItem" slot-scope="item">
-            <SprintVideoBrief
-              :key="item.id"
-              :video="item"
-              :imgHeight="sprintVideoImgHeight"
-            ></SprintVideoBrief>
-          </a-list-item>
+          <template #renderItem="item">
+            <a-list-item class="sprint-video-item">
+              <SprintVideoBrief
+                :key="item.id"
+                :video="item"
+                :imgHeight="sprintVideoImgHeight"
+              ></SprintVideoBrief>
+            </a-list-item>
+          </template>
         </a-list>
       </a-spin>
     </div>
@@ -125,13 +127,15 @@
           :grid="{ gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 }"
           :dataSource="sprintFinishedVideoList"
         >
-          <a-list-item class="sprint-video-item" slot="renderItem" slot-scope="item">
+        <template #renderItem="item">
+          <a-list-item class="sprint-video-item">
             <SprintVideoBrief
               :key="item.id"
               :video="item"
               :imgHeight="sprintVideoImgHeight"
             ></SprintVideoBrief>
           </a-list-item>
+        </template>
         </a-list>
       </a-spin>
     </div>

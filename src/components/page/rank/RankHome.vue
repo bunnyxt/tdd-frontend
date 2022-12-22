@@ -100,48 +100,50 @@
               <a-button>
                 <a-icon type="filter" />
               </a-button>
-<!--              <div slot="content" style="width: 312px">-->
-              <div slot="content" :style="$store.state.clientWidth < 472 ? { width: '280px' } : { width: '412px' }">
-                <a-select
-                  v-model="orderRule"
-                  @change="orderRuleChangeHandler"
-                  style="margin-right: 12px; width: 120px"
-                >
-                  <a-select-option
-                    v-for="(val, key) in orderRules"
-                    :key="key"
-                    :value="key"
+<!--              <template #content><div style="width: 312px"></template>-->
+              <template #content>
+                <div :style="$store.state.clientWidth < 472 ? { width: '280px' } : { width: '412px' }">
+                  <a-select
+                    v-model="orderRule"
+                    @change="orderRuleChangeHandler"
+                    style="margin-right: 12px; width: 120px"
                   >
-                    {{ val }}
-                  </a-select-option>
-                </a-select>
-<!--                <a-select-->
-<!--                  v-model="archId"-->
-<!--                  @change="archIdChangeHandler"-->
-<!--                  style="width: 180px"-->
-<!--                >-->
-<!--                  <a-select-option-->
-<!--                    v-for="item in rankArchiveOverview"-->
-<!--                    :key="item.id"-->
-<!--                    :value="item.id"-->
-<!--                  >-->
-<!--                    {{ item.name }}-->
-<!--                  </a-select-option>-->
-<!--                </a-select>-->
-                <template v-if="$store.state.clientWidth < 472">
-                  <div style="height: 8px" />
-                </template>
-                <a-cascader
-                  :allowClear="false"
-                  expandTrigger="hover"
-                  :value="archIdCascader"
-                  :options="rankArchiveOverviewOptions"
-                  :disabled="archIdCascader === []"
-                  :placeholder="$t('select_arch_prompt')"
-                  @change="archIdCascaderChangeHandler"
-                  style="width: 280px"
-                />
-              </div>
+                    <a-select-option
+                      v-for="(val, key) in orderRules"
+                      :key="key"
+                      :value="key"
+                    >
+                      {{ val }}
+                    </a-select-option>
+                  </a-select>
+  <!--                <a-select-->
+  <!--                  v-model="archId"-->
+  <!--                  @change="archIdChangeHandler"-->
+  <!--                  style="width: 180px"-->
+  <!--                >-->
+  <!--                  <a-select-option-->
+  <!--                    v-for="item in rankArchiveOverview"-->
+  <!--                    :key="item.id"-->
+  <!--                    :value="item.id"-->
+  <!--                  >-->
+  <!--                    {{ item.name }}-->
+  <!--                  </a-select-option>-->
+  <!--                </a-select>-->
+                  <template v-if="$store.state.clientWidth < 472">
+                    <div style="height: 8px" />
+                  </template>
+                  <a-cascader
+                    :allowClear="false"
+                    expandTrigger="hover"
+                    :value="archIdCascader"
+                    :options="rankArchiveOverviewOptions"
+                    :disabled="archIdCascader === []"
+                    :placeholder="$t('select_arch_prompt')"
+                    @change="archIdCascaderChangeHandler"
+                    style="width: 280px"
+                  />
+                </div>
+              </template>
             </a-popover>
             <div v-else style="display: flex">
               <a-select
@@ -195,27 +197,29 @@
         <div v-else>
           <div v-if="$store.getters.clientMode === 'MOBILE'" style="margin-top: 16px">
             <a-alert style="padding: 0">
-              <a-collapse slot="description" :bordered="false" style="background-color: rgba(0, 0, 0, 0); border-width: 0">
-                <a-collapse-panel key="1" :header="currentArchiveName">
-                  <rank-home-description
-                    :rank-name="category[0]"
-                    :start-ts="rankStartTs"
-                    :end-ts="rankEndTs"
-                  />
-                </a-collapse-panel>
-                <a-collapse-panel key="2" :header="$t('color_mark')">
-                  <rank-home-color-mark :color="rankColor" />
-                </a-collapse-panel>
-              </a-collapse>
+              <template #description>
+                <a-collapse :bordered="false" style="background-color: rgba(0, 0, 0, 0); border-width: 0">
+                  <a-collapse-panel key="1" :header="currentArchiveName">
+                    <rank-home-description
+                      :rank-name="category[0]"
+                      :start-ts="rankStartTs"
+                      :end-ts="rankEndTs"
+                    />
+                  </a-collapse-panel>
+                  <a-collapse-panel key="2" :header="$t('color_mark')">
+                    <rank-home-color-mark :color="rankColor" />
+                  </a-collapse-panel>
+                </a-collapse>
+              </template>
             </a-alert>
           </div>
           <a-row v-else style="margin-top: 16px" :gutter="16">
             <a-col :sm="12" :lg="10" :xl="8">
               <a-alert>
-                <template slot="message">
+                <template #message>
                   {{ currentArchiveName }}
                 </template>
-                <template slot="description">
+                <template #description>
                   <rank-home-description
                     :rank-name="category[0]"
                     :start-ts="rankStartTs"
@@ -226,10 +230,10 @@
             </a-col>
             <a-col :sm="12" :lg="14" :xl="16">
               <a-alert>
-                <template slot="message">
+                <template #message>
                   {{ $t('color_mark') }}
                 </template>
-                <template slot="description">
+                <template #description>
                   <rank-home-color-mark :color="rankColor" />
                 </template>
               </a-alert>

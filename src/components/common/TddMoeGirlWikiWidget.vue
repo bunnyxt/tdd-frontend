@@ -1,7 +1,14 @@
 <template>
   <a-alert type="success" show-icon :style="widgetStyle">
-    <img slot="icon" :src="moegirl_wiki_favicon" alt="logo" width="24" height="24" />
-    <div slot="description">
+    <template #icon>
+      <img
+        :src="moegirl_wiki_favicon" 
+        alt="logo" 
+        width="24" 
+        height="24" 
+      >
+    </template>
+    <template #description>
       <div v-if="enableFold && fold">
         本{{ typeName }}已被萌娘百科收录...<a-button type="link" @click="expandClickHandler">展开</a-button>
       </div>
@@ -9,7 +16,7 @@
         本{{ typeName }}已被萌娘百科收录，有关该{{ typeName }}的更多内容，欢迎前往萌百浏览~<br>
         <a :href="url" target="_blank">{{ url }}</a>
       </div>
-    </div>
+    </template>
   </a-alert>
 </template>
 

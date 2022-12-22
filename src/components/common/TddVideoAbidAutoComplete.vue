@@ -18,7 +18,7 @@
     allowClear
     style="width: 100%"
   >
-    <template slot="dataSource">
+    <template #dataSource>
       <a-select-option
         v-for="item of idTitleList"
         :key="typeDisplayString + item.id"

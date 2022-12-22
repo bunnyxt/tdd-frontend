@@ -18,7 +18,9 @@
             <div :style="zkIssueActionStyle">
               <a-button @click="setZkIssueToCurrent">选择当前期</a-button>
               <a-popover title="根据日期选择" trigger="click" style="margin-left: 12px">
-                <a-date-picker v-model="zkDatePickerValue" @change="setZkIssueViaDatePicker" slot="content"></a-date-picker>
+                <template #content>
+                  <a-date-picker v-model="zkDatePickerValue" @change="setZkIssueViaDatePicker"></a-date-picker>
+                </template>
                 <a-button>根据日期选择</a-button>
               </a-popover>
             </div>
@@ -63,13 +65,13 @@
             :scroll="{ x: 800 }"
             size="small"
           >
-            <template slot="added" slot-scope="added">
+            <template #added="added">
               {{ $util.tsToDateString(added) }}
             </template>
-            <template slot="value" slot-scope="value">
+            <template #value="value">
               {{ value.toLocaleString() }}
             </template>
-            <template slot="action" slot-scope="obj">
+            <template #action="obj">
               <a-button type="link" @click="toPreviousIndex(obj.added)" size="small" style="padding-left: 0">上一条</a-button>
               <a-button type="link" @click="toNextIndex(obj.added)" size="small">下一条</a-button>
             </template>

@@ -19,7 +19,7 @@
     :scroll="{ x: 1300 }"
     size="small"
   >
-    <template slot="face" slot-scope="item">
+    <template #face="item">
       <router-link :to="'/member/'+item.mid">
         <a-avatar
           :src="item.face ? $util.httpS(item.face) : 'https://static.hdslb.com/images/member/noface.gif'"
@@ -27,7 +27,7 @@
         />
       </router-link>
     </template>
-    <template slot="name" slot-scope="item">
+    <template #name="item">
       <div class="tdd-member-table-title">
         <router-link :to="'/member/'+item.mid">
           <span :title="item.sign">{{ item.name }}</span>
@@ -49,15 +49,15 @@
         </router-link>
       </div>
     </template>
-    <template slot="added" slot-scope="added">
+    <template #added="added">
       {{ $util.tsToDateString(added) }}
     </template>
-    <template slot="value" slot-scope="value">
+    <template #value="value">
       {{ value.toLocaleString() }}
     </template>
-    <template slot="lastVideo" slot-scope="video">
+    <template #lastVideo="video">
       <a-tooltip>
-        <template slot="title">
+        <template #title>
           {{ video ? video.title : '' }}<br>
           <a-icon type="calendar" style="margin-right: 4px" />
           {{ $util.tsToDateString(video ? video.pubdate : 0) }}

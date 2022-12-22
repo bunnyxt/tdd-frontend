@@ -155,7 +155,7 @@
             <div v-else>
               <template v-if="$store.state.isUserLoggedIn">
                 <a-alert type="warning" banner closable style="margin-bottom: 16px">
-                  <template slot="message">
+                  <template #message>
                     <i18n-t keypath="member_info_history_prompt" tag="label">
                       <router-link to="/about/contactus">{{ $t('contact_admin') }}</router-link>
                     </i18n-t>
@@ -165,7 +165,7 @@
               </template>
               <template v-else>
                 <a-alert type="error" banner>
-                  <template slot="message">
+                  <template #message>
                     <i18n-t keypath="member_info_history_visibility_prompt" tag="label">
                       <a @click="() => this.$store.commit('changeLoginSliderVisibility')">{{ $t('login') }}</a>
                     </i18n-t>

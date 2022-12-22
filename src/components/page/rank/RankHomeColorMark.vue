@@ -46,11 +46,13 @@
         <a class="ant-dropdown-link" @click="e => e.preventDefault()">
           {{ getPropertyName(currentProperty) }} <a-icon type="down" />
         </a>
-        <a-menu slot="overlay" @click="changeCurrentProperty">
-          <a-menu-item v-for="property of propertyList" :key="property">
-            <a href="javascript:;">{{ getPropertyName(property) }}</a>
-          </a-menu-item>
-        </a-menu>
+        <template #overlay>
+          <a-menu @click="changeCurrentProperty">
+            <a-menu-item v-for="property of propertyList" :key="property">
+              <a href="javascript:;">{{ getPropertyName(property) }}</a>
+            </a-menu-item>
+          </a-menu>
+        </template>
       </a-dropdown>
     </div>
   </div>

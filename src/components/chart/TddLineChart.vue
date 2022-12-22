@@ -2,24 +2,26 @@
   <div>
     <div :id="toolbarId" style="overflow: hidden">
       <a-popover v-if="config.configPanel" title="图表设置" trigger="click" placement="bottomLeft">
-        <div slot="content" class="config-panel-content">
-          <div v-if="config.configPanel.changeAxisType">
-            坐标系类型：<a-switch checkedChildren="对数" unCheckedChildren="线性" @change="toggleAxisType" />
+        <template #content>
+          <div class="config-panel-content">
+            <div v-if="config.configPanel.changeAxisType">
+              坐标系类型：<a-switch checkedChildren="对数" unCheckedChildren="线性" @change="toggleAxisType" />
+            </div>
+            <div v-if="config.configPanel.showSpecialPoint">
+              特殊数据标记：<a-switch default-checked @change="toggleShowSpecialPoint" />
+            </div>
+            <div v-if="config.configPanel.showBasePoint">
+              数据原点显示：<a-switch @change="toggleShowBasePoint" />
+            </div>
           </div>
-          <div v-if="config.configPanel.showSpecialPoint">
-            特殊数据标记：<a-switch default-checked @change="toggleShowSpecialPoint" />
-          </div>
-          <div v-if="config.configPanel.showBasePoint">
-            数据原点显示：<a-switch @change="toggleShowBasePoint" />
-          </div>
-        </div>
+        </template>
         <span style="cursor: pointer"><setting-outlined /> 图表设置</span>
       </a-popover>
       <template v-if="config.dateRangePanel">
         <div v-if="compact" style="float: right" @click="onAddedRangeMobileClick">
           <span style="cursor: pointer">时间范围 <calendar-outlined /></span>
           <a-modal title="时间范围" v-model="addedRangeMobileVisibility">
-            <template slot="footer">
+            <template #footer>
               <a-button type="primary" @click="onAddedRangeMobileClick">确定</a-button>
             </template>
             <p>
@@ -50,14 +52,14 @@
             </p>
             <p>数据共计：{{ this.data.length }}条，当前展示：{{ this.filteredData.length }}条。</p>
             <a-alert v-if="showPerformanceWarning" banner>
-              <template slot="message">
+              <template #message>
                 当前显示数据较多，可能会出现图表卡顿，如欲提高响应速度，请酌情缩小时间范围。
               </template>
             </a-alert>
           </a-modal>
         </div>
         <a-popover v-else title="时间范围" trigger="click" placement="bottomRight" style="float: right">
-          <template slot="content">
+          <template #content>
             <p>
               <a-range-picker
                 showTime
@@ -70,7 +72,7 @@
             </p>
             <p>数据共计：{{ this.data.length }}条，当前展示：{{ this.filteredData.length }}条。</p>
             <a-alert v-if="showPerformanceWarning" banner>
-              <template slot="message">
+              <template #message>
                 当前显示数据较多，可能会出现图表卡顿，<br>如欲提高响应速度，请酌情缩小时间范围。
               </template>
             </a-alert>

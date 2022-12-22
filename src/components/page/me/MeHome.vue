@@ -11,28 +11,32 @@
     </div>
     <div v-if="!isLoadingUserInfo && !isPremiumUser">
       <a-alert banner closable>
-        <a-popover placement="bottom" slot="message">
-          <div slot="content">
-            您可以通过<b>累计<a href="https://afdian.net/@bunnyxt" target="_blank">资助本站</a>达到50RMB</b>解锁永久高级用户权限！<br>
-            作为高级用户，您将得到以下特权：<br>
-            <ul style="margin-bottom: 0px">
-              <li>
-                独特的<span style="color: #722ED1">紫色</span>昵称显示
-              </li>
-              <li>
-                更多的积分与经验收益
-              </li>
-              <li>
-                更多的积分花销折扣
-              </li>
-              <li>
-                在未来可能还会有实体小礼品哦
-              </li>
-            </ul>
-            资助后请及时<router-link to="/about/contactus">联系我们</router-link>，我们将在第一时间为您解锁高级用户权限~
-          </div>
-          资助本站成为<a>高级会员</a>
-        </a-popover>
+        <template #message>
+          <a-popover placement="bottom">
+            <template #content>
+              <div>
+                您可以通过<b>累计<a href="https://afdian.net/@bunnyxt" target="_blank">资助本站</a>达到50RMB</b>解锁永久高级用户权限！<br>
+                作为高级用户，您将得到以下特权：<br>
+                <ul style="margin-bottom: 0px">
+                  <li>
+                    独特的<span style="color: #722ED1">紫色</span>昵称显示
+                  </li>
+                  <li>
+                    更多的积分与经验收益
+                  </li>
+                  <li>
+                    更多的积分花销折扣
+                  </li>
+                  <li>
+                    在未来可能还会有实体小礼品哦
+                  </li>
+                </ul>
+                资助后请及时<router-link to="/about/contactus">联系我们</router-link>，我们将在第一时间为您解锁高级用户权限~
+              </div>
+            </template>
+            资助本站成为<a>高级会员</a>
+          </a-popover>
+        </template>
       </a-alert>
     </div>
     <div class="section-block">
@@ -51,7 +55,7 @@
               @click="() => avatarSettingPrompt = true"
             />
             <a-modal title="设置头像" v-model="avatarSettingPrompt">
-              <template slot="footer">
+              <template #footer>
                 <a-button type="primary" @click="() => avatarSettingPrompt = false">了解</a-button>
               </template>
               <a-avatar
@@ -73,9 +77,9 @@
                 <div style="float: left; margin-left: 8px">
                   <a-tag v-for="role in user.roles" :key="role.id" :color="getRoleTitleColor(role.title)">
                     <a-popover placement="bottom">
-                      <div slot="content">
+                      <template #content>
                         {{ getRoleTitleDescription(role.title) }}
-                      </div>
+                      </template>
                       {{ role.title }}
                     </a-popover>
                   </a-tag>
@@ -89,7 +93,7 @@
             <div v-if="$store.getters.clientMode !== 'MOBILE'" style="float: right">
               <a-button @click="() => $router.push('me/setting')" style="margin-right: 8px">设置</a-button>
               <a-tooltip placement="bottomRight">
-                <template slot="title">
+                <template #title>
 <!--                  <span>TODO 加个日历  可以查</span>-->
                   <div v-if="isLoadingUserSignInOverview || isLoadingUserSignInList">
                     <a-spin />
@@ -114,7 +118,7 @@
           </div>
           <div style="float: left; width: 47%">
             <a-tooltip placement="bottomRight" style="width: 100%">
-              <template slot="title">
+              <template #title>
                 <!--                  <span>TODO 加个日历  可以查</span>-->
                 <div v-if="isLoadingUserSignInOverview || isLoadingUserSignInList">
                   <a-spin />

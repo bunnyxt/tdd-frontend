@@ -33,14 +33,14 @@
         <div class="rank-point-bar">
           <div style="display: flex; flex-wrap: nowrap; justify-content: space-between">
             <a-statistic :title="$t('rank_order')" :value="rankInfo" style="margin-right: 16px" >
-              <template slot="formatter">
+              <template #formatter>
                 <div style="min-width: 28px">
                   {{ rankInfo.rank.toLocaleString() }}
                 </div>
               </template>
             </a-statistic>
             <a-statistic :title="$t('point')" :value="rankInfo" style="margin-right: 16px">
-              <template slot="formatter">
+              <template #formatter>
                 <div style="min-width: 28px">
                   <span :class="[getColorClass('point', rankInfo.point)]">
                     {{ rankInfo.point.toLocaleString() }}
@@ -49,14 +49,14 @@
               </template>
             </a-statistic>
             <a-statistic :title="$t('xiu_a')" :value="rankInfo" style="margin-right: 16px">
-              <template slot="formatter">
+              <template #formatter>
                 <div style="min-width: 38px">
                   {{ rankInfo.xiua.toLocaleString() }}
                 </div>
               </template>
             </a-statistic>
             <a-statistic :title="$t('xiu_b')" :value="rankInfo.xiub">
-              <template slot="formatter">
+              <template #formatter>
                 <div style="min-width: 38px">
                   {{ rankInfo.xiub.toLocaleString() }}
                 </div>
@@ -66,7 +66,7 @@
         </div>
         <a-carousel autoplay>
           <a-statistic :title="$t('view')" :value="rankInfo">
-            <template slot="formatter">
+            <template #formatter>
               <div class="rank-prop">
                 {{ rankInfo.now_view.toLocaleString() }} (
                 <span :class="[getColorClass('incr_view', rankInfo.incr_view)]">
@@ -76,7 +76,7 @@
             </template>
           </a-statistic>
           <a-statistic :title="$t('danmaku')" :value="rankInfo">
-            <template slot="formatter">
+            <template #formatter>
               <div class="rank-prop">
                 {{ rankInfo.now_danmaku.toLocaleString() }} (
                 <span :class="[getColorClass('incr_danmaku', rankInfo.incr_danmaku)]">
@@ -86,7 +86,7 @@
             </template>
           </a-statistic>
           <a-statistic :title="$t('reply')" :value="rankInfo">
-            <template slot="formatter">
+            <template #formatter>
               <div class="rank-prop">
                 {{ rankInfo.now_reply.toLocaleString() }} (
                 <span :class="[getColorClass('incr_reply', rankInfo.incr_reply)]">
@@ -96,7 +96,7 @@
             </template>
           </a-statistic>
           <a-statistic :title="$t('favorite')" :value="rankInfo">
-            <template slot="formatter">
+            <template #formatter>
               <div class="rank-prop">
                 {{ rankInfo.now_favorite.toLocaleString() }} (
                 <span :class="[getColorClass('incr_favorite', rankInfo.incr_favorite)]">
@@ -106,7 +106,7 @@
             </template>
           </a-statistic>
           <a-statistic :title="$t('coin')" :value="rankInfo">
-            <template slot="formatter">
+            <template #formatter>
               <div class="rank-prop">
                 {{ rankInfo.now_coin.toLocaleString() }} (
                 <span :class="[getColorClass('incr_coin', rankInfo.incr_coin)]">
@@ -116,7 +116,7 @@
             </template>
           </a-statistic>
           <a-statistic :title="$t('share')" :value="rankInfo">
-            <template slot="formatter">
+            <template #formatter>
               <div class="rank-prop">
                 {{ rankInfo.now_share.toLocaleString() }} (
                 <span :class="[getColorClass('incr_share', rankInfo.incr_share)]">
@@ -126,7 +126,7 @@
             </template>
           </a-statistic>
           <a-statistic :title="$t('like')" :value="rankInfo">
-            <template slot="formatter">
+            <template #formatter>
               <div class="rank-prop">
                 {{ rankInfo.now_like.toLocaleString() }} (
                 <span :class="[getColorClass('incr_like', rankInfo.incr_like)]">

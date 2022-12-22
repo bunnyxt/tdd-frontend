@@ -15,10 +15,12 @@
       <h1>{{ $t('tool_info.zkcalc.name') }}</h1>
       <p><a href="https://zh.moegirl.org/周刊VOCALOID中文排行榜" target="_blank">周刊VOCALOID中文排行榜</a>计分规则计算器。</p>
       <a-alert type="info">
-        <span slot="description">
-          别再手动输入数据算分惹！天钿Daily视频详情页添加「周刊算分」模块，只需选择周刊期数，指定时间范围，系统自动根据「本站观测到的数据」直接计算得分结果_8(:3 」∠ )_<br>
-          视频详情页传送门：tdd.bunnyxt.com/video/av<a-input size="small" v-model="aidInputValue" style="width: 100px; margin-right: 8px" @change="aidInputChangeHandler" /><router-link :to="'/video/av'+aidInputValue">跳转</router-link>
-        </span>
+        <template #description>
+          <span>
+            别再手动输入数据算分惹！天钿Daily视频详情页添加「周刊算分」模块，只需选择周刊期数，指定时间范围，系统自动根据「本站观测到的数据」直接计算得分结果_8(:3 」∠ )_<br>
+            视频详情页传送门：tdd.bunnyxt.com/video/av<a-input size="small" v-model="aidInputValue" style="width: 100px; margin-right: 8px" @change="aidInputChangeHandler" /><router-link :to="'/video/av'+aidInputValue">跳转</router-link>
+          </span>
+        </template>
       </a-alert>
       <div style="overflow: hidden; margin-top: 16px; margin-bottom: 16px">
         <table cellpadding="4" :style="tableStyle">

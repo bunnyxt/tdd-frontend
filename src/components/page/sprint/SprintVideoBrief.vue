@@ -4,32 +4,35 @@
     style="margin: 0px 0px 12px 0px"
     class="sprint-video-card"
   >
-    <img
-      :id="'video-pic-'+video.id"
-      :alt="video.title"
-      :src="$util.httpS(video.pic)"
-      :height="imgHeight"
-      slot="cover"
-      @load="initImg"
-      @click="handleLineChartClick"
-    >
+    <template #cover>
+      <img
+        :id="'video-pic-'+video.id"
+        :alt="video.title"
+        :src="$util.httpS(video.pic)"
+        :height="imgHeight"
+        @load="initImg"
+        @click="handleLineChartClick"
+      >
+    </template>
     <a-card-meta>
-      <template slot="title">
+      <template #title>
         <a-tooltip placement="topLeft" >
-          <template slot="title">
+          <template #title>
             <span>{{ video.title }}</span>
           </template>
           {{ video.title }}
         </a-tooltip>
       </template>
-      <template slot="description">
+      <template #description>
         UP主：{{ member.name }}<br/>
         播放数：{{ video.last_record.view }}
       </template>
     </a-card-meta>
-    <template class="ant-card-actions" slot="actions">
-      <a-icon type="play-circle" title="立刻助攻" @click="handlePlayCircleClick"/>
-      <a-icon type="line-chart" title="查看详情" @click="handleLineChartClick"/>
+    <template #actions>
+      <div class="ant-card-actions">
+        <a-icon type="play-circle" title="立刻助攻" @click="handlePlayCircleClick"/>
+        <a-icon type="line-chart" title="查看详情" @click="handleLineChartClick"/>
+      </div>
     </template>
   </a-card>
 </template>

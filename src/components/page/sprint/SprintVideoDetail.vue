@@ -31,21 +31,23 @@
             <a-spin :spinning="isLoadingRecords">
               <div class="section-block">
                 <a-alert message="提示" type="info">
-                  <div slot="description">
-                    <p>
-                      为提高响应速度，当前仅加载最近一周内的数据。如需查看全部数据，请点击"获取全部数据"。<br>
-                      注意：这将耗费一定的时间以及流量。由于数据量可能会很大，加载完成时可能会出现卡顿，请耐心等待。
-                    </p>
-                    <p>
-                      <a-button type="primary" :disabled="hasLoadAllRecords" @click="loadAddRecords">
-                        {{ loadAllRecordsButtonText }}
-                      </a-button>
-                      <a-spin :spinning="isLoadingAllRecords" style="margin-left: 12px"></a-spin>
-                      <a-button @click="closeAllRecordsInfo" style="margin-left: 12px">
-                        关闭提示
-                      </a-button>
-                    </p>
-                  </div>
+                  <template #description>
+                    <div>
+                      <p>
+                        为提高响应速度，当前仅加载最近一周内的数据。如需查看全部数据，请点击"获取全部数据"。<br>
+                        注意：这将耗费一定的时间以及流量。由于数据量可能会很大，加载完成时可能会出现卡顿，请耐心等待。
+                      </p>
+                      <p>
+                        <a-button type="primary" :disabled="hasLoadAllRecords" @click="loadAddRecords">
+                          {{ loadAllRecordsButtonText }}
+                        </a-button>
+                        <a-spin :spinning="isLoadingAllRecords" style="margin-left: 12px"></a-spin>
+                        <a-button @click="closeAllRecordsInfo" style="margin-left: 12px">
+                          关闭提示
+                        </a-button>
+                      </p>
+                    </div>
+                  </template>
                 </a-alert>
               </div>
             </a-spin>

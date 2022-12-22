@@ -19,10 +19,10 @@
     :scroll="{ x: 850 }"
     size="small"
   >
-    <template slot="added" slot-scope="added">
+    <template #added="added">
       {{ $util.tsToDateString(added) }}
     </template>
-    <template slot="value" slot-scope="value">
+    <template #value="value">
       {{ value.toLocaleString() }}
     </template>
   </a-table>

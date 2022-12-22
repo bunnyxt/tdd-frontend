@@ -9,13 +9,13 @@
     :scroll="{ x: 700 }"
     size="small"
   >
-    <template slot="added" slot-scope="added">
+    <template #added="added">
       {{ $util.tsToDateString(added) }}
     </template>
-    <template slot="attr" slot-scope="attr">
+    <template #attr="attr">
       {{ attrDict[attr] }}
     </template>
-    <template slot="oldval" slot-scope="item">
+    <template #oldval="item">
       <template v-if="item.attr === 'face'">
         <a-avatar
           :src="$util.httpS(item.oldval)"
@@ -44,7 +44,7 @@
         {{ item.oldval }}
       </template>
     </template>
-    <template slot="newval" slot-scope="item">
+    <template #newval="item">
       <template v-if="item.attr === 'face'">
         <a-avatar
           :src="$util.httpS(item.newval)"

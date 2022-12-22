@@ -28,13 +28,14 @@
                 v-model="currentTs"
                 placeholder="1359631780"
               >
-                <a-icon
-                  slot="suffix"
-                  type="copy"
-                  title="复制"
-                  @click="copyCurrentTsVal"
-                  style="cursor: pointer"
-                />
+                <template #suffix>
+                  <a-icon
+                    type="copy"
+                    title="复制"
+                    @click="copyCurrentTsVal"
+                    style="cursor: pointer"
+                  />
+                </template>
               </a-input>
             </a-col>
             <a-col :span="10" style="padding-right: 16px">
@@ -42,13 +43,14 @@
                 v-model="currentTsStr"
                 placeholder="2013-01-31 19:29:40"
               >
-                <a-icon
-                  slot="suffix"
-                  type="copy"
-                  title="复制"
-                  @click="copyCurrentTsStr"
-                  style="cursor: pointer"
-                />
+                <template #suffix>
+                  <a-icon
+                    type="copy"
+                    title="复制"
+                    @click="copyCurrentTsStr"
+                    style="cursor: pointer"
+                  />
+                </template>
               </a-input>
             </a-col>
             <a-col :span="5">
@@ -124,9 +126,9 @@
             cancelText="关闭"
             @cancel="exportCloseHandler"
           >
-            <div slot="footer">
+            <template #footer>
               <a-button type="primary" @click="exportHandler" >复制到剪贴板</a-button>
-            </div>
+            </template>
             <a-textarea v-model="exportData" :rows="10" />
           </a-modal>
         </div>

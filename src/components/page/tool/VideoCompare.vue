@@ -35,7 +35,7 @@
               allowClear
               style="width: calc(100% - 130px); min-width: 128px; max-width: 400px"
             >
-              <template slot="dataSource">
+              <template #dataSource>
                 <a-select-option v-for="item in addVideoIdCandidateList" :key="item.id" :text="item.id" >
                   {{ item.id }} - {{ item.title }}
                 </a-select-option>
@@ -70,26 +70,26 @@
         size="small"
         style="margin-bottom: 16px"
       >
-        <template slot="videoAid" slot-scope="aid">
+        <template #videoAid="aid">
           <a :href="`https://tdd.bunnyxt.com/video/av${aid}`" target="_blank">{{ aid }}</a>
         </template>
-        <template slot="videoTitle" slot-scope="item">
+        <template #videoTitle="item">
           <a :href="`https://www.bilibili.com/video/av${item.aid}`" target="_blank">{{ item.video.title }}</a>
         </template>
-        <template slot="videoConfigTitle" slot-scope="item">
+        <template #videoConfigTitle="item">
           <a-input
             v-model="item.config.title"
             @change="$util.debounce(videoCompareListChangeHandler, 500)()"
           />
         </template>
-        <template slot="videoConfigProps" slot-scope="item">
+        <template #videoConfigProps="item">
           <a-checkbox-group
             :options="configPropsOptions"
             v-model="item.config.props"
             @change="$util.debounce(videoCompareListChangeHandler, 500)()"
           />
         </template>
-        <template slot="videoManipulation" slot-scope="item">
+        <template #videoManipulation="item">
           <a-button
             title="上移"
             @click="moveVideoInVideoCompareList(item.aid, 'up')"

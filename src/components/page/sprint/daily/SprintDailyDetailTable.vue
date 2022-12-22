@@ -5,13 +5,13 @@
     :dataSource="sprintDailyRecordList"
     :pagination="pagination"
   >
-    <template slot="picRender" slot-scope="pic">
+    <template #picRender="pic">
       <img :src="$util.httpS(pic)" width="100px"/>
     </template>
-    <template slot="dayRender" slot-scope="day">
+    <template #dayRender="day">
       {{ day }}天
     </template>
-    <template slot="actionRender" slot-scope="aid">
+    <template #actionRender="aid">
       <a-button title="立刻助攻" @click="handlePlayCircleClick(aid)" style="margin-right: 8px"><a-icon type="play-circle"/></a-button>
       <a-button title="查看详情" @click="handleLineChartClick(aid)"><a-icon type="line-chart"/></a-button>
     </template>

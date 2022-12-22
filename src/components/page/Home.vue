@@ -73,10 +73,12 @@
             <div style="margin-top: 20px">
               <a-button type="primary" @click="() => this.$router.push('/about')">{{ $t('know_more') }}</a-button>
               <a-popover :title="$t('contact_us')" trigger="hover" placement="bottom">
-                <div slot="content">
-                  {{ $t('qq_group') }}{{ $t('colon') }}<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/><a target="_blank" :href="qqgroup_qrcode">{{ $t('qr_code') }}</a><br/>
-                  {{ $t('personal_email') }}{{ $t('colon') }}<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
-                </div>
+                <template #content>
+                  <div>
+                    {{ $t('qq_group') }}{{ $t('colon') }}<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/><a target="_blank" :href="qqgroup_qrcode">{{ $t('qr_code') }}</a><br/>
+                    {{ $t('personal_email') }}{{ $t('colon') }}<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
+                  </div>
+                </template>
                 <a-button style="margin-left: 8px">{{ $t('contact_us') }}</a-button>
               </a-popover>
             </div>
@@ -105,21 +107,21 @@
             <div style="overflow: hidden">
               <div class="carousel-p2-mobile-row1-col">
                 <a-statistic :title="$t('tracked_videos')" :value="latestVideoCount">
-                  <template v-slot:suffix>
+                  <template #suffix>
                     {{ $t('tracked_videos_suffix') }}
                   </template>
                 </a-statistic>
               </div>
               <div class="carousel-p2-mobile-row1-col">
                 <a-statistic :title="$t('covered_members')" :value="latestMemberCount">
-                  <template v-slot:suffix>
+                  <template #suffix>
                     {{ $t('covered_members_suffix') }}
                   </template>
                 </a-statistic>
               </div>
             </div>
             <a-statistic :title="$t('data_records')" :value="latestVideoRecordCount">
-              <template v-slot:suffix>
+              <template #suffix>
                 {{ $t('data_records_suffix') }}
               </template>
             </a-statistic>
@@ -130,7 +132,7 @@
               </div>
               <div class="carousel-p2-col-narrow">
                 <a-statistic :title="$t('tracked_videos')" :value="latestVideoCount" style="padding: 8px 20px 0 20px">
-                  <template v-slot:suffix>
+                  <template #suffix>
                     {{ $t('tracked_videos_suffix') }}
                   </template>
                 </a-statistic>
@@ -142,7 +144,7 @@
               </div>
               <div class="carousel-p2-col-narrow">
                 <a-statistic :title="$t('covered_members')" :value="latestMemberCount" style="padding: 8px 20px 0 20px">
-                  <template v-slot:suffix>
+                  <template #suffix>
                     {{ $t('covered_members_suffix') }}
                   </template>
                 </a-statistic>
@@ -154,7 +156,7 @@
               </div>
               <div class="carousel-p2-col-wide">
                 <a-statistic :title="$t('data_records')" :value="latestVideoRecordCount" style="padding: 8px 20px 0 20px">
-                  <template v-slot:suffix>
+                  <template #suffix>
                     {{ $t('data_records_suffix') }}
                   </template>
                 </a-statistic>
@@ -183,7 +185,14 @@
               >
                 <b>{{ $util.tsToDateString(updateLog.added, 'yyyy-MM-dd') }}</b> {{ updateLog.content }}
               </a-timeline-item>
-              <a-button slot="pending" type="link" @click="() => this.$router.push('/about/updatelog')">{{ $t('see_more') }}...</a-button>
+              <template #pending>
+                <a-button
+                  type="link" 
+                  @click="() => this.$router.push('/about/updatelog')"
+                >
+                  {{ $t('see_more') }}...
+                </a-button>
+              </template>
             </a-timeline>
           </div>
         </div>

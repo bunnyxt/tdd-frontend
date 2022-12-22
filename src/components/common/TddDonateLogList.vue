@@ -10,10 +10,10 @@
     }"
     size="small"
   >
-    <template slot="added" slot-scope="added">
+    <template #added="added">
       {{ $util.tsToDateString(added, 'yyyy-MM-dd') }}
     </template>
-    <template slot="money" slot-scope="item">
+    <template #money="item">
       <span :title="`¥ ${item.amount} * ${item.timespan}个月`">¥ {{ item.amount * item.timespan}}</span>
     </template>
   </a-table>

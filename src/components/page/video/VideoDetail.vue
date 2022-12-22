@@ -95,7 +95,7 @@
             style="margin-bottom: 12px;"
             banner
           >
-            <template slot="message">
+            <template #message>
               <i18n-t keypath="video_detail.error_duplicated_prompt" tag="label">
                 <a :href="`/video/av${video.forward}`" target="_blank">av{{video.forward}}</a>
               </i18n-t>
@@ -125,24 +125,26 @@
               <div v-if="video.hasstaff === 1" style="float: left; margin-bottom: 12px">
                 <a-dropdown :trigger="['click']" placement="bottomCenter">
                   <a class="ant-dropdown-link" href="#">{{ $t('video_detail.staff') }} ({{ video.staff.length }}) <a-icon type="down" /> </a>
-                  <a-menu slot="overlay">
-                    <template v-for="staff in video.staff.filter( s => s.title === 'UP主')" :key="staff.mid">
-                      <a-menu-item>
-                        <a @click="videoMemberNameClickHandler(staff.mid)">
-                          <a-avatar size="small" :src="$util.httpS(staff.face)" style="margin-right: 8px" />
-                          {{ staff.name }}<a-tag :color="$util.getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
-                        </a>
-                      </a-menu-item>
-                    </template>
-                    <template v-for="staff in video.staff.filter( s => s.title !== 'UP主')" :key="staff.mid">
-                      <a-menu-item>
-                        <a @click="videoMemberNameClickHandler(staff.mid)">
-                          <a-avatar size="small" :src="$util.httpS(staff.face)" style="margin-right: 8px" />
-                          {{ staff.name }}<a-tag :color="$util.getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
-                        </a>
-                      </a-menu-item>
-                    </template>
-                  </a-menu>
+                  <template #overlay>
+                    <a-menu>
+                      <template v-for="staff in video.staff.filter( s => s.title === 'UP主')" :key="staff.mid">
+                        <a-menu-item>
+                          <a @click="videoMemberNameClickHandler(staff.mid)">
+                            <a-avatar size="small" :src="$util.httpS(staff.face)" style="margin-right: 8px" />
+                            {{ staff.name }}<a-tag :color="$util.getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
+                          </a>
+                        </a-menu-item>
+                      </template>
+                      <template v-for="staff in video.staff.filter( s => s.title !== 'UP主')" :key="staff.mid">
+                        <a-menu-item>
+                          <a @click="videoMemberNameClickHandler(staff.mid)">
+                            <a-avatar size="small" :src="$util.httpS(staff.face)" style="margin-right: 8px" />
+                            {{ staff.name }}<a-tag :color="$util.getStaffTitleColor(staff.title)" style="margin-left: 8px">{{ staff.title }}</a-tag>
+                          </a>
+                        </a-menu-item>
+                      </template>
+                    </a-menu>
+                  </template>
                 </a-dropdown>
               </div>
             </div>
@@ -158,7 +160,7 @@
                   style="margin-bottom: 4px; cursor: pointer"
                 >
                   <a-popover>
-                    <template slot="content">
+                    <template #content>
                       {{ flag.message }}
                     </template>
                     {{ flag.name }}
@@ -169,7 +171,7 @@
                   style="margin-bottom: 4px; cursor: pointer"
                 >
                   <a-popover>
-                    <template slot="content">
+                    <template #content>
                       {{ $t('video_detail.attribute_prompt') }}<br/>
                       <i18n-t keypath="video_detail.attribute_reference" tag="label" for="video_detail.attribute_reference_here">
                         <a href="https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/video/info.md#获取视频详细信息web端" target="_blank">{{ $t('video_detail.attribute_reference_here') }}</a>
@@ -239,68 +241,70 @@
                       <a-button>
                         <a-icon type="filter" /> {{ $store.getters.clientMode === 'MOBILE' ? '' : $t('data_selection') }}
                       </a-button>
-                      <div slot="content">
-                        <a-spin :spinning="isLoadingVideoRecords">
-                          <div style="margin-bottom: 12px">
-                            <a-checkbox
-                              v-model="enableCurrentVideoRecords"
-                              @change="enableCurrentVideoRecordsCheckboxChangeHandler"
-                              style="margin-bottom: 4px"
-                            >{{ $t('recent_data') }}</a-checkbox>
-                            <div style="margin-bottom: 4px">
-                              {{ $t('data_total_already_loaded_prompt', { total: currentVideoRecordsTotalCount, loaded: currentVideoRecords.length }) }}
+                      <template #content>
+                        <div>
+                          <a-spin :spinning="isLoadingVideoRecords">
+                            <div style="margin-bottom: 12px">
+                              <a-checkbox
+                                v-model="enableCurrentVideoRecords"
+                                @change="enableCurrentVideoRecordsCheckboxChangeHandler"
+                                style="margin-bottom: 4px"
+                              >{{ $t('recent_data') }}</a-checkbox>
+                              <div style="margin-bottom: 4px">
+                                {{ $t('data_total_already_loaded_prompt', { total: currentVideoRecordsTotalCount, loaded: currentVideoRecords.length }) }}
+                              </div>
+                              <div>
+                                <a-button
+                                  type="link"
+                                  size="small"
+                                  :disabled="currentVideoRecordsTotalLoaded"
+                                  @click="getCurrentVideoRecordsTotal(aid)"
+                                >{{ $t('load_all') }}</a-button>
+                                <a-button
+                                  type="link"
+                                  size="small"
+                                  @click="updateCurrentVideoRecords(aid)"
+                                >{{ $t('refresh_data') }}</a-button>
+                              </div>
                             </div>
                             <div>
-                              <a-button
-                                type="link"
-                                size="small"
-                                :disabled="currentVideoRecordsTotalLoaded"
-                                @click="getCurrentVideoRecordsTotal(aid)"
-                              >{{ $t('load_all') }}</a-button>
-                              <a-button
-                                type="link"
-                                size="small"
-                                @click="updateCurrentVideoRecords(aid)"
-                              >{{ $t('refresh_data') }}</a-button>
-                            </div>
-                          </div>
-                          <div>
-                            <a-checkbox
-                              v-model="enableHourlyVideoRecords"
-                              :disabled="hourlyVideoRecords.length === 0"
-                              @change="enableHistoryVideoRecordsCheckboxChangeHandler"
-                              style="margin-bottom: 4px"
-                            >{{ $t('last_3_days_hourly_data') }}</a-checkbox>
-                            <div v-if="hourlyVideoRecords.length > 0" style="margin-bottom: 4px">
-                              {{ $t('data_total_already_loaded_prompt', { total: hourlyVideoRecords.length, loaded: hourlyVideoRecords.length }) }}
-                            </div>
-                            <div>
-                              <a-button
-                                type="link"
-                                size="small"
-                                :disabled="hourlyVideoRecords.length !== 0"
-                                @click="getHistoryVideoRecords(aid)"
-                              >{{ $t('load_all') }}</a-button>
-                              <a-button
-                                type="link"
-                                size="small"
+                              <a-checkbox
+                                v-model="enableHourlyVideoRecords"
                                 :disabled="hourlyVideoRecords.length === 0"
-                                @click="getHistoryVideoRecords(aid)"
-                              >{{ $t('refresh_data') }}</a-button>
+                                @change="enableHistoryVideoRecordsCheckboxChangeHandler"
+                                style="margin-bottom: 4px"
+                              >{{ $t('last_3_days_hourly_data') }}</a-checkbox>
+                              <div v-if="hourlyVideoRecords.length > 0" style="margin-bottom: 4px">
+                                {{ $t('data_total_already_loaded_prompt', { total: hourlyVideoRecords.length, loaded: hourlyVideoRecords.length }) }}
+                              </div>
+                              <div>
+                                <a-button
+                                  type="link"
+                                  size="small"
+                                  :disabled="hourlyVideoRecords.length !== 0"
+                                  @click="getHistoryVideoRecords(aid)"
+                                >{{ $t('load_all') }}</a-button>
+                                <a-button
+                                  type="link"
+                                  size="small"
+                                  :disabled="hourlyVideoRecords.length === 0"
+                                  @click="getHistoryVideoRecords(aid)"
+                                >{{ $t('refresh_data') }}</a-button>
+                              </div>
                             </div>
-                          </div>
-                        </a-spin>
-                      </div>
+                          </a-spin>
+                        </div>
+                      </template>
                     </a-popover>
                   </div>
                 </div>
                 <div v-show="currentDataCategory.indexOf('recordChart') !== -1">
                   <template v-if="recordChartEnterCount">
                     <a-alert type="info" banner style="margin-bottom: 12px" closable>
-                      <template slot="message">
+                      <template #message>
                         <i18n-t keypath="compare_banner">
                           <a-popover place="add_to_compare_list" placement="bottom">
-                            <template slot="content">
+                            <template #content>
                               <template v-if="inVideoCompareList">
                                 {{ $t('compare_banner_added_click_to') }}<a @click="removeFromVideoCompareListHandler">{{ $t('compare_banner_added_click_to_remove') }}</a>
                               </template>

@@ -7,13 +7,14 @@
           placeholder="1359631780"
           @change="tsValChangeHandler"
         >
-          <a-icon
-            slot="suffix"
-            type="copy"
-            title="复制"
-            @click="copyTsVal"
-            style="cursor: pointer"
-          />
+          <template #suffix>
+            <a-icon
+              type="copy"
+              title="复制"
+              @click="copyTsVal"
+              style="cursor: pointer"
+            />
+          </template>
         </a-input>
       </a-col>
       <a-col :span="10" style="padding-right: 16px">
@@ -22,13 +23,14 @@
           placeholder="2013-01-31 19:29:40"
           @change="tsStrChangeHandler"
         >
-          <a-icon
-            slot="suffix"
-            type="copy"
-            title="复制"
-            @click="copyTsStr"
-            style="cursor: pointer"
-          />
+          <template #suffix>
+            <a-icon
+              type="copy"
+              title="复制"
+              @click="copyTsStr"
+              style="cursor: pointer"
+            />
+          </template>
         </a-input>
       </a-col>
       <a-col :span="5">

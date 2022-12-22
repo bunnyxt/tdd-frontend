@@ -9,7 +9,7 @@
     :scroll="{ x: 1400 }"
     size="small"
   >
-    <template slot="pic" slot-scope="item">
+    <template #pic="item">
       <img
         width="108px"
         height="65px"
@@ -19,18 +19,18 @@
         style="cursor: pointer"
       />
     </template>
-    <template slot="videoTitle" slot-scope="title">
+    <template #videoTitle="title">
       <div class="video-title">
         {{ title }}
       </div>
     </template>
-    <template slot="member" slot-scope="item">
+    <template #member="item">
       <router-link :to="'/member/' + item.mid">{{ item.member.name }}</router-link>
     </template>
-    <template slot="added" slot-scope="added">
+    <template #added="added">
       {{ $util.tsToDateString(added) }}
     </template>
-    <template slot="value" slot-scope="value">
+    <template #value="value">
       {{ value.toLocaleString() }}
     </template>
   </a-table>

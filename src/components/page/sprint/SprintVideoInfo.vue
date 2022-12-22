@@ -4,36 +4,47 @@
       itemLayout="vertical"
       :dataSource="[video]"
     >
-      <a-list-item slot="renderItem" slot-scope="item" key="item.id">
-        <a-list-item-meta>
-          <h3 slot="title" style="margin-bottom: 24px">{{ item.title }}</h3>
-          <div slot="description">
-            <p><a-avatar size="small" :src="$util.httpS(item.member.face)" style="margin-right:12px"/><a :href="'https://space.bilibili.com/'+item.mid" target="_blank">{{ item.member.name }}</a></p>
-            <p>投稿时间：{{ formatDate(item.created) }}</p>
-            <p>最后更新时间：{{ formatDate(item.last_record.added) }}</p>
-            <p>当前播放：{{ item.last_record.view }}</p>
-            <div v-if="promotionReason != null">
-              <p>推荐理由：{{ promotionReason }}</p>
-            </div>
-            <div v-if="records != null">
-              <p>昨日增速：{{ daySpeed }}</p>
-              <p>已用时间：{{ passedTime }}日</p>
-              <p>还需时间：{{ needTime }}日</p>
-            </div>
-          </div>
-        </a-list-item-meta>
-        <a-card
-          hoverable
-          style="margin: 0px 0px 12px 0px; width:200px"
-          slot="extra"
-        >
-          <img slot="cover" width="198" height="124" alt="pic" :src="$util.httpS(item.pic)" @click="handleLineChartClick"/>
-          <template class="ant-card-actions" slot="actions">
-            <a-icon type="play-circle" title="立刻助攻" @click="handlePlayCircleClick"/>
-            <a-icon type="line-chart" title="查看详情" @click="handleLineChartClick"/>
+      <template #renderItem="item">
+        <a-list-item key="item.id">
+          <a-list-item-meta>
+            <template #title>
+              <h3 style="margin-bottom: 24px">{{ item.title }}</h3>
+            </template>
+            <template #description>
+              <div>
+                <p><a-avatar size="small" :src="$util.httpS(item.member.face)" style="margin-right:12px"/><a :href="'https://space.bilibili.com/'+item.mid" target="_blank">{{ item.member.name }}</a></p>
+                <p>投稿时间：{{ formatDate(item.created) }}</p>
+                <p>最后更新时间：{{ formatDate(item.last_record.added) }}</p>
+                <p>当前播放：{{ item.last_record.view }}</p>
+                <div v-if="promotionReason != null">
+                  <p>推荐理由：{{ promotionReason }}</p>
+                </div>
+                <div v-if="records != null">
+                  <p>昨日增速：{{ daySpeed }}</p>
+                  <p>已用时间：{{ passedTime }}日</p>
+                  <p>还需时间：{{ needTime }}日</p>
+                </div>
+              </div>
+            </template>
+          </a-list-item-meta>
+          <template #extra>
+            <a-card
+              hoverable
+              style="margin: 0px 0px 12px 0px; width:200px"
+            >
+              <template #cover>
+                <img width="198" height="124" alt="pic" :src="$util.httpS(item.pic)" @click="handleLineChartClick"/>
+              </template>
+              <template #actions>
+                <div class="ant-card-actions">
+                  <a-icon type="play-circle" title="立刻助攻" @click="handlePlayCircleClick"/>
+                  <a-icon type="line-chart" title="查看详情" @click="handleLineChartClick"/>
+                </div>
+              </template>
+            </a-card>
           </template>
-        </a-card>
-      </a-list-item>
+        </a-list-item>
+      </template>
     </a-list>
   </div>
 </template>
