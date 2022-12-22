@@ -73,18 +73,18 @@
     <div v-if="isLoadingMember">
       <div class="section-block">
         <a-spin :spinning="true">
-          <i18n path="fetching_member_info_prompt" tag="label">
+          <i18n-t keypath="fetching_member_info_prompt" tag="label">
             <a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>
-          </i18n>
+          </i18n-t>
         </a-spin>
       </div>
     </div>
     <div v-else>
       <div v-if="!member || Object.keys(member).length === 0">
         <div class="section-block">
-          <i18n path="member_info_not_found_prompt" tag="label">
+          <i18n-t keypath="member_info_not_found_prompt" tag="label">
             <a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>
-          </i18n>
+          </i18n-t>
           <p>{{ $t('member_not_tracked_prompt') }}</p>
           <a @click="$router.go(-1)">{{ $t('back_to_previous_page') }}</a>
         </div>
@@ -147,18 +147,18 @@
           <div v-show="currentInfoCategory.indexOf('history') !== -1">
             <div v-if="isLoadingMemberLogs">
               <a-spin :spinning="true">
-                <i18n path="fetching_member_info_history_prompt" tag="label">
+                <i18n-t keypath="fetching_member_info_history_prompt" tag="label">
                   <a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>
-                </i18n>
+                </i18n-t>
               </a-spin>
             </div>
             <div v-else>
               <template v-if="$store.state.isUserLoggedIn">
                 <a-alert type="warning" banner closable style="margin-bottom: 16px">
                   <template slot="message">
-                    <i18n path="member_info_history_prompt" tag="label">
+                    <i18n-t keypath="member_info_history_prompt" tag="label">
                       <router-link to="/about/contactus">{{ $t('contact_admin') }}</router-link>
-                    </i18n>
+                    </i18n-t>
                   </template>
                 </a-alert>
                 <tdd-member-log-table :member-logs="memberLogs" />
@@ -166,9 +166,9 @@
               <template v-else>
                 <a-alert type="error" banner>
                   <template slot="message">
-                    <i18n path="member_info_history_visibility_prompt" tag="label">
+                    <i18n-t keypath="member_info_history_visibility_prompt" tag="label">
                       <a @click="() => this.$store.commit('changeLoginSliderVisibility')">{{ $t('login') }}</a>
-                    </i18n>
+                    </i18n-t>
                   </template>
                 </a-alert>
               </template>
@@ -184,9 +184,9 @@
           <div v-show="currentDataCategory.indexOf('follower') !== -1">
             <div v-if="isLoadingFollowerRecords">
               <a-spin :spinning="true">
-                <i18n path="fetching_member_follower_history_prompt" tag="label">
+                <i18n-t keypath="fetching_member_follower_history_prompt" tag="label">
                   <a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>
-                </i18n>
+                </i18n-t>
               </a-spin>
             </div>
             <div v-else>
@@ -198,9 +198,9 @@
           <div v-show="currentDataCategory.indexOf('totalStat') !== -1">
             <div v-if="isLoadingTotalStatRecords">
               <a-spin :spinning="true">
-                <i18n path="fetching_member_statistics_summary_history_prompt" tag="label">
+                <i18n-t keypath="fetching_member_statistics_summary_history_prompt" tag="label">
                   <a :href="'https://space.bilibili.com/' + this.$route.params.mid" target="_blank">{{ 'mid_'+this.$route.params.mid }}</a>
-                </i18n>
+                </i18n-t>
               </a-spin>
             </div>
             <div v-else>

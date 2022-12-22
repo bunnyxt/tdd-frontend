@@ -71,15 +71,15 @@
       </div>
       <p>{{ $t('tdd_intro') }}</p>
       <p>
-        <i18n path="qq_group_info" tag="label">
+        <i18n-t keypath="qq_group_info" tag="label">
           <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>
           <a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/>
           <a target="_blank" :href="qqgroup_qrcode">{{ $t('qr_code') }}</a>
-        </i18n>
+        </i18n-t>
         <br/>
-        <i18n path="personal_email_info" tag="label">
+        <i18n-t keypath="personal_email_info" tag="label">
           <a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
-        </i18n>
+        </i18n-t>
       </p>
       <p>
         <a href="https://afdian.net/@bunnyxt" target="_blank">{{ $t('donate_tdd') }}</a> or <router-link to="/about/contactus">{{ $t('page_name.about_contactus') }}</router-link>
@@ -94,27 +94,27 @@
     <div class="section-block">
       <h1>{{ $t('tech_related') }}</h1>
       <p>
-        <i18n path="tech_server" tag="label">
+        <i18n-t keypath="tech_server" tag="label">
           <strong>{{ $t('tech_server_no_hack') }}</strong>
-        </i18n>
+        </i18n-t>
       </p>
       <p>
-        <i18n path="tech_frontend" tag="label">
+        <i18n-t keypath="tech_frontend" tag="label">
           <a href="https://ant.design" target="_blank">Ant Design</a>
           <a href="https://g2.antv.vision/" target="_blank">G2</a>
-        </i18n>
+        </i18n-t>
       </p>
       <p>
-        <i18n path="tech_backend" tag="label">
+        <i18n-t keypath="tech_backend" tag="label">
           <strong>{{ $t('tech_backend_api_limit') }}</strong>
-        </i18n>
+        </i18n-t>
       </p>
       <p>{{ $t('tech_crawler') }}</p>
       <p>
-        <i18n path="tech_code" tag="label">
+        <i18n-t keypath="tech_code" tag="label">
           <a href="https://github.com/users/bunnyxt/projects/1" target="_blank">GitHub TianDian Daily Project</a>
           <strong>{{ $t('tech_code_welcome') }}</strong>
-        </i18n>
+        </i18n-t>
       </p>
     </div>
     <div class="section-separator"></div>

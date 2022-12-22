@@ -54,9 +54,9 @@
     <div v-if="isLoadingVideo">
       <div class="section-block">
         <a-spin :spinning="true">
-          <i18n path="fetching_video_info_prompt" tag="label">
+          <i18n-t keypath="fetching_video_info_prompt" tag="label">
             <video-detail-video-id-link :aid="aid" :bvid="bvid" :from-bvid="fromBvid" />
-          </i18n>
+          </i18n-t>
         </a-spin>
       </div>
     </div>
@@ -64,9 +64,9 @@
       <div v-if="!video || Object.keys(video).length === 0">
         <div class="section-block">
           <p>
-            <i18n path="video_info_not_found_prompt" tag="label">
+            <i18n-t keypath="video_info_not_found_prompt" tag="label">
               <video-detail-video-id-link :aid="aid" :bvid="bvid" :from-bvid="fromBvid" />
-            </i18n>
+            </i18n-t>
           </p>
           <p>{{ $t('video_not_tracked_prompt') }}</p>
           <a @click="$router.go(-1)">{{ $t('back_to_previous_page') }}</a>
@@ -96,9 +96,9 @@
             banner
           >
             <template slot="message">
-              <i18n path="video_detail.error_duplicated_prompt" tag="label">
+              <i18n-t keypath="video_detail.error_duplicated_prompt" tag="label">
                 <a :href="`/video/av${video.forward}`" target="_blank">av{{video.forward}}</a>
-              </i18n>
+              </i18n-t>
             </template>
           </a-alert>
           <div v-if="$store.getters.clientMode === 'MOBILE'">
@@ -171,9 +171,9 @@
                   <a-popover>
                     <template slot="content">
                       {{ $t('video_detail.attribute_prompt') }}<br/>
-                      <i18n path="video_detail.attribute_reference" tag="label" for="video_detail.attribute_reference_here">
+                      <i18n-t keypath="video_detail.attribute_reference" tag="label" for="video_detail.attribute_reference_here">
                         <a href="https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/video/info.md#获取视频详细信息web端" target="_blank">{{ $t('video_detail.attribute_reference_here') }}</a>
-                      </i18n>
+                      </i18n-t>
                     </template>
                     <a-icon type="question-circle" />
                   </a-popover>
@@ -298,7 +298,7 @@
                   <template v-if="recordChartEnterCount">
                     <a-alert type="info" banner style="margin-bottom: 12px" closable>
                       <template slot="message">
-                        <i18n path="compare_banner">
+                        <i18n-t keypath="compare_banner">
                           <a-popover place="add_to_compare_list" placement="bottom">
                             <template slot="content">
                               <template v-if="inVideoCompareList">
@@ -311,7 +311,7 @@
                             <a>{{ $t('add_to_compare_list') }}</a>
                           </a-popover>
                           <router-link place="compare_tool" to="/tool/compare">{{ $t('compare_tool') }}</router-link>
-                        </i18n>
+                        </i18n-t>
                       </template>
                     </a-alert>
                     <tdd-video-history-line-chart :videoRecords="videoRecords" :pubdate="video ? video.pubdate : 0" />

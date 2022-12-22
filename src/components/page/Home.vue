@@ -201,9 +201,9 @@
         </div>
       </div>
       <p>
-        <i18n path="page_brief_intro.video" tag="label">
+        <i18n-t keypath="page_brief_intro.video" tag="label">
           <a href="https://www.bilibili.com/v/music/vocaloid/" target="_blank">VOCALOID·UTAU</a>
-        </i18n>
+        </i18n-t>
       </p>
       <p style="display: flex">
         <tdd-video-abid-auto-complete v-model="jumpVideoTargetIdObj" />
@@ -253,9 +253,9 @@
         </div>
       </div>
       <p>
-        <i18n path="page_brief_intro.sprint" tag="label" for="vocaloid_china_1m_song">
+        <i18n-t keypath="page_brief_intro.sprint" tag="label" for="vocaloid_china_1m_song">
           <a href="https://zh.moegirl.org/Vocaloid中文传说曲" target="_blank">{{ $t('vocaloid_china_1m_song') }}</a>
-        </i18n>
+        </i18n-t>
       </p>
       <a-spin :spinning="isLoadingSprintVideoList">
         <tdd-video-list

@@ -49,9 +49,9 @@
         banner
       >
         <template #message>
-          <i18n path="video_detail.error_duplicated_prompt" tag="label">
+          <i18n-t keypath="video_detail.error_duplicated_prompt" tag="label">
             <a :href="`/video/av${video.forward}`" target="_blank">av{{video.forward}}</a>
-          </i18n>
+          </i18n-t>
         </template>
       </a-alert>
       <h3 style="margin-bottom: 14px">{{ video.title }}</h3>
@@ -119,9 +119,9 @@
             <a-popover>
               <template #content>
                 {{ $t('video_detail.attribute_prompt') }}<br/>
-                <i18n path="video_detail.attribute_reference" tag="label" for="video_detail.attribute_reference_here">
+                <i18n-t keypath="video_detail.attribute_reference" tag="label" for="video_detail.attribute_reference_here">
                   <a href="https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/video/info.md#获取视频详细信息web端" target="_blank">{{ $t('video_detail.attribute_reference_here') }}</a>
-                </i18n>
+                </i18n-t>
               </template>
               <question-circle-outlined />
             </a-popover>

@@ -26,12 +26,12 @@
       <h1>{{ $t('page_name.about_updatelog') }}</h1>
       <p>{{ $t('page_intro_updatelog') }}</p>
       <p>
-        <i18n path="know_more_update_prompt" tag="label">
+        <i18n-t keypath="know_more_update_prompt" tag="label">
           <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>
           <a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/>
           <a target="_blank" :href="qqgroup_qrcode">{{ $t('qr_code') }}</a>
           <a target="_blank" href="https://github.com/users/bunnyxt/projects/1">GitHub Project</a>
-        </i18n>
+        </i18n-t>
       </p>
     </div>
     <div class="section-separator"></div>

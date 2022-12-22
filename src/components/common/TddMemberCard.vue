@@ -18,16 +18,16 @@
   <div>
     <div v-if="isLoadingMember">
       <a-spin size="small" style="margin-right: 8px" />
-      <i18n path="fetching_member_info_prompt" tag="label">
+      <i18n-t keypath="fetching_member_info_prompt" tag="label">
         <a :href="`https://space.bilibili.com/${mid}`" target="_blank">{{ `mid_${mid}` }}</a>
-      </i18n>
+      </i18n-t>
     </div>
     <div v-else>
       <div v-if="!member || Object.keys(member).length === 0">
         <div class="section-block">
-          <i18n path="member_info_not_found_prompt" tag="label">
+          <i18n-t keypath="member_info_not_found_prompt" tag="label">
             <a :href="`https://space.bilibili.com/${mid}`" target="_blank">{{ `mid_${mid}` }}</a>
-          </i18n>
+          </i18n-t>
           <p>{{ $t('member_not_tracked_prompt') }}</p>
         </div>
       </div>

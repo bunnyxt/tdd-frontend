@@ -41,47 +41,47 @@
     <div class="section-block">
       <h1>{{ $t('page_name.about_contactus') }}</h1>
       <p>
-        <i18n path="contact_official_info" tag="label">
+        <i18n-t keypath="contact_official_info" tag="label">
           <a href="https://www.bunnyxt.com" target="_blank">bunnyxt</a>
-        </i18n>
+        </i18n-t>
       <ul>
         <li>
-          <i18n path="contact_official_qq_group" tag="label">
+          <i18n-t keypath="contact_official_qq_group" tag="label">
             <a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a>
             <a-icon type="qrcode" style="margin-left: 8px; margin-right: 4px"/>
             <a target="_blank" :href="qqgroup_qrcode">{{ $t('qr_code') }}</a>
-          </i18n>
+          </i18n-t>
         </li>
         <li>
-          <i18n path="contact_official_webmaster_email" tag="label">
+          <i18n-t keypath="contact_official_webmaster_email" tag="label">
             <a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
-          </i18n>
+          </i18n-t>
         </li>
         <li>
-          <i18n path="contact_official_admin_email" tag="label">
+          <i18n-t keypath="contact_official_admin_email" tag="label">
             <a href="mailto:admin@bunnyxt.com">admin@bunnyxt.com</a>
-          </i18n>
+          </i18n-t>
         </li>
       </ul>
       <p>{{ $t('contact_tech_info') }}</p>
       <ul>
         <li>
-          <i18n path="contact_tech_github" tag="label">
+          <i18n-t keypath="contact_tech_github" tag="label">
             <a target="_blank" href="https://github.com/bunnyxt">https://github.com/bunnyxt</a>
-          </i18n>
+          </i18n-t>
         </li>
         <li>
-          <i18n path="contact_tech_github_project" tag="label">
+          <i18n-t keypath="contact_tech_github_project" tag="label">
             <a target="_blank" href="https://github.com/users/bunnyxt/projects/1">https://github.com/users/bunnyxt/projects/1</a>
-          </i18n>
+          </i18n-t>
         </li>
       </ul>
       <p>{{ $t('contact_personal_info') }}</p>
       <ul>
         <li>
-          <i18n path="contact_personal_weibo" tag="label">
+          <i18n-t keypath="contact_personal_weibo" tag="label">
             <a target="_blank" href="https://weibo.com/nny29">@牛奶源29</a>
-          </i18n>
+          </i18n-t>
         </li>
         <li>
           BiliBili：<a target="_blank" href="https://space.bilibili.com/1635775">@牛奶源</a>
@@ -91,9 +91,9 @@
         </li>
       </ul>
       <p>
-        <i18n path="contact_donate_info" tag="label">
+        <i18n-t keypath="contact_donate_info" tag="label">
           <a href="https://afdian.net/@bunnyxt" target="_blank">{{ $t('afdian') }}</a>
-        </i18n>
+        </i18n-t>
       </p>
     </div>
   </div>

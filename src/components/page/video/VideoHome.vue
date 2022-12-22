@@ -130,9 +130,9 @@
     <div class="section-block">
       <h1>{{ $t('page_name.video') }}</h1>
       <p>
-        <i18n path="page_intro_video" tag="label">
+        <i18n-t keypath="page_intro_video" tag="label">
           <a href="https://www.bilibili.com/v/music/vocaloid/" target="_blank">VOCALOID·UTAU</a>
-        </i18n>
+        </i18n-t>
       </p>
       <a-alert style="margin-bottom: 8px" :message="$t('update_interval_alert')" banner />
       <a-alert style="margin-bottom: 8px" :message="$t('click_to_view_detailed_info')" banner type="info"/>
