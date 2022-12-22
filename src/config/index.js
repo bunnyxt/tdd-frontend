@@ -1,5 +1,5 @@
 export default {
-  recaptchaSiteKey: '<your-google-recaptcha-site-key>',
+  recaptchaSiteKey: import.meta.env.VITE_RECAPTCHA_SITE_KEY,
   enableMoegirlWikiWidget: false,
   enableVideoAttributeFlags: false,
 }
