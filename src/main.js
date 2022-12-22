@@ -167,15 +167,15 @@
 
 import { createApp } from 'vue';
 
+// create app
 import App from './App.vue';
-
 const app = createApp(App);
 
 // store
 import store from './store';
 app.use(store);
 
-// i18n
+// use i18n
 import { createI18n } from 'vue-i18n';
 const i18n = createI18n({
   locale: 'zh',
@@ -184,16 +184,18 @@ const i18n = createI18n({
 app.use(i18n);
 store.commit('setI18n', i18n);
 
-// router
+// use router
 import router from './router';
 app.use(router);
 
-// util
+// bind util
+// TODO: remove gloabl util binding, import in each component
 import util from './util';
 app.config.globalProperties.$util = util;
 
-// config
+// bing config
 import config from './config';
 app.config.globalProperties.$config = config;
 
+// mount app
 app.mount('#app');
