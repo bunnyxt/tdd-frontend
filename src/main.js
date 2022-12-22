@@ -171,7 +171,88 @@ import { createApp } from 'vue';
 import App from './App.vue';
 const app = createApp(App);
 
-// store
+// use ant design components
+// TODO: auto import ant design components (tree shaking)
+import 'ant-design-vue/dist/antd.css';
+import {
+  Layout,
+  Menu,
+  Breadcrumb,
+  Card,
+  List,
+  Tooltip,
+  Button,
+  Row,
+  Col,
+  Table,
+  Alert,
+  Spin,
+  Pagination,
+  Checkbox,
+  Collapse,
+  Radio,
+  Carousel,
+  Avatar,
+  Input,
+  Switch,
+  DatePicker,
+  Select,
+  ConfigProvider,
+  BackTop,
+  Drawer,
+  Divider,
+  Tag,
+  Popconfirm,
+  Modal,
+  Popover,
+  Statistic,
+  Timeline,
+  InputNumber,
+  AutoComplete,
+  Dropdown,
+  Form,
+  Cascader,
+} from 'ant-design-vue';
+app
+  .use(Layout)
+  .use(Menu)
+  .use(Breadcrumb)
+  .use(Card)
+  .use(List)
+  .use(Tooltip)
+  .use(Button)
+  .use(Row)
+  .use(Col)
+  .use(Table)
+  .use(Alert)
+  .use(Spin)
+  .use(Pagination)
+  .use(Checkbox)
+  .use(Collapse)
+  .use(Radio)
+  .use(Carousel)
+  .use(Avatar)
+  .use(Input)
+  .use(Switch)
+  .use(DatePicker)
+  .use(Select)
+  .use(ConfigProvider)
+  .use(BackTop)
+  .use(Drawer)
+  .use(Divider)
+  .use(Tag)
+  .use(Popconfirm)
+  .use(Modal)
+  .use(Popover)
+  .use(Statistic)
+  .use(Timeline)
+  .use(InputNumber)
+  .use(AutoComplete)
+  .use(Dropdown)
+  .use(Form)
+  .use(Cascader);
+
+// use store
 import store from './store';
 app.use(store);
 
