@@ -1,8 +1,19 @@
 <template>
-  <a-alert v-if="showI18nLocaleSelect" type="info" banner closable @close="close">
+  <a-alert
+    v-if="showI18nLocaleSelect"
+    type="info"
+    banner
+    closable
+    @close="close"
+  >
     <template #message>
       Select Language:
-      <a-select :value="i18nLocale" @change="handleI18nLocaleSelectChange" size="small" style="width: 92px">
+      <a-select 
+        size="small"
+        style="width: 100px"
+        :value="i18nLocale"
+        @change="handleI18nLocaleSelectChange"
+      >
         <a-select-option value="zh">
           简体中文
         </a-select-option>
@@ -22,16 +33,6 @@ export default {
       showI18nLocaleSelect: false,
       i18nLocale: 'zh',
     }
-  },
-  methods: {
-    handleI18nLocaleSelectChange: function (locale) {
-      this.i18nLocale = locale;
-      this.$store.commit('setI18nLocale', locale);
-      localStorage.setItem('tddLocale', locale);
-    },
-    close: function () {
-      this.showI18nLocaleSelect = false;
-    },
   },
   mounted() {
     // init locale
@@ -60,7 +61,19 @@ export default {
         this.showI18nLocaleSelect = true;
       }
     }
+    this.$i18n.locale = this.i18nLocale;  // set locale
     this.$store.commit('setI18nLocale', this.i18nLocale);
+  },
+  methods: {
+    handleI18nLocaleSelectChange: function (locale) {
+      this.i18nLocale = locale;
+      this.$i18n.locale = locale;  // change locale
+      this.$store.commit('setI18nLocale', locale);
+      localStorage.setItem('tddLocale', locale);
+    },
+    close: function () {
+      this.showI18nLocaleSelect = false;
+    },
   },
 }
 </script>
