@@ -14,7 +14,13 @@
   <!--          <div style="width: 108px; height: 65px; float: left; margin-right: 8px">-->
   <!--            <tdd-video-cover :src="$util.httpS(item.pic)" :video="item" />-->
   <!--          </div>-->
-            <img class="tdd-video-item-mobile-cover-pic" width="108px" height="65px" alt="pic" :src="$util.httpS(item.pic)"/>
+            <img
+              class="tdd-video-item-mobile-cover-pic"
+              width="108px"
+              height="65px"
+              alt="pic"
+              :src="$util.httpS(item.pic)"
+            >
             <div class="tdd-video-item-mobile-right-content">
               <div class="tdd-video-item-mobile-title" :title="item.title">
                 {{ item.title }}

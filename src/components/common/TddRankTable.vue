@@ -65,7 +65,7 @@
             height="65px"
             alt="pic"
             :src="$util.httpS(item.video.pic)"
-          />
+          >
           <a-tag v-if="item.video.videos > 1" style="position: absolute; bottom: 2px; right: -7px">{{ item.video.videos }}P</a-tag>
           <div
             v-if="$store.getters.clientMode === 'MOBILE'"
@@ -103,7 +103,7 @@
             alt="pic"
             src="https://i0.hdslb.com/bfs/archive/be27fd62c99036dce67efface486fb0a88ffed06.jpg"
             style="cursor: pointer"
-          />
+          >
         </div>
       </div>
     </template>

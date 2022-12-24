@@ -6,7 +6,10 @@
     :pagination="pagination"
   >
     <template #picRender="pic">
-      <img :src="$util.httpS(pic)" width="100px"/>
+      <img
+        :src="$util.httpS(pic)"
+        width="100px"
+      >
     </template>
     <template #actionRender="aid">
       <a-button title="立刻助攻" @click="handlePlayCircleClick(aid)" style="margin-right: 8px"><play-circle-outlined /></a-button>

@@ -33,7 +33,13 @@
               style="margin: 0px 0px 12px 0px; width:200px"
             >
               <template #cover>
-                <img width="198" height="124" alt="pic" :src="$util.httpS(item.pic)" @click="handleLineChartClick"/>
+                <img
+                  width="198"
+                  height="124"
+                  alt="pic"
+                  :src="$util.httpS(item.pic)"
+                  @click="handleLineChartClick"
+                >
               </template>
               <template #actions>
                 <div class="ant-card-actions">

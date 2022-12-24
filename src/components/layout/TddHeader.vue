@@ -20,7 +20,7 @@
             class="mobile-header-logo"
             :src="logo_small"
             @click="() => this.$router.push('/')"
-          />
+          >
           <div v-if="!this.$store.state.isUserLoggedIn">
             <user-outlined
               class="mobile-header-user-avatar"
@@ -66,7 +66,7 @@
           class="desktop-header-logo"
           :src="logo_small"
           @click="() => this.$router.push('/')"
-        />
+        >
         <a-menu
           theme="dark"
           mode="horizontal"

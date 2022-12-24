@@ -155,8 +155,11 @@
               >
                 <img
                   class="tdd-member-item-desktop-grid-last-video-cover-pic"
-                  width="108px" height="65px" alt="pic" :src="item.last_video ? $util.httpS(item.last_video.pic) : ''"
-                />
+                  width="108px"
+                  height="65px"
+                  alt="pic"
+                  :src="item.last_video ? $util.httpS(item.last_video.pic) : ''"
+                >
                 <div class="tdd-member-item-desktop-grid-last-video-right-content">
                   <div class="tdd-member-item-desktop-grid-last-video-title">
                     {{ item.last_video ? item.last_video.title : null }}

@@ -102,10 +102,20 @@
             </template>
           </a-alert>
           <div v-if="$store.getters.clientMode === 'MOBILE'">
-            <img :src="$util.httpS(video.pic)" alt="pic" width="100%" style="margin-bottom: 8px"/>
+            <img
+              :src="$util.httpS(video.pic)"
+              alt="pic"
+              width="100%"
+              style="margin-bottom: 8px"
+            >
           </div>
           <div v-else>
-            <img :src="$util.httpS(video.pic)" alt="pic" width="250px" style="float: right"/>
+            <img
+              :src="$util.httpS(video.pic)"
+              alt="pic"
+              width="250px"
+              style="float: right"
+            >
           </div>
           <div :style="titleDivStyle">
             <h3 style="margin-bottom: 14px">{{ video.title }}</h3>

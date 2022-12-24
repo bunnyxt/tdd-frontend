@@ -14,10 +14,10 @@
         width="108px"
         height="65px"
         alt="pic"
+        style="cursor: pointer"
         :src="$util.httpS(item.pic)"
         @click="videoPicClickHandler(item)"
-        style="cursor: pointer"
-      />
+      >
     </template>
     <template #videoTitle="title">
       <div class="video-title">

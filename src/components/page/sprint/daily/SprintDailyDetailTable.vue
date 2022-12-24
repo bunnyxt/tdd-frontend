@@ -6,7 +6,10 @@
     :pagination="pagination"
   >
     <template #picRender="pic">
-      <img :src="$util.httpS(pic)" width="100px"/>
+      <img
+        :src="$util.httpS(pic)"
+        width="100px"
+      >
     </template>
     <template #dayRender="day">
       {{ day }}天

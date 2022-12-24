@@ -84,7 +84,10 @@
             </div>
           </div>
           <div class="carousel-p1-image">
-            <img :src="logo_max" alt="logo" />
+            <img
+              :src="logo_max"
+              alt="logo"
+            >
           </div>
         </div>
       </div>

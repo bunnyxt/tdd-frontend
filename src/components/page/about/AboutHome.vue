@@ -66,7 +66,11 @@
     <div class="section-block">
       <h1>{{ $t('about_tdd') }}</h1>
       <div style="float: right; margin-left: 8px; margin-bottom: 8px">
-        <img :src="logo_max" alt="logo" width="64px" /><br>
+        <img
+          :src="logo_max"
+          alt="logo"
+          width="64px"
+        ><br>
         <span style="font-size: 10px">logo by <br>SweetFairyTale</span>
       </div>
       <p>{{ $t('tdd_intro') }}</p>
