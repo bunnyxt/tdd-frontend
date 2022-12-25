@@ -273,6 +273,19 @@ store.commit('setI18n', i18n);
 import router from './router';
 app.use(router);
 
+// custom wechat-title directive
+// ref: https://stackoverflow.com/a/71729863/11071084
+// TODO: do not use directive to change title, use router meta plus i18n and document.title in script
+const updatePageTitle = (title) => {
+  if (!document) {
+    return;
+  }
+  document.title = title;
+};
+app.directive('wechat-title', {
+  mounted: (_, binding) => updatePageTitle(binding.value),
+});
+
 // bind util
 // TODO: remove gloabl util binding, import in each component
 import util from './util';
