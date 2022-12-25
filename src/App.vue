@@ -1,6 +1,9 @@
 <template>
   <a-config-provider :locale="locale">
-    <a-layout class="layout" style="min-height:100%">
+    <a-layout
+      class="layout"
+      style="min-height:100%"
+    >
       <tdd-menu-slider @toggle-language-banner-visibility="toggleLanguageBannerVisibility" />
       <tdd-login-slider />
       <tdd-video-detail-drawer />
@@ -8,12 +11,12 @@
         <tdd-header ref="header" />
         <a-layout-content :style="{padding: layoutPadding, marginTop: layoutMarginTop, marginBottom: '-120px'}">
           <keep-alive>
-            <router-view v-if="$route.meta.keepAlive" v-wechat-title="$route.meta.title"></router-view>
+            <router-view v-if="$route.meta.keepAlive" />
           </keep-alive>
-          <router-view v-if="!$route.meta.keepAlive" v-wechat-title="$route.meta.title"></router-view>
+          <router-view v-if="!$route.meta.keepAlive" />
         </a-layout-content>
-        <div class="fake-footer"></div>
-        <tdd-footer/>
+        <div class="fake-footer" />
+        <tdd-footer />
         <a-back-top />
       </a-layout>
     </a-layout>
@@ -30,7 +33,7 @@ import TddVideoDetailDrawer from "./components/common/TddVideoDetailDrawer";
 import TddFooter from "./components/layout/TddFooter.vue";
 
 export default {
-  name: "app",
+  name: "App",
   components: {
     TddHeader,
     TddMenuSlider,
@@ -49,11 +52,6 @@ export default {
       return this.$store.getters.i18nLocale === 'zh' ? zhCN : enUS;
     },
   },
-  methods: {
-    toggleLanguageBannerVisibility: function () {
-      this.$refs.header.$refs.banner.showI18nLocaleSelect = !this.$refs.header.$refs.banner.showI18nLocaleSelect;  // bad design
-    },
-  },
   mounted: function () {
     let that = this;
     // global client mode
@@ -67,6 +65,11 @@ export default {
         that.$store.commit('setClientWidth', width);
       }
     });
+  },
+  methods: {
+    toggleLanguageBannerVisibility: function () {
+      this.$refs.header.$refs.banner.showI18nLocaleSelect = !this.$refs.header.$refs.banner.showI18nLocaleSelect;  // bad design
+    },
   },
 };
 </script>
