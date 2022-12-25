@@ -136,7 +136,7 @@ const router =  createRouter({
         roles: ['ROLE_user'],
       }
     }, {
-      path: '*',
+      path: '/:pathMatch(.*)*',
       component: NotFound,
     }
   ]
