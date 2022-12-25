@@ -54,7 +54,7 @@
               class="me-header-avatar"
               @click="() => avatarSettingPrompt = true"
             />
-            <a-modal title="设置头像" v-model="avatarSettingPrompt">
+            <a-modal title="设置头像" v-model:visible="avatarSettingPrompt">
               <template #footer>
                 <a-button type="primary" @click="() => avatarSettingPrompt = false">了解</a-button>
               </template>

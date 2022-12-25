@@ -20,7 +20,7 @@
       <template v-if="config.dateRangePanel">
         <div v-if="compact" style="float: right" @click="onAddedRangeMobileClick">
           <span style="cursor: pointer">时间范围 <calendar-outlined /></span>
-          <a-modal title="时间范围" v-model="addedRangeMobileVisibility">
+          <a-modal title="时间范围" v-model:visible="addedRangeMobileVisibility">
             <template #footer>
               <a-button type="primary" @click="onAddedRangeMobileClick">确定</a-button>
             </template>

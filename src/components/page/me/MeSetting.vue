@@ -31,7 +31,7 @@
             >
               {{ user.nickname === 'tdduser'+user.id ? '首次设置(免费)' : '修改' }}
             </a-button>
-            <a-modal title="设置昵称" v-model="setNicknameModalVisibility">
+            <a-modal title="设置昵称" v-model:visible="setNicknameModalVisibility">
               <template #footer>
                 <a-button type="primary" @click="() => bindEmailModalVisibility = false">完成</a-button>
               </template>
@@ -107,7 +107,7 @@
                 style="margin-left: 12px"
                 @click="() => bindEmailModalVisibility = true"
               >绑定</a-button>
-              <a-modal title="绑定邮箱" v-model="bindEmailModalVisibility">
+              <a-modal title="绑定邮箱" v-model:visible="bindEmailModalVisibility">
                 <template #footer>
                   <a-button type="primary" @click="() => bindEmailModalVisibility = false">完成</a-button>
                 </template>
@@ -231,7 +231,7 @@
                 style="margin-left: 12px"
                 @click="() => bindPhoneModalVisibility = true"
               >绑定</a-button>
-              <a-modal title="绑定手机" v-model="bindPhoneModalVisibility">
+              <a-modal title="绑定手机" v-model:visible="bindPhoneModalVisibility">
                 <template #footer>
                   <a-button type="primary" @click="() => bindPhoneModalVisibility = false">完成</a-button>
                 </template>
@@ -316,7 +316,7 @@
           </a-form-item>
           <a-form-item label="密码">
             <a-button size="small" @click="() => changePasswordModalVisibility = true">修改密码</a-button>
-            <a-modal title="修改密码" v-model="changePasswordModalVisibility">
+            <a-modal title="修改密码" v-model:visible="changePasswordModalVisibility">
               <template #footer>
                 <a-button type="primary" @click="() => changePasswordModalVisibility = false">完成</a-button>
               </template>
