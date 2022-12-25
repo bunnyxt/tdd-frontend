@@ -19,7 +19,7 @@
               <a-button @click="setZkIssueToCurrent">选择当前期</a-button>
               <a-popover title="根据日期选择" trigger="click" style="margin-left: 12px">
                 <template #content>
-                  <a-date-picker v-model="zkDatePickerValue" @change="setZkIssueViaDatePicker"></a-date-picker>
+                  <a-date-picker v-model:value="zkDatePickerValue" @change="setZkIssueViaDatePicker"></a-date-picker>
                 </template>
                 <a-button>根据日期选择</a-button>
               </a-popover>
@@ -36,7 +36,7 @@
                 showTime
                 format="YYYY-MM-DD HH:mm:ss"
                 placeholder="开始"
-                v-model="recordStartValue"
+                v-model:value="recordStartValue"
                 @openChange="handleRecordStartOpenChange"
               ></a-date-picker>
             </div>
@@ -47,7 +47,7 @@
                 showTime
                 format="YYYY-MM-DD HH:mm:ss"
                 placeholder="结束"
-                v-model="recordEndValue"
+                v-model:value="recordEndValue"
                 :open="recordEndOpen"
                 @openChange="handleRecordEndOpenChange"
                 style="margin-right: 8px"

@@ -30,7 +30,7 @@
                 showTime
                 format="YYYY-MM-DD HH:mm:ss"
                 placeholder="开始"
-                v-model="addedRangeValueStart"
+                v-model:value="addedRangeValueStart"
                 @change="onAddedRangeValueStartChange"
               ></a-date-picker>
             </p>
@@ -40,7 +40,7 @@
                 showTime
                 format="YYYY-MM-DD HH:mm:ss"
                 placeholder="结束"
-                v-model="addedRangeValueEnd"
+                v-model:value="addedRangeValueEnd"
                 @change="onAddedRangeValueEndChange"
               ></a-date-picker>
             </p>

@@ -214,7 +214,7 @@
                   showTime
                   format="YYYY-MM-DD HH:mm:ss"
                   :placeholder="$t('start')"
-                  v-model="queryParameter.start_ts.value"
+                  v-model:value="queryParameter.start_ts.value"
                   @change="handlePubdateStartChange"
                   @openChange="handlePubdateStartOpenChange"
                 />
@@ -224,7 +224,7 @@
                   showTime
                   format="YYYY-MM-DD HH:mm:ss"
                   :placeholder="$t('end')"
-                  v-model="queryParameter.end_ts.value"
+                  v-model:value="queryParameter.end_ts.value"
                   :open="pubdateEndOpen"
                   @change="handlePubdateEndChange"
                   @openChange="handlePubdateEndOpenChange"
