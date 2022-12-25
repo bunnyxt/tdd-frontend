@@ -276,7 +276,7 @@
             />
             <a-pagination
               showQuickJumper
-              v-model="pagiCurrent"
+              v-model:current="pagiCurrent"
               :total="memberVideoTotalCount"
               :showTotal="total => $t('pagi_total', { total })"
               :pageSize="20"

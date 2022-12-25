@@ -297,7 +297,7 @@
           ></tdd-video-list>
           <a-pagination
             showQuickJumper
-            v-model="queryParameter.pn.value"
+            v-model:current="queryParameter.pn.value"
             :total="videoTotalCount"
             :showTotal="total => $t('pagi_total', { total })"
             :pageSize="20"

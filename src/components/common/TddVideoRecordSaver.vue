@@ -8,7 +8,7 @@
         <h3>输出字段</h3>
         <a-checkbox-group
           :options="fields"
-          v-model="enabledFields"
+          v-model:value="enabledFields"
         ></a-checkbox-group>
       </div>
       <div style="margin-bottom: 12px">

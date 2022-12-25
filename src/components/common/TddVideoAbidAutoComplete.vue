@@ -12,7 +12,7 @@
 <template>
   <a-auto-complete
     :placeholder="$t('video_aid_or_bvid')"
-    v-model="input"
+    v-model:value="input"
     @change="inputChangeHandler"
     optionLabelProp="text"
     allowClear

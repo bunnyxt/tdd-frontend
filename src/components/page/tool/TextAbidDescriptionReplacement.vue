@@ -16,14 +16,14 @@
       <p>将文本中的av号或bv号替换为对应视频的描述信息（标题、UP主、播放数等等），支持自定义格式与微调。</p>
       <h3>步骤1：粘贴文本</h3>
       <a-textarea
-        v-model="inputText"
+        v-model:value="inputText"
         placeholder="在此输入需要替换的文本"
         :auto-size="{ minRows: 3, maxRows: 10 }"
         style="margin-bottom: 16px"
       />
       <h3>步骤2：自定义描述信息格式</h3>
       <a-textarea
-        v-model="templateText"
+        v-model:value="templateText"
         placeholder="在此输入自定义描述信息格式"
         :auto-size="{ minRows: 3, maxRows: 10 }"
         style="margin-bottom: 8px"
@@ -49,7 +49,7 @@
       <h3>步骤3：点击<a-button size="small" @click="replace" style="margin-left: 4px">替换</a-button></h3>
       <a-spin :spinning="isReplacing">
         <a-textarea
-          v-model="outputText"
+          v-model:value="outputText"
           placeholder="替换过后的文本会出现在这里"
           :auto-size="{ minRows: 3, maxRows: 10 }"
           style="margin-bottom: 16px"

@@ -72,7 +72,7 @@
         <tdd-video-table :video-list="userFavoriteVideoList" />
         <a-pagination
           showQuickJumper
-          v-model="pagiCurrent"
+          v-model:current="pagiCurrent"
           :total="userFavoriteVideoTotalCount"
           :showTotal="total => `共 ${total} 个视频`"
           :pageSize="20"

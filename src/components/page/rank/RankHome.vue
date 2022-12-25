@@ -249,7 +249,7 @@
           ></tdd-rank-table>
           <a-pagination
             showQuickJumper
-            v-model="pn"
+            v-model:current="pn"
             :total="rankTotalCount"
             :showTotal="getPagiTotalPrompt"
             :pageSize="30"

@@ -1,7 +1,7 @@
 <template>
   <div id="chart">
     <h3>播放数分时增长量 {{ formatDate(seriesList[weekIndex - 1].startTs) }} ~ {{ formatDate(seriesList[weekIndex - 1].startTs + (60 * 60 * 24 * 7) - 1) }}</h3>
-    <a-pagination v-model="weekIndex" :total="seriesList.length * 10" style="margin-bottom:4px"/>
+    <a-pagination v-model:current="weekIndex" :total="seriesList.length * 10" style="margin-bottom:4px"/>
     <apexchart type="heatmap" height="350" :options="chartOptions" :series="seriesList[weekIndex - 1].series"/>
   </div>
 </template>

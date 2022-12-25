@@ -100,7 +100,7 @@
         <tdd-member-table :member-list="userFavoriteMemberList" />
         <a-pagination
           showQuickJumper
-          v-model="pagiCurrent"
+          v-model:current="pagiCurrent"
           :total="userFavoriteMemberTotalCount"
           :showTotal="total => `共 ${total} 位UP主`"
           :pageSize="20"

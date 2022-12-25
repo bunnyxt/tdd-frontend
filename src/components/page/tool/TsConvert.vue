@@ -127,7 +127,7 @@
             <template #footer>
               <a-button type="primary" @click="exportHandler" >复制到剪贴板</a-button>
             </template>
-            <a-textarea v-model="exportData" :rows="10" />
+            <a-textarea v-model:value="exportData" :rows="10" />
           </a-modal>
         </div>
       </div>

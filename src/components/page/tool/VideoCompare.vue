@@ -29,7 +29,7 @@
             </a-select>
             <a-auto-complete
               :placeholder="{ 'aid': '456930', 'bvid': '19x411F7kL' }[addVideoPrefix]"
-              v-model="addVideoId"
+              v-model:value="addVideoId"
               @change="addVideoIdChangeHandler"
               optionLabelProp="text"
               allowClear

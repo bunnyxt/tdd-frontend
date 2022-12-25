@@ -154,7 +154,7 @@
         />
         <a-pagination
           showQuickJumper
-          v-model="pagiCurrent"
+          v-model:current="pagiCurrent"
           :total="memberTotalCount"
           :showTotal="total => $t('pagi_total', { total })"
           :pageSize="20"

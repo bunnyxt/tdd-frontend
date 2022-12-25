@@ -63,7 +63,7 @@
             <p>
               <a-range-picker
                 showTime
-                v-model="addedRangeValue"
+                v-model:value="addedRangeValue"
                 :ranges="addedRangeRanges"
                 :disabledDate="addedRangeDisabledDate"
                 @change="onAddedRangeChange"

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-week-picker placeholder="选择星期" v-model="weekPickerMoment" @change="onWeekPickerChange" />
+    <a-date-picker picker="week" placeholder="选择星期" v-model:value="weekPickerMoment" @change="onWeekPickerChange" />
     <div id="tdd-sprint-video-view-history-heat-map-chart" />
   </div>
 </template>
