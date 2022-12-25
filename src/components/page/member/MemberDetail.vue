@@ -291,7 +291,7 @@
 </template>
 
 <script>
-import { Icon } from 'ant-design-vue';
+import { createFromIconfontCN } from '@ant-design/icons-vue';
 import TddVideoList from "../../common/TddVideoList";
 import TddVideoStatBar from "../../common/TddVideoStatBar";
 import TddMemberActionBar from "../../common/TddMemberActionBar";
@@ -300,7 +300,7 @@ import TddMemberFollowerHistoryLineChart from "@/components/chart/TddMemberFollo
 import TddMemberTotalStatHistoryLineChart from "@/components/chart/TddMemberTotalStatHistoryLineChart";
 import { VideoCameraOutlined, TeamOutlined, LineChartOutlined, HistoryOutlined } from '@ant-design/icons-vue';
 
-const IconFont = Icon.createFromIconfontCN({
+const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
 });
 

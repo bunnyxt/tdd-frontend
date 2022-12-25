@@ -79,9 +79,9 @@
 
 <script>
 import { VideoCameraOutlined, TeamOutlined } from "@ant-design/icons-vue";
-import {Icon} from "ant-design-vue";
+import { createFromIconfontCN } from '@ant-design/icons-vue';
 
-const IconFont = Icon.createFromIconfontCN({
+const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
 });
 

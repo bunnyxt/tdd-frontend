@@ -179,11 +179,11 @@
 </template>
 
 <script>
-import { Icon } from 'ant-design-vue';
+import { createFromIconfontCN } from '@ant-design/icons-vue';
 import { VideoCameraOutlined, PlayCircleOutlined, ProfileOutlined, MessageOutlined, StarOutlined, DollarOutlined, ShareAltOutlined, LikeOutlined, CalendarOutlined, TeamOutlined } from '@ant-design/icons-vue';
 import TddVideoStatBar from "./TddVideoStatBar";
 
-const IconFont = Icon.createFromIconfontCN({
+const IconFont = createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
 });
 
