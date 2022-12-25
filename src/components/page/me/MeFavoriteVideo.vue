@@ -19,7 +19,7 @@
                 排序依据
               </td>
               <td>
-                <a-radio-group name="orderSelector" v-model="orderValue">
+                <a-radio-group name="orderSelector" v-model:value="orderValue">
                   <a-radio :value="'added'">关注时间</a-radio>
                   <a-radio :value="'pubdate'">投稿时间</a-radio>
                   <a-radio :value="'view'">播放</a-radio>
@@ -37,7 +37,7 @@
                 排序顺序
               </td>
               <td>
-                <a-radio-group name="orderDescSelector" v-model="orderDescValue">
+                <a-radio-group name="orderDescSelector" v-model:value="orderDescValue">
                   <a-radio :value="0">从小到大</a-radio>
                   <a-radio :value="1">从大到小</a-radio>
                 </a-radio-group>

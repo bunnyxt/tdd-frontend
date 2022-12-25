@@ -89,13 +89,13 @@
             <p>分类：<a-checkbox-group :options="soloOptions" v-model="soloValues"/></p>
             <p>分类：<a-checkbox-group :options="originalOptions" v-model="originalValues"/></p>
             <p>排序：
-              <a-radio-group name="sortByGroup" v-model="sortByValue">
+              <a-radio-group name="sortByGroup" v-model:value="sortByValue">
                 <a-radio :value="1">播放数</a-radio>
                 <a-radio :value="2">投稿时间</a-radio>
               </a-radio-group>
             </p>
             <p>排序：
-              <a-radio-group name="sortOrderGroup" v-model="sortOrderValue">
+              <a-radio-group name="sortOrderGroup" v-model:value="sortOrderValue">
                 <a-radio :value="1">升序</a-radio>
                 <a-radio :value="2">降序</a-radio>
               </a-radio-group>

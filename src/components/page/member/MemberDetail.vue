@@ -220,7 +220,7 @@
                     {{ $t('filter.sort_by.label') }}
                   </td>
                   <td>
-                    <a-radio-group name="orderSelector" v-model="orderValue">
+                    <a-radio-group name="orderSelector" v-model:value="orderValue">
                       <a-radio value="pubdate">{{ $t('pubdate') }}</a-radio>
                       <a-radio value="view">{{ $t('view') }}</a-radio>
                       <a-radio value="danmaku">{{ $t('danmaku') }}</a-radio>
@@ -237,7 +237,7 @@
                     {{ $t('filter.sort_order.label') }}
                   </td>
                   <td>
-                    <a-radio-group name="orderDescSelector" v-model="orderDescValue">
+                    <a-radio-group name="orderDescSelector" v-model:value="orderDescValue">
                       <a-radio :value="0">{{ $t('filter.sort_order.asc') }}</a-radio>
                       <a-radio :value="1">{{ $t('filter.sort_order.desc') }}</a-radio>
                     </a-radio-group>

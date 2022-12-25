@@ -70,7 +70,7 @@
                 {{ $t('filter.sort_by.label') }}
               </td>
               <td>
-                <a-radio-group name="orderSelector" v-model="orderValue">
+                <a-radio-group name="orderSelector" v-model:value="orderValue">
                   <a-radio value="mid">{{ $t('filter.sort_by.member_prefix') }}mid</a-radio>
                   <a-radio value="video_count">{{ $t('total_prefix')}}{{ $t('video_count') }}</a-radio>
                   <a-radio value="v_pubdate">{{ $t('latest_video') }}</a-radio>
@@ -90,7 +90,7 @@
                 {{ $t('filter.sort_order.label') }}
               </td>
               <td>
-                <a-radio-group name="orderDescSelector" v-model="orderDescValue">
+                <a-radio-group name="orderDescSelector" v-model:value="orderDescValue">
                   <a-radio :value="0">{{ $t('filter.sort_order.asc') }}</a-radio>
                   <a-radio :value="1">{{ $t('filter.sort_order.desc') }}</a-radio>
                 </a-radio-group>
@@ -101,7 +101,7 @@
                 {{ $t('sex') }}
               </td>
               <td>
-                <a-radio-group name="sexSelector" v-model="sexValue">
+                <a-radio-group name="sexSelector" v-model:value="sexValue">
                   <a-radio value="不限">{{ $t('filter.sex.all') }}</a-radio>
                   <a-radio value="男">{{ $t('male') }}</a-radio>
                   <a-radio value="女">{{ $t('female') }}</a-radio>

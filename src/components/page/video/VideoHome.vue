@@ -154,7 +154,7 @@
             <tr>
               <td>{{ $t('filter.video_category.label') }}</td>
               <td>
-                <a-radio-group name="queryParameterVcRadioGroup" v-model="queryParameter.vc.value">
+                <a-radio-group name="queryParameterVcRadioGroup" v-model:value="queryParameter.vc.value">
                   <a-radio value="0">{{ $t('filter.video_category.all') }}</a-radio>
                   <a-radio value="1">{{ $t('filter.video_category.vc_only') }}</a-radio>
                 </a-radio-group>
@@ -163,7 +163,7 @@
             <tr>
               <td>{{ $t('filter.activity.label') }}</td>
               <td>
-                <a-radio-group name="queryParameterActivityRadioGroup" v-model="queryParameter.activity.value">
+                <a-radio-group name="queryParameterActivityRadioGroup" v-model:value="queryParameter.activity.value">
                   <a-radio value="-1">{{ $t('filter.activity.all') }}</a-radio>
                   <a-radio value="1">{{ $t('filter.activity.active') }}</a-radio>
                   <a-radio value="2">{{ $t('filter.activity.hot') }}</a-radio>
@@ -174,7 +174,7 @@
             <tr>
               <td>{{ $t('filter.recent.label') }}</td>
               <td>
-                <a-radio-group name="queryParameterRecentRadioGroup" v-model="queryParameter.recent.value">
+                <a-radio-group name="queryParameterRecentRadioGroup" v-model:value="queryParameter.recent.value">
                   <a-radio value="-1">{{ $t('filter.recent.all') }}</a-radio>
                   <a-radio value="1">{{ $t('filter.recent.this_week') }}</a-radio>
                   <a-radio value="2">{{ $t('filter.recent.today') }}</a-radio>
@@ -185,7 +185,7 @@
             <tr>
               <td>{{ $t('filter.sort_by.label') }}</td>
               <td>
-                <a-radio-group name="queryParameterOrderByRadioGroup" v-model="queryParameter.order_by.value">
+                <a-radio-group name="queryParameterOrderByRadioGroup" v-model:value="queryParameter.order_by.value">
                   <a-radio value="pubdate">{{ $t('pubdate') }}</a-radio>
                   <a-radio value="view">{{ $t('view') }}</a-radio>
                   <a-radio value="danmaku">{{ $t('danmaku') }}</a-radio>
@@ -200,7 +200,7 @@
             <tr>
               <td>{{ $t('filter.sort_order.label') }}</td>
               <td>
-                <a-radio-group name="queryParameterDescRadioGroup" v-model="queryParameter.desc.value">
+                <a-radio-group name="queryParameterDescRadioGroup" v-model:value="queryParameter.desc.value">
                   <a-radio value="0">{{ $t('filter.sort_order.asc') }}</a-radio>
                   <a-radio value="1">{{ $t('filter.sort_order.desc') }}</a-radio>
                 </a-radio-group>

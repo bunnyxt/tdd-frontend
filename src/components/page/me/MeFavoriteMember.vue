@@ -19,7 +19,7 @@
                 排序依据
               </td>
               <td>
-                <a-radio-group name="orderSelector" v-model="orderValue">
+                <a-radio-group name="orderSelector" v-model:value="orderValue">
                   <a-radio :value="'added'">关注时间</a-radio>
                   <a-radio :value="'mid'">用户mid</a-radio>
                   <a-radio :value="'video_count'">投稿总数</a-radio>
@@ -40,7 +40,7 @@
                 排序顺序
               </td>
               <td>
-                <a-radio-group name="orderDescSelector" v-model="orderDescValue">
+                <a-radio-group name="orderDescSelector" v-model:value="orderDescValue">
                   <a-radio :value="0">从小到大</a-radio>
                   <a-radio :value="1">从大到小</a-radio>
                 </a-radio-group>
@@ -51,7 +51,7 @@
                 性别
               </td>
               <td>
-                <a-radio-group name="sexSelector" v-model="sexValue">
+                <a-radio-group name="sexSelector" v-model:value="sexValue">
                   <a-radio :value="'不限'">不限</a-radio>
                   <a-radio :value="'男'">男</a-radio>
                   <a-radio :value="'女'">女</a-radio>

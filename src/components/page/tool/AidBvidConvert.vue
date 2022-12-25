@@ -14,7 +14,7 @@
     <div class="section-block">
       <h1>{{ $t('tool_info.abid.name') }}</h1>
       <div style="overflow: hidden; margin-bottom: 12px">
-        <a-radio-group v-model="method" buttonStyle="solid">
+        <a-radio-group v-model:value="method" buttonStyle="solid">
           <a-radio-button value="api">API转换</a-radio-button>
           <a-radio-button value="alg">算法转换</a-radio-button>
         </a-radio-group>

@@ -25,7 +25,7 @@
       </div>
       <div style="margin-bottom: 12px">
         <h3>输出格式</h3>
-        <a-radio-group name="outputFormatRadioGroup" :defaultValue="'csv'" v-model="outputFormat">
+        <a-radio-group name="outputFormatRadioGroup" :defaultValue="'csv'" v-model:value="outputFormat">
           <a-radio :value="'csv'">csv</a-radio>
           <a-radio :value="'json'">json</a-radio>
         </a-radio-group>
