@@ -256,7 +256,7 @@
                           <a-spin :spinning="isLoadingVideoRecords">
                             <div style="margin-bottom: 12px">
                               <a-checkbox
-                                v-model="enableCurrentVideoRecords"
+                                v-model:checked="enableCurrentVideoRecords"
                                 @change="enableCurrentVideoRecordsCheckboxChangeHandler"
                                 style="margin-bottom: 4px"
                               >{{ $t('recent_data') }}</a-checkbox>
@@ -279,7 +279,7 @@
                             </div>
                             <div>
                               <a-checkbox
-                                v-model="enableHourlyVideoRecords"
+                                v-model:checked="enableHourlyVideoRecords"
                                 :disabled="hourlyVideoRecords.length === 0"
                                 @change="enableHistoryVideoRecordsCheckboxChangeHandler"
                                 style="margin-bottom: 4px"
