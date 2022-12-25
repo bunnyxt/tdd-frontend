@@ -85,9 +85,9 @@
       <a-spin :spinning="isLoadingVideo">
         <a-collapse>
           <a-collapse-panel header="条件筛选" style="margin-bottom: 12px">
-            <p>歌姬：<a-checkbox-group :options="singerOptions" v-model="singerValues"/></p>
-            <p>分类：<a-checkbox-group :options="soloOptions" v-model="soloValues"/></p>
-            <p>分类：<a-checkbox-group :options="originalOptions" v-model="originalValues"/></p>
+            <p>歌姬：<a-checkbox-group :options="singerOptions" v-model:value="singerValues"/></p>
+            <p>分类：<a-checkbox-group :options="soloOptions" v-model:value="soloValues"/></p>
+            <p>分类：<a-checkbox-group :options="originalOptions" v-model:value="originalValues"/></p>
             <p>排序：
               <a-radio-group name="sortByGroup" v-model:value="sortByValue">
                 <a-radio :value="1">播放数</a-radio>

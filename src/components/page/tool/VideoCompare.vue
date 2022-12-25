@@ -85,7 +85,7 @@
         <template #videoConfigProps="item">
           <a-checkbox-group
             :options="configPropsOptions"
-            v-model="item.config.props"
+            v-model:value="item.config.props"
             @change="$util.debounce(videoCompareListChangeHandler, 500)()"
           />
         </template>
