@@ -152,14 +152,14 @@
                         >发送验证码</a-button>
                         <span v-if="bindEmailCodeSendingCd > 0" style="margin-left: 8px">没收到验证码？{{ bindEmailCodeSendingCd }}秒后重新获取</span>
                       </template>
-                      <vue-grecaptcha
+                      <vue-recaptcha
                         v-else
                         ref="bindEmailRecaptcha"
-                        @verify="bindEmailRecaptchaVerifyCallback"
-                        @expired="bindEmailRecaptchaExpiredCallback"
                         :sitekey="recaptchaSiteKey"
                         style="margin-bottom: 12px"
-                      ></vue-grecaptcha>
+                        @verify="bindEmailRecaptchaVerifyCallback"
+                        @expired="bindEmailRecaptchaExpiredCallback"
+                      />
                     </div>
                   </a-form-item>
                   <a-form-item
@@ -370,13 +370,13 @@
 </template>
 
 <script>
-import VueGrecaptcha from 'vue-recaptcha'
+import { VueRecaptcha } from 'vue-recaptcha';
 import { CheckCircleOutlined } from '@ant-design/icons-vue';
 
 export default {
   name: 'MeSetting',
   components: {
-    VueGrecaptcha,
+    VueRecaptcha,
     CheckCircleOutlined,
   },
   data: function () {

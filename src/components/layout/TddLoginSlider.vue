@@ -48,13 +48,13 @@
           <div v-if="loginPrompt.length > 0" style="margin-bottom: 12px">
             <span style="color: red">{{ loginPrompt }}</span>
           </div>
-          <vue-grecaptcha
+          <vue-recaptcha
             ref="loginRecaptcha"
-            @verify="loginRecaptchaVerifyCallback"
-            @expired="loginRecaptchaExpiredCallback"
             :sitekey="recaptchaSiteKey"
             style="margin-bottom: 12px"
-          ></vue-grecaptcha>
+            @verify="loginRecaptchaVerifyCallback"
+            @expired="loginRecaptchaExpiredCallback"
+          />
           <div style="overflow: hidden">
             <a-button
               type="primary"
@@ -109,13 +109,13 @@
           <div v-if="registerPrompt.length > 0" style="margin-bottom: 12px">
             <span style="color: red">{{ registerPrompt }}</span>
           </div>
-          <vue-grecaptcha
+          <vue-recaptcha
             ref="registerRecaptcha"
-            @verify="registerRecaptchaVerifyCallback"
-            @expired="registerRecaptchaExpiredCallback"
             :sitekey="recaptchaSiteKey"
             style="margin-bottom: 12px"
-          ></vue-grecaptcha>
+            @verify="registerRecaptchaVerifyCallback"
+            @expired="registerRecaptchaExpiredCallback"
+          />
           <a-button
             type="primary"
             :disabled="!(canGoSendCodeButton && codeSendingCd === 0)"
@@ -146,7 +146,7 @@
 </template>
 
 <script>
-import VueGrecaptcha from 'vue-recaptcha'
+import { VueRecaptcha } from 'vue-recaptcha';
 
 export default {
   name: 'TddLoginSlider',
@@ -180,7 +180,7 @@ export default {
     }
   },
   components: {
-    VueGrecaptcha
+    VueRecaptcha
   },
   watch: {
     // registerRecaptchaResponse: function () {
