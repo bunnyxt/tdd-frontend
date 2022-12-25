@@ -32,7 +32,7 @@
           <div style="margin-bottom: 8px">{{ $t('username') }}</div>
           <a-input
             :placeholder="$t('username')"
-            v-model="loginUsername"
+            v-model:value="loginUsername"
             allowClear
             style="margin-bottom: 8px"
             @blur="firstEnterLoginUsername = false"
@@ -40,7 +40,7 @@
           <div style="margin-bottom: 8px">{{ $t('password') }}</div>
           <a-input-password
             :placeholder="$t('password')"
-            v-model="loginPassword"
+            v-model:value="loginPassword"
             allowClear
             style="margin-bottom: 12px"
             @blur="firstEnterLoginPassword = false"
@@ -72,7 +72,7 @@
           <div style="margin-bottom: 8px">{{ $t('username') }}</div>
           <a-input
             :placeholder="$t('username')"
-            v-model="registerUsername"
+            v-model:value="registerUsername"
             allowClear
             style="margin-bottom: 8px"
             @blur="firstEnterRegisterUsername = false"
@@ -87,20 +87,20 @@
           </div>
           <a-input-password
             :placeholder="$t('password')"
-            v-model="registerPassword"
+            v-model:value="registerPassword"
             allowClear
             style="margin-bottom: 8px"
             @blur="firstEnterRegisterPassword = false"
           />
           <div style="margin-bottom: 8px">{{ $t('validation_method') }}</div>
           <a-input-group compact style="margin-bottom: 12px">
-            <a-select defaultValue="email" v-model="registerValidationMethod" style="width: 80px">
+            <a-select defaultValue="email" v-model:value="registerValidationMethod" style="width: 80px">
               <a-select-option value="email">{{ $t('email') }}</a-select-option>
               <a-select-option value="phone">{{ $t('phone') }}</a-select-option>
             </a-select>
             <a-input
               :placeholder="registerValidationMethodName"
-              v-model="registerValidation"
+              v-model:value="registerValidation"
               allowClear
               style="width: calc(100% - 80px)"
               @blur="firstEnterRegisterValidation = false"
@@ -126,7 +126,7 @@
           <div style="margin-bottom: 8px; margin-top: 12px">{{ $t('validation_code') }}</div>
           <a-input
             :placeholder="$t('validation_code')"
-            v-model="registerCode"
+            v-model:value="registerCode"
             allowClear
             style="margin-bottom: 12px"
             @blur="firstEnterRegisterCode = false"

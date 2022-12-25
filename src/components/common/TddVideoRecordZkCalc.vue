@@ -11,7 +11,7 @@
             <a-input-number
               :min="211"
               :max="currentZkIssueValue"
-              v-model="zkIssueValue"
+              v-model:value="zkIssueValue"
               @change="setTimespanViaZkIssueValue"
               :style="zkIssueInputStyle"
             />

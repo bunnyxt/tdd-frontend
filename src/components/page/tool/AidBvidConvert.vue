@@ -29,7 +29,7 @@
           <a-select-option value="aid">av号</a-select-option>
           <a-select-option value="bvid">bv号</a-select-option>
         </a-select>
-        <a-input style="float: left; width: 140px; margin-left: 12px" v-model="queryValue" />
+        <a-input style="float: left; width: 140px; margin-left: 12px" v-model:value="queryValue" />
         <a-button
           type="primary"
           @click="queryClickHandler"
@@ -37,8 +37,8 @@
         >转换</a-button>
       </div>
       <div style="overflow: hidden; margin-bottom: 12px">
-        <a-input style="float: left; width: 80px" :value="queryKeyOpposite" disabled />
-        <a-input style="float: left; width: 140px; margin-left: 12px" :value="resultValue" />
+        <a-input style="float: left; width: 80px" :value:value="queryKeyOpposite" disabled />
+        <a-input style="float: left; width: 140px; margin-left: 12px" :value:value="resultValue" />
       </div>
       <div>
         注意：<br>

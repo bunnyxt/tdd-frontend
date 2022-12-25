@@ -25,7 +25,7 @@
           <a-row>
             <a-col :span="7" style="padding-right: 16px">
               <a-input
-                v-model="currentTs"
+                v-model:value="currentTs"
                 placeholder="1359631780"
               >
                 <template #suffix>
@@ -39,7 +39,7 @@
             </a-col>
             <a-col :span="10" style="padding-right: 16px">
               <a-input
-                v-model="currentTsStr"
+                v-model:value="currentTsStr"
                 placeholder="2013-01-31 19:29:40"
               >
                 <template #suffix>
@@ -74,14 +74,14 @@
           <a-row>
             <a-col :span="7" style="padding-right: 16px">
               <a-input
-                v-model="newTsVal"
+                v-model:value="newTsVal"
                 placeholder="1359631780"
                 @change="newTsValChangeHandler"
               ></a-input>
             </a-col>
             <a-col :span="10" style="padding-right: 16px">
               <a-input
-                v-model="newTsStr"
+                v-model:value="newTsStr"
                 placeholder="2013-01-31 19:29:40"
                 @change="newTsStrChangeHandler"
               ></a-input>

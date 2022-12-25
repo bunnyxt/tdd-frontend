@@ -78,7 +78,7 @@
         </template>
         <template #videoConfigTitle="item">
           <a-input
-            v-model="item.config.title"
+            v-model:value="item.config.title"
             @change="$util.debounce(videoCompareListChangeHandler, 500)()"
           />
         </template>

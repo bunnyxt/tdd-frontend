@@ -3,7 +3,7 @@
     <a-row>
       <a-col :span="7" style="padding-right: 16px">
         <a-input
-          v-model="tsVal"
+          v-model:value="tsVal"
           placeholder="1359631780"
           @change="tsValChangeHandler"
         >
@@ -18,7 +18,7 @@
       </a-col>
       <a-col :span="10" style="padding-right: 16px">
         <a-input
-          v-model="tsStr"
+          v-model:value="tsStr"
           placeholder="2013-01-31 19:29:40"
           @change="tsStrChangeHandler"
         >

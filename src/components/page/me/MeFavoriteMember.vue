@@ -65,7 +65,7 @@
               </td>
               <td>
                 <a-input
-                  v-model="nameValue"
+                  v-model:value="nameValue"
                   placeholder="UP主"
                   allowClear
                 />

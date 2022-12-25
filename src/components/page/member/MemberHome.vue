@@ -115,7 +115,7 @@
               </td>
               <td>
                 <a-input
-                  v-model="nameValue"
+                  v-model:value="nameValue"
                   :placeholder="$t('name')"
                   allowClear
                 />

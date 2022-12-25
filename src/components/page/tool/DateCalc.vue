@@ -15,18 +15,18 @@
       <h1>{{ $t('tool_info.datecalc.name') }}</h1>
       <p>输入起止时间，计算所消耗的时间长度，可用于计算曲目传说/殿堂耗时。</p>
       <p>开始时间：
-        <a-input placeholder="yyyy-MM-dd HH:mm:ss" v-model="startTimeString" style="width: 180px"></a-input>
-        <a-input-search placeholder="视频AV号" addonBefore="av" v-model="aidString" style="margin-left: 12px; width: 160px" @search="getCreatedTs"/>
+        <a-input placeholder="yyyy-MM-dd HH:mm:ss" v-model:value="startTimeString" style="width: 180px"></a-input>
+        <a-input-search placeholder="视频AV号" addonBefore="av" v-model:value="aidString" style="margin-left: 12px; width: 160px" @search="getCreatedTs"/>
         <span style="margin-left: 12px">{{ createdTimeMessage }}</span>
       </p>
       <p>结束时间：
-        <a-input placeholder="yyyy-MM-dd HH:mm:ss" v-model="endTimeString" style="width: 180px"></a-input>
+        <a-input placeholder="yyyy-MM-dd HH:mm:ss" v-model:value="endTimeString" style="width: 180px"></a-input>
         <a-button type="default" style="margin-left: 12px" @click="refreshEndTime">刷新</a-button>
         <a-switch style="margin-left: 12px" :checked="needAutoRefresh" @change='onAutoRefreshSwitchChange'/>
         <span style="margin-left: 12px">自动刷新</span>
       </p>
       <p>所耗时长：
-        <a-input v-model="timePassed" style="width: 180px"></a-input>
+        <a-input v-model:value="timePassed" style="width: 180px"></a-input>
       </p>
     </div>
   </div>

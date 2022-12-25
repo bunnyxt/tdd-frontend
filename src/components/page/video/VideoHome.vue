@@ -250,13 +250,13 @@
             <tr>
               <td>{{ $t('filter.title.label') }}</td>
               <td>
-                <a-input v-model="queryParameter.title.value" :placeholder="$t('filter.title.label')" allowClear />
+                <a-input v-model:value="queryParameter.title.value" :placeholder="$t('filter.title.label')" allowClear />
               </td>
             </tr>
             <tr>
               <td>{{ $t('filter.member_name.label') }}</td>
               <td>
-                <a-input v-model="queryParameter.up_name.value" :placeholder="$t('filter.member_name.label')" allowClear />
+                <a-input v-model:value="queryParameter.up_name.value" :placeholder="$t('filter.member_name.label')" allowClear />
               </td>
             </tr>
           </table>

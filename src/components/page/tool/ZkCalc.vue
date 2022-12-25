@@ -18,7 +18,7 @@
         <template #description>
           <span>
             别再手动输入数据算分惹！天钿Daily视频详情页添加「周刊算分」模块，只需选择周刊期数，指定时间范围，系统自动根据「本站观测到的数据」直接计算得分结果_8(:3 」∠ )_<br>
-            视频详情页传送门：tdd.bunnyxt.com/video/av<a-input size="small" v-model="aidInputValue" style="width: 100px; margin-right: 8px" @change="aidInputChangeHandler" /><router-link :to="'/video/av'+aidInputValue">跳转</router-link>
+            视频详情页传送门：tdd.bunnyxt.com/video/av<a-input size="small" v-model:value="aidInputValue" style="width: 100px; margin-right: 8px" @change="aidInputChangeHandler" /><router-link :to="'/video/av'+aidInputValue">跳转</router-link>
           </span>
         </template>
       </a-alert>
@@ -29,7 +29,7 @@
               播放：
             </td>
             <td>
-              <a-input placeholder="播放" v-model="view" ref="viewInput" style="width: 120px"></a-input>
+              <a-input placeholder="播放" v-model:value="view" ref="viewInput" style="width: 120px"></a-input>
             </td>
           </tr>
           <tr>
@@ -37,7 +37,7 @@
               评论：
             </td>
             <td>
-              <a-input placeholder="评论" v-model="reply" ref="replyInput" style="width: 120px"></a-input>
+              <a-input placeholder="评论" v-model:value="reply" ref="replyInput" style="width: 120px"></a-input>
             </td>
           </tr>
           <tr>
@@ -45,7 +45,7 @@
               弹幕：
             </td>
             <td>
-              <a-input placeholder="弹幕" v-model="danmaku" ref="danmakuInput" style="width: 120px"></a-input>
+              <a-input placeholder="弹幕" v-model:value="danmaku" ref="danmakuInput" style="width: 120px"></a-input>
             </td>
           </tr>
           <tr>
@@ -53,7 +53,7 @@
               收藏：
             </td>
             <td>
-              <a-input placeholder="收藏" v-model="favorite" ref="favoriteInput" style="width: 120px"></a-input>
+              <a-input placeholder="收藏" v-model:value="favorite" ref="favoriteInput" style="width: 120px"></a-input>
             </td>
           </tr>
           <tr>
@@ -61,7 +61,7 @@
               分P数：
             </td>
             <td>
-              <a-input placeholder="分P数" v-model="page" ref="pageInput" style="width: 120px"></a-input>
+              <a-input placeholder="分P数" v-model:value="page" ref="pageInput" style="width: 120px"></a-input>
             </td>
           </tr>
         </table>
@@ -72,7 +72,7 @@
               得分：
             </td>
             <td>
-              <a-input placeholder="得分" v-model="point" ref="pointInput" style="width: 120px"></a-input>
+              <a-input placeholder="得分" v-model:value="point" ref="pointInput" style="width: 120px"></a-input>
             </td>
           </tr>
           <tr>
@@ -80,7 +80,7 @@
               修正A：
             </td>
             <td>
-              <a-input placeholder="修正A" v-model="xiua" ref="xiuAInput" style="width: 120px"></a-input>
+              <a-input placeholder="修正A" v-model:value="xiua" ref="xiuAInput" style="width: 120px"></a-input>
             </td>
           </tr>
           <tr>
@@ -88,7 +88,7 @@
               修正B：
             </td>
             <td>
-              <a-input placeholder="修正B" v-model="xiub" ref="xiuBInput" style="width: 120px"></a-input>
+              <a-input placeholder="修正B" v-model:value="xiub" ref="xiuBInput" style="width: 120px"></a-input>
             </td>
           </tr>
         </table>
