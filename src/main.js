@@ -252,6 +252,10 @@ app
   .use(Form)
   .use(Cascader);
 
+// bind antd message
+import { message } from 'ant-design-vue';
+app.config.globalProperties.$message = message;
+
 // use store
 import store from './store';
 app.use(store);
@@ -277,6 +281,10 @@ app.config.globalProperties.$util = util;
 // bing config
 import config from './config';
 app.config.globalProperties.$config = config;
+
+// bind axios
+import axios from './api/axios';
+app.config.globalProperties.$axios = axios;
 
 // mount app
 app.mount('#app');
