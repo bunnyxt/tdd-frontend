@@ -104,7 +104,7 @@
               <template #content>
                 <div :style="$store.state.clientWidth < 472 ? { width: '280px' } : { width: '412px' }">
                   <a-select
-                    v-model="orderRule"
+                    v-model:value="orderRule"
                     @change="orderRuleChangeHandler"
                     style="margin-right: 12px; width: 120px"
                   >
@@ -117,7 +117,7 @@
                     </a-select-option>
                   </a-select>
   <!--                <a-select-->
-  <!--                  v-model="archId"-->
+  <!--                  v-model:value="archId"-->
   <!--                  @change="archIdChangeHandler"-->
   <!--                  style="width: 180px"-->
   <!--                >-->
@@ -147,7 +147,7 @@
             </a-popover>
             <div v-else style="display: flex">
               <a-select
-                v-model="orderRule"
+                v-model:value="orderRule"
                 @change="orderRuleChangeHandler"
                 style="margin-right: 12px; width: 120px"
               >
@@ -160,7 +160,7 @@
                 </a-select-option>
               </a-select>
 <!--              <a-select-->
-<!--                v-model="archId"-->
+<!--                v-model:value="archId"-->
 <!--                @change="archIdChangeHandler"-->
 <!--                style="width: 180px"-->
 <!--              >-->

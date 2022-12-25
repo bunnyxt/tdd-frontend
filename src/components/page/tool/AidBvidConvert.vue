@@ -22,7 +22,7 @@
       <div style="overflow: hidden; margin-bottom: 12px">
         <a-select
           defaultValue="aid"
-          v-model="queryKey"
+          v-model:value="queryKey"
           @change="queryKeyChangeHandler"
           style="float: left; width: 80px"
         >

@@ -19,7 +19,7 @@
       <div style="margin-bottom: 12px">
         <a-spin :spinning="isAddingVideo">
           <a-input-group compact >
-            <a-select default-value="aid" v-model="addVideoPrefix">
+            <a-select default-value="aid" v-model:value="addVideoPrefix">
               <a-select-option value="aid">
                 <span style="margin-right: 8px">av</span>
               </a-select-option>

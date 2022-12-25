@@ -233,7 +233,7 @@
                 <a-select
                   :style="{ width: $store.getters.i18nLocale === 'en' ? '120px' : '100px' }"
                   :placeholder="$t('filter.pubdate.quick_select.label')"
-                  v-model="pubdateSelectValue"
+                  v-model:value="pubdateSelectValue"
                   @change="handlePubdateSelectChange">
                   <a-select-option value="custom">{{ $t("filter.pubdate.quick_select.custom") }}</a-select-option>
                   <a-select-option value="day">{{ $t("filter.pubdate.quick_select.day") }}</a-select-option>
