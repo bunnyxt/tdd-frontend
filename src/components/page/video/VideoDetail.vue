@@ -237,7 +237,7 @@
               <a-spin :spinning="isLoadingVideoRecords">
                 <div style="margin-bottom: 16px; display: flex">
                   <a-menu
-                    v-model="currentDataCategory"
+                    v-model:selectedKeys="currentDataCategory"
                     mode="horizontal"
                     :style="{ width: `calc(100% - ${$store.getters.clientMode === 'MOBILE' ? 46 : 122}px)` }"
                   >

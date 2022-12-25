@@ -136,7 +136,7 @@
             <p>{{ member.sign }}</p>
             <tdd-member-action-bar :mid="mid" />
           </div>
-          <a-menu v-model="currentInfoCategory" mode="horizontal" style="margin-bottom: 16px">
+          <a-menu v-model:selectedKeys="currentInfoCategory" mode="horizontal" style="margin-bottom: 16px">
             <a-menu-item key="overview"> <line-chart-outlined />{{ $t('statistics_summary') }} </a-menu-item>
             <a-menu-item key="history"> <history-outlined />{{ $t('info_history') }} </a-menu-item>
           </a-menu>
@@ -177,7 +177,7 @@
         </div>
         <div class="section-separator"></div>
         <div class="section-block">
-          <a-menu v-model="currentDataCategory" mode="horizontal" style="margin-bottom: 16px">
+          <a-menu v-model:selectedKeys="currentDataCategory" mode="horizontal" style="margin-bottom: 16px">
             <a-menu-item key="follower"> <team-outlined />{{ $t('followers_trending') }} </a-menu-item>
             <a-menu-item key="totalStat"> <line-chart-outlined />{{ $t('statistics_summary_trending') }} </a-menu-item>
           </a-menu>

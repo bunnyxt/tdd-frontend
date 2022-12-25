@@ -81,7 +81,7 @@
       <div>
         <div style="display: flex">
           <a-menu
-            v-model="category"
+            v-model:selectedKeys="category"
             mode="horizontal"
             @click="categoryClickHandler"
             style="width: calc(100% - 58px)"

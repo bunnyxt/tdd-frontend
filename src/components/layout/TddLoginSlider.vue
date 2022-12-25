@@ -19,7 +19,7 @@
     @close="drawerCloseHandler"
   >
     <div>
-      <a-menu v-model="currentKeys" mode="horizontal">
+      <a-menu v-model:selectedKeys="currentKeys" mode="horizontal">
         <a-menu-item key="login">
           {{ $t('login') }}
         </a-menu-item>

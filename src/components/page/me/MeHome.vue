@@ -144,7 +144,7 @@
       <div style="display: flex">
         <a-menu
           class="me-favorite-menu"
-          v-model="favoriteCurrent"
+          v-model:selectedKeys="favoriteCurrent"
           mode="horizontal"
           :style="meFavoriteMenuStyle"
         >
