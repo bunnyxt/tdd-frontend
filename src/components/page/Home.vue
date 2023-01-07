@@ -55,31 +55,58 @@
 
 <template>
   <div>
-    <div v-wechat-title="$t('page_title.home')"></div>
+    <div v-wechat-title="$t('page_title.home')" />
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
         <a-breadcrumb-item>{{ $t('page_name.home') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
-    <a-carousel autoplay >
+    <a-carousel autoplay>
       <div class="carousel-page">
         <div class="carousel-page-container">
           <div class="carousel-p1-text">
             <h1>{{ $t('tdd') }}</h1>
-            <div v-if="$store.getters.clientMode === 'MOBILE'" style="height: 42px; overflow-x: scroll">
+            <div 
+              v-if="$store.getters.clientMode === 'MOBILE'"
+              style="height: 42px; overflow-x: scroll"
+            >
               {{ $t('tdd_introduction_brief') }}
             </div>
-            <p v-else>{{ $t('tdd_introduction_brief') }}</p>
+            <p v-else>
+              {{ $t('tdd_introduction_brief') }}
+            </p>
             <div style="margin-top: 20px">
-              <a-button type="primary" @click="() => this.$router.push('/about')">{{ $t('know_more') }}</a-button>
-              <a-popover :title="$t('contact_us')" trigger="hover" placement="bottom">
+              <a-button 
+                type="primary"
+                @click="() => $router.push('/about')"
+              >
+                {{ $t('know_more') }}
+              </a-button>
+              <a-popover
+                :title="$t('contact_us')"
+                trigger="hover"
+                placement="bottom"
+              >
                 <template #content>
                   <div>
-                    {{ $t('qq_group') }}{{ $t('colon') }}<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=588s7nw">537793686</a><qrcode-outlined style="margin-left: 8px; margin-right: 4px"/><a target="_blank" :href="qqgroup_qrcode">{{ $t('qr_code') }}</a><br/>
-                    {{ $t('personal_email') }}{{ $t('colon') }}<a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
+                    {{ $t('qq_group') }}{{ $t('colon') }}
+                    <a
+                      target="_blank"
+                      href="https://jq.qq.com/?_wv=1027&k=588s7nw"
+                    >537793686</a>
+                    <qrcode-outlined style="margin-left: 8px; margin-right: 4px" />
+                    <a
+                      target="_blank"
+                      :href="qqgroup_qrcode"
+                    >{{ $t('qr_code') }}</a>
+                    <br>
+                    {{ $t('personal_email') }}{{ $t('colon') }}
+                    <a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
                   </div>
                 </template>
-                <a-button style="margin-left: 8px">{{ $t('contact_us') }}</a-button>
+                <a-button style="margin-left: 8px">
+                  {{ $t('contact_us') }}
+                </a-button>
               </a-popover>
             </div>
           </div>
@@ -98,7 +125,11 @@
             <tdd-donate-log-list :donate-log-list="donateLogList" />
             <div style="margin-top: 8px; overflow: hidden">
               <div style="float: right; margin-right: 8px">
-                <a href="https://afdian.net/@bunnyxt" target="_blank" @click="$service.reportInteraction('home_donate_click', '')">{{ $t('donate_now') }}</a>
+                <a
+                  href="https://afdian.net/@bunnyxt"
+                  target="_blank"
+                  @click="$service.reportInteraction('home_donate_click', '')"
+                >{{ $t('donate_now') }}</a>
               </div>
             </div>
           </div>
@@ -106,24 +137,33 @@
       </div>
       <div class="carousel-page">
         <div class="carousel-page-container">
-          <template v-if="this.$store.getters.clientMode === 'MOBILE'">
+          <template v-if="$store.getters.clientMode === 'MOBILE'">
             <div style="overflow: hidden">
               <div class="carousel-p2-mobile-row1-col">
-                <a-statistic :title="$t('tracked_videos')" :value="latestVideoCount">
+                <a-statistic
+                  :title="$t('tracked_videos')"
+                  :value="latestVideoCount"
+                >
                   <template #suffix>
                     {{ $t('tracked_videos_suffix') }}
                   </template>
                 </a-statistic>
               </div>
               <div class="carousel-p2-mobile-row1-col">
-                <a-statistic :title="$t('covered_members')" :value="latestMemberCount">
+                <a-statistic
+                  :title="$t('covered_members')"
+                  :value="latestMemberCount"
+                >
                   <template #suffix>
                     {{ $t('covered_members_suffix') }}
                   </template>
                 </a-statistic>
               </div>
             </div>
-            <a-statistic :title="$t('data_records')" :value="latestVideoRecordCount">
+            <a-statistic
+              :title="$t('data_records')"
+              :value="latestVideoRecordCount"
+            >
               <template #suffix>
                 {{ $t('data_records_suffix') }}
               </template>
@@ -131,39 +171,62 @@
           </template>
           <template v-else>
             <div style="overflow: hidden">
-              <div style="margin-bottom: 12px">
-              </div>
+              <div style="margin-bottom: 12px" />
               <div class="carousel-p2-col-narrow">
-                <a-statistic :title="$t('tracked_videos')" :value="latestVideoCount" style="padding: 8px 20px 0 20px">
+                <a-statistic
+                  :title="$t('tracked_videos')"
+                  :value="latestVideoCount"
+                  style="padding: 8px 20px 0 20px"
+                >
                   <template #suffix>
                     {{ $t('tracked_videos_suffix') }}
                   </template>
                 </a-statistic>
-                <a-statistic :title="$t('30_days_increment')" :value="last30DayVideoCount" style="padding: 8px 20px 0 20px">
+                <a-statistic
+                  :title="$t('30_days_increment')"
+                  :value="last30DayVideoCount"
+                  style="padding: 8px 20px 0 20px"
+                >
                   <template #prefix>
                     <arrow-up-outlined />
                   </template>
                 </a-statistic>
               </div>
               <div class="carousel-p2-col-narrow">
-                <a-statistic :title="$t('covered_members')" :value="latestMemberCount" style="padding: 8px 20px 0 20px">
+                <a-statistic
+                  :title="$t('covered_members')"
+                  :value="latestMemberCount"
+                  style="padding: 8px 20px 0 20px"
+                >
                   <template #suffix>
                     {{ $t('covered_members_suffix') }}
                   </template>
                 </a-statistic>
-                <a-statistic :title="$t('30_days_increment')" :value="last30DayMemberCount" style="padding: 8px 20px 0 20px">
+                <a-statistic
+                  :title="$t('30_days_increment')"
+                  :value="last30DayMemberCount"
+                  style="padding: 8px 20px 0 20px"
+                >
                   <template #prefix>
                     <arrow-up-outlined />
                   </template>
                 </a-statistic>
               </div>
               <div class="carousel-p2-col-wide">
-                <a-statistic :title="$t('data_records')" :value="latestVideoRecordCount" style="padding: 8px 20px 0 20px">
+                <a-statistic
+                  :title="$t('data_records')"
+                  :value="latestVideoRecordCount"
+                  style="padding: 8px 20px 0 20px"
+                >
                   <template #suffix>
                     {{ $t('data_records_suffix') }}
                   </template>
                 </a-statistic>
-                <a-statistic :title="$t('30_days_increment')" :value="last30DayVideoRecordCount" style="padding: 8px 20px 0 20px">
+                <a-statistic
+                  :title="$t('30_days_increment')"
+                  :value="last30DayVideoRecordCount"
+                  style="padding: 8px 20px 0 20px"
+                >
                   <template #prefix>
                     <arrow-up-outlined />
                   </template>
@@ -191,7 +254,7 @@
               <template #pending>
                 <a-button
                   type="link" 
-                  @click="() => this.$router.push('/about/updatelog')"
+                  @click="() => $router.push('/about/updatelog')"
                 >
                   {{ $t('see_more') }}...
                 </a-button>
@@ -201,20 +264,37 @@
         </div>
       </div>
     </a-carousel>
-    <div class="section-separator"></div>
+    <div class="section-separator" />
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
           <h1>{{ $t('page_name.video') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
-          <a-button size="small" @click="fetchRandomVideoList(6)"><reload-outlined />{{ refreshString }}</a-button>
-          <a-button size="small" @click="() => this.$router.push('/video')" style="margin-left: 8px">{{ moreString }}<arrow-right-outlined /></a-button>
+          <a-button
+            size="small"
+            @click="fetchRandomVideoList(6)"
+          >
+            <reload-outlined />{{ refreshString }}
+          </a-button>
+          <a-button
+            size="small"
+            style="margin-left: 8px"
+            @click="() => $router.push('/video')"
+          >
+            {{ moreString }}<arrow-right-outlined />
+          </a-button>
         </div>
       </div>
       <p>
-        <i18n-t keypath="page_brief_intro.video" tag="label">
-          <a href="https://www.bilibili.com/v/music/vocaloid/" target="_blank">VOCALOID·UTAU</a>
+        <i18n-t
+          keypath="page_brief_intro.video"
+          tag="label"
+        >
+          <a
+            href="https://www.bilibili.com/v/music/vocaloid/"
+            target="_blank"
+          >VOCALOID·UTAU</a>
         </i18n-t>
       </p>
       <p style="display: flex">
@@ -222,27 +302,40 @@
         <a-button
           type="primary"
           :disabled="typeof jumpVideoTargetIdObj.id === 'string' ? jumpVideoTargetIdObj.id.length === 0 : true"
-          @click="goJumpVideo"
           style="margin-left: 8px"
-        >{{ $t('go_jump') }}</a-button>
+          @click="goJumpVideo"
+        >
+          {{ $t('go_jump') }}
+        </a-button>
       </p>
       <a-spin :spinning="isLoadingRandomVideoList">
         <tdd-video-list
           :video-list="randomVideoList.slice(0, listColNum)"
           mode="grid"
           @item-clicked="randomVideoListItemClickedHandler"
-        ></tdd-video-list>
+        />
       </a-spin>
     </div>
-    <div class="section-separator"></div>
+    <div class="section-separator" />
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
           <h1>{{ $t('page_name.member') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
-          <a-button size="small" @click="fetchRandomMemberList(6)"><reload-outlined />{{ refreshString }}</a-button>
-          <a-button size="small" @click="() => this.$router.push('/member')" style="margin-left: 8px">{{ moreString }}<arrow-right-outlined /></a-button>
+          <a-button
+            size="small"
+            @click="fetchRandomMemberList(6)"
+          >
+            <reload-outlined />{{ refreshString }}
+          </a-button>
+          <a-button
+            size="small"
+            style="margin-left: 8px"
+            @click="() => $router.push('/member')"
+          >
+            {{ moreString }}<arrow-right-outlined />
+          </a-button>
         </div>
       </div>
       <p>{{ $t('page_brief_intro.member') }}</p>
@@ -250,23 +343,41 @@
         <tdd-member-list
           :member-list="randomMemberList.slice(0, listColNum)"
           @item-clicked="randomMemberListItemClickedHandler"
-        ></tdd-member-list>
+        />
       </a-spin>
     </div>
-    <div class="section-separator"></div>
+    <div class="section-separator" />
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
           <h1>{{ $t('page_name.sprint') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
-          <a-button size="small" @click="getSprintVideoListFiltered"><reload-outlined />{{ refreshString }}</a-button>
-          <a-button size="small" @click="() => this.$router.push('/sprint')" style="margin-left: 8px">{{ moreString }}<arrow-right-outlined /></a-button>
+          <a-button
+            size="small"
+            @click="getSprintVideoListFiltered"
+          >
+            <reload-outlined />{{ refreshString }}
+          </a-button>
+          <a-button
+            size="small"
+            style="margin-left: 8px"
+            @click="() => $router.push('/sprint')"
+          >
+            {{ moreString }}<arrow-right-outlined />
+          </a-button>
         </div>
       </div>
       <p>
-        <i18n-t keypath="page_brief_intro.sprint" tag="label" for="vocaloid_china_1m_song">
-          <a href="https://zh.moegirl.org/Vocaloid中文传说曲" target="_blank">{{ $t('vocaloid_china_1m_song') }}</a>
+        <i18n-t
+          keypath="page_brief_intro.sprint"
+          tag="label"
+          for="vocaloid_china_1m_song"
+        >
+          <a
+            href="https://zh.moegirl.org/Vocaloid中文传说曲"
+            target="_blank"
+          >{{ $t('vocaloid_china_1m_song') }}</a>
         </i18n-t>
       </p>
       <a-spin :spinning="isLoadingSprintVideoList">
@@ -277,41 +388,60 @@
           :show-mobile-view="false"
           :show-sprint-board="true"
           @item-clicked="sprintVideoListItemClickedHandler"
-        ></tdd-video-list>
+        />
       </a-spin>
     </div>
-    <div class="section-separator"></div>
+    <div class="section-separator" />
     <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
           <h1>{{ $t('page_name.tool') }}</h1>
         </div>
         <div style="float: right; margin-top: 8px">
-          <a-button size="small" @click="() => this.$router.push('/tool')">{{ moreString }}<arrow-right-outlined /></a-button>
+          <a-button
+            size="small"
+            @click="() => $router.push('/tool')"
+          >
+            {{ moreString }}<arrow-right-outlined />
+          </a-button>
         </div>
       </div>
       <p>{{ $t('page_brief_intro.tool') }}</p>
       <ul>
         <li>
-          <router-link to="/tool/datecalc">{{ $t('tool_info.datecalc.name') }}</router-link>{{ $t('colon') }}{{ $t('tool_info.datecalc.brief_intro') }}
+          <router-link to="/tool/datecalc">
+            {{ $t('tool_info.datecalc.name') }}
+          </router-link>{{ $t('colon') }}{{ $t('tool_info.datecalc.brief_intro') }}
         </li>
         <li>
-          <router-link to="/tool/biliapi">{{ $t('tool_info.biliapi.name') }}</router-link>{{ $t('colon') }}{{ $t('tool_info.biliapi.brief_intro') }}
+          <router-link to="/tool/biliapi">
+            {{ $t('tool_info.biliapi.name') }}
+          </router-link>{{ $t('colon') }}{{ $t('tool_info.biliapi.brief_intro') }}
         </li>
         <li>
-          <router-link to="/tool/zkcalc">{{ $t('tool_info.zkcalc.name') }}</router-link>{{ $t('colon') }}{{ $t('tool_info.zkcalc.brief_intro') }}
+          <router-link to="/tool/zkcalc">
+            {{ $t('tool_info.zkcalc.name') }}
+          </router-link>{{ $t('colon') }}{{ $t('tool_info.zkcalc.brief_intro') }}
         </li>
         <li>
-          <router-link to="/tool/abid">{{ $t('tool_info.abid.name') }}</router-link>{{ $t('colon') }}{{ $t('tool_info.abid.brief_intro') }}
+          <router-link to="/tool/abid">
+            {{ $t('tool_info.abid.name') }}
+          </router-link>{{ $t('colon') }}{{ $t('tool_info.abid.brief_intro') }}
         </li>
         <li>
-          <router-link to="/tool/ts">{{ $t('tool_info.ts.name') }}</router-link>{{ $t('colon') }}{{ $t('tool_info.ts.brief_intro') }}
+          <router-link to="/tool/ts">
+            {{ $t('tool_info.ts.name') }}
+          </router-link>{{ $t('colon') }}{{ $t('tool_info.ts.brief_intro') }}
         </li>
         <li>
-          <router-link to="/tool/compare">{{ $t('tool_info.compare.name') }}</router-link>{{ $t('colon') }}{{ $t('tool_info.compare.brief_intro') }}
+          <router-link to="/tool/compare">
+            {{ $t('tool_info.compare.name') }}
+          </router-link>{{ $t('colon') }}{{ $t('tool_info.compare.brief_intro') }}
         </li>
         <li>
-          <router-link to="/tool/text-abid-description-replacement">{{ $t('tool_info.text-abid-description-replacement.name') }}</router-link>{{ $t('colon') }}{{ $t('tool_info.text-abid-description-replacement.brief_intro') }}
+          <router-link to="/tool/text-abid-description-replacement">
+            {{ $t('tool_info.text-abid-description-replacement.name') }}
+          </router-link>{{ $t('colon') }}{{ $t('tool_info.text-abid-description-replacement.brief_intro') }}
         </li>
       </ul>
     </div>
@@ -461,6 +591,14 @@ export default {
         return 6;
       }
     }
+  },
+  created() {
+    this.fetchStatDailyList();
+    this.fetchUpdateLogList();
+    this.fetchDonateLogList();
+    this.fetchRandomVideoList(6);
+    this.fetchRandomMemberList(6);
+    this.fetchSprintVideoList();
   },
   methods: {
     goJumpVideo: function () {
@@ -620,14 +758,6 @@ export default {
     randomMemberListItemClickedHandler: function (item) {
       this.$router.push('member/' + item.mid);
     }
-  },
-  created() {
-    this.fetchStatDailyList();
-    this.fetchUpdateLogList();
-    this.fetchDonateLogList();
-    this.fetchRandomVideoList(6);
-    this.fetchRandomMemberList(6);
-    this.fetchSprintVideoList();
   }
 };
 </script>
