@@ -11,21 +11,15 @@
 
 <template>
   <a-auto-complete
-    :placeholder="$t('video_aid_or_bvid')"
     v-model:value="input"
-    @change="inputChangeHandler"
-    optionLabelProp="text"
-    allowClear
+    :placeholder="$t('video_aid_or_bvid')"
+    :options="options"
+    allow-clear
     style="width: 100%"
+    @change="inputChangeHandler"
   >
-    <template #dataSource>
-      <a-select-option
-        v-for="item of idTitleList"
-        :key="typeDisplayString + item.id"
-        :text="typeDisplayString + item.id"
-      >
-        {{ typeDisplayString }}{{ item.id }} - {{ item.title }}
-      </a-select-option>
+    <template #option="{ text }">
+      {{ text }}
     </template>
   </a-auto-complete>
 </template>
@@ -33,14 +27,18 @@
 <script>
 export default {
   name: 'TddVideoAbidAutoComplete',
-  props: [
-    'value'
-  ],
+  props: {
+    modelValue: {
+      type: Object,
+      required: true,
+    },
+  },
+  emits: ['update:modelValue'],
   data: function () {
     return {
       input: '',
       idTitleList: [],
-      typeDisplayString: '',
+      options: [],
       debouncedUpdateIdList: this.$util.debounce(this.updateIdList, 500),
     };
   },
@@ -67,24 +65,28 @@ export default {
     },
   },
   methods: {
+    typePrefix: function (type) {
+      return {
+        aid: 'av',
+        bvid: 'BV',
+      }[type];
+    },
     updateIdList: function (type, id) {
       const url = `video/${type}title?${type}=${id}`;
-      let that = this;
       this.$axios.get(url)
-        .then(function (response) {
-          that.idTitleList = response.data.map(x => ({
-            id: x[type],
-            title: x.title,
+        .then((response) => {
+          this.options = response.data.map(item => ({
+            value: `${this.typePrefix(type)}${item[type]}`,
+            text: `${this.typePrefix(type)}${item[type]} - ${item.title}`,
           }));
-          that.typeDisplayString = {aid: 'av', bvid: 'BV'}[type];
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log(error);
         })
     },
     inputChangeHandler: function () {
       // v-model emit
-      this.$emit('input', {
+      this.$emit('update:modelValue', {
         id: this.id,
         type: this.type,
       });
