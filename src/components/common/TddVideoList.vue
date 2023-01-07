@@ -4,7 +4,7 @@
     :grid="(mode === 'grid' && $store.getters.clientMode !== 'MOBILE') ? { gutter: 16, xs: 1, sm: 2, md: 3, lg: 3, xl: 4, xxl: 6 } : null"
     :dataSource="videoList"
   >
-    <template #renderItem="item">
+    <template #renderItem="{ item }">
       <a-list-item
         key="item.id"
         @click="$emit('item-clicked', item)"

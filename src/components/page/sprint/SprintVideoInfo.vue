@@ -4,7 +4,7 @@
       itemLayout="vertical"
       :dataSource="[video]"
     >
-      <template #renderItem="item">
+      <template #renderItem="{ item }">
         <a-list-item key="item.id">
           <a-list-item-meta>
             <template #title>
