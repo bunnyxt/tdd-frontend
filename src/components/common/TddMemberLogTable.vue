@@ -3,74 +3,76 @@
 <template>
   <a-table
     :columns="columns"
-    :rowKey="memberLog => memberLog.id"
-    :dataSource="memberLogs"
+    :row-key="memberLog => memberLog.id"
+    :data-source="memberLogs"
     :pagination="pagination"
     :scroll="{ x: 700 }"
     size="small"
   >
-    <template #added="added">
-      {{ $util.tsToDateString(added) }}
-    </template>
-    <template #attr="attr">
-      {{ attrDict[attr] }}
-    </template>
-    <template #oldval="item">
-      <template v-if="item.attr === 'face'">
-        <a-avatar
-          :src="$util.httpS(item.oldval)"
-          :size="48"
-        />
+    <template #bodyCell="{ column, record }">
+      <template v-if="column.key === 'added'">
+        {{ $util.tsToDateString(record.added) }}
       </template>
-      <template v-else-if="item.attr === 'sex'">
-        {{ item.oldval }}
-        <template v-if="item.oldval === '男'">
-          <span style="color: #00b5f6">
-            <icon-font type="icon-xingbie-nan" />
-          </span>
-        </template>
-        <template v-else-if="item.oldval === '女'">
-          <span style="color: #f9a9f8">
-            <icon-font type="icon-xingbie-nv" />
-          </span>
-        </template>
-        <template v-else-if="item.oldval === '保密'">
-          <span style="color: rgba(183,183,183,0.95)">
-            <icon-font type="icon-xingbie-weizhi" />
-          </span>
-        </template>
+      <template v-else-if="column.key === 'attr'">
+        {{ attrDict[record.attr] }}
       </template>
-      <template v-else>
-        {{ item.oldval }}
-      </template>
-    </template>
-    <template #newval="item">
-      <template v-if="item.attr === 'face'">
-        <a-avatar
-          :src="$util.httpS(item.newval)"
-          :size="48"
-        />
-      </template>
-      <template v-else-if="item.attr === 'sex'">
-        {{ item.newval }}
-        <template v-if="item.newval === '男'">
-          <span style="color: #00b5f6">
-            <icon-font type="icon-xingbie-nan" />
-          </span>
+      <template v-else-if="column.key === 'oldval'">
+        <template v-if="record.attr === 'face'">
+          <a-avatar
+            :src="$util.httpS(record.oldval)"
+            :size="48"
+          />
         </template>
-        <template v-else-if="item.newval === '女'">
-          <span style="color: #f9a9f8">
-            <icon-font type="icon-xingbie-nv" />
-          </span>
+        <template v-else-if="record.attr === 'sex'">
+          {{ record.oldval }}
+          <template v-if="record.oldval === '男'">
+            <span style="color: #00b5f6">
+              <icon-font type="icon-xingbie-nan" />
+            </span>
+          </template>
+          <template v-else-if="record.oldval === '女'">
+            <span style="color: #f9a9f8">
+              <icon-font type="icon-xingbie-nv" />
+            </span>
+          </template>
+          <template v-else-if="record.oldval === '保密'">
+            <span style="color: rgba(183,183,183,0.95)">
+              <icon-font type="icon-xingbie-weizhi" />
+            </span>
+          </template>
         </template>
-        <template v-else-if="item.newval === '保密'">
-          <span style="color: rgba(183,183,183,0.95)">
-            <icon-font type="icon-xingbie-weizhi" />
-          </span>
+        <template v-else>
+          {{ record.oldval }}
         </template>
       </template>
-      <template v-else>
-        {{ item.newval }}
+      <template v-else-if="column.key === 'newval'">
+        <template v-if="record.attr === 'face'">
+          <a-avatar
+            :src="$util.httpS(record.newval)"
+            :size="48"
+          />
+        </template>
+        <template v-else-if="record.attr === 'sex'">
+          {{ record.newval }}
+          <template v-if="record.newval === '男'">
+            <span style="color: #00b5f6">
+              <icon-font type="icon-xingbie-nan" />
+            </span>
+          </template>
+          <template v-else-if="record.newval === '女'">
+            <span style="color: #f9a9f8">
+              <icon-font type="icon-xingbie-nv" />
+            </span>
+          </template>
+          <template v-else-if="record.newval === '保密'">
+            <span style="color: rgba(183,183,183,0.95)">
+              <icon-font type="icon-xingbie-weizhi" />
+            </span>
+          </template>
+        </template>
+        <template v-else>
+          {{ record.newval }}
+        </template>
       </template>
     </template>
   </a-table>
@@ -85,14 +87,14 @@ const IconFont = createFromIconfontCN({
 
 export default {
   name: 'TddMemberLogTable',
+  components: {
+    IconFont
+  },
   props: {
     memberLogs: {
       type: Array,
       required: true
     }
-  },
-  components: {
-    IconFont
   },
   data: function () {
     return {
@@ -100,14 +102,12 @@ export default {
         {
           title: this.$t('time'),
           width: '15%',
-          dataIndex: 'added',
-          scopedSlots: { customRender: 'added' },
+          key: 'added',
           sorter: (a, b) => a.added - b.added,
         }, {
           title: this.$t('category'),
           width: '11%',
-          dataIndex: 'attr',
-          scopedSlots: { customRender: 'attr' },
+          key: 'attr',
           filters: [
             {
               text: this.$t('name'),
@@ -126,12 +126,12 @@ export default {
           onFilter: (value, record) => record.attr === value,
         }, {
           title: this.$t('oldval'),
+          key: 'oldval',
           width: '37%',
-          scopedSlots: { customRender: 'oldval' },
         }, {
           title: this.$t('newval'),
+          key: 'newval',
           width: '37%',
-          scopedSlots: { customRender: 'newval' },
         }
       ],
       pagination: {
