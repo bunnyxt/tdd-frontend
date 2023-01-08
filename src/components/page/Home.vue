@@ -764,13 +764,13 @@ export default {
 
 <style scoped>
 /* home page carousel related */
-.ant-carousel >>> .slick-dots li.slick-active button {
+.ant-carousel :deep(.slick-dots li.slick-active button) {
   background: #192c3e;
 }
-.ant-carousel >>> .slick-dots li button {
+.ant-carousel :deep(.slick-dots li button) {
   background: #364d79;
 }
-.ant-carousel >>> .slick-slide {
+.ant-carousel :deep(.slick-slide) {
   background: #fff;
   height: 300px;
 }
@@ -826,7 +826,7 @@ export default {
 }
 
 @media only screen and (max-width: 576px) {
-  .ant-carousel >>> .slick-slide {
+  .ant-carousel :deep(.slick-slide) {
     height: 188px;
   }
   .carousel-page {
