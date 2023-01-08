@@ -41,7 +41,6 @@ export default {
         {
           title: '时间',
           key: 'added',
-          dataIndex: 'added',
         },
         {
           title: '共计',
