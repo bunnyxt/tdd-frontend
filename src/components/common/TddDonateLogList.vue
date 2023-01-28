@@ -38,12 +38,10 @@ export default {
         {
           title: '时间',
           key: 'added',
-          width: 160,
         },
         {
           title: '共计',
           key: 'total',
-          width: 120,
         }
       ],
     }
