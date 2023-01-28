@@ -60,7 +60,6 @@
       <a-statistic
         :title="$t('tracked_videos')"
         :value="latestVideoCount"
-        style="padding: 8px 20px 0 20px"
       >
         <template #suffix>
           {{ $t('tracked_videos_suffix') }}
@@ -69,7 +68,6 @@
       <a-statistic
         :title="$t('covered_members')"
         :value="latestMemberCount"
-        style="padding: 8px 20px 0 20px"
       >
         <template #suffix>
           {{ $t('covered_members_suffix') }}
@@ -78,7 +76,6 @@
       <a-statistic
         :title="$t('data_records')"
         :value="latestVideoRecordCount"
-        style="padding: 8px 20px 0 20px"
       >
         <template #suffix>
           {{ $t('data_records_suffix') }}
@@ -87,7 +84,6 @@
       <a-statistic
         :title="$t('30_days_increment')"
         :value="last30DayVideoCount"
-        style="padding: 8px 20px 0 20px"
       >
         <template #prefix>
           <arrow-up-outlined />
@@ -96,7 +92,6 @@
       <a-statistic
         :title="$t('30_days_increment')"
         :value="last30DayMemberCount"
-        style="padding: 8px 20px 0 20px"
       >
         <template #prefix>
           <arrow-up-outlined />
@@ -105,7 +100,6 @@
       <a-statistic
         :title="$t('30_days_increment')"
         :value="last30DayVideoRecordCount"
-        style="padding: 8px 20px 0 20px"
       >
         <template #prefix>
           <arrow-up-outlined />
@@ -232,6 +226,10 @@ export default {
   display: grid;
   grid-template-columns: 3fr 3fr 4fr;
   margin-top: 12px;
+}
+
+.stat-grid .ant-statistic {
+  padding: 8px 20px 0 20px;
 }
 
 .till-time {
