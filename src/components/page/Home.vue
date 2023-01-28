@@ -10,13 +10,6 @@
     "personal_email": "个人邮箱",
     "donation_thanks": "资助感谢",
     "donate_now": "立刻资助本站",
-    "tracked_videos": "收录视频",
-    "tracked_videos_suffix": "个",
-    "covered_members": "覆盖P主",
-    "covered_members_suffix": "位",
-    "data_records": "数据记录",
-    "data_records_suffix": "条",
-    "30_days_increment": "30日增幅",
     "recent_updates": "更新动态",
     "see_more": "查看更多",
     "page_brief_intro": {
@@ -34,13 +27,6 @@
     "personal_email": "Personal E-mail",
     "donation_thanks": "Donation Thanks",
     "donate_now": "Donate TDD Now",
-    "tracked_videos": "Tracked Videos",
-    "tracked_videos_suffix": " ",
-    "covered_members": "Covered Uploaders",
-    "covered_members_suffix": " ",
-    "data_records": "Data Records",
-    "data_records_suffix": " ",
-    "30_days_increment": "30 Days Increment",
     "recent_updates": "Recent Updates",
     "see_more": "See more",
     "page_brief_intro": {
@@ -61,6 +47,8 @@
         <a-breadcrumb-item>{{ $t('page_name.home') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
+    <TddStatistics />
+    <TddDonateLogList :donate-log-list="donateLogList" />
     <a-carousel autoplay>
       <div class="carousel-page">
         <div class="carousel-page-container">
@@ -122,7 +110,7 @@
         <div class="carousel-page-container">
           <h1>{{ $t('donation_thanks') }}</h1>
           <div class="carousel-p4-table-container">
-            <tdd-donate-log-list :donate-log-list="donateLogList" />
+            <!-- <tdd-donate-log-list :donate-log-list="donateLogList" /> -->
             <div style="margin-top: 8px; overflow: hidden">
               <div style="float: right; margin-right: 8px">
                 <a
@@ -137,106 +125,7 @@
       </div>
       <div class="carousel-page">
         <div class="carousel-page-container">
-          <template v-if="$store.getters.clientMode === 'MOBILE'">
-            <div style="overflow: hidden">
-              <div class="carousel-p2-mobile-row1-col">
-                <a-statistic
-                  :title="$t('tracked_videos')"
-                  :value="latestVideoCount"
-                >
-                  <template #suffix>
-                    {{ $t('tracked_videos_suffix') }}
-                  </template>
-                </a-statistic>
-              </div>
-              <div class="carousel-p2-mobile-row1-col">
-                <a-statistic
-                  :title="$t('covered_members')"
-                  :value="latestMemberCount"
-                >
-                  <template #suffix>
-                    {{ $t('covered_members_suffix') }}
-                  </template>
-                </a-statistic>
-              </div>
-            </div>
-            <a-statistic
-              :title="$t('data_records')"
-              :value="latestVideoRecordCount"
-            >
-              <template #suffix>
-                {{ $t('data_records_suffix') }}
-              </template>
-            </a-statistic>
-          </template>
-          <template v-else>
-            <div style="overflow: hidden">
-              <div style="margin-bottom: 12px" />
-              <div class="carousel-p2-col-narrow">
-                <a-statistic
-                  :title="$t('tracked_videos')"
-                  :value="latestVideoCount"
-                  style="padding: 8px 20px 0 20px"
-                >
-                  <template #suffix>
-                    {{ $t('tracked_videos_suffix') }}
-                  </template>
-                </a-statistic>
-                <a-statistic
-                  :title="$t('30_days_increment')"
-                  :value="last30DayVideoCount"
-                  style="padding: 8px 20px 0 20px"
-                >
-                  <template #prefix>
-                    <arrow-up-outlined />
-                  </template>
-                </a-statistic>
-              </div>
-              <div class="carousel-p2-col-narrow">
-                <a-statistic
-                  :title="$t('covered_members')"
-                  :value="latestMemberCount"
-                  style="padding: 8px 20px 0 20px"
-                >
-                  <template #suffix>
-                    {{ $t('covered_members_suffix') }}
-                  </template>
-                </a-statistic>
-                <a-statistic
-                  :title="$t('30_days_increment')"
-                  :value="last30DayMemberCount"
-                  style="padding: 8px 20px 0 20px"
-                >
-                  <template #prefix>
-                    <arrow-up-outlined />
-                  </template>
-                </a-statistic>
-              </div>
-              <div class="carousel-p2-col-wide">
-                <a-statistic
-                  :title="$t('data_records')"
-                  :value="latestVideoRecordCount"
-                  style="padding: 8px 20px 0 20px"
-                >
-                  <template #suffix>
-                    {{ $t('data_records_suffix') }}
-                  </template>
-                </a-statistic>
-                <a-statistic
-                  :title="$t('30_days_increment')"
-                  :value="last30DayVideoRecordCount"
-                  style="padding: 8px 20px 0 20px"
-                >
-                  <template #prefix>
-                    <arrow-up-outlined />
-                  </template>
-                </a-statistic>
-              </div>
-            </div>
-          </template>
-          <div style="text-align: right; color: rgba(0, 0, 0, 0.45); margin-top: 8px">
-            <p>*{{ $t('till') }}{{ latestStatDailyTimeStr }}</p>
-          </div>
+          <TddStatistics />
         </div>
       </div>
       <div class="carousel-page">
@@ -265,7 +154,7 @@
       </div>
     </a-carousel>
     <div class="section-separator" />
-    <div class="section-block">
+    <!-- <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
           <h1>{{ $t('page_name.video') }}</h1>
@@ -315,9 +204,9 @@
           @item-clicked="randomVideoListItemClickedHandler"
         />
       </a-spin>
-    </div>
+    </div> -->
     <div class="section-separator" />
-    <div class="section-block">
+    <!-- <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
           <h1>{{ $t('page_name.member') }}</h1>
@@ -345,9 +234,9 @@
           @item-clicked="randomMemberListItemClickedHandler"
         />
       </a-spin>
-    </div>
+    </div> -->
     <div class="section-separator" />
-    <div class="section-block">
+    <!-- <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
           <h1>{{ $t('page_name.sprint') }}</h1>
@@ -390,9 +279,9 @@
           @item-clicked="sprintVideoListItemClickedHandler"
         />
       </a-spin>
-    </div>
+    </div> -->
     <div class="section-separator" />
-    <div class="section-block">
+    <!-- <div class="section-block">
       <div style="overflow: hidden">
         <div style="float: left">
           <h1>{{ $t('page_name.tool') }}</h1>
@@ -444,18 +333,19 @@
           </router-link>{{ $t('colon') }}{{ $t('tool_info.text-abid-description-replacement.brief_intro') }}
         </li>
       </ul>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import TddDonateLogList from "@/components/common/TddDonateLogList";
+import TddStatistics from '@/components/common/TddStatistics';
 import TddVideoList from "../common/TddVideoList"
 import TddMemberList from "../common/TddMemberList";
 import logo_max from '../../assets/img/logo_max.png'
 import qqgroup_qrcode from '../../assets/img/qrcode_1580391374617.jpg'
 import TddVideoAbidAutoComplete from "@/components/common/TddVideoAbidAutoComplete";
-import { QrcodeOutlined, ArrowUpOutlined, ReloadOutlined, ArrowRightOutlined } from "@ant-design/icons-vue";
+import { QrcodeOutlined, ReloadOutlined, ArrowRightOutlined } from "@ant-design/icons-vue";
 
 export default {
   name: "Home",
@@ -463,9 +353,9 @@ export default {
     TddVideoList,
     TddMemberList,
     TddDonateLogList,
+    TddStatistics,
     TddVideoAbidAutoComplete,
     QrcodeOutlined,
-    ArrowUpOutlined,
     ReloadOutlined,
     ArrowRightOutlined,
   },
@@ -473,9 +363,6 @@ export default {
     return {
       logo_max: logo_max,
       qqgroup_qrcode: qqgroup_qrcode,
-      isLoadingStatDailyList: false,
-      statDailyList: [],
-      statDailyTotalCount: 0,
       isLoadingUpdateLogList: false,
       updateLogList: [],
       isLoadingDonateLogList: false,
@@ -499,66 +386,6 @@ export default {
         obj.title = x.title;
         return obj;
       });
-    },
-    latestStatDaily: function () {
-      let length = this.statDailyList.length;
-      if (length > 0) {
-        return this.statDailyList[length - 1];
-      } else {
-        return null;
-      }
-    },
-    latestVideoCount: function () {
-      if (this.latestStatDaily) {
-        return this.latestStatDaily.video_count;
-      } else {
-        return -1;
-      }
-    },
-    latestMemberCount: function () {
-      if (this.latestStatDaily) {
-        return this.latestStatDaily.member_count;
-      } else {
-        return -1;
-      }
-    },
-    latestVideoRecordCount: function () {
-      if (this.latestStatDaily) {
-        return this.latestStatDaily.video_record_count;
-      } else {
-        return -1;
-      }
-    },
-    latestStatDailyTimeStr: function () {
-      if (this.latestStatDaily) {
-        return this.$util.tsToDateString(this.latestStatDaily.added);
-      } else {
-        return this.$util.tsToDateString(0);
-      }
-    },
-    last30DayVideoCount: function () {
-      const length = this.statDailyList.length;
-      if (length > 0) {
-        return this.statDailyList[length - 1].video_count - this.statDailyList[0].video_count;
-      } else {
-        return 0;
-      }
-    },
-    last30DayMemberCount: function () {
-      const length = this.statDailyList.length;
-      if (length > 0) {
-        return this.statDailyList[length - 1].member_count - this.statDailyList[0].member_count;
-      } else {
-        return 0;
-      }
-    },
-    last30DayVideoRecordCount: function () {
-      const length = this.statDailyList.length;
-      if (length > 0) {
-        return this.statDailyList[length - 1].video_record_count - this.statDailyList[0].video_record_count;
-      } else {
-        return 0;
-      }
     },
     refreshString: function () {
       if (this.$store.getters.clientMode === 'MOBILE') {
@@ -593,7 +420,6 @@ export default {
     }
   },
   created() {
-    this.fetchStatDailyList();
     this.fetchUpdateLogList();
     this.fetchDonateLogList();
     this.fetchRandomVideoList(6);
@@ -633,24 +459,6 @@ export default {
         })
         .finally(function () {
           that.isLoadingVideoAidTitleList = false;
-        });
-    },
-    fetchStatDailyList: function () {
-      this.isLoadingStatDailyList = true;
-      let now = new Date();
-      let start_ts = Math.floor(now.valueOf() / 1000) - 30 * 24 * 60 * 60; // 30 days before
-      let url = 'statdaily?start_ts=' + start_ts;
-      let that = this;
-      this.$axios.get(url)
-        .then(function (response) {
-          that.statDailyList = response.data;
-          that.statDailyTotalCount = parseInt(response.headers['x-total-count']);
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(function () {
-          that.isLoadingStatDailyList = false;
         });
     },
     fetchUpdateLogList: function () {
@@ -799,19 +607,6 @@ export default {
 .carousel-p1-image img {
   margin: auto;
   width: 60%;
-}
-
-.carousel-p2-col-narrow {
-  float: left;
-  width: 30%;
-}
-.carousel-p2-col-wide {
-  float: left;
-  width: 40%;
-}
-.carousel-p2-mobile-row1-col {
-  float: left;
-  width: 50%;
 }
 
 .carousel-p4-table-container {
