@@ -486,6 +486,9 @@ export default {
   .ant-carousel :deep(.slick-slide) {
     height: 188px;
   }
+  .ant-carousel :deep(.slick-dots-bottom) {
+    bottom: 0;
+  }
   .carousel-page {
     height: 188px;
     padding: 12px 20px;
