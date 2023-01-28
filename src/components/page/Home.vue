@@ -47,8 +47,6 @@
         <a-breadcrumb-item>{{ $t('page_name.home') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
-    <TddStatistics />
-    <TddDonateLogList :donate-log-list="donateLogList" />
     <a-carousel autoplay>
       <div class="carousel-page">
         <div class="carousel-page-container">
@@ -110,7 +108,7 @@
         <div class="carousel-page-container">
           <h1>{{ $t('donation_thanks') }}</h1>
           <div class="carousel-p4-table-container">
-            <!-- <tdd-donate-log-list :donate-log-list="donateLogList" /> -->
+            <TddDonateLogList />
             <div style="margin-top: 8px; overflow: hidden">
               <div style="float: right; margin-right: 8px">
                 <a
@@ -365,8 +363,6 @@ export default {
       qqgroup_qrcode: qqgroup_qrcode,
       isLoadingUpdateLogList: false,
       updateLogList: [],
-      isLoadingDonateLogList: false,
-      donateLogList: [],
       jumpVideoTargetIdObj: { id: '', type: 'aid' },
       videoAidTitleList: [],
       isLoadingRandomVideoList: false,
@@ -421,7 +417,6 @@ export default {
   },
   created() {
     this.fetchUpdateLogList();
-    this.fetchDonateLogList();
     this.fetchRandomVideoList(6);
     this.fetchRandomMemberList(6);
     this.fetchSprintVideoList();
@@ -475,20 +470,6 @@ export default {
         })
         .finally(function () {
           that.isLoadingUpdateLogList = false;
-        });
-    },
-    fetchDonateLogList: function () {
-      this.isLoadingDonateLogList = true;
-      let that = this;
-      this.$axios.get('donatelog')
-        .then(function (response) {
-          that.donateLogList = response.data.sort((a, b) => b.added - a.added);
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(function () {
-          that.isLoadingDonateLogList = false;
         });
     },
     getTimelineItemColor: function (type) {

@@ -3,6 +3,7 @@
     :columns="columns"
     :row-key="log => log.id"
     :data-source="donateLogList"
+    :loading="isLoadingDonateLogList"
     :show-header="false"
     :pagination="{
       pageSize: 10,
@@ -24,14 +25,10 @@
 <script>
 export default {
   name: 'TddDonateLogList',
-  props: {
-    donateLogList: {
-      type: Array,
-      required: true,
-    },
-  },
   data: function () {
     return {
+      isLoadingDonateLogList: false,
+      donateLogList: [],
       columns: [
         {
           title: '用户',
@@ -51,6 +48,24 @@ export default {
       ],
     }
   },
+  created() {
+    this.fetchDonateLogList();
+  },
+  methods: {
+    fetchDonateLogList: function () {
+      this.isLoadingDonateLogList = true;
+      this.$axios.get('donatelog')
+        .then((response) => {
+          this.donateLogList = response.data.sort((a, b) => b.added - a.added);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          this.isLoadingDonateLogList = false;
+        });
+    },
+  }
 };
 </script>
 
