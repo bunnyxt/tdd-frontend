@@ -127,65 +127,61 @@ export default {
     }
   },
   computed: {
-    latestStatDaily: function () {
-      let length = this.statDailyList.length;
-      if (length > 0) {
-        return this.statDailyList[length - 1];
-      } else {
+    furtherestStatDaily: function () {
+      const length = this.statDailyList.length;
+      if (length === 0) {
         return null;
       }
+      return this.statDailyList[0];
+    },
+    latestStatDaily: function () {
+      const length = this.statDailyList.length;
+      if (length === 0) {
+        return null;
+      }
+      return this.statDailyList[length - 1];
     },
     latestVideoCount: function () {
-      if (this.latestStatDaily) {
-        return this.latestStatDaily.video_count;
-      } else {
-        return -1;
+      if (!this.latestStatDaily) {
+        return 0;
       }
+      return this.latestStatDaily.video_count;
     },
     latestMemberCount: function () {
-      if (this.latestStatDaily) {
-        return this.latestStatDaily.member_count;
-      } else {
-        return -1;
+      if (!this.latestStatDaily) {
+        return 0;
       }
+      return this.latestStatDaily.member_count;
     },
     latestVideoRecordCount: function () {
-      if (this.latestStatDaily) {
-        return this.latestStatDaily.video_record_count;
-      } else {
-        return -1;
+      if (!this.latestStatDaily) {
+        return 0;
       }
+      return this.latestStatDaily.video_record_count;
     },
     latestStatDailyTimeStr: function () {
-      if (this.latestStatDaily) {
-        return this.$util.tsToDateString(this.latestStatDaily.added);
-      } else {
+      if (!this.latestStatDaily) {
         return this.$util.tsToDateString(0);
       }
+      return this.$util.tsToDateString(this.latestStatDaily.added);
     },
     last30DayVideoCount: function () {
-      const length = this.statDailyList.length;
-      if (length > 0) {
-        return this.statDailyList[length - 1].video_count - this.statDailyList[0].video_count;
-      } else {
+      if (!this.furtherestStatDaily || !this.latestStatDaily) {
         return 0;
       }
+      return this.latestStatDaily.video_count - this.furtherestStatDaily.video_count;
     },
     last30DayMemberCount: function () {
-      const length = this.statDailyList.length;
-      if (length > 0) {
-        return this.statDailyList[length - 1].member_count - this.statDailyList[0].member_count;
-      } else {
+      if (!this.furtherestStatDaily || !this.latestStatDaily) {
         return 0;
       }
+      return this.latestStatDaily.member_count - this.furtherestStatDaily.member_count;
     },
     last30DayVideoRecordCount: function () {
-      const length = this.statDailyList.length;
-      if (length > 0) {
-        return this.statDailyList[length - 1].video_record_count - this.statDailyList[0].video_record_count;
-      } else {
+      if (!this.furtherestStatDaily || !this.latestStatDaily) {
         return 0;
       }
+      return this.latestStatDaily.video_record_count - this.furtherestStatDaily.video_record_count;
     },
   },
   created() {
