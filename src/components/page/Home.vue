@@ -107,14 +107,12 @@
           <h1>{{ $t('donation_thanks') }}</h1>
           <div class="carousel-p4-table-container">
             <TddDonateLogList />
-            <div style="margin-top: 8px; overflow: hidden">
-              <div style="float: right; margin-right: 8px">
-                <a
-                  href="https://afdian.net/@bunnyxt"
-                  target="_blank"
-                  @click="$service.reportInteraction('home_donate_click', '')"
-                >{{ $t('donate_now') }}</a>
-              </div>
+            <div class="donate-redirect">
+              <a
+                href="https://afdian.net/@bunnyxt"
+                target="_blank"
+                @click="$service.reportInteraction('home_donate_click', '')"
+              >{{ $t('donate_now') }}</a>
             </div>
           </div>
         </div>
