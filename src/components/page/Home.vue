@@ -3,11 +3,6 @@
 <i18n>
 {
   "zh": {
-    "tdd_introduction_brief": "致力于推动VC相关数据交流，定期抓取VC相关数据，选取有意义的纬度展示。",
-    "know_more": "了解更多",
-    "contact_us": "联系我们",
-    "qq_group": "QQ群",
-    "personal_email": "个人邮箱",
     "donation_thanks": "资助感谢",
     "donate_now": "立刻资助本站",
     "recent_updates": "更新动态",
@@ -19,11 +14,6 @@
     }
   },
   "en": {
-    "tdd_introduction_brief": "Committed to enhance VOCALOID CHINA related data exchange, fetching VC related data regularly and show meaningful parts to everyone.",
-    "know_more": "Know More",
-    "contact_us": "Contact Us",
-    "qq_group": "QQ Group",
-    "personal_email": "Personal E-mail",
     "donation_thanks": "Donation Thanks",
     "donate_now": "Donate TDD Now",
     "recent_updates": "Recent Updates",
@@ -48,58 +38,7 @@
     <a-carousel autoplay>
       <div class="carousel-page">
         <div class="carousel-page-container">
-          <div class="carousel-p1-text">
-            <h1>{{ $t('tdd') }}</h1>
-            <div 
-              v-if="$store.getters.clientMode === 'MOBILE'"
-              style="height: 42px; overflow-x: scroll"
-            >
-              {{ $t('tdd_introduction_brief') }}
-            </div>
-            <p v-else>
-              {{ $t('tdd_introduction_brief') }}
-            </p>
-            <div style="margin-top: 20px">
-              <a-button 
-                type="primary"
-                @click="() => $router.push('/about')"
-              >
-                {{ $t('know_more') }}
-              </a-button>
-              <a-popover
-                :title="$t('contact_us')"
-                trigger="hover"
-                placement="bottom"
-              >
-                <template #content>
-                  <div>
-                    {{ $t('qq_group') }}{{ $t('colon') }}
-                    <a
-                      target="_blank"
-                      href="https://jq.qq.com/?_wv=1027&k=588s7nw"
-                    >537793686</a>
-                    <qrcode-outlined style="margin-left: 8px; margin-right: 4px" />
-                    <a
-                      target="_blank"
-                      :href="qqgroup_qrcode"
-                    >{{ $t('qr_code') }}</a>
-                    <br>
-                    {{ $t('personal_email') }}{{ $t('colon') }}
-                    <a href="mailto:bunnyxt@outlook.com">bunnyxt@outlook.com</a>
-                  </div>
-                </template>
-                <a-button style="margin-left: 8px">
-                  {{ $t('contact_us') }}
-                </a-button>
-              </a-popover>
-            </div>
-          </div>
-          <div class="carousel-p1-image">
-            <img
-              :src="logo_max"
-              alt="logo"
-            >
-          </div>
+          <TddIntro />
         </div>
       </div>
       <div class="carousel-page">
@@ -318,13 +257,12 @@
 <script>
 import TddDonateLogList from "@/components/common/TddDonateLogList";
 import TddUpdateLogList from "../common/TddUpdateLogList.vue";
+import TddIntro from "../common/TddIntro.vue";
 import TddStatistics from '@/components/common/TddStatistics';
 import TddVideoList from "../common/TddVideoList"
 import TddMemberList from "../common/TddMemberList";
-import logo_max from '../../assets/img/logo_max.png'
-import qqgroup_qrcode from '../../assets/img/qrcode_1580391374617.jpg'
 import TddVideoAbidAutoComplete from "@/components/common/TddVideoAbidAutoComplete";
-import { QrcodeOutlined, ReloadOutlined, ArrowRightOutlined } from "@ant-design/icons-vue";
+import { ReloadOutlined, ArrowRightOutlined } from "@ant-design/icons-vue";
 
 export default {
   name: "Home",
@@ -333,16 +271,14 @@ export default {
     TddMemberList,
     TddDonateLogList,
     TddUpdateLogList,
+    TddIntro,
     TddStatistics,
     TddVideoAbidAutoComplete,
-    QrcodeOutlined,
     ReloadOutlined,
     ArrowRightOutlined,
   },
   data: function () {
     return {
-      logo_max: logo_max,
-      qqgroup_qrcode: qqgroup_qrcode,
       jumpVideoTargetIdObj: { id: '', type: 'aid' },
       videoAidTitleList: [],
       isLoadingRandomVideoList: false,
@@ -535,20 +471,6 @@ export default {
   overflow: hidden;
 }
 
-.carousel-p1-text {
-  float: left;
-  width: 60%;
-}
-.carousel-p1-image {
-  float: left;
-  width: 40%;
-  text-align: center;
-}
-.carousel-p1-image img {
-  margin: auto;
-  width: 60%;
-}
-
 .carousel-p4-table-container {
   overflow-y: auto;
   height: 140px;
@@ -567,12 +489,6 @@ export default {
   .carousel-page {
     height: 188px;
     padding: 12px 20px;
-  }
-  .carousel-p1-text {
-    width: 100%;
-  }
-  .carousel-p1-image {
-    display: none;
   }
   .carousel-p3-timeline-container {
     height: 100px;
