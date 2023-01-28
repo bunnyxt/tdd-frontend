@@ -124,7 +124,6 @@ export default {
     return {
       isLoadingStatDailyList: false,
       statDailyList: [],
-      statDailyTotalCount: 0,
     }
   },
   computed: {
@@ -199,7 +198,6 @@ export default {
       this.$axios.get(`statdaily?start_ts=${start_ts}`)
         .then((response) => {
           this.statDailyList = response.data;
-          this.statDailyTotalCount = parseInt(response.headers['x-total-count']);
         })
         .catch((error) => {
           console.log(error);
