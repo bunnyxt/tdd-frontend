@@ -11,7 +11,6 @@
     "donation_thanks": "资助感谢",
     "donate_now": "立刻资助本站",
     "recent_updates": "更新动态",
-    "see_more": "查看更多",
     "page_brief_intro": {
       "video": "本站收录的所有视频，包括B站{0}分区下的所有视频和部分其他分区中的VC视频。",
       "member": "本站收录的所有视频的B站UP主和staff们。",
@@ -28,7 +27,6 @@
     "donation_thanks": "Donation Thanks",
     "donate_now": "Donate TDD Now",
     "recent_updates": "Recent Updates",
-    "see_more": "See more",
     "page_brief_intro": {
       "video": "All tracked videos, including all videos under {0} category and some VC related videos in other categories.",
       "member": "All uploaders and staff of all tracked videos.",
@@ -130,23 +128,7 @@
         <div class="carousel-page-container">
           <h1>{{ $t('recent_updates') }}</h1>
           <div class="carousel-p3-timeline-container">
-            <a-timeline>
-              <a-timeline-item
-                v-for="updateLog in updateLogList"
-                :key="updateLog.added"
-                :color="getTimelineItemColor(updateLog.type)"
-              >
-                <b>{{ $util.tsToDateString(updateLog.added, 'yyyy-MM-dd') }}</b> {{ updateLog.content }}
-              </a-timeline-item>
-              <template #pending>
-                <a-button
-                  type="link" 
-                  @click="() => $router.push('/about/updatelog')"
-                >
-                  {{ $t('see_more') }}...
-                </a-button>
-              </template>
-            </a-timeline>
+            <TddUpdateLogList />
           </div>
         </div>
       </div>
@@ -337,6 +319,7 @@
 
 <script>
 import TddDonateLogList from "@/components/common/TddDonateLogList";
+import TddUpdateLogList from "../common/TddUpdateLogList.vue";
 import TddStatistics from '@/components/common/TddStatistics';
 import TddVideoList from "../common/TddVideoList"
 import TddMemberList from "../common/TddMemberList";
@@ -351,6 +334,7 @@ export default {
     TddVideoList,
     TddMemberList,
     TddDonateLogList,
+    TddUpdateLogList,
     TddStatistics,
     TddVideoAbidAutoComplete,
     QrcodeOutlined,
@@ -361,8 +345,6 @@ export default {
     return {
       logo_max: logo_max,
       qqgroup_qrcode: qqgroup_qrcode,
-      isLoadingUpdateLogList: false,
-      updateLogList: [],
       jumpVideoTargetIdObj: { id: '', type: 'aid' },
       videoAidTitleList: [],
       isLoadingRandomVideoList: false,
@@ -416,7 +398,6 @@ export default {
     }
   },
   created() {
-    this.fetchUpdateLogList();
     this.fetchRandomVideoList(6);
     this.fetchRandomMemberList(6);
     this.fetchSprintVideoList();
@@ -455,26 +436,6 @@ export default {
         .finally(function () {
           that.isLoadingVideoAidTitleList = false;
         });
-    },
-    fetchUpdateLogList: function () {
-      this.isLoadingUpdateLogList = true;
-      let last_count = 3;
-      let url = 'updatelog?last_count=' + last_count;
-      let that = this;
-      this.$axios.get(url)
-        .then(function (response) {
-          that.updateLogList = response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(function () {
-          that.isLoadingUpdateLogList = false;
-        });
-    },
-    getTimelineItemColor: function (type) {
-      let timelineItemColorArray = ['blue', 'blue', 'red', 'green'];
-      return timelineItemColorArray[type];
     },
     fetchRandomVideoList: function (count) {
       this.isLoadingRandomVideoList = true;
