@@ -23,7 +23,7 @@
 </i18n>
 
 <template>
-  <div>
+  <a-spin :spinning="isLoadingStatDailyList">
     <div
       v-if="$store.getters.clientMode === 'MOBILE'"
       class="stat-grid-mobile"
@@ -109,7 +109,7 @@
     <div class="till-time">
       <p>*{{ $t('till') }}{{ latestStatDailyTimeStr }}</p>
     </div>
-  </div>
+  </a-spin>
 </template>
 
 <script>
@@ -122,7 +122,7 @@ export default {
   },  
   data: function () {
     return {
-      isLoadingStatDailyList: false,
+      isLoadingStatDailyList: true,
       statDailyList: [],
     }
   },
