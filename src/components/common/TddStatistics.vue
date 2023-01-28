@@ -23,7 +23,7 @@
 </i18n>
 
 <template>
-  <div class="carousel-page-container">
+  <div>
     <div
       v-if="$store.getters.clientMode === 'MOBILE'"
       class="stat-grid-mobile"
