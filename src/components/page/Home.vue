@@ -44,7 +44,7 @@
       <div class="carousel-page">
         <div class="carousel-page-container">
           <h1>{{ $t('donation_thanks') }}</h1>
-          <div class="carousel-p4-table-container">
+          <div class="donate-block-container">
             <TddDonateLogList />
             <div class="donate-redirect">
               <a
@@ -64,7 +64,7 @@
       <div class="carousel-page">
         <div class="carousel-page-container">
           <h1>{{ $t('recent_updates') }}</h1>
-          <div class="carousel-p3-timeline-container">
+          <div class="update-block-container">
             <TddUpdateLogList />
           </div>
         </div>
@@ -471,12 +471,19 @@ export default {
   overflow: hidden;
 }
 
-.carousel-p4-table-container {
+.donate-block-container {
   overflow-y: auto;
   height: 140px;
 }
 
-.carousel-p3-timeline-container {
+.donate-redirect {
+  margin-top: 8px;
+  padding-right: 8px;
+  overflow: hidden;
+  text-align: end;
+}
+
+.update-block-container {
   overflow-y: auto;
   height: 140px;
   padding-top: 4px;
@@ -493,10 +500,10 @@ export default {
     height: 188px;
     padding: 12px 20px;
   }
-  .carousel-p3-timeline-container {
+  .update-block-container {
     height: 100px;
   }
-  .carousel-p4-table-container {
+  .donate-block-container {
     height: 100px;
   }
 }
