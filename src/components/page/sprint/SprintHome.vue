@@ -360,11 +360,11 @@ export default {
   height: 16px;
 }
 
-.ant-carousel >>> .slick-dots li button {
+.ant-carousel :deep(.slick-dots li button) {
   background: #364d79;
 }
 
-.ant-carousel >>> .slick-dots li.slick-active button {
+.ant-carousel :deep(.slick-dots li.slick-active button) {
   background: #364d79;
 }
 </style>

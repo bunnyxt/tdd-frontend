@@ -212,14 +212,14 @@ export default {
 </script>
 
 <style scoped>
-.ant-carousel >>> .slick-slide {
+.ant-carousel :deep(.slick-slide) {
   height: 84px;
   overflow: hidden;
 }
-.ant-carousel >>> .slick-dots li.slick-active button {
+.ant-carousel :deep(.slick-dots li.slick-active button) {
   background: #192c3e;
 }
-.ant-carousel >>> .slick-dots li button {
+.ant-carousel :deep(.slick-dots li button) {
   background: #364d79;
 }
 
