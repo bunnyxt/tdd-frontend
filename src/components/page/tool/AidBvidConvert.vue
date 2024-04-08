@@ -137,23 +137,36 @@ export default {
       } else if (this.method === 'alg') {
         if (this.queryKey === 'aid') {
           // enc
-          let aid;
+          let aid, bvid;
           try {
             aid = parseInt(this.queryValue)
           } catch (e) {
             this.$message.error('转换出错，aid必须为数字');
             return
           }
+          try {
+            bvid = this.av2bv(aid)
+          } catch (e) {
+            this.$message.error('转换出错');
+            return
+          }
           this.queryResultObj = {
             status: 'success',
             aid: this.queryValue,
-            bvid: this.av2bv(aid)
+            bvid: bvid
           };
           this.$message.success('转换成功')
         } else if (this.queryKey === 'bvid') {
+          let aid;
+          try {
+            aid = this.bv2av(this.queryValue)
+          } catch (e) {
+            this.$message.error('转换出错');
+            return
+          }
           this.queryResultObj = {
             status: 'success',
-            aid: this.bv2av(this.queryValue),
+            aid: aid,
             bvid: this.queryValue
           };
           this.$message.success('转换成功')
