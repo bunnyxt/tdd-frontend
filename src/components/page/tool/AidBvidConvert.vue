@@ -60,7 +60,14 @@ export default {
       method: 'api',
       queryKey: 'aid',
       queryValue: '456930',
-      queryResultObj: {status:"success",aid:456930,bvid:"BV19x411F7kL"}
+      queryResultObj: {status:"success",aid:456930,bvid:"BV19x411F7kL"},
+
+      XOR_CODE: 23442827791579n,
+      MASK_CODE: 2251799813685247n,
+      MAX_AID: 1n << 51n,
+      BASE: 58n,
+
+      data: 'FcwAPNKTMug3GV5Lj7EJnHpWsx4tb8haYeviqBz6rkCy12mUSDQX9RdoZf',
     }
   },
   computed: {
@@ -84,6 +91,28 @@ export default {
     }
   },
   methods: {
+    // ref: https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/misc/bvid_desc.md#javascripttypescript
+    av2bv(aid) {
+      const bytes = ['B', 'V', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0'];
+      let bvIndex = bytes.length - 1;
+      let tmp = (this.MAX_AID | BigInt(aid)) ^ this.XOR_CODE;
+      while (tmp > 0) {
+        bytes[bvIndex] = this.data[Number(tmp % BigInt(this.BASE))];
+        tmp = tmp / this.BASE;
+        bvIndex -= 1;
+      }
+      [bytes[3], bytes[9]] = [bytes[9], bytes[3]];
+      [bytes[4], bytes[7]] = [bytes[7], bytes[4]];
+      return bytes.join('');
+    },
+    bv2av(bvid) {
+      const bvidArr = Array.from(bvid);
+      [bvidArr[3], bvidArr[9]] = [bvidArr[9], bvidArr[3]];
+      [bvidArr[4], bvidArr[7]] = [bvidArr[7], bvidArr[4]];
+      bvidArr.splice(0, 3);
+      const tmp = bvidArr.reduce((pre, bvidChar) => pre * this.BASE + BigInt(this.data.indexOf(bvidChar)), 0n);
+      return Number((tmp & this.MASK_CODE) ^ this.XOR_CODE);
+    },
     queryKeyChangeHandler() {
       if (this.queryKey === 'aid') {
         this.queryValue = this.queryResultObj.aid;
@@ -106,71 +135,25 @@ export default {
           })
           .catch(() => this.$message.error('请求出错'))
       } else if (this.method === 'alg') {
-        // ref: https://www.zhihu.com/question/381784377
-        let table = 'fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF';
-        let tr = {};
-        for (let i = 0; i < 58; i++) {
-          tr[table[i]] = i;
-        }
-        let s = [11, 10, 3, 8, 4, 6];
-        let xor = 177451812;
-        let add = 8728348608;
-
         if (this.queryKey === 'aid') {
           // enc
-          let x;
+          let aid;
           try {
-            x = parseInt(this.queryValue)
+            aid = parseInt(this.queryValue)
           } catch (e) {
             this.$message.error('转换出错，aid必须为数字');
             return
           }
-          x = (x ^ xor) + add;
-          let r = ['B', 'V', '1', ' ', ' ', '4', ' ', '1', ' ', '7', ' ', ' '];
-          for (let i = 0; i < 6; i++) {
-            r[s[i]] = table.charAt(Math.floor(x / Math.pow(58, i)) % 58);
-          }
-          let rs = '';
-          for (let i = 0; i < r.length; i++) {
-            rs += r[i];
-          }
           this.queryResultObj = {
             status: 'success',
             aid: this.queryValue,
-            bvid: rs
+            bvid: this.av2bv(aid)
           };
           this.$message.success('转换成功')
         } else if (this.queryKey === 'bvid') {
-          // dec
-          let r = 0;
-          let x = [];
-          for (let i = 0; i < this.queryValue.length; i++) {
-            x.push(this.queryValue.charAt(i));
-          }
-          if (x.length !== 12) {
-            this.$message.error('转换出错，bvid位数不合法');
-            return
-          }
-          if (!(x[0] === 'B' && x[1] === 'V')) {
-            this.$message.error('转换出错，bvid必须以BV开头');
-            return
-          }
-          if (!(x[2] === '1' && x[5] === '4' && x[7] === '1' && x[9] === '7')) {
-            this.$message.error('转换出错，目前只支持BV1??4?1?7??格式的bvid');
-            return
-          }
-          for (let i = 2; i < 12; i++) {
-            if (table.indexOf(x[i]) === -1) {
-              this.$message.error('转换出错，bvid包含不支持的字符');
-              return
-            }
-          }
-          for (let i = 0; i < 6; i++) {
-            r += tr[x[s[i]]] * Math.pow(58, i);
-          }
           this.queryResultObj = {
             status: 'success',
-            aid: String((r - add) ^ xor),
+            aid: this.bv2av(this.queryValue),
             bvid: this.queryValue
           };
           this.$message.success('转换成功')
