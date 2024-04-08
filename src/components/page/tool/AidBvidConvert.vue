@@ -158,6 +158,10 @@ export default {
           this.$message.success('转换成功')
         } else if (this.queryKey === 'bvid') {
           let aid;
+          if (!this.queryValue.startsWith('BV')) {
+            this.$message.error('转换出错，bv号必须以BV开头');
+            return
+          }
           try {
             aid = this.bv2av(this.queryValue)
           } catch (e) {
