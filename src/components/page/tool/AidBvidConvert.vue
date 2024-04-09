@@ -56,6 +56,7 @@
 <script>
 const bigInt = require("big-integer");
 
+// ref: https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/misc/bvid_desc.md#javascripttypescript
 const XOR_CODE = bigInt("23442827791579");
 const MASK_CODE = bigInt("2251799813685247");
 const MAX_AID = bigInt.one.shiftLeft(51);
@@ -139,7 +140,6 @@ export default {
           })
           .catch(() => this.$message.error('请求出错'))
       } else if (this.method === 'alg') {
-        // ref: https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/misc/bvid_desc.md#javascripttypescript
         if (this.queryKey === 'aid') {
           // enc
           let x,bvid;
