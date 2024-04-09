@@ -46,7 +46,8 @@
         <a :href="'https://api.bilibili.com/x/web-interface/view?'+queryKey+'='+queryValue" target="_blank">
           {{ 'https://api.bilibili.com/x/web-interface/view?'+queryKey+'='+queryValue }}
         </a><br>
-        算法转换采用知乎用户<a href="https://www.zhihu.com/people/-._.-" target="_blank">mcfx</a>在<a href="https://www.zhihu.com/question/381784377/answer/1099438784" target="_blank">这篇回答</a>中给出的算法进行转换
+        算法转换曾采用知乎用户<a href="https://www.zhihu.com/people/-._.-" target="_blank">mcfx</a>在<a href="https://www.zhihu.com/question/381784377/answer/1099438784" target="_blank">这篇回答</a>中给出的算法进行转换，但仅适用于小aid的情况。由于B站使用了更大的aid，该算法已失效会溢出。<br>
+        目前采用 GitHub用户<a href="https://github.com/SocialSisterYi" target="_blank">SocialSisterYi</a>在<a href="https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/misc/bvid_desc.md#javascripttypescript" target="_blank">这个仓库</a>中给出的算法进行转换，已处理大aid问题。<br>
       </div>
     </div>
   </div>
