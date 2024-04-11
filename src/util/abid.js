@@ -1,55 +1,43 @@
-// ref: https://www.zhihu.com/question/381784377
-const table = 'fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF';
-let tr = {};
-for (let i = 0; i < 58; i++) {
-  tr[table[i]] = i;
-}
-const s = [11, 10, 3, 8, 4, 6];
-const xor = 177451812;
-const add = 8728348608;
+const bigInt = require("big-integer");
+
+// ref: https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/misc/bvid_desc.md#javascripttypescript
+const XOR_CODE = bigInt("23442827791579");
+const MASK_CODE = bigInt("2251799813685247");
+const MAX_AID = bigInt.one.shiftLeft(51);
+const BASE = bigInt(58);
+
+const data = 'FcwAPNKTMug3GV5Lj7EJnHpWsx4tb8haYeviqBz6rkCy12mUSDQX9RdoZf';
+
 
 export const b2a = function (bvid) {
-  // remove BV prefix
-  if (bvid.substring(0, 2) === 'BV') {
-    bvid = bvid.substring(2);
+  // add BV prefix
+  if (!bvid.startsWith('BV')) {
+    bvid = 'BV' + bvid;
   }
-  // bvid should be 10 size length
-  if (bvid.length !== 10) {
+  // bvid should be 12 size length
+  if (bvid.length !== 12) {
     return -1;
   }
-  let r = 0;
-  let x = [];
-  for (let i = 0; i < 10; i++) {
-    x.push(bvid.charAt(i));
-  }
-  // only support 1??4?1?7?? format
-  if (!(x[0] === '1' && x[3] === '4' && x[5] === '1' && x[7] === '7')) {
-    return -1;
-  }
-  // character should in table
-  for (let i = 0; i < 10; i++) {
-    if (table.indexOf(x[i]) === -1) {
-      // invalid character
-      return -1;
-    }
-  }
-  for (let i = 0; i < 6; i++) {
-    r += tr[x[s[i]-2]] * Math.pow(58, i);
-  }
-  return (r - add) ^ xor;
+  const bvidArr = Array.from(bvid);
+  [bvidArr[3], bvidArr[9]] = [bvidArr[9], bvidArr[3]];
+  [bvidArr[4], bvidArr[7]] = [bvidArr[7], bvidArr[4]];
+  bvidArr.splice(0, 3);
+  const tmp = bvidArr.reduce((pre, bvidChar) => pre.multiply(BASE).add(bigInt(data.indexOf(bvidChar))), bigInt.zero);
+  return Number((tmp.and(MASK_CODE)).xor(XOR_CODE).toJSNumber());
 }
 
 export const a2b = function (aid) {
   // aid should be an integer, or can be transferred to integer
   let x = parseInt(aid);
-  x = (x ^ xor) + add;
-  let r = ['B', 'V', '1', ' ', ' ', '4', ' ', '1', ' ', '7', ' ', ' '];
-  for (let i = 0; i < 6; i++) {
-    r[s[i]] = table.charAt(Math.floor(x / Math.pow(58, i)) % 58);
+  const bytes = ['B', 'V', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0'];
+  let bvIndex = bytes.length - 1;
+  let tmp = (MAX_AID.or(bigInt(x))).xor(XOR_CODE);
+  while (tmp.greater(bigInt.zero)) {
+    bytes[bvIndex] = data[Number(tmp.mod(BASE).toJSNumber())];
+    tmp = tmp.divide(BASE);
+    bvIndex -= 1;
   }
-  let bvid = '';
-  for (let i = 0; i < r.length; i++) {
-    bvid += r[i];
-  }
-  return bvid.substring(2);  // remove BV prefix
+  [bytes[3], bytes[9]] = [bytes[9], bytes[3]];
+  [bytes[4], bytes[7]] = [bytes[7], bytes[4]];
+  return bytes.join('').substring(2);  // remove BV prefix
 }

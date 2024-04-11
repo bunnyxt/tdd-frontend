@@ -46,13 +46,47 @@
         <a :href="'https://api.bilibili.com/x/web-interface/view?'+queryKey+'='+queryValue" target="_blank">
           {{ 'https://api.bilibili.com/x/web-interface/view?'+queryKey+'='+queryValue }}
         </a><br>
-        算法转换采用知乎用户<a href="https://www.zhihu.com/people/-._.-" target="_blank">mcfx</a>在<a href="https://www.zhihu.com/question/381784377/answer/1099438784" target="_blank">这篇回答</a>中给出的算法进行转换
+        算法转换曾采用知乎用户<a href="https://www.zhihu.com/people/-._.-" target="_blank">mcfx</a>在<a href="https://www.zhihu.com/question/381784377/answer/1099438784" target="_blank">这篇回答</a>中给出的算法进行转换，但仅适用于小aid的情况。由于B站使用了更大的aid，该算法已失效会溢出。<br>
+        目前采用 GitHub用户<a href="https://github.com/SocialSisterYi" target="_blank">SocialSisterYi</a>在<a href="https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/misc/bvid_desc.md#javascripttypescript" target="_blank">这个仓库</a>中给出的算法进行转换，已处理大aid问题。<br>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+const bigInt = require("big-integer");
+
+// ref: https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/misc/bvid_desc.md#javascripttypescript
+const XOR_CODE = bigInt("23442827791579");
+const MASK_CODE = bigInt("2251799813685247");
+const MAX_AID = bigInt.one.shiftLeft(51);
+const BASE = bigInt(58);
+
+const data = 'FcwAPNKTMug3GV5Lj7EJnHpWsx4tb8haYeviqBz6rkCy12mUSDQX9RdoZf';
+
+function av2bv(aid) {
+  const bytes = ['B', 'V', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0'];
+  let bvIndex = bytes.length - 1;
+  let tmp = (MAX_AID.or(bigInt(aid))).xor(XOR_CODE);
+  while (tmp.greater(bigInt.zero)) {
+    bytes[bvIndex] = data[Number(tmp.mod(BASE).toJSNumber())];
+    tmp = tmp.divide(BASE);
+    bvIndex -= 1;
+  }
+  [bytes[3], bytes[9]] = [bytes[9], bytes[3]];
+  [bytes[4], bytes[7]] = [bytes[7], bytes[4]];
+  return bytes.join('');
+}
+
+function bv2av(bvid) {
+  const bvidArr = Array.from(bvid);
+  [bvidArr[3], bvidArr[9]] = [bvidArr[9], bvidArr[3]];
+  [bvidArr[4], bvidArr[7]] = [bvidArr[7], bvidArr[4]];
+  bvidArr.splice(0, 3);
+  const tmp = bvidArr.reduce((pre, bvidChar) => pre.multiply(BASE).add(bigInt(data.indexOf(bvidChar))), bigInt.zero);
+  return Number((tmp.and(MASK_CODE)).xor(XOR_CODE).toJSNumber());
+}
+
 export default {
   name: 'AidBvidConvert',
   data: function () {
@@ -106,44 +140,30 @@ export default {
           })
           .catch(() => this.$message.error('请求出错'))
       } else if (this.method === 'alg') {
-        // ref: https://www.zhihu.com/question/381784377
-        let table = 'fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF';
-        let tr = {};
-        for (let i = 0; i < 58; i++) {
-          tr[table[i]] = i;
-        }
-        let s = [11, 10, 3, 8, 4, 6];
-        let xor = 177451812;
-        let add = 8728348608;
-
         if (this.queryKey === 'aid') {
           // enc
-          let x;
+          let x,bvid;
           try {
             x = parseInt(this.queryValue)
           } catch (e) {
             this.$message.error('转换出错，aid必须为数字');
             return
           }
-          x = (x ^ xor) + add;
-          let r = ['B', 'V', '1', ' ', ' ', '4', ' ', '1', ' ', '7', ' ', ' '];
-          for (let i = 0; i < 6; i++) {
-            r[s[i]] = table.charAt(Math.floor(x / Math.pow(58, i)) % 58);
-          }
-          let rs = '';
-          for (let i = 0; i < r.length; i++) {
-            rs += r[i];
+          try {
+            bvid = av2bv(x)
+          } catch (e) {
+            this.$message.error('转换出错');
+            return
           }
           this.queryResultObj = {
             status: 'success',
             aid: this.queryValue,
-            bvid: rs
+            bvid: bvid
           };
           this.$message.success('转换成功')
         } else if (this.queryKey === 'bvid') {
           // dec
-          let r = 0;
-          let x = [];
+          let x = [],aid;
           for (let i = 0; i < this.queryValue.length; i++) {
             x.push(this.queryValue.charAt(i));
           }
@@ -154,23 +174,22 @@ export default {
           if (!(x[0] === 'B' && x[1] === 'V')) {
             this.$message.error('转换出错，bvid必须以BV开头');
             return
-          }
-          if (!(x[2] === '1' && x[5] === '4' && x[7] === '1' && x[9] === '7')) {
-            this.$message.error('转换出错，目前只支持BV1??4?1?7??格式的bvid');
-            return
-          }
+          } 
           for (let i = 2; i < 12; i++) {
-            if (table.indexOf(x[i]) === -1) {
+            if (data.indexOf(x[i]) === -1) {
               this.$message.error('转换出错，bvid包含不支持的字符');
               return
             }
           }
-          for (let i = 0; i < 6; i++) {
-            r += tr[x[s[i]]] * Math.pow(58, i);
+          try {
+            aid = bv2av(this.queryValue)
+          } catch (e) {
+            this.$message.error('转换出错');
+            return
           }
           this.queryResultObj = {
             status: 'success',
-            aid: String((r - add) ^ xor),
+            aid: aid,
             bvid: this.queryValue
           };
           this.$message.success('转换成功')
