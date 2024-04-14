@@ -25,7 +25,7 @@
     <a href="https://afdian.net/@bunnyxt" target="_blank">{{ $t('donate_tdd') }}</a> |
     <router-link to="/about/contactus">{{ $t('contact_us') }}</router-link>
     <br/>
-    2017~2021 © All Rights Reserved
+    2017 ~ 2024 © All Rights Reserved
   </a-layout-footer>
 </template>
 
