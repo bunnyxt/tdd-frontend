@@ -35,7 +35,7 @@
 
 ## 快速开始
 
-1. 安装`Node.js`以及`npm`。具体需要的版本没有仔细研究过，我本地用的开发环境是`Node.js v12.18.2`以及`npm 6.14.6`，最新版本的应该也没问题
+1. 安装`Node.js`以及`npm`。具体需要的版本没有仔细研究过，我本地用的开发环境是`Node.js v12.18.2`以及`npm 6.14.6`，~~最新版本的应该也没问题~~ 目前只支持node 12
 2. 克隆仓库，`git clone https://github.com/bunnyxt/tdd-frontend.git && cd tdd-frontend`
 3. 填写配置，在`src/config/index.js`中，目前只需要填写`recaptchaSiteKey`，即配置[Google reCAPTCHA](https://www.google.com/recaptcha/about/)所用的客户端密钥
 4. 安装依赖，`npm install`，这一步可能会花一点时间
