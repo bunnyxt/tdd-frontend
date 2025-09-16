@@ -5,13 +5,15 @@
     "api_doc": "接口文档",
     "source_code": "项目源码",
     "donate_tdd": "资助本站",
-    "contact_us": "联系我们"
+    "contact_us": "联系我们",
+    "friend_links": "友情链接："
   },
   "en": {
     "api_doc": "Api Doc",
     "source_code": "Source Code",
     "donate_tdd": "Donate TDD",
-    "contact_us": "Contact Us"
+    "contact_us": "Contact Us",
+    "friend_links": "Friend Links:"
   }
 }
 </i18n>
@@ -25,7 +27,10 @@
     <a href="https://afdian.net/@bunnyxt" target="_blank">{{ $t('donate_tdd') }}</a> |
     <router-link to="/about/contactus">{{ $t('contact_us') }}</router-link>
     <br/>
-    2017 ~ 2024 © All Rights Reserved
+    {{ $t('friend_links') }}
+    <a href="https://vcpedia.cn/" target="_blank">VCPedia</a>
+    <br/>
+    2017 ~ 2025 © All Rights Reserved
   </a-layout-footer>
 </template>
 
