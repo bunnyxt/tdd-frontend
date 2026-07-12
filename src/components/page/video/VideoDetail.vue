@@ -7,7 +7,6 @@
     "video_not_tracked_prompt": "可能是因为该视频不在本站收录范围内",
     "data_selection": "数据选择",
     "recent_data": "近期数据",
-    "last_3_days_hourly_data": "近三日每小时数据",
     "load_all": "加载全部",
     "refresh_data": "刷新数据",
     "data_total_already_loaded_prompt": "共{total}条，已加载{loaded}条",
@@ -25,7 +24,6 @@
     "video_not_tracked_prompt": "It may be due to this video not satisfied the tracking requirements of this site.",
     "data_selection": "Data Selection",
     "recent_data": "Recent Data",
-    "last_3_days_hourly_data": "Last 3 Days Hourly Data",
     "load_all": "Load All",
     "refresh_data": "Refresh",
     "data_total_already_loaded_prompt": "{total} records in total, {loaded} already loaded",
@@ -264,31 +262,6 @@
                               >{{ $t('refresh_data') }}</a-button>
                             </div>
                           </div>
-                          <div>
-                            <a-checkbox
-                              v-model="enableHourlyVideoRecords"
-                              :disabled="hourlyVideoRecords.length === 0"
-                              @change="enableHistoryVideoRecordsCheckboxChangeHandler"
-                              style="margin-bottom: 4px"
-                            >{{ $t('last_3_days_hourly_data') }}</a-checkbox>
-                            <div v-if="hourlyVideoRecords.length > 0" style="margin-bottom: 4px">
-                              {{ $t('data_total_already_loaded_prompt', { total: hourlyVideoRecords.length, loaded: hourlyVideoRecords.length }) }}
-                            </div>
-                            <div>
-                              <a-button
-                                type="link"
-                                size="small"
-                                :disabled="hourlyVideoRecords.length !== 0"
-                                @click="getHistoryVideoRecords(aid)"
-                              >{{ $t('load_all') }}</a-button>
-                              <a-button
-                                type="link"
-                                size="small"
-                                :disabled="hourlyVideoRecords.length === 0"
-                                @click="getHistoryVideoRecords(aid)"
-                              >{{ $t('refresh_data') }}</a-button>
-                            </div>
-                          </div>
                         </a-spin>
                       </div>
                     </a-popover>
@@ -371,10 +344,6 @@ export default {
       isLoadingCurrentVideoRecordsTotal: false,
       currentVideoRecordsTotalLoaded: false,
       enableCurrentVideoRecords: true,
-      // hourlyVideoRecords
-      hourlyVideoRecords: [],
-      isLoadingHourlyVideoRecords: false,
-      enableHourlyVideoRecords: true,
       // video records related end
       currentDataCategory: ['recordChart'],
       recordChartEnterCount: 1,
@@ -388,20 +357,11 @@ export default {
       if (this.enableCurrentVideoRecords) {
         records = records.concat(this.currentVideoRecords);
       }
-      if (this.enableHourlyVideoRecords) {
-        const addedList = records.map(record => record.added);
-        this.hourlyVideoRecords.forEach(record => {
-          if (!addedList.includes(record.added)) {
-            records.push(record);
-          }
-        });
-      }
       return records.sort((a, b) => a.added - b.added);
     },
     isLoadingVideoRecords: function () {
       return this.isLoadingCurrentVideoRecordsBrief
-        || this.isLoadingCurrentVideoRecordsTotal
-        || this.isLoadingHourlyVideoRecords;
+        || this.isLoadingCurrentVideoRecordsTotal;
     },
     fromBvid: function () {
       return !!this.$route.params.bvid;
@@ -439,7 +399,6 @@ export default {
     aid: function(newAid) {
       this.getVideoInfo(newAid);
       this.initCurrentVideoRecords(newAid);
-      this.getHistoryVideoRecords(newAid);
       this.addVisitHistoryVideo(newAid);
       this.initVideoCompareListRelated(newAid);
     },
@@ -560,29 +519,6 @@ export default {
           that.isLoadingCurrentVideoRecordsTotal = false;
         });
     },
-    getHistoryVideoRecords: function (aid) {
-      this.isLoadingHourlyVideoRecords = true;
-      if (this.hourlyVideoRecords.length > 0) {
-        this.$service.reportInteraction('video_detail_update_history_video_records',
-          JSON.stringify({ aid }));
-      }
-      
-      const that = this;
-      this.$axios.get(`video/${aid}/record/hourly`)
-        .then(function (response) {
-          that.hourlyVideoRecords = response.data.map(record => ({
-            ...record,
-            id: -record.added,  // add unique id
-            aid: aid,  // add aid
-          }));
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(function () {
-          that.isLoadingHourlyVideoRecords = false;
-        });
-    },
     videoMemberNameClickHandler: function (mid) {
       this.$router.push('/member/' + mid);
     },
@@ -629,19 +565,10 @@ export default {
           JSON.stringify({ aid: this.aid, to: this.enableCurrentVideoRecords }));
       }
     },
-    enableHistoryVideoRecordsCheckboxChangeHandler: function () {
-      if (this.videoRecords.length === 0) {
-        this.enableHourlyVideoRecords = true;
-      } else {
-        this.$service.reportInteraction('video_detail_change_hourly_video_records_checkbox',
-          JSON.stringify({ aid: this.aid, to: this.enableHourlyVideoRecords }));
-      }
-    },
   },
   created: function() {
     this.getVideoInfo(this.aid, true);
     this.initCurrentVideoRecords(this.aid);
-    this.getHistoryVideoRecords(this.aid);
     this.addVisitHistoryVideo(this.aid);
     this.initVideoCompareListRelated(this.aid);
   },
