@@ -2,6 +2,13 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const { IgnorePlugin } = require('webpack');
 const path = require("path");
 
+// Only run the bundle analyzer when explicitly requested via `npm run analyz`
+// (which sets npm_config_report). Otherwise a plain `npm run build` would start
+// the analyzer server and pop open a browser tab every time.
+const analyzerPlugins = process.env.npm_config_report
+  ? [new BundleAnalyzerPlugin({ analyzerPort: 8887 })]
+  : [];
+
 module.exports = {
   productionSourceMap: false,
   configureWebpack: {
@@ -11,9 +18,7 @@ module.exports = {
       }
     },
     plugins: [
-      new BundleAnalyzerPlugin({
-        analyzerPort: 8887
-      }),
+      ...analyzerPlugins,
       new IgnorePlugin(/^\.\/locale$/, /moment$/),  // ignore moment.js locales
     ]
   },
