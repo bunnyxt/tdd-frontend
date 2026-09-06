@@ -2,10 +2,12 @@
 <i18n>
 {
   "zh": {
-    "register_agreement": "点击注册，代表你已阅读并同意本站的用户协议与隐私政策"
+    "register_agreement": "点击注册，代表你已阅读并同意本站的用户协议与隐私政策",
+    "legacy_phone_account_help": "此前使用手机号注册？请加入 QQ 群 537793686 或联系 bunnyxt@outlook.com 咨询站长。本站不再提供短信验证或自动找回。"
   },
   "en": {
-    "register_agreement": "by click Register, it means that you have read and agree to the user agreement and privacy policy of this site"
+    "register_agreement": "By clicking Register, you confirm that you have read and agree to this site's user agreement and privacy policy.",
+    "legacy_phone_account_help": "Previously registered with a phone number? Contact the site administrator via QQ group 537793686 or bunnyxt@outlook.com. SMS verification and automatic recovery are no longer available."
   }
 }
 </i18n>
@@ -65,6 +67,7 @@
             >{{ $t('login') }}</a-button>
 <!--            <a-button style="float: left; margin-left: 12px">忘记密码</a-button>-->
           </div>
+          <div class="legacy-phone-account-help">{{ $t('legacy_phone_account_help') }}</div>
         </div>
       </div>
       <div v-show="currentKeys.indexOf('register') !== -1">
@@ -92,20 +95,14 @@
             style="margin-bottom: 8px"
             @blur="firstEnterRegisterPassword = false"
           />
-          <div style="margin-bottom: 8px">{{ $t('validation_method') }}</div>
-          <a-input-group compact style="margin-bottom: 12px">
-            <a-select defaultValue="email" v-model="registerValidationMethod" style="width: 80px">
-              <a-select-option value="email">{{ $t('email') }}</a-select-option>
-              <a-select-option value="phone">{{ $t('phone') }}</a-select-option>
-            </a-select>
-            <a-input
-              :placeholder="registerValidationMethodName"
-              v-model="registerValidation"
-              allowClear
-              style="width: calc(100% - 80px)"
-              @blur="firstEnterRegisterValidation = false"
-            />
-          </a-input-group>
+          <div style="margin-bottom: 8px">{{ $t('email') }}</div>
+          <a-input
+            :placeholder="$t('email')"
+            v-model="registerValidation"
+            allowClear
+            style="margin-bottom: 12px"
+            @blur="firstEnterRegisterValidation = false"
+          />
           <div v-if="registerPrompt.length > 0" style="margin-bottom: 12px">
             <span style="color: red">{{ registerPrompt }}</span>
           </div>
@@ -139,6 +136,7 @@
           <div>
             <div style="font-size: 10px; line-height: 10px; margin-top: 12px">*{{ $t('register_agreement') }}</div>
           </div>
+          <div class="legacy-phone-account-help">{{ $t('legacy_phone_account_help') }}</div>
         </div>
       </div>
     </div>
@@ -165,7 +163,6 @@ export default {
       firstEnterRegisterPassword: true,
       firstEnterRegisterValidation: true,
       firstEnterRegisterCode: true,
-      registerValidationMethod: 'email',
       registerUsername: '',
       registerPassword: '',
       registerValidation: '',
@@ -230,13 +227,6 @@ export default {
         prompt += this.loginPasswordValidity + '，';
       }
       return prompt.slice(0, prompt.length - 1);
-    },
-    registerValidationMethodName: function () {
-      const nameDict = {
-        'email': this.$t('email'),
-        'phone': this.$t('phone'),
-      };
-      return nameDict[this.registerValidationMethod];
     },
     registerUsernameString: function () {
       return String(this.registerUsername);
@@ -325,27 +315,16 @@ export default {
       return style;
     },
     registerValidationValidity: function () {
-      if (this.registerValidationMethod === 'phone') {
-        const phone = this.registerValidationString;
-        let regex = /^1[3456789]\d{9}$/;
-        if (!regex.test(phone)) {
-          return '手机号不合法，只支持中国大陆11位手机号';
-        }
-        return 'ok';
-      } else if (this.registerValidationMethod === 'email') {
-        const email = this.registerValidationString;
-        // eslint-disable-next-line no-useless-escape
-        let regex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-        if (!regex.test(email)) {
-          return '邮箱地址不合法，请检查输入';
-        }
-        if (email.length > 200) {
-          return '邮箱地址过长，请检查输入';
-        }
-        return 'ok';
-      } else {
-        return '未知验证方式';
+      const email = this.registerValidationString;
+      // eslint-disable-next-line no-useless-escape
+      let regex = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+      if (!regex.test(email)) {
+        return '邮箱地址不合法，请检查输入';
       }
+      if (email.length > 200) {
+        return '邮箱地址过长，请检查输入';
+      }
+      return 'ok';
     },
     canGoSendCodeButton: function () {
       return this.registerValidationValidity === 'ok' && this.registerRecaptchaStatus;
@@ -473,7 +452,7 @@ export default {
           'Content-Type': 'application/json'
         },
         data: {
-          method: this.registerValidationMethod,
+          method: 'email',
           validation: this.registerValidation,
           username: this.registerUsernameString,
           password: this.registerPasswordString,
@@ -508,9 +487,6 @@ export default {
                 break;
               case 'email already used':
                 that.$message.error('邮箱已被绑定');
-                break;
-              case 'phone already used':
-                that.$message.error('手机号已被绑定');
                 break;
               default:
                 that.$message.error(response.data.message);
@@ -569,7 +545,6 @@ export default {
             that.registerUsername = '';
             that.registerPassword = '';
             that.registerValidation = '';
-            that.registerValidationMethod = 'email';
             that.registerCode = '';
             that.regkey = '';
             that.regExpired = 0;
@@ -590,9 +565,6 @@ export default {
                 break;
               case 'email already used':
                 that.$message.error('邮箱已被绑定！');
-                break;
-              case 'phone already used':
-                that.$message.error('手机号已被绑定！');
                 break;
               default:
                 that.$message.error(response.data.message);
@@ -626,3 +598,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.legacy-phone-account-help {
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 12px;
+  line-height: 18px;
+  margin-top: 16px;
+}
+</style>
