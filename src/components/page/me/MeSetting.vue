@@ -68,36 +68,6 @@
           <a-form-item label="邮箱">
             <div v-if="user.email">
               {{ user.email }}
-              <template v-if="user.phone">
-                <a-popconfirm
-                  placement="bottom"
-                  okText="确认"
-                  cancelText="取消"
-                  @confirm="unbindEmail"
-                >
-                  <template slot="title">
-                    取消绑定后，您将无法通过邮箱找回账号密码，<br/>
-                    Gravatar头像也无法显示。确认取消绑定？
-                  </template>
-                  <a-button
-                    size="small"
-                    style="margin-left: 12px"
-                    :loading="isUnbindingEmail"
-                  >取消绑定</a-button>
-                </a-popconfirm>
-              </template>
-              <template v-else>
-                <a-tooltip>
-                  <template slot="title">
-                    用户至少留有邮箱/手机一项绑定
-                  </template>
-                  <a-button
-                    size="small"
-                    style="margin-left: 12px"
-                    :disabled="true"
-                  >取消绑定</a-button>
-                </a-tooltip>
-              </template>
             </div>
             <div v-else>
               未绑定
@@ -276,8 +246,6 @@ export default {
       bindEmailCodeSendRequested: false,
       isSendingBindEmailCode: false,
       isSendingBindEmailValidation: false,
-      // unbind email
-      isUnbindingEmail: false,
       // change password
       changePasswordModalVisibility: false,
       changePasswordForm: this.$form.createForm(this, { name: 'changePasswordForm' }),
@@ -328,50 +296,6 @@ export default {
             that.isLoadingUserInfo = false;
           });
       });
-    },
-    unbindEmail: function () {
-      let that = this;
-      this.isUnbindingEmail = true;
-
-      that.$axios.delete('/user/bind/email')
-        .then(function (response) {
-          let data = response.data;
-          if (data.status === 'success') {
-            that.$message.success('取消绑定邮箱成功！');
-            // update email
-            that.user.email = null;
-            // update store and local storage
-            that.$store.commit('setUserDetail', that.user);
-            localStorage.setItem('tddUserDetail', JSON.stringify(that.user));
-          } else {
-            that.$message.error('取消绑定邮箱失败！');
-            switch (data.message) {
-              case 'user have not bind email yet':
-                that.$message.error('用户还未绑定邮箱！');
-                break;
-              case 'cannot unbind last only validation':
-                that.$message.error('用户至少留有邮箱/手机一项绑定！');
-                break;
-              default:
-                that.$message.error(data.message);
-            }
-          }
-        })
-        .catch(function (error) {
-          that.$message.error('取消绑定邮箱失败！');
-          if (error.response) {
-            if (error.response.data.code === 40102) {
-              that.$util.tddErrorHandler40102(that, true);
-            } else {
-              console.log(error.response);
-            }
-          } else {
-            console.log(error);
-          }
-        })
-        .finally(function () {
-          that.isUnbindingEmail = false;
-        })
     },
     emailValidator: (rule, value, callback) => {
       let regex = /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/;
