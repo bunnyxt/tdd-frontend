@@ -50,13 +50,6 @@
           <div v-if="loginPrompt.length > 0" style="margin-bottom: 12px">
             <span style="color: red">{{ loginPrompt }}</span>
           </div>
-          <vue-grecaptcha
-            ref="loginRecaptcha"
-            @verify="loginRecaptchaVerifyCallback"
-            @expired="loginRecaptchaExpiredCallback"
-            :sitekey="recaptchaSiteKey"
-            style="margin-bottom: 12px"
-          ></vue-grecaptcha>
           <div style="overflow: hidden">
             <a-button
               type="primary"
@@ -106,13 +99,6 @@
           <div v-if="registerPrompt.length > 0" style="margin-bottom: 12px">
             <span style="color: red">{{ registerPrompt }}</span>
           </div>
-          <vue-grecaptcha
-            ref="registerRecaptcha"
-            @verify="registerRecaptchaVerifyCallback"
-            @expired="registerRecaptchaExpiredCallback"
-            :sitekey="recaptchaSiteKey"
-            style="margin-bottom: 12px"
-          ></vue-grecaptcha>
           <a-button
             type="primary"
             :disabled="!(canGoSendCodeButton && codeSendingCd === 0)"
@@ -144,20 +130,15 @@
 </template>
 
 <script>
-import VueGrecaptcha from 'vue-recaptcha'
-
 export default {
   name: 'TddLoginSlider',
   data: function () {
     return {
-      recaptchaSiteKey: this.$config.recaptchaSiteKey,
       currentKeys: ['login'],
       firstEnterLoginUsername: true,
       firstEnterLoginPassword: true,
       loginUsername: '',
       loginPassword: '',
-      loginRecaptchaStatus: false,
-      loginRecaptchaResponse: '',
       isLoginIn: false,
       firstEnterRegisterUsername: true,
       firstEnterRegisterPassword: true,
@@ -167,22 +148,12 @@ export default {
       registerPassword: '',
       registerValidation: '',
       registerCode: '',
-      registerRecaptchaStatus: false,
-      registerRecaptchaResponse: '',
       isSendingCode: false,
       codeSendingCd: 0,
       regkey: '',
       regExpired: 0,
       isSendingReg: false
     }
-  },
-  components: {
-    VueGrecaptcha
-  },
-  watch: {
-    // registerRecaptchaResponse: function () {
-    //   console.log(this.registerRecaptchaResponse);
-    // }
   },
   computed: {
     loginUsernameString: function () {
@@ -216,7 +187,7 @@ export default {
       return 'ok';
     },
     canGoLogin: function () {
-      return this.loginUsernameValidity === 'ok' && this.loginPasswordValidity === 'ok' && this.loginRecaptchaStatus;
+      return this.loginUsernameValidity === 'ok' && this.loginPasswordValidity === 'ok';
     },
     loginPrompt: function () {
       let prompt = '';
@@ -327,7 +298,7 @@ export default {
       return 'ok';
     },
     canGoSendCodeButton: function () {
-      return this.registerValidationValidity === 'ok' && this.registerRecaptchaStatus;
+      return this.registerValidationValidity === 'ok';
     },
     registerPrompt: function () {
       let prompt = '';
@@ -357,22 +328,6 @@ export default {
     drawerCloseHandler: function() {
       this.$store.commit('changeLoginSliderVisibility');
     },
-    loginRecaptchaVerifyCallback: function (response) {
-      this.loginRecaptchaStatus = true;
-      this.loginRecaptchaResponse = response;
-    },
-    loginRecaptchaExpiredCallback: function () {
-      this.loginRecaptchaStatus = false;
-      this.loginRecaptchaResponse = '';
-    },
-    registerRecaptchaVerifyCallback: function (response) {
-      this.registerRecaptchaStatus = true;
-      this.registerRecaptchaResponse = response;
-    },
-    registerRecaptchaExpiredCallback: function () {
-      this.registerRecaptchaStatus = false;
-      this.registerRecaptchaResponse = '';
-    },
     onLoginButtonClick: function () {
       // go request
       this.isLoginIn = true;
@@ -385,8 +340,7 @@ export default {
         },
         data: {
           username: this.loginUsernameString,
-          password: this.loginPasswordString,
-          recaptcha: this.loginRecaptchaResponse
+          password: this.loginPasswordString
         }
       })
         .then(function (response) {
@@ -408,8 +362,6 @@ export default {
             // clear status
             that.firstEnterLoginUsername = true;
             that.firstEnterLoginPassword = true;
-            that.loginRecaptchaStatus = false;
-            that.loginRecaptchaResponse = '';
 
             // close slider
             that.$store.commit('changeLoginSliderVisibility');
@@ -439,7 +391,6 @@ export default {
         })
         .finally(function () {
           that.isLoginIn = false;
-          that.$refs.loginRecaptcha.reset();
         });
     },
     onRegisterSendCodeButtonClick: function () {
@@ -455,8 +406,7 @@ export default {
           method: 'email',
           validation: this.registerValidation,
           username: this.registerUsernameString,
-          password: this.registerPasswordString,
-          recaptcha: this.registerRecaptchaResponse
+          password: this.registerPasswordString
         }
       })
         .then(function (response) {
@@ -479,9 +429,6 @@ export default {
           } else {
             that.$message.error('获取验证码失败！');
             switch (response.data.message) {
-              case 'fail to validate recaptcha':
-                that.$message.error('recaptcha人机身份验证未通过');
-                break;
               case 'username already used':
                 that.$message.error('用户名已被占用');
                 break;
@@ -515,7 +462,6 @@ export default {
         })
         .finally(function () {
           that.isSendingCode = false;
-          that.$refs.registerRecaptcha.reset();
         });
     },
     onRegisterSendRegButtonClick: function () {
@@ -556,9 +502,6 @@ export default {
             switch (response.data.message) {
               case 'no register task found':
                 that.$message.error('未找到相应的注册任务！');
-                break;
-              case 'fail to validate recaptcha':
-                that.$message.error('recaptcha人机身份验证未通过！');
                 break;
               case 'username already used':
                 that.$message.error('用户名已被占用！');

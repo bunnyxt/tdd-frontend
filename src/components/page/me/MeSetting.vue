@@ -98,39 +98,14 @@
                       placeholder="请输入绑定邮箱"
                     />
                   </a-form-item>
-                  <a-form-item
-                    label="人机验证"
-                  >
-                    <div
-                      v-decorator="[
-                        'recaptcha',
-                        {
-                          rules: [
-                            { required: true },
-                          ]
-                        },
-                      ]"
-                    >
-                      <template v-if="bindEmailRecaptchaPassed">
-                        <a-icon type="check-circle" style="margin-right: 8px" />已通过
-                        <a-button
-                          type="primary"
-                          style="margin-left: 8px"
-                          @click="bindEmailSendCode"
-                          :loading="isSendingBindEmailCode"
-                          :disabled="isSendingBindEmailCode || bindEmailCodeSendingCd > 0"
-                        >发送验证码</a-button>
-                        <span v-if="bindEmailCodeSendingCd > 0" style="margin-left: 8px">没收到验证码？{{ bindEmailCodeSendingCd }}秒后重新获取</span>
-                      </template>
-                      <vue-grecaptcha
-                        v-else
-                        ref="bindEmailRecaptcha"
-                        @verify="bindEmailRecaptchaVerifyCallback"
-                        @expired="bindEmailRecaptchaExpiredCallback"
-                        :sitekey="recaptchaSiteKey"
-                        style="margin-bottom: 12px"
-                      ></vue-grecaptcha>
-                    </div>
+                  <a-form-item>
+                    <a-button
+                      type="primary"
+                      @click="bindEmailSendCode"
+                      :loading="isSendingBindEmailCode"
+                      :disabled="isSendingBindEmailCode || bindEmailCodeSendingCd > 0"
+                    >发送验证码</a-button>
+                    <span v-if="bindEmailCodeSendingCd > 0" style="margin-left: 8px">没收到验证码？{{ bindEmailCodeSendingCd }}秒后重新获取</span>
                   </a-form-item>
                   <a-form-item
                     label="验证码"
@@ -220,13 +195,10 @@
 </template>
 
 <script>
-import VueGrecaptcha from 'vue-recaptcha'
-
 export default {
   name: 'MeSetting',
   data: function () {
     return {
-      recaptchaSiteKey: this.$config.recaptchaSiteKey,
       isLoadingUserInfo: false,
       user: {},
       formLayout: 'horizontal',
@@ -238,12 +210,9 @@ export default {
       // bind email
       bindEmailModalVisibility: false,
       bindEmailForm: this.$form.createForm(this, { name: 'bindEmailForm' }),
-      bindEmailRecaptchaPassed: false,
-      bindEmailRecaptchaResponse: '',
       bindEmailBindKey: '',
       bindEmailExpired: 0,
       bindEmailCodeSendingCd: 0,
-      bindEmailCodeSendRequested: false,
       isSendingBindEmailCode: false,
       isSendingBindEmailValidation: false,
       // change password
@@ -251,9 +220,6 @@ export default {
       changePasswordForm: this.$form.createForm(this, { name: 'changePasswordForm' }),
       isChangingPassword: false,
     }
-  },
-  components: {
-    VueGrecaptcha
   },
   watch: {
 
@@ -370,32 +336,15 @@ export default {
     // password2Validator: (rule, value, callback) => {
     //   callback();
     // },
-    bindEmailRecaptchaVerifyCallback: function (response) {
-      this.bindEmailRecaptchaPassed = true;
-      this.bindEmailRecaptchaResponse = response;
-    },
-    bindEmailRecaptchaExpiredCallback: function () {
-      this.bindEmailRecaptchaPassed = false;
-      this.bindEmailRecaptchaResponse = '';
-    },
     bindEmailSendCode: function () {
       const { getFieldValue, getFieldError } = this.bindEmailForm;
       if (!(
         getFieldValue('email') !== undefined &&
-        getFieldError('email') === undefined &&
-        this.bindEmailRecaptchaPassed
+        getFieldError('email') === undefined
       )) {
         this.$message.warn('请先正确填写参数');
         return;
       } // TODO refactor, if these not satisfied, button should not be able to click
-
-      // need do recaptcha again
-      if (this.bindEmailCodeSendRequested) {
-        this.$message.warn('请重新进行人机验证');
-        this.bindEmailRecaptchaPassed = false;
-        this.bindEmailCodeSendRequested = false;
-        return;
-      }
 
       this.isSendingBindEmailCode = true;
       let that = this;
@@ -407,8 +356,7 @@ export default {
           'Content-Type': 'application/json'
         },
         data: {
-          email: getFieldValue('email'),
-          recaptcha: this.bindEmailRecaptchaResponse
+          email: getFieldValue('email')
         }
       })
         .then(function (response) {
@@ -428,10 +376,6 @@ export default {
           } else {
             that.$message.error('验证码发送失败！');
             switch (data.message) {
-              case 'fail to validate recaptcha':
-                that.$message.error('人机验证未通过！');
-                that.$message.error(JSON.stringify(data.detail));
-                break;
               case 'user have already bind email':
                 that.$message.error('用户已经绑定过邮箱了！');
                 break;
@@ -460,7 +404,6 @@ export default {
         })
         .finally(function () {
           that.isSendingBindEmailCode = false;
-          that.bindEmailCodeSendRequested = true;
         })
     },
     bindEmailSendValidation: function () {
@@ -477,11 +420,6 @@ export default {
       // check expired
       if ((new Date()).valueOf() > this.bindEmailExpired * 1000) {
         this.$message.warn('验证码过期，请重新获取');
-        this.bindEmailRecaptchaPassed = false;
-        this.bindEmailRecaptchaResponse = '';
-        if (this.$refs.bindEmailRecaptcha) {
-          this.$refs.bindEmailRecaptcha.reset();
-        }
         return
       }
 
@@ -504,13 +442,8 @@ export default {
           if (data.status === 'success') {
             that.$message.success('绑定邮箱成功！');
             // reset
-            that.bindEmailRecaptchaPassed = false;
-            that.bindEmailRecaptchaResponse = '';
             that.bindEmailBindKey = '';
             that.bindEmailExpired = 0;
-            if (that.$refs.bindEmailRecaptcha) {
-              that.$refs.bindEmailRecaptcha.reset();
-            }
             // update email
             that.user.email = data.detail.email;
             // update store and local storage
@@ -523,11 +456,6 @@ export default {
             switch (data.message) {
               case 'code expired':
                 that.$message.error('验证码已过期！请重新获取');
-                that.bindEmailRecaptchaPassed = false;
-                that.bindEmailRecaptchaResponse = '';
-                if (that.$refs.bindEmailRecaptcha) {
-                  that.$refs.bindEmailRecaptcha.reset();
-                }
                 break;
               case 'wrong code':
                 that.$message.error('验证码错误！');
