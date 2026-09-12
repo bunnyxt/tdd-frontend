@@ -146,40 +146,7 @@
             </div>
             <p><a-icon type="calendar" style="margin-right: 12px"/>{{ $util.tsToDateString(video.pubdate) }}</p>
             <p><a-icon type="database" style="margin-right: 12px"/>{{ video.tname }}</p>
-            <template v-if="$config.enableVideoAttributeFlags && videoAttributeFlags.length > 0 && $store.state.isUserLoggedIn">
-              <p>
-                <a-icon type="flag" style="margin-right: 12px" />
-                <a-tag
-                  v-for="flag in videoAttributeFlags"
-                  :key="flag.name"
-                  color="red"
-                  style="margin-bottom: 4px; cursor: pointer"
-                >
-                  <a-popover>
-                    <template slot="content">
-                      {{ flag.message }}
-                    </template>
-                    {{ flag.name }}
-                  </a-popover>
-                </a-tag>
-                <a-tag
-                  color="red"
-                  style="margin-bottom: 4px; cursor: pointer"
-                >
-                  <a-popover>
-                    <template slot="content">
-                      {{ $t('video_detail.attribute_prompt') }}<br/>
-                      <i18n path="video_detail.attribute_reference" tag="label" for="video_detail.attribute_reference_here">
-                        <a href="https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/video/info.md#获取视频详细信息web端" target="_blank">{{ $t('video_detail.attribute_reference_here') }}</a>
-                      </i18n>
-                    </template>
-                    <a-icon type="question-circle" />
-                  </a-popover>
-                </a-tag>
-              </p>
-            </template>
             <tdd-video-action-bar :aid="aid" />
-            <tdd-moe-girl-wiki-widget v-if="$config.enableMoegirlWikiWidget" type="video" url="https://zh.moegirl.org.cn/普通DISCO" style="margin-bottom: 12px" />
             <div style="margin-bottom: 12px">
               <a-tag v-for="tag in $util.getTagList(video)" :key="tag.title" :color="tag.color" style="margin-bottom: 4px">{{ tag.title }}</a-tag>
               <a-tag>{{ video.videos }}P</a-tag>
@@ -316,7 +283,6 @@ import TddVideoDescription from "../../common/TddVideoDescription";
 import TddVideoActionBar from "../../common/TddVideoActionBar";
 import TddVideoDataBlock from "@/components/common/TddVideoDataBlock";
 import TddVideoHistoryLineChart from "@/components/chart/TddVideoHistoryLineChart";
-import TddMoeGirlWikiWidget from "@/components/common/TddMoeGirlWikiWidget";
 import VideoDetailVideoIdLink from "@/components/page/video/VideoDetailVideoIdLink";
 
 export default {
@@ -329,7 +295,6 @@ export default {
     TddVideoActionBar,
     TddVideoDataBlock,
     TddVideoHistoryLineChart,
-    TddMoeGirlWikiWidget,
     VideoDetailVideoIdLink,
   },
   data: function() {
@@ -386,13 +351,6 @@ export default {
     },
     _clientMode: function () {
       return this.$store.getters.clientMode;
-    },
-    videoAttributeFlags: function () {
-      if (this.video && this.video.attribute) {
-        return this.$util.getVideoAttributeFlags(this.video.attribute);
-      } else {
-        return [];
-      }
     },
   },
   watch: {

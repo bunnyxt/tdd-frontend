@@ -245,7 +245,6 @@ export default {
       isLoadingDonateLogList: false,
       donateLogList: [],
       jumpVideoTargetIdObj: { id: '', type: 'aid' },
-      videoAidTitleList: [],
       isLoadingRandomVideoList: false,
       randomVideoList: [],
       isLoadingRandomMemberList: false,
@@ -256,14 +255,6 @@ export default {
     }
   },
   computed: {
-    videoAidTitleListStringified: function () {
-      return this.videoAidTitleList.map(x => {
-        let obj = {};
-        obj.aid = '' + x.aid;
-        obj.title = x.title;
-        return obj;
-      });
-    },
     refreshString: function () {
       if (this.$store.getters.clientMode === 'MOBILE') {
         return '';
@@ -301,35 +292,6 @@ export default {
       this.$router.push(`/video/${
         {aid: 'av', bvid: 'BV'}[this.jumpVideoTargetIdObj.type]
       }${this.jumpVideoTargetIdObj.id}`);
-    },
-    onAidInputChange: function () {
-      if (this.videoAidInput && this.videoAidInput.toLowerCase().startsWith('av')) {
-        this.videoAidInput = this.videoAidInput.slice(2);
-      }
-      if (this.videoAidInput && this.videoAidInput.length >= 4) {
-        this.fetchVideoAidTileList();
-      } else {
-        this.videoAidTitleList = [];
-      }
-    },
-    fetchVideoAidTileList: function () {
-      this.isLoadingVideoAidTitleList = true;
-      if ('' + parseInt(this.videoAidInput) !== this.videoAidInput) {
-        this.isLoadingVideoAidTitleList = false;
-        return;
-      }
-      let url = 'video/aidtitle?aid=' + this.videoAidInput;
-      let that = this;
-      this.$axios.get(url)
-        .then(function (response) {
-          that.videoAidTitleList = response.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-        })
-        .finally(function () {
-          that.isLoadingVideoAidTitleList = false;
-        });
     },
     fetchUpdateLogList: function () {
       this.isLoadingUpdateLogList = true;
