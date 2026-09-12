@@ -1,4 +1,1 @@
-export default {
-  enableMoegirlWikiWidget: false,
-  enableVideoAttributeFlags: false,
-}
+export default {}
