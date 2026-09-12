@@ -9,9 +9,6 @@
     "statistics_summary": "数据总计",
     "info_history": "信息变更",
     "fetching_member_info_history_prompt": "正在获取用户{0}的个人信息变更历史数据...",
-    "member_info_history_prompt": "UP主信息不定时更新；若您是本UP主且不希望自己的历史信息变更记录被公开，请{0}",
-    "contact_admin": "联系站长",
-    "member_info_history_visibility_prompt": "历史信息变更记录仅{0}后可见哦~",
     "followers_trending": "粉丝趋势",
     "statistics_summary_trending": "数据总计趋势",
     "fetching_member_follower_history_prompt": "正在获取用户{0}的历史粉丝数据...",
@@ -37,9 +34,6 @@
     "statistics_summary": "Statistics Summary",
     "info_history": "Info History",
     "fetching_member_info_history_prompt": "Now fetching info history of member {0}...",
-    "member_info_history_prompt": "Uploader Info updated from time to time. If you are the uploader and do not want these info be public, please {0}.",
-    "contact_admin": "contact admin",
-    "member_info_history_visibility_prompt": "Info history only available after {0}.",
     "followers_trending": "Followers Trending",
     "statistics_summary_trending": "Statistics Summary Trending",
     "fetching_member_follower_history_prompt": "Now fetching follower history of member {0}...",
@@ -153,25 +147,7 @@
               </a-spin>
             </div>
             <div v-else>
-              <template v-if="$store.state.isUserLoggedIn">
-                <a-alert type="warning" banner closable style="margin-bottom: 16px">
-                  <template slot="message">
-                    <i18n path="member_info_history_prompt" tag="label">
-                      <router-link to="/about/contactus">{{ $t('contact_admin') }}</router-link>
-                    </i18n>
-                  </template>
-                </a-alert>
-                <tdd-member-log-table :member-logs="memberLogs" />
-              </template>
-              <template v-else>
-                <a-alert type="error" banner>
-                  <template slot="message">
-                    <i18n path="member_info_history_visibility_prompt" tag="label">
-                      <a @click="() => this.$store.commit('changeLoginSliderVisibility')">{{ $t('login') }}</a>
-                    </i18n>
-                  </template>
-                </a-alert>
-              </template>
+              <tdd-member-log-table :member-logs="memberLogs" />
             </div>
           </div>
         </div>
@@ -429,11 +405,6 @@ export default {
         });
     },
     getMemberLogs: function (mid) {
-      if (this.$store.state.isUserLoggedIn === false) {
-        // only get log when user logged in
-        this.memberLogs = [];
-        return;
-      }
       this.isLoadingMemberLogs = true;
 
       let that = this;
