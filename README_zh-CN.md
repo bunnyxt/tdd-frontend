@@ -35,12 +35,14 @@
 
 ## 快速开始
 
-1. 安装`Node.js`以及`npm`。具体需要的版本没有仔细研究过，我本地用的开发环境是`Node.js v12.18.2`以及`npm 6.14.6`，~~最新版本的应该也没问题~~ 目前只支持node 12
+1. 安装`Node.js` 22 及其自带的`npm`（10.9 或更高）。所需版本在仓库根目录的`.nvmrc`与`package.json`的`engines`中声明；使用 nvm 时可在仓库根目录执行`nvm install && nvm use`。`.npmrc`开启了`engine-strict`，版本不符时安装依赖会直接失败
 2. 克隆仓库，`git clone https://github.com/bunnyxt/tdd-frontend.git && cd tdd-frontend`
 3. 按需在 `src/config/index.js` 中填写本地配置
-4. 安装依赖，`npm install`，这一步可能会花一点时间
-5. 本地启动，`npm run serve`，默认会在`http://127.0.0.1:8080`启动开发环境，支持热加载
-6. 打包构建，`npm run build`，最终产物存放于`dist`文件夹下，即可用于部署
+4. 安装依赖，`npm ci`，这一步可能会花一点时间
+5. 本地启动，`NODE_OPTIONS=--openssl-legacy-provider npm run serve`，默认会在`http://127.0.0.1:8080`启动开发环境，支持热加载
+6. 打包构建，`NODE_OPTIONS=--openssl-legacy-provider npm run build`，最终产物存放于`dist`文件夹下，即可用于部署
+
+项目仍使用基于 webpack 4 的 Vue CLI 4，在 Node.js 17 及以上版本运行时需要`--openssl-legacy-provider`。
 
 ## 项目结构
 
