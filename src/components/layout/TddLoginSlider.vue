@@ -332,7 +332,7 @@ export default {
       // go request
       this.isLoginIn = true;
       let that = this;
-      this.$axios({
+      this.$http.request({
         method: 'post',
         url: '/login',
         headers: {
@@ -396,7 +396,7 @@ export default {
     onRegisterSendCodeButtonClick: function () {
       this.isSendingCode = true;
       let that = this;
-      this.$axios({
+      this.$http.request({
         method: 'post',
         url: '/register/code',
         headers: {
@@ -472,7 +472,7 @@ export default {
       }
       this.isSendingReg = true;
       let that = this;
-      this.$axios({
+      this.$http.request({
         method: 'post',
         url: '/register/reg',
         headers: {

@@ -161,7 +161,7 @@ export default {
 
       let that = this;
       const url = this.assemblyQuery();
-      this.$axios.get(url)
+      this.$http.get(url)
         .then(function (response) {
           that.userFavoriteMemberList = [];
           let oriList = response.data;

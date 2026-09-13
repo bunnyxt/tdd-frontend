@@ -298,7 +298,7 @@ export default {
       let last_count = 3;
       let url = 'updatelog?last_count=' + last_count;
       let that = this;
-      this.$axios.get(url)
+      this.$http.get(url)
         .then(function (response) {
           that.updateLogList = response.data;
         })
@@ -312,7 +312,7 @@ export default {
     fetchDonateLogList: function () {
       this.isLoadingDonateLogList = true;
       let that = this;
-      this.$axios.get('donatelog')
+      this.$http.get('donatelog')
         .then(function (response) {
           that.donateLogList = response.data.sort((a, b) => b.added - a.added);
         })
@@ -331,7 +331,7 @@ export default {
       this.isLoadingRandomVideoList = true;
       let url = '/video/random?count=' + count;
       let that = this;
-      this.$axios.get(url)
+      this.$http.get(url)
         .then(function (response) {
           that.randomVideoList = response.data;
         })
@@ -346,7 +346,7 @@ export default {
       this.isLoadingRandomMemberList = true;
       let url = '/member/random?count=' + count;
       let that = this;
-      this.$axios.get(url)
+      this.$http.get(url)
         .then(function (response) {
           that.randomMemberList = response.data;
         })

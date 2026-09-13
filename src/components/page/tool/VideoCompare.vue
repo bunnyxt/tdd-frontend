@@ -273,22 +273,22 @@ export default {
           : -1;
       
       const getVideoByAid = function (aid) {
-        return that.$axios.get(
+        return that.$http.get(
           `/video/${aid}`
         );
       };
       const getVideoRecordsByAid = function (aid) {
-        return that.$axios.get(
+        return that.$http.get(
           `/video/${aid}/record`
         );
       };
-      this.$axios.all([
+      Promise.all([
         getVideoByAid(aid),
         getVideoRecordsByAid(aid),
       ])
-        .then(that.$axios.spread( function (
+        .then(function ([
           videoResponse, videoRecordsResponse
-        ) {
+        ]) {
           const video = videoResponse.data;
           const records = videoRecordsResponse.data;
           if (video.length === 0) {
@@ -310,7 +310,7 @@ export default {
             that.addVideoId = '';
             that.$message.success('添加成功！');
           }
-        }))
+        })
         .catch(function (error) {
           console.log(error);
           that.$message.error('添加失败！');
@@ -338,7 +338,7 @@ export default {
       this.isLoadingAddVideoIdCandidateList = true;
       const url = `video/${type}title?${type}=${id}`;
       const that = this;
-      this.$axios.get(url)
+      this.$http.get(url)
         .then(function (response) {
           that.addVideoIdCandidateList = response.data.map(x => ({
             id: String(x[type]),

@@ -70,7 +70,7 @@ export default {
     updateIdList: function (type, id) {
       const url = `video/${type}title?${type}=${id}`;
       let that = this;
-      this.$axios.get(url)
+      this.$http.get(url)
         .then(function (response) {
           that.idTitleList = response.data.map(x => ({
             id: x[type],

@@ -60,8 +60,7 @@
 </template>
 
 <script>
-import axios from 'axios'
-axios.defaults.withCredentials = false;
+import http from '@/api/http'
 
 export default {
   name: 'TextAbidDescriptionReplacement',
@@ -186,18 +185,19 @@ export default {
       const idList = Array.from(this.inputText.matchAll(reg), x => ({ id: x[0], obj: null }));
       const otherList = this.inputText.split(reg);
 
-      const idAxiosList = [];
+      const idRequestList = [];
       for (let i = 0; i < idList.length; i++) {
         const idType = idList[i].id.substr(0, 2).toLowerCase() === 'av' ? 'aid' : 'bvid';
         const idValue = idList[i].id.substr(2);
-        idAxiosList.push(axios.get(
+        idRequestList.push(http.get(
           'https://json2jsonp.com/?url=' +
           encodeURIComponent(`http://api.bilibili.com/x/web-interface/view?${idType}=${idValue}`) +
-          '&callback=cbfunc'
+          '&callback=cbfunc',
+          { credentials: 'omit' }
         ));
       }
       
-      Promise.allSettled(idAxiosList)
+      Promise.allSettled(idRequestList)
         .then(responseList => {
           for (let i = 0; i < idList.length; i++) {
             const response = responseList[i];

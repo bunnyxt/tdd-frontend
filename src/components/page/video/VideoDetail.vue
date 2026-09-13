@@ -392,7 +392,7 @@ export default {
 
       let that = this;
       if (!videoLoadedFromStore) {
-        this.$axios.get('video/' + aid)
+        this.$http.get('video/' + aid)
           .then(function (response) {
             that.video = response.data;
           })
@@ -408,7 +408,7 @@ export default {
       this.isLoadingCurrentVideoRecordsBrief = true;
       
       const that = this;
-      this.$axios.get(`video/${aid}/record?last_count=1000`)
+      this.$http.get(`video/${aid}/record?last_count=1000`)
         .then(function (response) {
           that.currentVideoRecords = response.data;
           that.currentVideoRecordsTotalCount = response.headers['x-total-count'];
@@ -427,7 +427,7 @@ export default {
         JSON.stringify({ aid }));
       
       const that = this;
-      this.$axios.get(`video/${aid}/record`)
+      this.$http.get(`video/${aid}/record`)
         .then(function (response) {
           that.currentVideoRecords = response.data;
           that.currentVideoRecordsTotalCount = response.headers['x-total-count'];
@@ -447,7 +447,7 @@ export default {
       
       const that = this;
       const url = this.currentVideoRecordsTotalLoaded ? `video/${aid}/record` : `video/${aid}/record?last_count=1000`;
-      this.$axios.get(url)
+      this.$http.get(url)
         .then(function (response) {
           that.currentVideoRecords = response.data;
           that.currentVideoRecordsTotalCount = response.headers['x-total-count'];
