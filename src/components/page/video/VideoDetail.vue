@@ -357,7 +357,6 @@ export default {
     aid: function(newAid) {
       this.getVideoInfo(newAid);
       this.initCurrentVideoRecords(newAid);
-      this.addVisitHistoryVideo(newAid);
       this.initVideoCompareListRelated(newAid);
     },
     videoRecords: function() {
@@ -376,23 +375,6 @@ export default {
     }
   },
   methods: {
-    addVisitHistoryVideo: function (bvid) {
-      // TODO make bvid version
-      // let that = this;
-      console.log(bvid);
-      // this.$axios.post('/visit/history/video/BV' + bvid)
-      //   .then(function (response) {
-      //     if (!response) {
-      //       console.log(response);
-      //     }
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error);
-      //   })
-      //   .finally(function () {
-      //
-      //   });
-    },
     getVideoInfo: function(aid, checkVideoFromStore=false) {
       this.isLoadingVideo = true;
 
@@ -527,7 +509,6 @@ export default {
   created: function() {
     this.getVideoInfo(this.aid, true);
     this.initCurrentVideoRecords(this.aid);
-    this.addVisitHistoryVideo(this.aid);
     this.initVideoCompareListRelated(this.aid);
   },
   mounted: function () {
