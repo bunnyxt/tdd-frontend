@@ -223,7 +223,7 @@ export default {
 
       let url = this.assembleQueryUrl();
       let that = this;
-      this.$axios.get(url)
+      this.$http.get(url)
         .then(function (response) {
           that.memberList = response.data;
           that.memberTotalCount = parseInt(response.headers['x-total-count']);

@@ -72,7 +72,7 @@ export default {
       let last_count = 0; // get all logs
       let url = 'updatelog?last_count=' + last_count;
       let that = this;
-      this.$axios.get(url)
+      this.$http.get(url)
         .then(function (response) {
           that.updateLogList = response.data;
         })

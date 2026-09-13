@@ -161,7 +161,7 @@ export default {
       this.isPostingMemberLike = true;
 
       let that = this;
-      this.$axios.post('user/like/member/' + mid)
+      this.$http.post('user/like/member/' + mid)
         .then(function (response) {
           const resp = response.data;
           if (resp.status === 'success') {
@@ -191,7 +191,7 @@ export default {
       this.isDeletingMemberLike = true;
 
       let that = this;
-      this.$axios.delete('user/like/member/' + mid)
+      this.$http.delete('user/like/member/' + mid)
         .then(function (response) {
           const resp = response.data;
           if (resp.status === 'success') {
@@ -221,7 +221,7 @@ export default {
       this.isPostingMemberFavorite = true;
 
       let that = this;
-      this.$axios.post('user/favorite/member/' + mid)
+      this.$http.post('user/favorite/member/' + mid)
         .then(function (response) {
           const resp = response.data;
           if (resp.status === 'success') {
@@ -251,7 +251,7 @@ export default {
       this.isDeletingMemberFavorite = true;
 
       let that = this;
-      this.$axios.delete('user/favorite/member/' + mid)
+      this.$http.delete('user/favorite/member/' + mid)
         .then(function (response) {
           const resp = response.data;
           if (resp.status === 'success') {
@@ -285,7 +285,7 @@ export default {
       this.isLoadingMemberLikeCount = true;
 
       let that = this;
-      this.$axios.get('member/' + mid + '/like')
+      this.$http.get('member/' + mid + '/like')
         .then(function (response) {
           that.memberLikeCount = response.data;
         })
@@ -300,7 +300,7 @@ export default {
       this.isLoadingMemberLikeUserStatus = true;
 
       let that = this;
-      this.$axios.get('/user/like/member/' + mid)
+      this.$http.get('/user/like/member/' + mid)
         .then(function (response) {
           that.memberLikeUserStatus = Object.keys(response.data).length > 0;
         })
@@ -323,7 +323,7 @@ export default {
       this.isLoadingMemberFavoriteCount = true;
 
       let that = this;
-      this.$axios.get('member/' + mid + '/favorite')
+      this.$http.get('member/' + mid + '/favorite')
         .then(function (response) {
           that.memberFavoriteCount = response.data;
         })
@@ -338,7 +338,7 @@ export default {
       this.isLoadingMemberFavoriteUserStatus = true;
 
       let that = this;
-      this.$axios.get('/user/favorite/member/' + mid)
+      this.$http.get('/user/favorite/member/' + mid)
         .then(function (response) {
           that.memberFavoriteUserStatus = Object.keys(response.data).length > 0;
         })

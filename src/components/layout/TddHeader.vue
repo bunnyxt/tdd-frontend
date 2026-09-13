@@ -188,7 +188,7 @@ export default {
   methods: {
     handleLogoutClick: function () {
       let that = this;
-      this.$axios({
+      this.$http.request({
         method: 'post',
         url: '/logout'
       })

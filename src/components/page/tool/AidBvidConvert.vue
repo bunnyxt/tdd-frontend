@@ -127,7 +127,7 @@ export default {
     },
     queryClickHandler() {
       if (this.method === 'api') {
-        // must use fetch, not axios, due to axios withCredentials setting
+        // requested without cookies, unlike the shared api client
         fetch('https://api.bunnyxt.com/tdd/bapi_aid_bvid.php?'+this.queryKey+'='+this.queryValue)
           .then(response => response.json())
           .then((json) => {

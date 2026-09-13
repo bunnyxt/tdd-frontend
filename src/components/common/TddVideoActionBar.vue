@@ -176,7 +176,7 @@ export default {
       this.isPostingVideoLike = true;
 
       let that = this;
-      this.$axios.post('user/like/video/' + aid)
+      this.$http.post('user/like/video/' + aid)
         .then(function (response) {
           const resp = response.data;
           if (resp.status === 'success') {
@@ -206,7 +206,7 @@ export default {
       this.isDeletingVideoLike = true;
 
       let that = this;
-      this.$axios.delete('user/like/video/' + aid)
+      this.$http.delete('user/like/video/' + aid)
         .then(function (response) {
           const resp = response.data;
           if (resp.status === 'success') {
@@ -236,7 +236,7 @@ export default {
       this.isPostingVideoFavorite = true;
 
       let that = this;
-      this.$axios.post('user/favorite/video/' + aid)
+      this.$http.post('user/favorite/video/' + aid)
         .then(function (response) {
           const resp = response.data;
           if (resp.status === 'success') {
@@ -266,7 +266,7 @@ export default {
       this.isDeletingVideoFavorite = true;
 
       let that = this;
-      this.$axios.delete('user/favorite/video/' + aid)
+      this.$http.delete('user/favorite/video/' + aid)
         .then(function (response) {
           const resp = response.data;
           if (resp.status === 'success') {
@@ -300,7 +300,7 @@ export default {
       this.isLoadingVideoLikeCount = true;
 
       let that = this;
-      this.$axios.get('video/' + aid + '/like')
+      this.$http.get('video/' + aid + '/like')
         .then(function (response) {
           that.videoLikeCount = response.data;
         })
@@ -315,7 +315,7 @@ export default {
       this.isLoadingVideoLikeUserStatus = true;
 
       let that = this;
-      this.$axios.get('/user/like/video/' + aid)
+      this.$http.get('/user/like/video/' + aid)
         .then(function (response) {
           that.videoLikeUserStatus = Object.keys(response.data).length > 0;
         })
@@ -338,7 +338,7 @@ export default {
       this.isLoadingVideoFavoriteCount = true;
 
       let that = this;
-      this.$axios.get('video/' + aid + '/favorite')
+      this.$http.get('video/' + aid + '/favorite')
         .then(function (response) {
           that.videoFavoriteCount = response.data;
         })
@@ -353,7 +353,7 @@ export default {
       this.isLoadingVideoFavoriteUserStatus = true;
 
       let that = this;
-      this.$axios.get('/user/favorite/video/' + aid)
+      this.$http.get('/user/favorite/video/' + aid)
         .then(function (response) {
           that.videoFavoriteUserStatus = Object.keys(response.data).length > 0;
         })

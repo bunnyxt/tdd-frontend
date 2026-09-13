@@ -169,16 +169,16 @@ export default {
       let that = this;
       
       let getRankInfo = function () {
-        return that.$axios.get(`video/record/rank/weekly/current/BV${that.bvid}`);
+        return that.$http.get(`video/record/rank/weekly/current/BV${that.bvid}`);
       };
       let getRankColor = function () {
-        return that.$axios.get(`/video/record/rank/weekly/current/color`);
+        return that.$http.get(`/video/record/rank/weekly/current/color`);
       };
-      this.$axios.all([getRankInfo(), getRankColor()])
-        .then(that.$axios.spread(function (rankInfoResponse, rankColorResponse) {
+      Promise.all([getRankInfo(), getRankColor()])
+        .then(function ([rankInfoResponse, rankColorResponse]) {
           that.rankInfo = rankInfoResponse.data;
           that.rankColor = rankColorResponse.data;
-        }))
+        })
         .catch(function (error) {
           console.log(error);
         })

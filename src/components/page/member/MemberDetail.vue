@@ -362,7 +362,7 @@ export default {
 
       let that = this;
       if (!memberLoadedFromStore) {
-        this.$axios.get('member/' + mid)
+        this.$http.get('member/' + mid)
           .then(function (response) {
             that.member = response.data;
           })
@@ -378,7 +378,7 @@ export default {
       this.isLoadingFollowerRecords = true;
 
       let that = this;
-      this.$axios.get('member/' + mid + '/follower')
+      this.$http.get('member/' + mid + '/follower')
         .then(function (response) {
           that.followerRecords = response.data;
         })
@@ -393,7 +393,7 @@ export default {
       this.isLoadingTotalStatRecords = true;
 
       let that = this;
-      this.$axios.get('member/' + mid + '/totalstat')
+      this.$http.get('member/' + mid + '/totalstat')
         .then(function (response) {
           that.totalStatRecords = response.data;
         })
@@ -408,7 +408,7 @@ export default {
       this.isLoadingMemberLogs = true;
 
       let that = this;
-      this.$axios.get('member/log?mid=' + mid)
+      this.$http.get('member/log?mid=' + mid)
         .then(function (response) {
           that.memberLogs = response.data.reverse();
         })
@@ -438,7 +438,7 @@ export default {
 
       let that = this;
       let url = this.assemblyQuery();
-      this.$axios.get(url)
+      this.$http.get(url)
         .then(function (response) {
           that.memberVideoList = response.data;
           that.memberVideoTotalCount = parseInt(response.headers['x-total-count']);

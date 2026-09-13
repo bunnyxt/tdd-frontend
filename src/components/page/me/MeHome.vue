@@ -294,7 +294,7 @@ export default {
       this.isLoadingUserInfo = true;
 
       return new Promise(function (resolve, reject) {
-        that.$axios.get('/user/me')
+        that.$http.get('/user/me')
           .then(function (response) {
             that.user = response.data;
 
@@ -328,7 +328,7 @@ export default {
       this.isLoadingUserSignInList = true;
 
       let that = this;
-      this.$axios.get('/user/signin/me')
+      this.$http.get('/user/signin/me')
         .then(function (response) {
           that.userSignInList = response.data;
         })
@@ -351,7 +351,7 @@ export default {
       this.isLoadingUserSignInOverview = true;
 
       let that = this;
-      this.$axios.get('/user/signin/overview/me')
+      this.$http.get('/user/signin/overview/me')
         .then(function (response) {
           that.userSignInOverview = response.data;
         })
@@ -374,7 +374,7 @@ export default {
       this.isLoadingUserFavoriteVideoList = true;
 
       let that = this;
-      this.$axios.get('/user/favorite/video/me')
+      this.$http.get('/user/favorite/video/me')
         .then(function (response) {
           that.userFavoriteVideoList = [];
           let oriList = response.data;
@@ -403,7 +403,7 @@ export default {
       this.isLoadingUserFavoriteMemberList = true;
 
       let that = this;
-      this.$axios.get('/user/favorite/member/me')
+      this.$http.get('/user/favorite/member/me')
         .then(function (response) {
           that.userFavoriteMemberList = [];
           let oriList = response.data;
@@ -431,7 +431,7 @@ export default {
     goSignIn: function () {
       this.isGoingSignIn = true;
       let that = this;
-      this.$axios.post('/user/signin')
+      this.$http.post('/user/signin')
         .then(function (response) {
           const resp = response.data;
           if (resp.status === 'success') {

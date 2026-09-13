@@ -509,28 +509,28 @@ export default {
       
       const that = this;
       const getRankList = function (category, archId, orderRule, pn) {
-        return that.$axios.get(
+        return that.$http.get(
           `/video/record/rank/${category}/${archId === 0 ? 'current' : `archive/${archId}`}?order_rule=${orderRule}&pn=${pn}`
         );
       };
       const getRankColor = function (category, archId) {
-        return that.$axios.get(
+        return that.$http.get(
           `/video/record/rank/${category}/${archId === 0 ? 'current' : `archive/${archId}`}/color`
         );
       };
       const getRankArchiveOverview = function (category) {
-        return that.$axios.get(
+        return that.$http.get(
           `/video/record/rank/${category}/archive/overview`
         );
       };
-      this.$axios.all([
+      Promise.all([
         getRankList(this.category[0], this.archId, this.orderRule, this.pn),
         getRankColor(this.category[0], this.archId),
         getRankArchiveOverview(this.category[0]),
       ])
-        .then(that.$axios.spread( function (
+        .then(function ([
           rankListResponse, rankColorResponse, rankArchiveOverviewResponse
-        ) {
+        ]) {
           that.rankList = rankListResponse.data;
           if (that.useIndex) {
             // add index column when index column required
@@ -542,7 +542,7 @@ export default {
           that.rankTotalCount = parseInt(rankListResponse.headers['x-total-count']);
           that.rankColor = rankColorResponse.data;
           that.rankArchiveOverview = [{ id: 0, name: that.$t('real-time_ranking') }, ...rankArchiveOverviewResponse.data.reverse()];
-        }))
+        })
         .catch(function (error) {
           console.log(error);
         })

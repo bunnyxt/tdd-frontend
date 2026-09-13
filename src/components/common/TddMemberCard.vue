@@ -106,7 +106,7 @@ export default {
       
       let that = this;
       // production
-      this.$axios.get(`member/${mid}`)
+      this.$http.get(`member/${mid}`)
         .then(function (response) {
           that.member = response.data;
         })
@@ -118,7 +118,7 @@ export default {
         });
       
       // // 1000 ms delay debug
-      // setTimeout(() => that.$axios.get(`member/${mid}`)
+      // setTimeout(() => that.$http.get(`member/${mid}`)
       //   .then(function (response) {
       //     that.member = response.data;
       //   })

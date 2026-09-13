@@ -565,7 +565,7 @@ export default {
       this.isLoadingVideoList = true;
       const that = this;
       const queryParams = this.assembleQueryParams();
-      this.$axios.get('video', { params: queryParams })
+      this.$http.get('video', { params: queryParams })
         .then(function (response) {
           that.videoList = response.data;
           that.videoTotalCount = parseInt(response.headers['x-total-count']);

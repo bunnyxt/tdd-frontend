@@ -106,16 +106,12 @@ const i18n = new VueI18n({
 });
 store.commit('setI18n', i18n);
 
-// axios
-import axios from './api/axios'
-Vue.prototype.$axios = axios;
+// http
+import http from './api/http'
+Vue.prototype.$http = http;
 
 import service from "@/service";
 Vue.prototype.$service = service;
-
-// qs
-import qs from 'qs'
-Vue.prototype.$qs = qs;
 
 // G2
 // import G2 from '@antv/g2';

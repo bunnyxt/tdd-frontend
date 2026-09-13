@@ -233,7 +233,7 @@ export default {
       this.isLoadingUserInfo = true;
 
       return new Promise(function (resolve, reject) {
-        that.$axios.get('/user/me')
+        that.$http.get('/user/me')
           .then(function (response) {
             that.user = response.data;
 
@@ -349,7 +349,7 @@ export default {
       this.isSendingBindEmailCode = true;
       let that = this;
 
-      this.$axios({
+      this.$http.request({
         method: 'post',
         url: '/user/bind/email/code',
         headers: {
@@ -426,7 +426,7 @@ export default {
       this.isSendingBindEmailValidation = true;
       let that = this;
 
-      this.$axios({
+      this.$http.request({
         method: 'post',
         url: '/user/bind/email/validation',
         headers: {
@@ -494,7 +494,7 @@ export default {
       this.isSettingNickname = true;
       let that = this;
 
-      this.$axios({
+      this.$http.request({
         method: 'post',
         url: '/user/set/nickname',
         headers: {
@@ -576,7 +576,7 @@ export default {
       this.isChangingPassword = true;
       let that = this;
 
-      this.$axios({
+      this.$http.request({
         method: 'post',
         url: '/user/change/password',
         headers: {
