@@ -3,7 +3,19 @@
 <template>
   <div class="tdd-video-description" style="position: relative">
     <div ref="text" :style="textStyle">
-      <span v-html="descriptionHtml"></span>
+      <span>
+        <template v-for="(segment, index) in descriptionSegments">
+          <br v-if="segment.type === 'br'" :key="index">
+          <a
+            v-else-if="segment.type === 'link'"
+            :key="index"
+            :href="segment.href"
+            target="_blank"
+            rel="noopener noreferrer"
+          >{{ segment.text }}</a>
+          <span v-else :key="index">{{ segment.text }}</span>
+        </template>
+      </span>
     </div>
     <div class="show-all" v-if="!showAll && textHeight > 100" @click="() => this.showAll = true">
       {{ $t('show_all') }}
@@ -34,24 +46,33 @@ export default {
     }
   },
   computed: {
-    descriptionHtml: function () {
-      let html = this.description;
-      // wrap line
-      html = html.replace(
-        /\n/g,
-        '<br>'
-      );
-      // add av link
-      html = html.replace(
-        /av([0-9]+)/g,
-        '<a href="https://www.bilibili.com/video/av$1" target="_blank">av$1</a>'
-      );
-      // add BV link
-      html = html.replace(
-        /BV([fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF]{10})/g,
-        '<a href="https://www.bilibili.com/video/BV$1" target="_blank">BV$1</a>'
-      );
-      return html;
+    // the description comes from an external API, so it is split into plain
+    // text, line breaks and video links, and never rendered as HTML
+    descriptionSegments: function () {
+      const segments = [];
+      const linkPattern = /BV[fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF]{10}|av[0-9]+/g;
+      this.description.split('\n').forEach((line, lineIndex) => {
+        if (lineIndex > 0) {
+          segments.push({ type: 'br' });
+        }
+        let lastIndex = 0;
+        let match;
+        while ((match = linkPattern.exec(line)) !== null) {
+          if (match.index > lastIndex) {
+            segments.push({ type: 'text', text: line.slice(lastIndex, match.index) });
+          }
+          segments.push({
+            type: 'link',
+            text: match[0],
+            href: 'https://www.bilibili.com/video/' + match[0]
+          });
+          lastIndex = linkPattern.lastIndex;
+        }
+        if (lastIndex < line.length) {
+          segments.push({ type: 'text', text: line.slice(lastIndex) });
+        }
+      });
+      return segments;
     },
     textStyle: function () {
       let style = {};
