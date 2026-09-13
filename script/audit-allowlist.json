@@ -1,0 +1,12 @@
+{
+  "advisories": {
+    "GHSA-5j4c-8p2g-v4jx": {
+      "package": "vue",
+      "reason": "ReDoS in the Vue 2 template compiler's parseHTML. The app ships the runtime-only build with templates precompiled at build time, so the parser is not in the bundle. No fix exists for Vue 2."
+    },
+    "GHSA-g3ch-rx76-35fx": {
+      "package": "vue-template-compiler",
+      "reason": "XSS when compiling untrusted templates. The compiler only runs at build time on this repository's own templates and is not shipped. No fix exists for Vue 2."
+    }
+  }
+}
