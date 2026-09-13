@@ -41,8 +41,9 @@
 4. 安装依赖，`npm ci`，这一步可能会花一点时间
 5. 本地启动，`NODE_OPTIONS=--openssl-legacy-provider npm run serve`，默认会在`http://127.0.0.1:8080`启动开发环境，支持热加载
 6. 打包构建，`NODE_OPTIONS=--openssl-legacy-provider npm run build`，最终产物存放于`dist`文件夹下，即可用于部署
+7. 发布前验证，`npm run verify:release`，依次检查 Node 版本、工作树是否干净、`npm ci`、不自动修复的 lint、生产构建，以及生产依赖审计（高危或未列入`script/audit-allowlist.json`的公告会导致失败）
 
-项目仍使用基于 webpack 4 的 Vue CLI 4，在 Node.js 17 及以上版本运行时需要`--openssl-legacy-provider`。
+项目仍使用基于 webpack 4 的 Vue CLI 4，在 Node.js 17 及以上版本运行时需要`--openssl-legacy-provider`。注意`npm run lint`默认会自动修复并改写文件，只想检查时请使用`npm run lint -- --no-fix`。
 
 ## 项目结构
 
