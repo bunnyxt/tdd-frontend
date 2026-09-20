@@ -110,8 +110,6 @@ store.commit('setI18n', i18n);
 import http from './api/http'
 Vue.prototype.$http = http;
 
-import service from "@/service";
-Vue.prototype.$service = service;
 
 // G2
 // import G2 from '@antv/g2';

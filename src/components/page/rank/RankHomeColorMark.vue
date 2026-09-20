@@ -106,7 +106,6 @@ export default {
     },
     changeCurrentProperty: function (e) {
       this.currentProperty = e.key;
-      this.$service.reportInteraction('rank_home_color_mark_change_property', JSON.stringify({ property: e.key }));
     },
     initCurrentProperty: function () {
       if (this.color.hasOwnProperty('point')) {

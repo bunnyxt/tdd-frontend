@@ -423,9 +423,7 @@ export default {
     },
     getCurrentVideoRecordsTotal: function (aid) {
       this.isLoadingCurrentVideoRecordsTotal = true;
-      this.$service.reportInteraction('video_detail_get_current_video_records_total',
-        JSON.stringify({ aid }));
-      
+
       const that = this;
       this.$http.get(`video/${aid}/record`)
         .then(function (response) {
@@ -442,9 +440,7 @@ export default {
     },
     updateCurrentVideoRecords: function (aid) {
       this.isLoadingCurrentVideoRecordsTotal = true;
-      this.$service.reportInteraction('video_detail_update_current_video_records',
-        JSON.stringify({ aid, total: this.currentVideoRecordsTotalLoaded }));
-      
+
       const that = this;
       const url = this.currentVideoRecordsTotalLoaded ? `video/${aid}/record` : `video/${aid}/record?last_count=1000`;
       this.$http.get(url)
@@ -478,7 +474,6 @@ export default {
       const newVideoCompareList = [...videoCompareList.filter(video => video.aid !== newVideo.aid), newVideo];
       localStorage.setItem('videoCompareList', JSON.stringify(newVideoCompareList));
       this.inVideoCompareList = true;
-      this.$service.reportInteraction('video_add_to_compare_list', JSON.stringify({ aid: this.aid }));
     },
     removeFromVideoCompareListHandler: function () {
       const videoCompareListString = localStorage.getItem('videoCompareList') || '[]';
@@ -500,9 +495,6 @@ export default {
     enableCurrentVideoRecordsCheckboxChangeHandler: function () {
       if (this.videoRecords.length === 0) {
         this.enableCurrentVideoRecords = true;
-      } else {
-        this.$service.reportInteraction('video_detail_change_current_video_records_checkbox',
-          JSON.stringify({ aid: this.aid, to: this.enableCurrentVideoRecords }));
       }
     },
   },
