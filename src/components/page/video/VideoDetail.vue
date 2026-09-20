@@ -169,7 +169,6 @@
             v-if="video.laststat"
             :stat="video.laststat"
             :size="this.$store.getters.clientMode === 'MOBILE' ? 'middle' : 'large'"
-            :bvid="bvid"
           />
           <a-alert v-else type="error" :message="$t('video_detail.no_data')" />
         </div>

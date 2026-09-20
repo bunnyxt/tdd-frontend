@@ -1,7 +1,6 @@
 {
   "zh": {
     "colon": "：",
-    "semicolon": "；",
     "tdd": "天钿Daily",
     "pubdate": "投稿时间",
     "view": "播放",
@@ -15,7 +14,6 @@
       "home": "首页",
       "video": "视频",
       "member": "UP主",
-      "rank": "排行",
       "sprint": "传说助攻",
       "sprint_daily": "助攻日报",
       "tool": "辅助工具",
@@ -35,7 +33,6 @@
       "video_detail": "{title} - 视频详情 - @:page_title._tdd",
       "member": "UP主 - @:page_title._tdd",
       "member_detail": "{name} - UP主详情 - @:page_title._tdd",
-      "rank": "{name} - 排行 - @:page_title._tdd",
       "sprint": "传说助攻 - @:page_title._tdd",
       "sprint_detail": "{title} - 助攻详情 - @:page_title._tdd",
       "sprint_daily": "助攻日报 - @:page_title._tdd",
@@ -98,10 +95,6 @@
     },
     "show_all": "显示全部",
     "updated_suffix": "更新",
-    "rank_order": "排名",
-    "point": "得分",
-    "xiu_a": "修正A",
-    "xiu_b": "修正B",
     "time": "时间",
     "ratio_suffix": "率",
     "ratio": "占比",
@@ -121,12 +114,10 @@
     "tdd_favorite_time": "关注时间",
     "pic": "封面",
     "title": "标题",
-    "loading": "加载中",
     "afdian": "爱发电"
   },
   "en": {
     "colon": ": ",
-    "semicolon": "; ",
     "tdd": "TianDian Daily",
     "pubdate": "Pubdate",
     "view": "View",
@@ -140,7 +131,6 @@
       "home": "Home",
       "video": "Video",
       "member": "Uploader",
-      "rank": "Rank",
       "sprint": "1M Sprint",
       "sprint_daily": "Sprint Daily",
       "tool": "Tool",
@@ -160,7 +150,6 @@
       "video_detail": "{title} - Video Detail - @:page_title._tdd",
       "member": "Uploader - @:page_title._tdd",
       "member_detail": "{name} - Uploader Detail - @:page_title._tdd",
-      "rank": "{name} - Rank - @:page_title._tdd",
       "sprint": "1M Sprint - @:page_title._tdd",
       "sprint_detail": "{title} - 1M Sprint Detail - @:page_title._tdd",
       "sprint_daily": "1M Sprint Daily - @:page_title._tdd",
@@ -223,10 +212,6 @@
     },
     "show_all": "Show All",
     "updated_suffix": " updated",
-    "rank_order": "Rank",
-    "point": "Point",
-    "xiu_a": "Adjust A",
-    "xiu_b": "Adjust B",
     "time": "Time",
     "ratio_suffix": " Ratio",
     "ratio": "Ratio",
@@ -246,7 +231,6 @@
     "tdd_favorite_time": "Favorite Time",
     "pic": "Cover",
     "title": "Title",
-    "loading": "Loading",
     "afdian": "Afdian"
   }
 }

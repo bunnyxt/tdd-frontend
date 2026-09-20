@@ -76,9 +76,6 @@
           <a-menu-item key="member">
             <router-link to="/member">{{ $t('page_name.member') }}</router-link>
           </a-menu-item>
-          <a-menu-item key="rank">
-            <router-link to="/rank">{{ $t('page_name.rank') }}</router-link>
-          </a-menu-item>
           <a-menu-item key="sprint">
             <router-link to="/sprint">{{ $t('page_name.sprint') }}</router-link>
           </a-menu-item>
@@ -161,8 +158,6 @@ export default {
         keys = ['video'];
       } else if (path.startsWith('/member')) {
         keys = ['member'];
-      } else if (path.startsWith('/rank')) {
-        keys = ['rank'];
       } else if (path.startsWith('/sprint')) {
         keys = ['sprint'];
       } else if (path.startsWith('/tool')) {

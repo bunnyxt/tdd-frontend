@@ -19,7 +19,6 @@
         <a-menu-item key="home">{{ $t('page_name.home') }}</a-menu-item>
         <a-menu-item key="video">{{ $t('page_name.video') }}</a-menu-item>
         <a-menu-item key="member">{{ $t('page_name.member') }}</a-menu-item>
-        <a-menu-item key="rank">{{ $t('page_name.rank') }}</a-menu-item>
         <a-menu-item key="sprint">{{ $t('page_name.sprint') }}</a-menu-item>
         <a-menu-item key="tool">{{ $t('page_name.tool') }}</a-menu-item>
         <a-menu-item key="about">{{ $t('page_name.about') }}</a-menu-item>
@@ -44,8 +43,6 @@ export default {
         keys = ['video'];
       } else if (path.startsWith('/member')) {
         keys = ['member'];
-      } else if (path.startsWith('/rank')) {
-        keys = ['rank'];
       } else if (path.startsWith('/sprint')) {
         keys = ['sprint'];
       } else if (path.startsWith('/tool')) {
@@ -70,9 +67,6 @@ export default {
           break;
         case "member":
           this.$router.push("/member");
-          break;
-        case "rank":
-          this.$router.push("/rank");
           break;
         case "sprint":
           this.$router.push("/sprint");
