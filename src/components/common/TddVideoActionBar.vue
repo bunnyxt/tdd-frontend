@@ -293,7 +293,6 @@ export default {
         });
     },
     goToBiliAv: function (aid) {
-      this.$service.reportInteraction('video_action_bar_go_to_bili_video', JSON.stringify({ aid }));
       window.open('https://www.bilibili.com/video/av'+aid);
     },
     getVideoLikeCount: function (aid) {

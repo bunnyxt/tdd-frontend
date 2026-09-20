@@ -79,7 +79,7 @@
             <tdd-donate-log-list :donate-log-list="donateLogList" />
             <div style="margin-top: 8px; overflow: hidden">
               <div style="float: right; margin-right: 8px">
-                <a href="https://afdian.net/@bunnyxt" target="_blank" @click="$service.reportInteraction('home_donate_click', '')">{{ $t('donate_now') }}</a>
+                <a href="https://afdian.net/@bunnyxt" target="_blank">{{ $t('donate_now') }}</a>
               </div>
             </div>
           </div>
