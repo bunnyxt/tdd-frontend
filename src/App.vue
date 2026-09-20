@@ -125,44 +125,6 @@ export default {
   -webkit-line-clamp: 2;
 }
 
-/* color system */
-.color-0 {
-  color: rgba(0, 0, 0, 0.65);
-}
-.color-1 {
-  color: #d32f2f;
-}
-.color-2 {
-  color: #f57c00;
-}
-.color-3 {
-  color: #388e3c;
-}
-.color-4 {
-  color: #1976d2;
-}
-.color-5 {
-  color: #7b1fa2;
-}
-.bg-color-0 {
-  background: rgba(0, 0, 0, 0.65);
-}
-.bg-color-1 {
-  background: #d32f2f;
-}
-.bg-color-2 {
-  background: #f57c00;
-}
-.bg-color-3 {
-  background: #388e3c;
-}
-.bg-color-4 {
-  background: #1976d2;
-}
-.bg-color-5 {
-  background: #7b1fa2;
-}
-
 /* fixed width-height ratio image */
 .tdd-cover-pic {
   height: 0;

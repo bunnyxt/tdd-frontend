@@ -114,7 +114,6 @@
         v-if="video.laststat"
         :stat="video.laststat"
         :size="this.$store.getters.clientMode === 'MOBILE' ? 'small' : 'middle'"
-        :bvid="this.$util.a2b(video.aid)"
       />
       <a-alert v-else type="error" :message="$t('video_detail.no_data')" />
       <div class="drawer-fake-footer"></div>

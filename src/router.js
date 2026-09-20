@@ -6,7 +6,6 @@ const VideoHome = () => import('./components/page/video/VideoHome');
 const VideoDetail = () => import('./components/page/video/VideoDetail');
 const MemberHome = () => import('./components/page/member/MemberHome');
 const MemberDetail = () => import('./components/page/member/MemberDetail');
-const RankHome = () => import('./components/page/rank/RankHome')
 const SprintHome = () => import('./components/page/sprint/SprintHome');
 const SprintVideoDetail = () => import('./components/page/sprint/SprintVideoDetail');
 const SprintDailyHome = () => import('./components/page/sprint/daily/SprintDailyHome');
@@ -64,9 +63,6 @@ export default new VueRouter({
     }, {
       path: '/member/:mid',
       component: MemberDetail,
-    }, {
-      path: '/rank/:category?/:archId?',
-      component: RankHome,
     }, {
       path: '/sprint',
       component: SprintHome,
