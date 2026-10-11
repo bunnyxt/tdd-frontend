@@ -13,6 +13,8 @@
     "statistics_summary_trending": "数据总计趋势",
     "fetching_member_follower_history_prompt": "正在获取用户{0}的历史粉丝数据...",
     "fetching_member_statistics_summary_history_prompt": "正在获取用户{0}的历史数据总计数据...",
+    "records_loaded_prompt": "共{total}条，已加载最近{loaded}条",
+    "load_all": "加载全部",
     "pagi_total": "共 {total} 个视频",
     "filter": {
       "sort_by": {
@@ -38,6 +40,8 @@
     "statistics_summary_trending": "Statistics Summary Trending",
     "fetching_member_follower_history_prompt": "Now fetching follower history of member {0}...",
     "fetching_member_statistics_summary_history_prompt": "Now fetching statistics summary history of member {0}...",
+    "records_loaded_prompt": "{total} records in total, latest {loaded} loaded",
+    "load_all": "Load All",
     "pagi_total": "{total} videos in total",
     "filter": {
       "sort_by": {
@@ -166,6 +170,10 @@
               </a-spin>
             </div>
             <div v-else>
+              <div v-if="followerRecords.length < followerRecordsTotalCount" class="tdd-member-detail-records-loaded">
+                {{ $t('records_loaded_prompt', { total: followerRecordsTotalCount, loaded: followerRecords.length }) }}
+                <a-button type="link" size="small" @click="getFollowerRecords(mid, true)">{{ $t('load_all') }}</a-button>
+              </div>
               <div v-if="followerCategoryEnterCount > 0">
                 <tdd-member-follower-history-line-chart :follower-records="followerRecords" />
               </div>
@@ -180,6 +188,10 @@
               </a-spin>
             </div>
             <div v-else>
+              <div v-if="totalStatRecords.length < totalStatRecordsTotalCount" class="tdd-member-detail-records-loaded">
+                {{ $t('records_loaded_prompt', { total: totalStatRecordsTotalCount, loaded: totalStatRecords.length }) }}
+                <a-button type="link" size="small" @click="getTotalStatRecords(mid, true)">{{ $t('load_all') }}</a-button>
+              </div>
               <div v-if="totalStatCategoryEnterCount > 0">
                 <tdd-member-total-stat-history-line-chart :total-stat-records="totalStatRecords" />
               </div>
@@ -279,6 +291,9 @@ const IconFont = Icon.createFromIconfontCN({
   scriptUrl: '//at.alicdn.com/t/font_1640736_mzfdr5d9c2h.js',
 });
 
+// Records are read one by one from a large table, so the first screen only fetches the latest ones.
+const RECENT_RECORDS_COUNT = 500;
+
 export default {
   name: 'MemberDetail',
   data: function () {
@@ -292,8 +307,11 @@ export default {
       orderValue: 'pubdate',
       orderDescValue: 1,
       followerRecords: [],
+      followerRecordsTotalCount: 0,
       isLoadingFollowerRecords: false,
       totalStatRecords: [],
+      totalStatRecordsTotalCount: 0,
+      totalStatRecordsMid: null,
       isLoadingTotalStatRecords: false,
       currentInfoCategory: ['overview'],
       isLoadingMemberLogs: false,
@@ -325,11 +343,20 @@ export default {
       this.getMemberInfo(this.mid, true);
       this.getMemberLogs(this.mid);
       this.getFollowerRecords(this.mid);
-      this.getTotalStatRecords(this.mid);
+      this.totalStatRecords = [];
+      this.totalStatRecordsTotalCount = 0;
+      this.totalStatRecordsMid = null;
+      if (this.currentDataCategory.indexOf('totalStat') !== -1) {
+        this.getTotalStatRecords(this.mid);
+      }
       this.fetchVideoList();
     },
     currentDataCategory: function () {
       if (this.currentDataCategory.indexOf('totalStat') !== -1) {
+        // load total stat records only when the tab is opened
+        if (this.totalStatRecordsMid !== this.mid) {
+          this.getTotalStatRecords(this.mid);
+        }
         this.totalStatCategoryEnterCount++;
       } else if (this.currentDataCategory.indexOf('follower') !== -1) {
         this.followerCategoryEnterCount++;
@@ -374,13 +401,17 @@ export default {
           });
       }
     },
-    getFollowerRecords: function (mid) {
+    getFollowerRecords: function (mid, all=false) {
       this.isLoadingFollowerRecords = true;
 
       let that = this;
-      this.$http.get('member/' + mid + '/follower')
+      this.$http.get('member/' + mid + '/follower' + (all ? '' : '?last_count=' + RECENT_RECORDS_COUNT))
         .then(function (response) {
-          that.followerRecords = response.data;
+          if (mid !== that.mid) {
+            return;
+          }
+          that.followerRecords = response.data.sort((a, b) => a.added - b.added);
+          that.followerRecordsTotalCount = parseInt(response.headers['x-total-count']);
         })
         .catch(function (error) {
           console.log(error);
@@ -389,13 +420,18 @@ export default {
           that.isLoadingFollowerRecords = false;
         });
     },
-    getTotalStatRecords: function (mid) {
+    getTotalStatRecords: function (mid, all=false) {
       this.isLoadingTotalStatRecords = true;
+      this.totalStatRecordsMid = mid;
 
       let that = this;
-      this.$http.get('member/' + mid + '/totalstat')
+      this.$http.get('member/' + mid + '/totalstat' + (all ? '' : '?last_count=' + RECENT_RECORDS_COUNT))
         .then(function (response) {
-          that.totalStatRecords = response.data;
+          if (mid !== that.mid) {
+            return;
+          }
+          that.totalStatRecords = response.data.sort((a, b) => a.added - b.added);
+          that.totalStatRecordsTotalCount = parseInt(response.headers['x-total-count']);
         })
         .catch(function (error) {
           console.log(error);
@@ -473,7 +509,6 @@ export default {
     this.getMemberInfo(this.mid, true);
     this.getMemberLogs(this.mid);
     this.getFollowerRecords(this.mid);
-    this.getTotalStatRecords(this.mid);
     this.fetchVideoList();
   },
 }
@@ -511,5 +546,8 @@ export default {
 }
 .tdd-member-detail-header-video-count-follower {
   margin-top: 4px;
+}
+.tdd-member-detail-records-loaded {
+  margin-bottom: 8px;
 }
 </style>
