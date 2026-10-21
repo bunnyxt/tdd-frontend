@@ -20,6 +20,8 @@
         <a-breadcrumb-item>{{ $t('page_name.tool') }}</a-breadcrumb-item>
       </a-breadcrumb>
     </div>
+    <tdd-legacy-backend-select />
+    <div class="section-separator"></div>
     <div class="section-block">
       <h1>{{ $t('page_name.home') }}</h1>
       <p>{{ $t('page_intro_tool') }}</p>
@@ -51,8 +53,10 @@
 </template>
 
 <script>
+import TddLegacyBackendSelect from "@/components/common/TddLegacyBackendSelect";
 export default {
   name: "ToolHome",
+  components: { TddLegacyBackendSelect },
   data: function() {
     return {
 

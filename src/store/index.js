@@ -5,8 +5,6 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   state: {
-    apiBase: "https://api.bunnyxt.com/tdd/",
-    //apiBase: "http://localhost/tdd/", // debug
     isMenuSliderVisible: false,
     isLoginSliderVisible: false,
     isVideoDetailDrawerVisible: false,

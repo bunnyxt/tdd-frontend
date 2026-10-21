@@ -3,6 +3,7 @@
 
 <template>
   <div>
+    <a-alert v-if="legacyError" :message="legacyError" type="error" show-icon style="margin-bottom: 12px" />
     <div v-wechat-title="`${$t('tool_info.abid.name')} - ${$t('page_title._tdd')}`"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
@@ -54,6 +55,7 @@
 </template>
 
 <script>
+import { legacyPage } from '@/api/legacy';
 const bigInt = require("big-integer");
 
 // ref: https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/misc/bvid_desc.md#javascripttypescript
@@ -88,6 +90,7 @@ function bv2av(bvid) {
 }
 
 export default {
+  mixins: [legacyPage],
   name: 'AidBvidConvert',
   data: function () {
     return {
@@ -128,8 +131,7 @@ export default {
     queryClickHandler() {
       if (this.method === 'api') {
         // requested without cookies, unlike the shared api client
-        fetch('https://api.bunnyxt.com/tdd/bapi_aid_bvid.php?'+this.queryKey+'='+this.queryValue)
-          .then(response => response.json())
+        this.$legacy('bapi_aid_bvid?'+this.queryKey+'='+encodeURIComponent(this.queryValue))
           .then((json) => {
             this.queryResultObj = json;
             if (json.status === 'success') {

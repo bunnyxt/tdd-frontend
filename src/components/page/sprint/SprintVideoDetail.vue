@@ -2,6 +2,7 @@
 
 <template>
   <div>
+    <a-alert v-if="legacyError" :message="legacyError" type="error" show-icon style="margin-bottom: 12px" />
     <div v-wechat-title="$route.meta.title=$t('page_title.sprint_detail', { title: `av${this.$route.params.aid}` })"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
@@ -12,7 +13,7 @@
     </div>
     <div v-if="isLoadingVideo">
       <div class="section-block">
-        <a-spin :spinning="isLoadingRecords">
+        <a-spin :spinning="isLoadingVideo">
           正在查找<a :href="'https://www.bilibili.com/video/av' + this.$route.params.aid" target="_blank">av{{ this.$route.params.aid }}</a>的冲刺记录
         </a-spin>
       </div>
@@ -54,13 +55,14 @@
         <div class="section-separator"></div>
         <div class="section-block">
           <a-spin :spinning="isLoadingRecords">
-            <tdd-sprint-video-view-history-line-chart :records="records" />
+            <p v-if="!isLoadingRecords && !records.length">暂无历史记录</p>
+            <tdd-sprint-video-view-history-line-chart v-else :records="records" />
           </a-spin>
         </div>
         <div class="section-separator"></div>
         <div class="section-block">
           <a-spin :spinning="isLoadingRecords">
-            <tdd-sprint-video-view-history-heat-map-chart :records="records" />
+            <tdd-sprint-video-view-history-heat-map-chart v-if="records.length" :records="records" />
           </a-spin>
         </div>
       </div>
@@ -75,11 +77,13 @@
 </template>
 
 <script>
+import { legacyPage } from '@/api/legacy';
 import SprintVideoInfo from './SprintVideoInfo.vue';
 import TddSprintVideoViewHistoryLineChart from "@/components/chart/TddSprintVideoViewHistoryLineChart";
 import TddSprintVideoViewHistoryHeatMapChart from "@/components/chart/TddSprintVideoViewHistoryHeatMapChart";
 
 export default {
+  mixins: [legacyPage],
   name: "SprintVideoDetail",
   components: {
     SprintVideoInfo,
@@ -100,11 +104,7 @@ export default {
           added: 0
         }
       },
-      records: [{
-        id: "-1",
-        added: "0",
-        view: "0"
-      }],
+      records: [],
       member: {
         mid: 1,
         name: "",
@@ -130,36 +130,27 @@ export default {
       }
     }
   },
-  watch: {
-    video: function () {
-      if (this.video.status == "finished") {
-        let endTs = this.video.last_record.added
-        let startTs = endTs - 60 * 60 * 24 * 7
-        this.loadOneWeekRecords(startTs)
-      }
-    }
-  },
   methods: {
     loadOneWeekRecords: function(startTs){
       if (this.isLoadingRecords) {
         return
       }
       this.isLoadingRecords = true
-      fetch(this.$store.state.apiBase + "sprint_video_record.php?aid=" + this.$route.params.aid + "&start=" + startTs)
-        .then(response => response.json())
+      this.$legacy("sprint_video_record?aid=" + this.$route.params.aid + "&start=" + startTs)
         .then(json => this.records = json.data)
-        .then(() => this.isLoadingRecords = false)
+        .catch(() => {})
+        .finally(() => this.isLoadingRecords = false)
     },
     loadAddRecords: function() {
       if (this.isLoadingAllRecords == true || this.hasLoadAllRecords == true) {
         return
       }
       this.isLoadingAllRecords = true
-      fetch(this.$store.state.apiBase + "sprint_video_record.php?aid=" + this.$route.params.aid)
-        .then(response => response.json())
+      this.$legacy("sprint_video_record?aid=" + this.$route.params.aid)
         .then(json => this.records = json.data)
-        .then(() => this.isLoadingAllRecords = false)
         .then(() => this.hasLoadAllRecords = true)
+        .catch(() => {})
+        .finally(() => this.isLoadingAllRecords = false)
     },
     closeAllRecordsInfo: function() {
       this.isLoadAllRecordsShow = false
@@ -167,20 +158,18 @@ export default {
   },
   created: function() {
     this.isLoadingVideo = true
-    fetch(this.$store.state.apiBase + "sprint_video.php?aid=" + this.$route.params.aid)
-      .then(response => response.json())
+    this.$legacy("sprint_video?aid=" + this.$route.params.aid)
       .then(json => {
         if (json.data.length > 0){
           this.video = json.data[0]
+          const end = this.video.status === "finished" && this.video.last_record
+            ? this.video.last_record.added : Date.now() / 1000
+          this.loadOneWeekRecords(end - 7 * 86400)
         }
-        this.isLoadingVideo = false
       })
+      .catch(() => {})
+      .finally(() => this.isLoadingVideo = false)
 
-    // load only 1 week data first
-    let nowDate = new Date()
-    let endTs = nowDate.valueOf() / 1000
-    let startTs = endTs - 60 * 60 * 24 * 7
-    this.loadOneWeekRecords(startTs)
     this.hasLoadAllRecords = false
   }
 }

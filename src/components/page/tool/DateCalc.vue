@@ -3,6 +3,7 @@
 
 <template>
   <div>
+    <a-alert v-if="legacyError" :message="legacyError" type="error" show-icon style="margin-bottom: 12px" />
     <div v-wechat-title="`${$t('tool_info.datecalc.name')} - ${$t('page_title._tdd')}`"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
@@ -33,8 +34,10 @@
 </template>
 
 <script>
+import { legacyPage } from '@/api/legacy';
 import { setInterval, clearInterval } from 'timers';
 export default {
+  mixins: [legacyPage],
   name: "DateCalc",
   data: function() {
     return {
@@ -92,8 +95,7 @@ export default {
     getCreatedTs: function() {
       this.isGettingCreatedTs = true
       this.createdTimeMessage = "正在获取视频投稿时间..."
-      fetch("https://api.bunnyxt.com/tdd/bapi_view.php?aid=" + this.aidString)
-        .then(response => response.json())
+      this.$legacy("bapi_view?aid=" + encodeURIComponent(this.aidString))
         .then(json => {
           let date
           switch (json.code) {
@@ -108,7 +110,8 @@ export default {
               break;
           }
         })
-      this.isGettingCreatedTs = false
+        .catch(() => { this.createdTimeMessage = "获取失败，请重试" })
+        .finally(() => { this.isGettingCreatedTs = false })
     },
     onAutoRefreshSwitchChange: function() {
       this.needAutoRefresh = !this.needAutoRefresh;
