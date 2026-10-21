@@ -2,6 +2,7 @@
 
 <template>
   <div>
+    <a-alert v-if="legacyError" :message="legacyError" type="error" show-icon style="margin-bottom: 12px" />
     <div v-wechat-title="$t('page_title.sprint_daily')"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
@@ -35,6 +36,7 @@
           <a-alert type="info" message="加载中..."></a-alert>
         </a-spin>
       </div>
+      <p v-else-if="!sprintDailyList.length">暂无助攻日报</p>
       <tdd-sprint-daily-view-incr-history-line-chart v-else :sprint-daily-list="sprintDailyList" />
     </div>
     <div class="section-separator"></div>
@@ -51,10 +53,12 @@
 </template>
 
 <script>
+import { legacyPage } from '@/api/legacy';
 import SprintDailyTable from "./SprintDailyTable.vue"
 import TddSprintDailyViewIncrHistoryLineChart from "@/components/chart/TddSprintDailyViewIncrHistoryLineChart";
 
 export default {
+  mixins: [legacyPage],
   name: "SprintDailyHome",
   components: {
     SprintDailyTable,
@@ -68,11 +72,11 @@ export default {
   },
   created: function() {
     this.isLoadingDaily = true
-    fetch(this.$store.state.apiBase + "sprint_daily.php")
-      .then(response => response.json())
+    this.$legacy("sprint_daily")
       .then(json => this.sprintDailyList = json.data)
       .then(() => this.sprintDailyList = this.sprintDailyList.reverse()) // reverse here
-      .then(() => this.isLoadingDaily = false)
+      .catch(() => {})
+      .finally(() => this.isLoadingDaily = false)
   },
 }
 </script>

@@ -4,6 +4,7 @@
     style="margin: 0px 0px 12px 0px"
     class="sprint-video-card"
   >
+    <a-alert v-if="legacyError" :message="legacyError" type="error" show-icon />
     <img
       :id="'video-pic-'+video.id"
       :alt="video.title"
@@ -35,7 +36,9 @@
 </template>
 
 <script>
+import { legacyPage } from '@/api/legacy';
 export default {
+  mixins: [legacyPage],
   name: "SprintVideoBrief",
   props: {
     video: Object,
@@ -63,9 +66,9 @@ export default {
     }
   },
   created: function() {
-    fetch(this.$store.state.apiBase + "member.php?mid=" + this.video.mid)
-      .then(response => response.json())
-      .then(json => this.member = json.data[0])
+    this.$legacy("member?mid=" + this.video.mid)
+      .then(json => { if (json.data[0]) this.member = json.data[0] })
+      .catch(() => {})
   }
 };
 </script>

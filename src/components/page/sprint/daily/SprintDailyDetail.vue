@@ -2,6 +2,7 @@
 
 <template>
   <div>
+    <a-alert v-if="legacyError" :message="legacyError" type="error" show-icon style="margin-bottom: 12px" />
     <div v-wechat-title="$t('page_title.sprint_daily_detail', { id: this.$route.params.date })"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
@@ -72,10 +73,12 @@
 </template>
 
 <script>
+import { legacyPage } from '@/api/legacy';
 import SprintVideoBriefTable from "../SprintVideoBriefTable.vue"
 import SprintDailyDetailTable from "./SprintDailyDetailTable.vue"
 
 export default {
+  mixins: [legacyPage],
   name: "SprintDailyDetail",
   components: {
     SprintVideoBriefTable,
@@ -160,42 +163,31 @@ export default {
   },
   watch: {
     daily: function() {
-      // TODO async error may occur here
       this.isLoadingNewVids = true
-      let nList = new Array()
-      for (let i = 0; i < this.daily.newvids.length; i++) {
-        fetch(this.$store.state.apiBase + "sprint_video.php?aid="+this.daily.newvids[i])
-          .then(response => response.json())
-          .then(json => nList.push(json.data[0]))
-      }
-      this.newvidsList = nList
-      this.isLoadingNewVids = false
-
+      Promise.all(this.daily.newvids.map(aid => this.$legacy('sprint_video?aid=' + aid)))
+        .then(rows => { this.newvidsList = rows.map(row => row.data[0]).filter(Boolean) })
+        .catch(() => {})
+        .finally(() => { this.isLoadingNewVids = false })
       this.isLoadingMillVids = true
-      let mList = new Array()
-      for (let i = 0; i < this.daily.millvids.length; i++) {
-        fetch(this.$store.state.apiBase + "sprint_video.php?aid="+this.daily.millvids[i])
-          .then(response => response.json())
-          .then(json => mList.push(json.data[0]))
-      }
-      this.millvidsList = mList
-      this.isLoadingMillVids = false
+      Promise.all(this.daily.millvids.map(aid => this.$legacy('sprint_video?aid=' + aid)))
+        .then(rows => { this.millvidsList = rows.map(row => row.data[0]).filter(Boolean) })
+        .catch(() => {})
+        .finally(() => { this.isLoadingMillVids = false })
     }
   },
   created: function() {
     // TODO rewrite get info method to support router-view
     this.isLoadingDaily = true
     this.isLoadingRecords = true
-    fetch(this.$store.state.apiBase + "sprint_daily.php?date="+this.$route.params.date)
-      .then(response => response.json())
+    this.$legacy("sprint_daily?date="+this.$route.params.date)
       .then(json => {
         if (json.data[0]) {
           this.daily = json.data[0]
         }
       })
-      .then(() => this.isLoadingDaily = false)
-    fetch(this.$store.state.apiBase + "sprint_daily_record.php?date="+this.$route.params.date)
-      .then(response => response.json())
+      .catch(() => {})
+      .finally(() => this.isLoadingDaily = false)
+    this.$legacy("sprint_daily_record?date="+this.$route.params.date)
       .then(json => {
         if (json.data) {
           this.sprintDailyRecordList = json.data
@@ -204,7 +196,8 @@ export default {
           )
         }
       })
-      .then(() => this.isLoadingRecords = false)
+      .catch(() => {})
+      .finally(() => this.isLoadingRecords = false)
   }
 }
 </script>

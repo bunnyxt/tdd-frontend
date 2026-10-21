@@ -2,6 +2,7 @@
 
 <template>
   <div>
+    <a-alert v-if="legacyError" :message="legacyError" type="error" show-icon style="margin-bottom: 12px" />
     <div v-wechat-title="$t('page_title.sprint')"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
@@ -39,6 +40,8 @@
             基于传说助攻的数据，以<strong>UTC+8 06:00至次日06:00</strong>为统计区间，每日刊发一期的助攻日报，记录当日各冲刺视频播放数及播放数变化情况。
           </p>
           <a-spin :spinning="isLoadingDaily">
+            <p v-if="!isLoadingDaily && !sprintDaily.date">暂无助攻日报</p>
+            <div v-else>
             <p>最后更新⬇️</p>
             <h2>助攻日报<router-link :to="'sprint/daily/'+sprintDaily.date">#{{ sprintDaily.date }}</router-link></h2>
             <div v-if="sprintDaily.correct == 1">
@@ -53,6 +56,7 @@
             </div>
             <div v-else>
               <a-alert type="error" :message="sprintDaily.comment" banner style="margin-bottom: 12px"/>
+            </div>
             </div>
           </a-spin>
           <p>查看<router-link to="/sprint/daily">往期助攻日报</router-link></p>
@@ -139,10 +143,12 @@
 </template>
 
 <script>
+import { legacyPage } from '@/api/legacy';
 import SprintVideoBrief from "./SprintVideoBrief.vue";
 import SprintVideoInfo from './SprintVideoInfo.vue';
 
 export default {
+  mixins: [legacyPage],
   name: "SprintHome",
   components: {
     SprintVideoBrief,
@@ -154,7 +160,7 @@ export default {
       sprintFinishedVideoList: [],
       sprintVideoImgHeight: '200px',
       sprintDaily: {
-        date: 19700101,
+        date: 0,
         correct: 1,
         vidnum: 0,
         newvids: [],
@@ -286,7 +292,7 @@ export default {
   methods: {
     containsSinger: function (singers) {
       let result = false
-      for (let i = 0; i < singers.length; i++) {
+      for (let i = 0; i < (singers || []).length; i++) {
         if (this.singerValues.indexOf(singers[i]) > -1) {
           result = true
           break
@@ -315,14 +321,13 @@ export default {
     this.isLoadingVideo = true
     this.isLoadingFinishedVideo = true
     this.isLoadingDaily = true
-    fetch(this.$store.state.apiBase + "sprint_video.php?status=processing")
-      .then(response => response.json())
+    this.$legacy("sprint_video?status=processing")
       .then(json => this.sprintVideoList = json.data)
       .then(
         () => {
           this.singerOptions = []
           for (let i = 0; i < this.sprintVideoList.length; i++) {
-            for (let j = 0; j < this.sprintVideoList[i].singer.length; j++) {
+            for (let j = 0; j < (this.sprintVideoList[i].singer || []).length; j++) {
               if (this.singerOptions.indexOf(this.sprintVideoList[i].singer[j]) == -1) {
                 this.singerOptions.push(this.sprintVideoList[i].singer[j])
               }
@@ -331,19 +336,20 @@ export default {
           this.singerValues = this.singerOptions
         }
       )
-      .then(() => this.isLoadingVideo = false)
-    fetch(this.$store.state.apiBase + "sprint_video.php?status=finished")
-      .then(response => response.json())
+      .catch(() => {})
+      .finally(() => this.isLoadingVideo = false)
+    this.$legacy("sprint_video?status=finished")
       .then(json => this.sprintFinishedVideoList = json.data)
-      .then(() => this.isLoadingFinishedVideo = false)
-    fetch(this.$store.state.apiBase + "sprint_daily.php?limit=1")
-      .then(response => response.json())
-      .then(json => this.sprintDaily = json.data[0])
-      .then(() => this.isLoadingDaily = false)
+      .catch(() => {})
+      .finally(() => this.isLoadingFinishedVideo = false)
+    this.$legacy("sprint_daily?limit=1")
+      .then(json => { if (json.data[0]) this.sprintDaily = json.data[0] })
+      .catch(() => {})
+      .finally(() => this.isLoadingDaily = false)
   },
   mounted: function(){
     let that = this;
-    window.addEventListener('resize',() => that.sprintVideoImgHeight = `${document.getElementsByClassName("sprint-video-card").item(0).clientWidth / 1.6}px`,false);
+    window.addEventListener('resize',() => that.sprintVideoImgHeight = `${(document.getElementsByClassName("sprint-video-card").item(0) || { clientWidth: 0 }).clientWidth / 1.6}px`,false);
   }
 };
 </script>

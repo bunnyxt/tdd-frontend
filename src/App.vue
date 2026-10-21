@@ -7,6 +7,9 @@
       <a-layout>
         <tdd-header ref="header" />
         <a-layout-content :style="{padding: layoutPadding, marginTop: layoutMarginTop, marginBottom: '-120px'}">
+          <a-alert v-if="legacyOverride" type="info" show-icon style="margin-top: 12px">
+            <span slot="message">当前浏览器使用 {{ legacyMode }} 数据源。<router-link to="/tool">更改或恢复默认</router-link></span>
+          </a-alert>
           <keep-alive>
             <router-view v-if="$route.meta.keepAlive" v-wechat-title="$route.meta.title"></router-view>
           </keep-alive>
@@ -21,6 +24,7 @@
 </template>
 
 <script>
+import { legacyMode, legacyOverride } from "@/api/legacy";
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
 import enUS from 'ant-design-vue/lib/locale-provider/en_US';
 import TddHeader from "./components/layout/TddHeader.vue";
@@ -31,6 +35,7 @@ import TddFooter from "./components/layout/TddFooter.vue";
 
 export default {
   name: "app",
+  data: () => ({ legacyMode, legacyOverride }),
   components: {
     TddHeader,
     TddMenuSlider,

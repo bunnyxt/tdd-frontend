@@ -41,6 +41,7 @@
 
 <template>
   <div>
+    <a-alert v-if="legacyError" :message="legacyError" type="error" show-icon style="margin-bottom: 12px" />
     <div v-wechat-title="$t('page_title.home')"></div>
     <div class="tdd-breadcrumb">
       <a-breadcrumb>
@@ -221,6 +222,7 @@
 </template>
 
 <script>
+import { legacyPage } from '@/api/legacy';
 import TddDonateLogList from "@/components/common/TddDonateLogList";
 import TddVideoList from "../common/TddVideoList"
 import TddMemberList from "../common/TddMemberList";
@@ -229,6 +231,7 @@ import qqgroup_qrcode from '../../assets/img/qrcode_1580391374617.jpg'
 import TddVideoAbidAutoComplete from "@/components/common/TddVideoAbidAutoComplete";
 
 export default {
+  mixins: [legacyPage],
   name: "Home",
   components: {
     TddVideoList,
@@ -360,8 +363,7 @@ export default {
     fetchSprintVideoList: function () {
       let that = this;
       this.isLoadingSprintVideoList = true;
-      fetch(this.$store.state.apiBase + "sprint_video.php?status=processing")
-        .then(response => response.json())
+      this.$legacy("sprint_video?status=processing")
         .then(json => this.sprintVideoList = json.data)
         .then(function () {
           // change to new data format
@@ -370,22 +372,19 @@ export default {
           }
           that.sprintVideoList.sort((a, b) => b.last_record.view - a.last_record.view);
           that.getSprintVideoListFiltered();
-          that.isLoadingSprintVideoList = false;
-        });
+        })
+        .catch(() => {})
+        .finally(() => { that.isLoadingSprintVideoList = false; });
     },
     getSprintVideoListFiltered: function () {
-      let lastAidList = [];
-      this.sprintVideoListFiltered.forEach(video => lastAidList.push(video.aid));
+      const previous = this.sprintVideoListFiltered.map(video => video.aid);
+      let pool = this.sprintVideoList.filter(video => !previous.includes(video.aid));
+      const count = Math.min(6, this.sprintVideoList.length);
+      if (pool.length < count) pool = this.sprintVideoList.slice();
       this.sprintVideoListFiltered = [];
-      let max = this.sprintVideoList.length;
-      let indexList = [];
-
-      while (indexList.length < 6) {
-        let index = Math.floor(Math.random() * max);
-        if (indexList.indexOf(index) === -1 && lastAidList.indexOf(this.sprintVideoList[index].aid) === -1) {
-          indexList.push(index);
-          this.sprintVideoListFiltered.push(this.sprintVideoList[index]);
-        }
+      while (this.sprintVideoListFiltered.length < count) {
+        const index = Math.floor(Math.random() * pool.length);
+        this.sprintVideoListFiltered.push(pool.splice(index, 1)[0]);
       }
     },
     sprintVideoListItemClickedHandler: function (item) {
