@@ -56,7 +56,7 @@
         <div class="section-block">
           <a-spin :spinning="isLoadingRecords">
             <p v-if="!isLoadingRecords && !records.length">暂无历史记录</p>
-            <tdd-sprint-video-view-history-line-chart v-else :records="records" />
+            <tdd-sprint-video-view-history-line-chart v-if="records.length" :records="records" />
           </a-spin>
         </div>
         <div class="section-separator"></div>
