@@ -43,7 +43,7 @@ const request = function (config) {
   const init = {
     method,
     headers,
-    credentials: config.credentials || 'include',
+    credentials: config.credentials || 'omit',
   };
   if (config.data !== undefined) {
     init.body = JSON.stringify(config.data);

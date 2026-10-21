@@ -21,10 +21,6 @@ const TextAbidDescriptionReplacement = () => import('./components/page/tool/Text
 const AboutHome = () => import('./components/page/about/AboutHome');
 const ContactUs = () => import('./components/page/about/ContactUs');
 const UpdateLog = () => import('./components/page/about/UpdateLog');
-const MeHome = () => import('./components/page/me/MeHome');
-const MeSetting = () => import('./components/page/me/MeSetting');
-const MeFavoriteVideo = () => import('./components/page/me/MeFavoriteVideo');
-const MeFavoriteMember = () => import('./components/page/me/MeFavoriteMember');
 const NotFound = () => import('./components/page/NotFound');
 
 Vue.use(VueRouter);
@@ -111,30 +107,6 @@ export default new VueRouter({
     }, {
       path: '/about/contactus',
       component: ContactUs,
-    }, {
-      path: '/me',
-      component: MeHome,
-      meta: {
-        roles: ['ROLE_user'],
-      },
-    }, {
-      path: '/me/favorite/video',
-      component: MeFavoriteVideo,
-      meta: {
-        roles: ['ROLE_user'],
-      },
-    }, {
-      path: '/me/favorite/member',
-      component: MeFavoriteMember,
-      meta: {
-        roles: ['ROLE_user'],
-      }
-    }, {
-      path: '/me/setting',
-      component: MeSetting,
-      meta: {
-        roles: ['ROLE_user'],
-      }
     }, {
       path: '*',
       component: NotFound,
