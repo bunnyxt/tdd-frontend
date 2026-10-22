@@ -10,7 +10,7 @@
     "coin": "硬币",
     "share": "分享",
     "like": "点赞",
-    "page_name":  {
+    "page_name": {
       "home": "首页",
       "video": "视频",
       "member": "UP主",
@@ -114,7 +114,10 @@
     "tdd_favorite_time": "关注时间",
     "pic": "封面",
     "title": "标题",
-    "afdian": "爱发电"
+    "afdian": "爱发电",
+    "user_system_notice_title": "用户系统暂时下线",
+    "user_system_notice_body": "用户系统暂时下线，之后会重新开放。原有账号资料将保留，具体开放安排后续公布。",
+    "user_system_notice_contact": "如有疑问，欢迎加入 QQ 群：537793686。"
   },
   "en": {
     "colon": ": ",
@@ -127,7 +130,7 @@
     "coin": "Coin",
     "share": "Share",
     "like": "Like",
-    "page_name":  {
+    "page_name": {
       "home": "Home",
       "video": "Video",
       "member": "Uploader",
@@ -231,6 +234,9 @@
     "tdd_favorite_time": "Favorite Time",
     "pic": "Cover",
     "title": "Title",
-    "afdian": "Afdian"
+    "afdian": "Afdian",
+    "user_system_notice_title": "User system temporarily offline",
+    "user_system_notice_body": "The user system is temporarily offline and will reopen in the future. Existing account data will be retained. Reopening details will be announced later.",
+    "user_system_notice_contact": "For questions, please join our QQ group: 537793686."
   }
 }

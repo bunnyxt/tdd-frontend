@@ -127,31 +127,12 @@ import moment from 'moment';
 import 'moment/locale/zh-cn';
 moment.locale('zh-cn');
 
-// user system check
-// eslint-disable-next-line no-unused-vars
-router.beforeEach((to, from, next) => {
-  // refresh user status
-  const tddUserDetail = localStorage.getItem('tddUserDetail');
-  if (tddUserDetail === null) {
-    // user not log in
-    store.commit('setUserLoginStatus', false);
-    store.commit('setUserDetail', null);
-  } else {
-    // user logged in
-    store.commit('setUserLoginStatus', true);
-    store.commit('setUserDetail', JSON.parse(tddUserDetail));
-  }
-
-  // check role
-  const rolesAcquired = tddUserDetail ? JSON.parse(tddUserDetail).roles.map(r => r.name) : [];
-  const rolesRequired = to.meta.roles;
-  if (!util.checkRoles(rolesAcquired, rolesRequired)) {
-    // roles not satisfied, try login
-    message.warn('权限不足无法访问！请登录后重试，或联系管理员。');
-    next('/');
-  }
-  next();
-});
+// Remove legacy identity only; keep language and tool preferences.
+try {
+  localStorage.removeItem('tddUserDetail');
+} catch (e) {
+  // Public browsing also works when storage is unavailable.
+}
 
 new Vue({
   router,

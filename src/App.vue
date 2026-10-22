@@ -2,7 +2,6 @@
   <a-config-provider :locale="locale">
     <a-layout class="layout" style="min-height:100%">
       <tdd-menu-slider @toggle-language-banner-visibility="toggleLanguageBannerVisibility" />
-      <tdd-login-slider />
       <tdd-video-detail-drawer />
       <a-layout>
         <tdd-header ref="header" />
@@ -25,7 +24,6 @@ import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN';
 import enUS from 'ant-design-vue/lib/locale-provider/en_US';
 import TddHeader from "./components/layout/TddHeader.vue";
 import TddMenuSlider from "./components/layout/TddMenuSlider.vue";
-import TddLoginSlider from "./components/layout/TddLoginSlider.vue";
 import TddVideoDetailDrawer from "./components/common/TddVideoDetailDrawer";
 import TddFooter from "./components/layout/TddFooter.vue";
 
@@ -34,7 +32,6 @@ export default {
   components: {
     TddHeader,
     TddMenuSlider,
-    TddLoginSlider,
     TddVideoDetailDrawer,
     TddFooter
   },

@@ -16,40 +16,12 @@
             :src="logo_small"
             @click="() => this.$router.push('/')"
           />
-          <div v-if="!this.$store.state.isUserLoggedIn">
-            <a-icon
-              class="mobile-header-user-avatar"
-              type="user"
-              @click="() => this.$store.commit('changeLoginSliderVisibility')"
-            />
-          </div>
-          <div v-else>
-            <a-dropdown key="mobile">
-              <a-avatar
-                class="mobile-header-user-avatar"
-                :src="$util.httpS(avatarUrl)"
-              />
-              <a-menu slot="overlay" style="margin-top: 4px">
-                <a-menu-item>
-                  <router-link to="/me">
-                    <a-icon type="home" style="margin-right: 8px"/>
-                    {{ $t('page_name.me') }}
-                  </router-link>
-                </a-menu-item>
-                <a-menu-item>
-                  <router-link to="/me/setting">
-                    <a-icon type="setting" style="margin-right: 8px"/>
-                    {{ $t('page_name.me_setting') }}
-                  </router-link>
-                </a-menu-item>
-                <a-menu-item>
-                  <a href="javascript:;" @click="handleLogoutClick">
-                    <a-icon type="logout" style="margin-right: 8px"/>
-                    {{ $t('logout') }}</a>
-                </a-menu-item>
-              </a-menu>
-            </a-dropdown>
-          </div>
+          <button
+            class="mobile-header-user-avatar"
+            type="button"
+            :aria-label="$t('login')"
+            @click="showUserNotice = true"
+          ><a-icon type="user" /></button>
         </a-layout-header>
       </div>
     </template>
@@ -89,50 +61,28 @@
             <a-icon type="global" />
           </a-menu-item>
         </a-menu>
-        <div v-if="!this.$store.state.isUserLoggedIn">
-          <a-button
-            class="desktop-header-login-button"
-            ghost
-            @click="() => this.$store.commit('changeLoginSliderVisibility')"
-          >
-            {{ $t('login') }}
-          </a-button>
-        </div>
-        <div v-else>
-          <a-dropdown key="desktop">
-            <a-avatar
-              class="desktop-header-user-avatar"
-              :src="$util.httpS(avatarUrl)"
-            />
-            <a-menu slot="overlay" style="margin-top: 4px">
-              <a-menu-item>
-                <router-link to="/me">
-                  <a-icon type="home" style="margin-right: 8px"/>
-                  {{ $t('page_name.me') }}
-                </router-link>
-              </a-menu-item>
-              <a-menu-item>
-                <router-link to="/me/setting">
-                  <a-icon type="setting" style="margin-right: 8px"/>
-                  {{ $t('page_name.me_setting') }}
-                </router-link>
-              </a-menu-item>
-              <a-menu-item>
-                <a href="javascript:;" @click="handleLogoutClick">
-                  <a-icon type="logout" style="margin-right: 8px"/>
-                  {{ $t('logout') }}</a>
-              </a-menu-item>
-            </a-menu>
-          </a-dropdown>
-        </div>
+        <a-button
+          class="desktop-header-login-button"
+          ghost
+          @click="showUserNotice = true"
+        >
+          {{ $t('login') }}
+        </a-button>
       </a-layout-header>
     </template>
+    <a-modal
+      v-model="showUserNotice"
+      :title="$t('user_system_notice_title')"
+      :footer="null"
+    >
+      <p>{{ $t('user_system_notice_body') }}</p>
+      <p>{{ $t('user_system_notice_contact') }}</p>
+    </a-modal>
   </div>
 </template>
 
 <script>
 import logo_small from '../../assets/img/logo_32S.png'
-import md5 from 'js-md5';
 import TddLanguageSelectBanner from "@/components/layout/TddLanguageSelectBanner";
 
 export default {
@@ -142,7 +92,8 @@ export default {
   },
   data: function () {
     return {
-      logo_small: logo_small
+      logo_small: logo_small,
+      showUserNotice: false
     }
   },
   computed: {
@@ -167,47 +118,8 @@ export default {
       }
       return keys;
     },
-    avatarUrl: function () {
-      if (this.$store.state.isUserLoggedIn === true) {
-        const email = this.$store.state.userDetail.email;
-        if (email) {
-          return 'https://www.gravatar.com/avatar/' + md5(email) + '?d=identicon';
-        } else {
-          return 'https://www.gravatar.com/avatar/' + md5('tdduser' + this.$store.state.userDetail.id + '@tdd.bunnyxt.com') + '?d=identicon';
-        }
-      } else {
-        return 'https://www.gravatar.com/avatar/' + md5('anonymous@tdd.bunnyxt.com') + '?d=identicon';
-      }
-    }
   },
   methods: {
-    handleLogoutClick: function () {
-      let that = this;
-      this.$http.request({
-        method: 'post',
-        url: '/logout'
-      })
-        .then(function (response) {
-          if (response.data.code === 20002) {
-            // clear local storage
-            localStorage.removeItem('tddUserDetail');
-
-            // set status
-            that.$store.commit('setUserLoginStatus', false);
-            that.$store.commit('setUserDetail', null);
-
-            that.$message.info('您已成功退出登录！');
-
-            // go to home page
-            that.$router.push('/');
-          } else {
-            console.log(response.data);
-          }
-        })
-        .catch(function (error) {
-          that.$message.error(error.response.data);
-        })
-    },
     handleLanguageButtonClick: function () {
       this.$refs.banner.showI18nLocaleSelect = !this.$refs.banner.showI18nLocaleSelect;  // bad design
     },
@@ -237,6 +149,9 @@ export default {
 }
 
 .mobile-header-user-avatar {
+  padding: 0;
+  border: 0;
+  background: transparent;
   float: right;
   color: #fff;
   width: 24px;
@@ -259,16 +174,6 @@ export default {
   margin-top: 16px;
   color: rgba(255, 255, 255, 0.65);
   border-color: rgba(255, 255, 255, 0.65);
-}
-
-.desktop-header-user-avatar {
-  float: right;
-  color: #fff;
-  width: 32px;
-  height: 32px;
-  font-size: 32px;
-  margin-top: 16px;
-  cursor: pointer;
 }
 
 .ant-menu-item {
