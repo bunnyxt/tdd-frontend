@@ -1,8 +1,4 @@
-// The PHP backend is retired; discard the former per-browser override.
-export const legacyDefault = 'v2';
-export const legacyMode = legacyDefault;
-try { localStorage.removeItem('tdd.legacy-backend.validation-1'); }
-catch (e) { /* Storage is optional; routing is always v2. */ }
+// Compatibility requests use the Spring backend.
 const routes = ['member', 'sprint_daily', 'sprint_daily_record', 'sprint_video',
   'sprint_video_record', 'bapi_aid_bvid', 'bapi_view'];
 
