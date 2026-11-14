@@ -49,7 +49,11 @@
             </div>
             <div class="tdd-member-item-mobile-right-content-footer">
               <div style="width: 100%">
-                <template v-if="mainProp === 'sr_view'">
+                <template v-if="mainProp === 'sr_video_count'">
+                  <a-icon type="video-camera" class="stat-item-icon" />
+                  {{ item.last_total_stat && item.last_total_stat.video_count != null ? item.last_total_stat.video_count.toLocaleString() : '-' }}
+                </template>
+                <template v-else-if="mainProp === 'sr_view'">
                   <a-icon type="play-circle" class="stat-item-icon" />
                   {{ item.last_total_stat ? item.last_total_stat.view.toLocaleString() : -1 }}
                 </template>
@@ -125,10 +129,10 @@
           </div>
           <a-tooltip>
             <template slot="title">
-              <tdd-video-stat-bar :stat="item.last_total_stat" />
+              <tdd-video-stat-bar :stat="item.last_total_stat" :show-video-count="mainProp === 'sr_video_count'" />
             </template>
             <div class="tdd-member-item-desktop-grid-stat-bar" style="margin-top: 8px">
-              <tdd-video-stat-bar :stat="item.last_total_stat" />
+              <tdd-video-stat-bar :stat="item.last_total_stat" :show-video-count="mainProp === 'sr_video_count'" />
             </div>
           </a-tooltip>
           <a-tooltip>
