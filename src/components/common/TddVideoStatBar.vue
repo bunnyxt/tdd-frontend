@@ -2,6 +2,9 @@
 
 <template>
   <div class="video-stat-bar">
+    <template v-if="showVideoCount">
+      <span class="stat-item"><a-icon type="video-camera" class="stat-item-icon" />{{ videoCount }}</span><span v-html="separator"></span>
+    </template>
     <span class="stat-item"><a-icon type="play-circle" class="stat-item-icon" />{{ view }}</span><span v-html="separator"></span>
     <span class="stat-item"><a-icon type="profile" class="stat-item-icon" />{{ danmaku }}</span><span v-html="separator"></span>
     <span class="stat-item"><a-icon type="message" class="stat-item-icon" />{{ reply }}</span><span v-html="separator"></span>
@@ -18,7 +21,8 @@ export default {
   props: {
     stat: Object,
     mode: String,
-    showName: Boolean
+    showName: Boolean,
+    showVideoCount: Boolean
   },
   methods: {
     getStatValue: function (property) {
@@ -40,6 +44,10 @@ export default {
     }
   },
   computed: {
+    videoCount: function () {
+      const value = this.stat ? this.stat.video_count : null;
+      return this.getStatName('tracked_video_count') + (value == null ? '-' : value.toLocaleString());
+    },
     displayMode: function () {
       if (this.mode === 'vertical') {
         return 'vertical';

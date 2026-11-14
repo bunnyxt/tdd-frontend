@@ -137,7 +137,7 @@
             <a-menu-item key="history"> <a-icon type="history" />{{ $t('info_history') }} </a-menu-item>
           </a-menu>
           <div v-show="currentInfoCategory.indexOf('overview') !== -1">
-            <tdd-video-stat-bar :stat="member.last_total_stat" :mode="'vertical'" :show-name="true" />
+            <tdd-video-stat-bar :stat="member.last_total_stat" :mode="'vertical'" :show-name="true" :show-video-count="true" />
             <template v-if="member.last_total_stat">*{{ $util.tsToDateString(member.last_total_stat.added) }}{{ $t('updated_suffix') }}</template>
           </div>
           <div v-show="currentInfoCategory.indexOf('history') !== -1">
