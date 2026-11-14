@@ -6,7 +6,7 @@
 // - rejects with an Error carrying `response` for non-2xx responses, or
 //   `request` when no response was received.
 
-const baseURL = 'https://api.bunnyxt.com/tdd/v2/';
+import { apiBaseURL as baseURL } from './config';
 
 const buildURL = function (url, params) {
   let fullURL = /^https?:\/\//i.test(url)

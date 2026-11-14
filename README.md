@@ -25,3 +25,17 @@ The project is made up with three different part, connect with center database, 
 See the structure below
 
 ![TianDian Daily structure](./tdd-structure.png 'TianDian Daily structure')
+
+## Development and API configuration
+
+Use Node 22 (`nvm use`) and `npm ci`. Copy `.env.development.example` to
+`.env.development.local`, set both `VUE_APP_API_BASE_URL` and
+`VUE_APP_LEGACY_API_BASE_URL` to your backend, then run
+`NODE_OPTIONS=--openssl-legacy-provider npm run serve`.
+Both variables are required for serving or building. They accept an HTTP(S) URL
+or a root-relative path and are embedded in the build; do not put secrets in them.
+
+`npm run build` uses the explicit `.env.production` configuration. For a separate
+environment, set both variables in `.env.<mode>.local` and use
+`NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider npm run build -- --mode <mode>`.
+Other modes have no production API fallback.

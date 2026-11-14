@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     getStatValue: function (property) {
-      if (this.stat && this.stat[property] !== undefined) {
+      if (this.stat && this.stat[property] != null) {
         return this.stat[property];
       } else {
         return -1;

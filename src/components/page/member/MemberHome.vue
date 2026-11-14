@@ -72,7 +72,6 @@
               <td>
                 <a-radio-group name="orderSelector" v-model="orderValue">
                   <a-radio value="mid">{{ $t('filter.sort_by.member_prefix') }}mid</a-radio>
-                  <a-radio value="video_count">{{ $t('total_prefix')}}{{ $t('video_count') }}</a-radio>
                   <a-radio value="v_pubdate">{{ $t('latest_video') }}</a-radio>
                   <a-radio value="fr_follower">{{ $t('total_prefix')}}{{ $t('follower_count') }}</a-radio><br>
                   <a-radio value="sr_view">{{ $t('total_prefix')}}{{ $t('view') }}</a-radio>

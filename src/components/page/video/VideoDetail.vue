@@ -283,6 +283,7 @@ import TddVideoActionBar from "../../common/TddVideoActionBar";
 import TddVideoDataBlock from "@/components/common/TddVideoDataBlock";
 import TddVideoHistoryLineChart from "@/components/chart/TddVideoHistoryLineChart";
 import VideoDetailVideoIdLink from "@/components/page/video/VideoDetailVideoIdLink";
+import { recordsByTime, recentRecords } from '@/util/records';
 
 export default {
   name: 'VideoDetail',
@@ -321,7 +322,7 @@ export default {
       if (this.enableCurrentVideoRecords) {
         records = records.concat(this.currentVideoRecords);
       }
-      return records.sort((a, b) => a.added - b.added);
+      return recordsByTime(records);
     },
     isLoadingVideoRecords: function () {
       return this.isLoadingCurrentVideoRecordsBrief
@@ -428,7 +429,7 @@ export default {
         .then(function (response) {
           that.currentVideoRecords = response.data;
           that.currentVideoRecordsTotalCount = response.headers['x-total-count'];
-          that.currentVideoRecordsTotalLoaded = true;
+          that.currentVideoRecordsTotalLoaded = that.currentVideoRecords.length >= Number(that.currentVideoRecordsTotalCount);
         })
         .catch(function (error) {
           console.log(error);
@@ -464,7 +465,7 @@ export default {
         aid: this.aid,
         video: this.video,
         // records: [],
-        records: this.videoRecords.slice(-200),
+        records: recentRecords(this.videoRecords, 200),
         config: {
           title: `av${this.aid}`,
           props: ['view'],

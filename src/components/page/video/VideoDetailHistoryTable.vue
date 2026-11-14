@@ -13,7 +13,7 @@
 <template>
   <a-table
     :columns="columns"
-    :rowKey="record => record.added"
+    :rowKey="recordKey"
     :dataSource="videoRecords"
     :pagination="pagination"
     :scroll="{ x: 850 }"
@@ -23,12 +23,14 @@
       {{ $util.tsToDateString(added) }}
     </template>
     <template slot="value" slot-scope="value">
-      {{ value.toLocaleString() }}
+      {{ value == null ? '-' : value.toLocaleString() }}
     </template>
   </a-table>
 </template>
 
 <script>
+import { recordKey } from '@/util/records';
+
 export default {
   name: 'VideoDetailHistoryTable',
   props: {
@@ -37,6 +39,7 @@ export default {
       required: true
     }
   },
+  methods: { recordKey },
   data: function () {
     return {
       columns: [

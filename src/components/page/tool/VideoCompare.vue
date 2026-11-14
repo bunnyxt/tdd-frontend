@@ -71,7 +71,7 @@
         style="margin-bottom: 16px"
       >
         <template slot="videoAid" slot-scope="aid">
-          <a :href="`https://tdd.bunnyxt.com/video/av${aid}`" target="_blank">{{ aid }}</a>
+          <router-link :to="`/video/av${aid}`" target="_blank">{{ aid }}</router-link>
         </template>
         <template slot="videoTitle" slot-scope="item">
           <a :href="`https://www.bilibili.com/video/av${item.aid}`" target="_blank">{{ item.video.title }}</a>
@@ -126,6 +126,7 @@
 
 <script>
 import TddVideoHistoryCompareLineChart from "@/components/chart/TddVideoHistoryCompareLineChart";
+import { recentRecords } from '@/util/records';
 
 export default {
   name: 'VideoCompare',
@@ -279,7 +280,7 @@ export default {
       };
       const getVideoRecordsByAid = function (aid) {
         return that.$http.get(
-          `/video/${aid}/record`
+          `/video/${aid}/record?last_count=200`
         );
       };
       Promise.all([
@@ -291,14 +292,14 @@ export default {
         ]) {
           const video = videoResponse.data;
           const records = videoRecordsResponse.data;
-          if (video.length === 0) {
+          if (!video || Object.keys(video).length === 0) {
             that.$message.error('添加失败！视频不在本站收录范围内');
           } else {
             const newVideo = {
               aid,
               video,
               // records: [],
-              records: records.slice(-200),
+              records: recentRecords(records, 200),
               config: {
                 title: `av${aid}`,
                 props: ['view'],

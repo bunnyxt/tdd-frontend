@@ -86,6 +86,7 @@
 <script>
 import { Chart } from '@antv/g2';
 import moment from "moment";
+import { recordsByTime } from '@/util/records';
 
 export default {
   name: 'TddLineChart',
@@ -182,6 +183,9 @@ export default {
     };
   },
   computed: {
+    orderedData: function () {
+      return recordsByTime(this.data);
+    },
     // display start ts
     startTs: function () {
       if (this.addedRangeValue[0]) {
@@ -205,7 +209,7 @@ export default {
       
       // add base point
       if (this.showBasePoint) {
-        const templatePoint = this.$util.deepClone(this.data[0]);
+        const templatePoint = this.$util.deepClone(this.orderedData[0] || {});
         for (let key in templatePoint) {
           templatePoint[key] = 0;
         }
@@ -216,7 +220,7 @@ export default {
       // cut via range
       filteredData = [
         ...filteredData,
-        ...this.data.filter(v => v.added >= this.startTs && v.added <= this.endTs),
+        ...this.orderedData.filter(v => v.added >= this.startTs && v.added <= this.endTs),
       ]
       
       return filteredData;
@@ -229,7 +233,7 @@ export default {
       this.setAnnotation();
       
       // copy filtered data
-      const filteredData = [...this.filteredData];
+      const filteredData = this.filteredData.map(record => ({ ...record }));
       
       // add speed
       if (filteredData.length > 0 && this.config.data.addSpeed) {
@@ -243,7 +247,10 @@ export default {
           for (let i = 1; i < filteredData.length; i++) {
             const prop_diff = filteredData[i][prop] - filteredData[i-1][prop];
             const added_diff = filteredData[i].added - filteredData[i-1].added;
-            if (prop_diff === 0 && added_diff <= 75) {
+            if (added_diff <= 0 || filteredData[i][prop] == null || filteredData[i-1][prop] == null) {
+              // Keep both observations, but leave a gap for an undefined rate.
+              filteredData[i][prop_speed] = null;
+            } else if (prop_diff === 0 && added_diff <= 75) {
               // two record with same value in 75s
               filteredData[i][prop_speed] = filteredData[i-1][prop_speed];
             } else {
@@ -674,9 +681,6 @@ export default {
   mounted() {
     // console.timeEnd('mount');
     // console.time('mounted');
-    // sort via added
-    this.data.sort((a, b) => a.added - b.added);
-    
     // init addedRangeValue
     let defaultAddedRangeStartIndex = 0;
     const defaultDataLength = this.config.dateRangePanel
@@ -688,7 +692,7 @@ export default {
       defaultAddedRangeStartIndex = this.data.length - defaultDataLength;
     }
     this.addedRangeValue = [
-      moment(this.data[defaultAddedRangeStartIndex].added * 1000),
+      this.orderedData.length ? moment(this.orderedData[defaultAddedRangeStartIndex].added * 1000) : moment(),
       moment(),
     ];
     // go draw

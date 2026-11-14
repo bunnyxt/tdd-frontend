@@ -123,9 +123,7 @@
                 </template>
               </div>
               <div class="tdd-member-detail-header-video-count-follower">
-                <a-icon type="video-camera" class="stat-item-icon" style="margin-right: 4px" />
-                {{ member.video_count.toLocaleString() }}
-                <a-icon type="team" class="stat-item-icon" style="margin-left: 12px; margin-right: 4px" />
+                <a-icon type="team" class="stat-item-icon" style="margin-right: 4px" />
                 {{ member.last_follower ? member.last_follower.follower.toLocaleString() : -1 }}
               </div>
             </div>
@@ -140,7 +138,7 @@
           </a-menu>
           <div v-show="currentInfoCategory.indexOf('overview') !== -1">
             <tdd-video-stat-bar :stat="member.last_total_stat" :mode="'vertical'" :show-name="true" />
-            *{{ $util.tsToDateString(member.last_total_stat.added) }}{{ $t('updated_suffix') }}
+            <template v-if="member.last_total_stat">*{{ $util.tsToDateString(member.last_total_stat.added) }}{{ $t('updated_suffix') }}</template>
           </div>
           <div v-show="currentInfoCategory.indexOf('history') !== -1">
             <div v-if="isLoadingMemberLogs">
