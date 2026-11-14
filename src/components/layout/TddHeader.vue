@@ -149,6 +149,10 @@ export default {
 }
 
 .mobile-header-user-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   padding: 0;
   border: 0;
   background: transparent;
