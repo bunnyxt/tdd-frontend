@@ -8,6 +8,7 @@
 <script>
 import { Chart } from '@antv/g2';
 import moment from "moment";
+import { recordsByTime } from '@/util/records';
 
 export default {
   name: 'TddSprintVideoViewHistoryHeatMapChart',
@@ -42,13 +43,15 @@ export default {
     },
     weekMatrices: function () {
       let matrices = {};
-      for (let i = 1; i < this.records.length; i++) {
+      const records = recordsByTime(this.records || []);
+      for (let i = 1; i < records.length; i++) {
         // get start record r1 and end record r2
-        const r1 = this.records[i - 1];
-        const r2 = this.records[i];
+        const r1 = records[i - 1];
+        const r2 = records[i];
         // delta_view and delta_ts
         const delta_view = r2.view - r1.view;
         const delta_ts = r2.added - r1.added;
+        if (delta_ts <= 0 || r1.view == null || r2.view == null) continue;
         // separate ts into hour cells
         const hourCells = [];
         let ts_start = r1.added;

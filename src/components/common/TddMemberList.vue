@@ -48,12 +48,12 @@
               </template>
             </div>
             <div class="tdd-member-item-mobile-right-content-footer">
-              <div style="width: 40%">
-                <a-icon type="video-camera" class="stat-item-icon" />
-                {{ item.video_count.toLocaleString() }}
-              </div>
-              <div style="width: 60%">
-                <template v-if="mainProp === 'sr_view'">
+              <div style="width: 100%">
+                <template v-if="mainProp === 'sr_video_count'">
+                  <a-icon type="video-camera" class="stat-item-icon" />
+                  {{ item.last_total_stat && item.last_total_stat.video_count != null ? item.last_total_stat.video_count.toLocaleString() : '-' }}
+                </template>
+                <template v-else-if="mainProp === 'sr_view'">
                   <a-icon type="play-circle" class="stat-item-icon" />
                   {{ item.last_total_stat ? item.last_total_stat.view.toLocaleString() : -1 }}
                 </template>
@@ -122,19 +122,17 @@
                 </template>
               </div>
               <div class="tdd-member-item-desktop-grid-follower">
-                <a-icon type="video-camera" class="stat-item-icon" />
-                {{ item.video_count.toLocaleString() }}
-                <a-icon type="team" class="stat-item-icon" style="margin-left: 12px" />
+                <a-icon type="team" class="stat-item-icon" />
                 {{ item.last_follower ? item.last_follower.follower.toLocaleString() : -1 }}
               </div>
             </div>
           </div>
           <a-tooltip>
             <template slot="title">
-              <tdd-video-stat-bar :stat="item.last_total_stat" />
+              <tdd-video-stat-bar :stat="item.last_total_stat" :show-video-count="mainProp === 'sr_video_count'" />
             </template>
             <div class="tdd-member-item-desktop-grid-stat-bar" style="margin-top: 8px">
-              <tdd-video-stat-bar :stat="item.last_total_stat" />
+              <tdd-video-stat-bar :stat="item.last_total_stat" :show-video-count="mainProp === 'sr_video_count'" />
             </div>
           </a-tooltip>
           <a-tooltip>
@@ -204,7 +202,7 @@ export default {
   },
   methods: {
     itemLastVideoClickHandler: function (aid) {
-      this.$router.push('video/av' + aid);
+      if (aid > 0) this.$router.push('/video/av' + aid);
     }
   }
 }

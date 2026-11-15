@@ -36,13 +36,15 @@
 
 1. 安装`Node.js` 22 及其自带的`npm`（10.9 或更高）。所需版本在仓库根目录的`.nvmrc`与`package.json`的`engines`中声明；使用 nvm 时可在仓库根目录执行`nvm install && nvm use`。`.npmrc`开启了`engine-strict`，版本不符时安装依赖会直接失败
 2. 克隆仓库，`git clone https://github.com/bunnyxt/tdd-frontend.git && cd tdd-frontend`
-3. 按需在 `src/config/index.js` 中填写本地配置
+3. 将 `.env.development.example` 复制为 `.env.development.local`，同时设置 `VUE_APP_API_BASE_URL` 和 `VUE_APP_LEGACY_API_BASE_URL`，指向自己的普通和兼容 API；按需在 `src/config/index.js` 中填写其他本地配置
 4. 安装依赖，`npm ci`，这一步可能会花一点时间
 5. 本地启动，`NODE_OPTIONS=--openssl-legacy-provider npm run serve`，默认会在`http://127.0.0.1:8080`启动开发环境，支持热加载
 6. 打包构建，`NODE_OPTIONS=--openssl-legacy-provider npm run build`，最终产物存放于`dist`文件夹下，即可用于部署
 7. 发布前验证，`npm run verify:release`，依次检查 Node 版本、工作树是否干净、`npm ci`、不自动修复的 lint、生产构建，以及生产依赖审计（高危或未列入`script/audit-allowlist.json`的公告会导致失败）
 
 项目仍使用基于 webpack 4 的 Vue CLI 4，在 Node.js 17 及以上版本运行时需要`--openssl-legacy-provider`。注意`npm run lint`默认会自动修复并改写文件，只想检查时请使用`npm run lint -- --no-fix`。
+
+两项 API 地址接受 HTTP(S) URL 或根相对路径，启动或构建时缺少任一项都会失败。配置会写入静态产物，请勿填入秘密。普通生产构建使用显式的 `.env.production`；独立环境须在 `.env.<mode>.local` 中设置两项地址，再执行 `NODE_ENV=production NODE_OPTIONS=--openssl-legacy-provider npm run build -- --mode <mode>`。其他模式不会默认回落生产 API。
 
 ## 项目结构
 

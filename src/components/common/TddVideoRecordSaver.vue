@@ -15,7 +15,7 @@
         <h3>输出预览</h3>
         <a-table
           :columns="columns"
-          :rowKey="record => record.added"
+          :rowKey="previewRecordKey"
           :dataSource="videoRecordsFiltered.slice(0, 5)"
           :pagination="false"
           :scroll="{ x: 800 }"
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import { recordKey } from '@/util/records';
+
 export default {
   name: 'TddVideoRecordSaver',
   props: {
@@ -60,7 +62,7 @@ export default {
   },
   computed: {
     isValid: function () {
-      return this.videoRecords !== null && typeof(this.videoRecords) === typeof([]);
+      return Array.isArray(this.videoRecords);
     },
     columns: function () {
       let cols = [];
@@ -108,6 +110,9 @@ export default {
     }
   },
   methods: {
+    previewRecordKey: function (record, index) {
+      return recordKey(this.videoRecords[index], index);
+    },
     startDownloadBlob: function (blob, filename) {
       let _a = document.createElement('a');
       _a.download = filename;

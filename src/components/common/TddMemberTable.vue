@@ -53,7 +53,7 @@
       {{ $util.tsToDateString(added) }}
     </template>
     <template slot="value" slot-scope="value">
-      {{ value.toLocaleString() }}
+      {{ value == null ? '-' : value.toLocaleString() }}
     </template>
     <template slot="lastVideo" slot-scope="video">
       <a-tooltip>
@@ -65,6 +65,7 @@
           {{ $t('click_view_video_detail_prompt') }}
         </template>
         <img
+          v-if="video"
           width="108px"
           height="65px"
           alt="pic"
@@ -113,11 +114,6 @@ export default {
           dataIndex: 'last_follower.follower',
           scopedSlots: { customRender: 'value' },
           width: '100px'
-        }, {
-          title: `${this.$t('total_prefix')}${this.$t('video_count')}`,
-          dataIndex: 'video_count',
-          scopedSlots: { customRender: 'value' },
-          width: '80px'
         }, {
           title: `${this.$t('total_prefix')}${this.$t('view')}`,
           dataIndex: 'last_total_stat.view',

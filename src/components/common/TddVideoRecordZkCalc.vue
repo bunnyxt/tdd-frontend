@@ -67,11 +67,11 @@
               {{ $util.tsToDateString(added) }}
             </template>
             <template slot="value" slot-scope="value">
-              {{ value.toLocaleString() }}
+              {{ value == null ? '-' : value.toLocaleString() }}
             </template>
             <template slot="action" slot-scope="obj">
-              <a-button type="link" @click="toPreviousIndex(obj.added)" size="small" style="padding-left: 0">上一条</a-button>
-              <a-button type="link" @click="toNextIndex(obj.added)" size="small">下一条</a-button>
+              <a-button type="link" @click="toPreviousIndex(obj.tableId)" size="small" style="padding-left: 0">上一条</a-button>
+              <a-button type="link" @click="toNextIndex(obj.tableId)" size="small">下一条</a-button>
             </template>
           </a-table>
           <div style="margin-top: 8px">
@@ -118,6 +118,7 @@
 
 <script>
 import moment from 'moment';
+import { recordsByTime } from '@/util/records';
 
 export default {
   name: 'TddVideoRecordZkCalc',
@@ -127,8 +128,7 @@ export default {
       required: true
     },
     page: {
-      type: Number,
-      required: true
+      type: Number
     },
     pubdate: {
       type: Number
@@ -171,21 +171,25 @@ export default {
       recordEndValue: null,
       recordEndOpen: false,
       videoRecordFromIndex: 0,
-      videoRecordToIndex: 1,
+      videoRecordToIndex: 0,
       useZero: false
     }
   },
   computed: {
+    orderedRecords: function () {
+      return recordsByTime(this.videoRecords);
+    },
     isValid: function () {
-      return this.videoRecords !== null && this.videoRecords instanceof Array && this.videoRecords.length > 0;
+      return Array.isArray(this.videoRecords) && this.videoRecords.length > 0;
     },
     currentZkIssueValue: function () {
       return this.calcZkIssueValueViaTs(Math.floor(new Date().valueOf() / 1000));
     },
     videoRecordsFromTo: function () {
-      let videoRecordFrom = JSON.parse(JSON.stringify(this.videoRecords[this.videoRecordFromIndex]));
+      if (!this.isValid) return [];
+      let videoRecordFrom = { ...(this.orderedRecords[this.videoRecordFromIndex] || this.orderedRecords[0]) };
       videoRecordFrom.tableId = 0;
-      let videoRecordTo = JSON.parse(JSON.stringify(this.videoRecords[this.videoRecordToIndex]));
+      let videoRecordTo = { ...(this.orderedRecords[this.videoRecordToIndex] || this.orderedRecords[0]) };
       videoRecordTo.tableId = 1;
       return [videoRecordFrom, videoRecordTo];
     },
@@ -218,35 +222,42 @@ export default {
     },
     view: function () {
       return this.useZero ?
-        this.videoRecords[this.videoRecordToIndex].view :
-        this.videoRecords[this.videoRecordToIndex].view - this.videoRecords[this.videoRecordFromIndex].view;
+        this.videoRecordsFromTo[1].view :
+        this.videoRecordsFromTo[1].view - this.videoRecordsFromTo[0].view;
     },
     reply: function () {
       return this.useZero ?
-        this.videoRecords[this.videoRecordToIndex].reply :
-        this.videoRecords[this.videoRecordToIndex].reply - this.videoRecords[this.videoRecordFromIndex].reply;
+        this.videoRecordsFromTo[1].reply :
+        this.videoRecordsFromTo[1].reply - this.videoRecordsFromTo[0].reply;
     },
     danmaku: function () {
       return this.useZero ?
-        this.videoRecords[this.videoRecordToIndex].danmaku :
-        this.videoRecords[this.videoRecordToIndex].danmaku - this.videoRecords[this.videoRecordFromIndex].danmaku;
+        this.videoRecordsFromTo[1].danmaku :
+        this.videoRecordsFromTo[1].danmaku - this.videoRecordsFromTo[0].danmaku;
     },
     favorite: function () {
       return this.useZero ?
-        this.videoRecords[this.videoRecordToIndex].favorite :
-        this.videoRecords[this.videoRecordToIndex].favorite - this.videoRecords[this.videoRecordFromIndex].favorite;
+        this.videoRecordsFromTo[1].favorite :
+        this.videoRecordsFromTo[1].favorite - this.videoRecordsFromTo[0].favorite;
+    },
+    calculation: function () {
+      return this.$util.zkCalc(this.view, this.reply, this.danmaku, this.favorite, this.page);
     },
     point: function () {
-      return this.$util.zkCalc(this.view, this.reply, this.danmaku, this.favorite, this.page).point;
+      return Number.isFinite(this.calculation.point) ? this.calculation.point : '-';
     },
     xiua: function () {
-      return this.$util.zkCalc(this.view, this.reply, this.danmaku, this.favorite, this.page).xiua;
+      return Number.isFinite(this.calculation.xiua) ? this.calculation.xiua : '-';
     },
     xiub: function () {
-      return this.$util.zkCalc(this.view, this.reply, this.danmaku, this.favorite, this.page).xiub;
+      return Number.isFinite(this.calculation.xiub) ? this.calculation.xiub : '-';
     }
   },
   watch: {
+    orderedRecords: function () {
+      this.updateVideoRecordFromIndex();
+      this.updateVideoRecordToIndex();
+    },
     recordStartValue: function () {
       this.updateVideoRecordFromIndex();
     },
@@ -315,10 +326,10 @@ export default {
     locateNearestIndex: function (ts) {
       // binary search
       let lo = 0;
-      let hi = this.videoRecords.length;
+      let hi = this.orderedRecords.length;
       while (lo < hi) {
         let mid = Math.floor(lo + (hi - lo) / 2);
-        if (this.videoRecords[mid].added < ts) {
+        if (this.orderedRecords[mid].added < ts) {
           lo = mid + 1;
         } else {
           hi = mid;
@@ -327,11 +338,11 @@ export default {
       if (lo === 0) {
         return lo;
       }
-      if (lo === this.videoRecords.length) {
+      if (lo === this.orderedRecords.length) {
         return lo - 1;
       }
-      let leftTs = this.videoRecords[lo - 1].added;
-      let rightTs = this.videoRecords[lo].added;
+      let leftTs = this.orderedRecords[lo - 1].added;
+      let rightTs = this.orderedRecords[lo].added;
       if (ts - leftTs < rightTs - ts) {
         return lo - 1;
       } else {
@@ -339,8 +350,8 @@ export default {
       }
       // brute force
       // let index = 0;
-      // while (index < this.videoRecords.length) {
-      //   if (this.videoRecords[index].added >= ts) {
+      // while (index < this.orderedRecords.length) {
+      //   if (this.orderedRecords[index].added >= ts) {
       //     break;
       //   } else {
       //     index++;
@@ -349,32 +360,36 @@ export default {
       // if (index === 0) {
       //   return index;
       // }
-      // if (index === this.videoRecords.length) {
+      // if (index === this.orderedRecords.length) {
       //   return index - 1;
       // }
-      // let diff = this.videoRecords[index].added - ts;
-      // if (ts - this.videoRecords[index - 1].added < diff) {
+      // let diff = this.orderedRecords[index].added - ts;
+      // if (ts - this.orderedRecords[index - 1].added < diff) {
       //   return index - 1;
       // } else {
       //   return index;
       // }
     },
     updateVideoRecordFromIndex: function () {
-      this.videoRecordFromIndex = this.locateNearestIndex(Math.floor(this.recordStartValue.valueOf() / 1000));
+      if (this.recordStartValue && this.isValid) {
+        this.videoRecordFromIndex = this.locateNearestIndex(Math.floor(this.recordStartValue.valueOf() / 1000));
+      }
     },
     updateVideoRecordToIndex: function () {
-      this.videoRecordToIndex = this.locateNearestIndex(Math.floor(this.recordEndValue.valueOf() / 1000));
+      if (this.recordEndValue && this.isValid) {
+        this.videoRecordToIndex = this.locateNearestIndex(Math.floor(this.recordEndValue.valueOf() / 1000));
+      }
     },
-    toPreviousIndex: function (added) {
+    toPreviousIndex: function (endpoint) {
       // check from or to
-      if (this.videoRecords[this.videoRecordFromIndex].added === added) {
+      if (endpoint === 0) {
         // from
         if (this.videoRecordFromIndex > 0) {
           this.videoRecordFromIndex--;
         } else {
           alert('已经是第一条记录了呀qwq');
         }
-      } else if (this.videoRecords[this.videoRecordToIndex].added === added) {
+      } else if (endpoint === 1) {
         // to
         if (this.videoRecordToIndex > 0) {
           this.videoRecordToIndex--;
@@ -383,18 +398,18 @@ export default {
         }
       }
     },
-    toNextIndex: function (added) {
+    toNextIndex: function (endpoint) {
       // check from or to
-      if (this.videoRecords[this.videoRecordFromIndex].added === added) {
+      if (endpoint === 0) {
         // from
-        if (this.videoRecordFromIndex < this.videoRecords.length - 1) {
+        if (this.videoRecordFromIndex < this.orderedRecords.length - 1) {
           this.videoRecordFromIndex++;
         } else {
           alert('已经是最后一条记录了呀qwq');
         }
-      } else if (this.videoRecords[this.videoRecordToIndex].added === added) {
+      } else if (endpoint === 1) {
         // to
-        if (this.videoRecordToIndex < this.videoRecords.length - 1) {
+        if (this.videoRecordToIndex < this.orderedRecords.length - 1) {
           this.videoRecordToIndex++;
         } else {
           alert('已经是最后一条记录了呀qwq');

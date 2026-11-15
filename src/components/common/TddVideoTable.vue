@@ -25,13 +25,13 @@
       </div>
     </template>
     <template slot="member" slot-scope="item">
-      <router-link :to="'/member/' + item.mid">{{ item.member.name }}</router-link>
+      <router-link v-if="item.mid != null" :to="'/member/' + item.mid">{{ item.member ? item.member.name : 'mid_' + item.mid }}</router-link>
     </template>
     <template slot="added" slot-scope="added">
       {{ $util.tsToDateString(added) }}
     </template>
     <template slot="value" slot-scope="value">
-      {{ value.toLocaleString() }}
+      {{ value == null ? '-' : value.toLocaleString() }}
     </template>
   </a-table>
 </template>

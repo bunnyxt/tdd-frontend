@@ -30,7 +30,7 @@ export default {
   props: {
     description: {
       type: String,
-      required: true
+      default: ''
     }
   },
   data: function () {
@@ -51,7 +51,7 @@ export default {
     descriptionSegments: function () {
       const segments = [];
       const linkPattern = /BV[fZodR9XQDSUm21yCkr6zBqiveYah8bt4xsWpHnJE7jL5VG3guMTKNPAwcF]{10}|av[0-9]+/g;
-      this.description.split('\n').forEach((line, lineIndex) => {
+      (this.description || '').split('\n').forEach((line, lineIndex) => {
         if (lineIndex > 0) {
           segments.push({ type: 'br' });
         }
